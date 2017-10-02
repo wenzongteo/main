@@ -804,45 +804,6 @@ Use case resumes at step 2.
 Use case ends.
 
 [discrete]
-=== Use case: Add person
-
-*MSS*
-
-1.  User requests to add person 
-2.  AddressBook parses person's particulars into a fixed format.
-3.  AddressBook adds the person.
-+
-Use case ends.
-
-*Extensions*
-
-[none]
-* 2a. User enter person's particulars in different format than stored.
-+
-[none]
-** 2a1. AddressBook parses person's particulars into a fixed format.
-** 2a2. AddressBook adds the person.
-+
-Use case ends.
-
-* 2a. User enter person's particulars with missing fields.
-+
-[none]
-** 2a1. AddressBook treats missing fields as empty strings.
-** 2a2. AddressBook parses person's particulars into a fixed format.
-** 2a3. AddressBook adds the person.
-+
-Use case ends.
-
-[none]
-* 3a. User already exist
-+
-[none]
-** 3a1. AddressBook shows an error message.
-+
-Use case ends.
-
-[discrete]
 === Use case: Copy emails from list to clipboard
 
 *MSS*
