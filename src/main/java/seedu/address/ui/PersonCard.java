@@ -1,7 +1,7 @@
 package seedu.address.ui;
 
-import java.util.Random;
 import java.util.HashMap;
+import java.util.Random;
 
 import javafx.beans.binding.Bindings;
 import javafx.fxml.FXML;
@@ -68,6 +68,10 @@ public class PersonCard extends UiPart<Region> {
         });
     }
 
+    /**
+     * Initialize all the Tags for a given person
+     * @param person
+     */
     private void initTags(ReadOnlyPerson person) {
         person.getTags().forEach(tag -> {
             Label tagLabel = new Label(tag.tagName);
@@ -88,13 +92,16 @@ public class PersonCard extends UiPart<Region> {
     private static String getRandomDarkColor() {
         Random random = new Random();
 
-        int red, green, blue;
+        int red;
+        int green;
+        int blue;
 
+        // Do while too luminous
         do {
             red = random.nextInt(255);
             green = random.nextInt(255);
             blue = random.nextInt(255);
-        } while ( (red * 0.299) + (green * 0.587) + (blue * 0.114) > 186 ); // Check if too luminous
+        } while ((red * 0.299) + (green * 0.587) + (blue * 0.114) > 186);
 
         return "rgb(" + red + "," + green + "," + blue + ")";
     }
