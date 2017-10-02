@@ -729,6 +729,16 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
 
+|`* * *`|user|add a person without filling all the fields|add even with missing information
+
+|`* * *`|user|tag my contacts|I can categorise my contacts into groups
+
+|`* * *`|group member|filter contact list by tags|see only my group mates
+
+|`* *`|user|copy listed emails into my clipboard|convenient when emailing to a batch of contacts
+
+|`* *`|user|add optional fields for contact details|add different means of communication with a particular contact
+
 |`* *` |user |hide link:#private-contact-detail[private contact details] by default |minimize chance of someone else seeing them by accident
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
@@ -757,6 +767,32 @@ Use case ends.
 
 [none]
 * 2a. The list is empty.
++
+Use case ends.
+
+* 3a. The given index is invalid.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case resumes at step 2.
+
+[discrete]
+=== Use case: Copy emails from list to clipboard
+
+*MSS*
+
+1. User request to list persons
+2. AddressBook shows a list of persons
+3. User requests to copy all or selected person's email in the list
+4. Emails are copied to clipboard
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty
 +
 Use case ends.
 
