@@ -795,25 +795,6 @@ Use case resumes at step 2.
 1.  User requests to create a backup
 2.  AddressBook writes existing persons in the AddressBook into a file determined by the user.
 
-[discrete]
-=== Use case: Copy emails from list to clipboard
-
-*MSS*
-
-1. User request to list persons
-2. AddressBook shows a list of persons
-3. User requests to copy all or selected person's email in the list
-4. Emails are copied to clipboard
-+
-Use case ends.
-
-*Extensions*
-
-[none]
-* 2a. The list is empty.
-+
-Use case ends.
-
 [none]
 * 3a. Destination file already exist.
 +
@@ -860,6 +841,25 @@ Use case ends.
 ** 4a3. AddressBook adds the person.
 
 * 2a. The list is empty
++
+Use case ends.
+
+[discrete]
+=== Use case: Copy emails from list to clipboard
+
+*MSS*
+
+1. User request to list persons
+2. AddressBook shows a list of persons
+3. User requests to copy all or selected person's email in the list
+4. Emails are copied to clipboard
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The list is empty.
 +
 Use case ends.
 
