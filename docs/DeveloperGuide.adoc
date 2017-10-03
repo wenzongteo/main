@@ -931,6 +931,8 @@ Use case ends.
 .  Should favour DOS style commands over Unix-style commands.
 .  Should come with automated JUnit tests and source code for modifications and resolving of bugs.
 .  The data should be stored locally and be human editable.
+.  The data should be accurate.
+.  Should be able to work with the defualt email of mainstream-os.
 
 {More to be added}
 
