@@ -773,6 +773,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`*` |lazy user |want to have customizable shortcuts |execute commands easily
 
+|=======================================================================
 
 {More to be added}
 
