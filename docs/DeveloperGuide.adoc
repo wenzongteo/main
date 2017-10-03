@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+﻿= AddressBook Level 4 - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -729,9 +729,19 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
 
+|`* * *` |user |import users from an Excel file |easily restore a backup or add new contacts in bulk
+
+|`* * *` |user |see a sorted contact list after sorting |save time from not needing to enter another list command
+
 |`* *` |user |hide link:#private-contact-detail[private contact details] by default |minimize chance of someone else seeing them by accident
+|`* *` |new user |have a simple walkthrough |quickly learn how the user interface works
+
+|`* *` |new user |have all the possible commands listed out on first start |I can learn how to use the application immediately
+
+|`* *` |user |be able to add remarks to my contacts |I can add a note if there is something important about the contact
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
+
 |=======================================================================
 
 {More to be added}
@@ -767,6 +777,16 @@ Use case ends.
 +
 Use case resumes at step 2.
 
+[discrete]
+=== Use case: Show walkthrough
+
+*MSS*
+
+1.  User requests to list persons
+2.  AddressBook shows a list of commands and their input requirements
++
+Use case ends.
+
 {More to be added}
 
 [appendix]
@@ -775,6 +795,7 @@ Use case resumes at step 2.
 .  Should work on any link:#mainstream-os[mainstream OS] as long as it has Java `1.8.0_60` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+.  A user with a passable understanding of technology and the English language should be able to operate the application without significant problems.
 
 {More to be added}
 
