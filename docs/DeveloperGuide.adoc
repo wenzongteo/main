@@ -878,6 +878,48 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
+=== Use case: Edit Person
+
+*MSS*
+
+1.  User requests to edit person
+2.  AddressBook parses person's particulars into a fixed format
+3.  AddressBook edit the person's particulars
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. User does not exists.
+
+[none]
+* 2a. User enter person's particulars in different format than stored.
++
+[none]
+** 2a1. AddressBook parses person's particulars into a fixed format.
+** 2a2. AddressBook edit the person's particulars.
++
+Use case ends.
+
+* 2b. User enter person's particulars with missing fields.
++
+[none]
+** 2b1. AddressBook treats missing fields as empty strings.
+** 2b2. AddressBook parses person's particulars into a fixed format.
+** 2b3. AddressBook adds the person.
++
+Use case ends.
+
+[none]
+* 3a. User already exist.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case ends.
+
 {More to be added}
 
 [appendix]
