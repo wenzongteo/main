@@ -735,6 +735,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *`|user |tag my contacts |I can categorise my contacts into groups
 
+|`* * *`|user |edit my contacts |I can update my contacts details
+
 |`* * *`|group member |filter contact list by tags |see only my group mates
 
 |`* *`|user |copy listed emails into my clipboard |convenient when emailing to a batch of contacts
@@ -743,11 +745,19 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |hide link:#private-contact-detail[private contact details] by default |minimize chance of someone else seeing them by accident
 
+|`* *` |user |choose where to save my file |I can have control over where my files are stored
+
+|`* *` |user |be able to email my contacts |I send an email to my contacts easily
+
+|`* *` |user |add multiple address book |I can have a merge copy of my contacts from different platform
+
 |`* *` |user |add a display photo to an existing person |remember how a particular person looks like
 
 |`* *` |user with many persons in the address book |merge two persons into one |merge duplicated entries of the same person in the list
 
 |`* *` |user |add a new person in any order |so that I can have an easier time adding a person into the App without having to follow a fixed format
+
+|`* *` |user |have a built in browser |I can view my contacts on their linkedin, facebook or instagram profile
 
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
 
@@ -868,6 +878,48 @@ Use case ends.
 +
 Use case ends.
 
+[discrete]
+=== Use case: Edit Person
+
+*MSS*
+
+1.  User requests to edit person
+2.  AddressBook parses person's particulars into a fixed format
+3.  AddressBook edit the person's particulars
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 1a. User does not exists.
+
+[none]
+* 2a. User enter person's particulars in different format than stored.
++
+[none]
+** 2a1. AddressBook parses person's particulars into a fixed format.
+** 2a2. AddressBook edit the person's particulars.
++
+Use case ends.
+
+* 2b. User enter person's particulars with missing fields.
++
+[none]
+** 2b1. AddressBook treats missing fields as empty strings.
+** 2b2. AddressBook parses person's particulars into a fixed format.
+** 2b3. AddressBook adds the person.
++
+Use case ends.
+
+[none]
+* 3a. User already exist.
++
+[none]
+** 3a1. AddressBook shows an error message.
++
+Use case ends.
+
 {More to be added}
 
 [appendix]
@@ -879,6 +931,8 @@ Use case ends.
 .  Should favour DOS style commands over Unix-style commands.
 .  Should come with automated JUnit tests and source code for modifications and resolving of bugs.
 .  The data should be stored locally and be human editable.
+.  The data should be accurate.
+.  Should be able to work with the defualt email of mainstream-os.
 
 {More to be added}
 
