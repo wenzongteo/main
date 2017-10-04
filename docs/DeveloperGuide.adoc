@@ -1,4 +1,4 @@
-= AddressBook Level 4 - Developer Guide
+﻿= AddressBook Level 4 - Developer Guide
 :toc:
 :toc-title:
 :toc-placement: preamble
@@ -729,6 +729,10 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *` |user |find a person by name |locate details of persons without having to go through the entire list
 
+|`* * *` |user |import users from an Excel file |easily restore a backup or add new contacts in bulk
+
+|`* * *` |user |see a sorted contact list after sorting |save time from not needing to enter another list command
+
 |`* * *` |user |export all persons in the App out |create a backup of all existing persons in the App
 
 |`* * *`|user |add a person without filling all the fields |add even with missing information
@@ -744,6 +748,12 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`* *`|user |add optional fields for contact details |add different means of communication with a particular contact
 
 |`* *` |user |hide link:#private-contact-detail[private contact details] by default |minimize chance of someone else seeing them by accident
+
+|`* *` |new user |have a simple walkthrough |quickly learn how the user interface works
+
+|`* *` |new user |have all the possible commands listed out on first start |I can learn how to use the application immediately
+
+|`* *` |user |be able to add remarks to my contacts |I can add a note if there is something important about the contact
 
 |`* *` |user |choose where to save my file |I can have control over where my files are stored
 
@@ -762,6 +772,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
 
 |`*` |lazy user |want to have customizable shortcuts |execute commands easily
+
 |=======================================================================
 
 {More to be added}
@@ -796,6 +807,16 @@ Use case ends.
 ** 3a1. AddressBook shows an error message.
 +
 Use case resumes at step 2.
+
+[discrete]
+=== Use case: Show walkthrough
+
+*MSS*
+
+1.  User requests to list commands.
+2.  AddressBook shows a list of commands and their input requirements.
++
+Use case ends.
 
 [discrete]
 === Use case: Export AddressBook
@@ -928,6 +949,7 @@ Use case ends.
 .  Should work on any link:#mainstream-os[mainstream OS] as long as it has Java `1.8.0_60` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
+.  A user with a passable understanding of technology and the English language should be able to operate the application without significant problems.
 .  Should favour DOS style commands over Unix-style commands.
 .  Should come with automated JUnit tests and source code for modifications and resolving of bugs.
 .  The data should be stored locally and be human editable.
