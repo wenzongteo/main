@@ -90,4 +90,12 @@ public class ParserUtil {
         }
         return tagSet;
     }
+
+    /**
+     *  Parse {@code Optional<String> keywords} into a {@code String}
+     */
+    public static Optional<String> parseKeywords(Optional<String> keywords) throws IllegalValueException {
+        requireNonNull(keywords);
+        return keywords.isPresent() ? Optional.of(keywords.get()) : Optional.empty();
+    }
 }
