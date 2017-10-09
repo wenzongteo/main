@@ -59,10 +59,10 @@ public class TypicalPersons {
     // Different situations of missing data.
     public static final ReadOnlyPerson MISSINGNAME = new PersonBuilder().withPhone("84822131")
             .withEmail("hans@example.com").withAddress("chicago ave").build();
-    public static final ReadOnlyPerson MISSINGPHONE = new PersonBuilder().withName("Ida Mueller").withEmail("hans@example.com")
-            .withAddress("chicago ave").build();
-    public static final ReadOnlyPerson MISSINGADDRESS = new PersonBuilder().withName("Ida Mueller").withPhone("84822131")
-            .withEmail("hans@example.com").build();
+    public static final ReadOnlyPerson MISSINGPHONE = new PersonBuilder().withName("Ida Mueller")
+            .withEmail("hans@example.com").withAddress("chicago ave").build();
+    public static final ReadOnlyPerson MISSINGADDRESS = new PersonBuilder().withName("Ida Mueller")
+            .withPhone("84822131").withEmail("hans@example.com").build();
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 
