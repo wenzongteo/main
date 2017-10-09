@@ -54,18 +54,55 @@ e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 
 Format: `help`
 
+'''
+
 === Adding a person: `add`
 
-Adds a person to the address book +
-Format: `add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...`
+The `add` command will enable you to populate Augustine.
 
-[TIP]
-A person can have any number of tags (including 0)
+==== Format:
+The format of the `add` command is as follow:
 
-Examples:
 
-* `add n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`
-* `add n/Betsy Crowe t/friend e/betsycrowe@example.com a/Newgate Prison p/1234567 t/criminal`
+|===
+|add [n/NAME] [p/PHONE_NUMBER] e/EMAIL [a/ADDRESS] [t/TAG]...
+|`NAME` of the Contact can only contain alphabets +
+`PHONE_NUMBER` of the Contact must contain only *8 numbers* and start with either '6','8' or '9' +
+|===
+
+[WARNING]
+Augustine only allow one contact with the same details to reside in it
+
+==== Examples:
+Here are some examples to guide you in using Augustine
+
+===== Adding users with all fields filled
+
+====
+add n/John Wick p/97488235 e/johnw@example.com a/John street, block 123, #01-01
+====
+The command above will get you the result below
+
+image::addAll.png[width="940px"]
+
+===== Adding users with some optional fields unfilled
+
+====
+add n/Sally Ong e/sally@example.com
+====
+The command above will get you the result below. Note that the fields that are unfilled are represented with a - instead
+
+image::addSome.png[width="940px"]
+
+===== Adding an user that already exists in Augustine
+
+====
+add n/John Wick p/97488235 e/johnw@example.com a/John street, block 123, #01-01
+====
+The command above will result in an error as the *exact particulars* of a Contact called John Wick already exists in Augustine
+
+image::addFail.png[width="940px"]
+'''
 
 === Listing all persons : `list`
 
