@@ -69,7 +69,7 @@ public class PersonCard extends UiPart<Region> {
     }
 
     /**
-     * Initialize all the Tags for a given person
+     * Initializes all the Tags for a given person
      * @param person
      */
     private void initTags(ReadOnlyPerson person) {
