@@ -32,10 +32,10 @@ import static seedu.address.testutil.TypicalPersons.BOB;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.HOON;
 import static seedu.address.testutil.TypicalPersons.IDA;
-import static seedu.address.testutil.TypicalPersons.MISSINGNAME;
-import static seedu.address.testutil.TypicalPersons.MISSINGADDRESS;
-import static seedu.address.testutil.TypicalPersons.MISSINGPHONE;
 import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
+import static seedu.address.testutil.TypicalPersons.MISSINGADDRESS;
+import static seedu.address.testutil.TypicalPersons.MISSINGNAME;
+import static seedu.address.testutil.TypicalPersons.MISSINGPHONE;
 
 import org.junit.Test;
 
