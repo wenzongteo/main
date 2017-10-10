@@ -11,11 +11,12 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 /**
  * Filters list currently displayed.
  */
-public class FilterCommand extends Command{
+public class FilterCommand extends Command {
 
     public static final String COMMAND_WORD = "filter";
 
-    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Filters an existing list to only display certain entries.\n"
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Filters an existing list to only display certain entries.\n"
             + "Parameters (input at least one): "
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
