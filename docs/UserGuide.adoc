@@ -302,6 +302,22 @@ Format: `clear`
 Exits the program. +
 Format: `exit`
 
+=== Filtering the listed entries : `filter`
+
+****
+* Filters the displayed list to only include entries that fulfill certain conditions.
+* Format: `filter [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]`
+* Parameters are optional, input at least one
+****
+Examples:
+
+* `filter n/John` +
+In a list of names, display only the entries with name "John"
+* `filter n/John n/Sally` +
+In a list of names, display only the entries with name "John" AND entries with name "Sally"
+* `filter t/Owes money` +
+In a list of names, display only the entries tagged under "Owes money"
+
 === Saving the data
 
 Address book data are saved in the hard disk automatically after any command that changes the data. +
