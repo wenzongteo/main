@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
@@ -36,7 +37,8 @@ public class EditCommand extends UndoableCommand {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
             + "by the index number used in the last person listing. "
-            + "Existing values will be overwritten by the input values.\n"
+            + "Apart from tags, existing values will be overwritten by the input values. "
+            + "Tags will be added if person does not have the tag and deleted otherwise.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
@@ -89,6 +91,34 @@ public class EditCommand extends UndoableCommand {
     }
 
     /**
+     * Creates new list of tags by taking tags in personToEdit,
+     * removing duplicated tags in editPersonDescriptor,
+     * and adding in all other tags from editPersonDescriptor
+     *
+     * @param personToEdit
+     * @param editPersonDescriptor
+     */
+    private static Set<Tag> processTags(ReadOnlyPerson personToEdit,
+                                    EditPersonDescriptor editPersonDescriptor) {
+        Set<Tag> updatedTags = personToEdit.getTags();
+
+        if (editPersonDescriptor.getTags().isPresent()) {
+            Set<Tag> tagsToToggle = new HashSet<Tag>(editPersonDescriptor.getTags().get());
+
+            for (Tag tag: updatedTags) {
+                if (!tagsToToggle.remove(tag)) {
+                    tagsToToggle.add(tag);
+                }
+            }
+
+            return tagsToToggle;
+        } else {
+            return updatedTags;
+        }
+
+    }
+
+    /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
      */
@@ -100,7 +130,7 @@ public class EditCommand extends UndoableCommand {
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
         Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
-        Set<Tag> updatedTags = editPersonDescriptor.getTags().orElse(personToEdit.getTags());
+        Set<Tag> updatedTags = processTags(personToEdit, editPersonDescriptor);
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedTags);
     }
