@@ -1,6 +1,7 @@
 package seedu.address.testutil;
 
 import java.util.Arrays;
+import java.util.HashSet;
 import java.util.Optional;
 
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -32,7 +33,7 @@ public class EditPersonDescriptorBuilder {
         descriptor.setPhone(person.getPhone());
         descriptor.setEmail(person.getEmail());
         descriptor.setAddress(person.getAddress());
-        descriptor.setTags(person.getTags());
+        descriptor.setTags(new HashSet<>(person.getTags()));
     }
 
     /**
