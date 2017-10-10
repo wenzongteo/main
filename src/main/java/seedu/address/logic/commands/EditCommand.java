@@ -36,9 +36,10 @@ public class EditCommand extends UndoableCommand {
     public static final String COMMAND_ALIAS = "e";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edits the details of the person identified "
-            + "by the index number used in the last person listing. "
-            + "Apart from tags, existing values will be overwritten by the input values. "
+            + "by the index number used in the last person listing.\n"
+            + "Apart from tags, existing values will be overwritten by the input values.\n"
             + "Tags will be added if person does not have the tag and deleted otherwise.\n"
+            + "You can remove all the person's tags by typing `t/` without specifying any tags after it.\n"
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
@@ -105,9 +106,13 @@ public class EditCommand extends UndoableCommand {
         if (editPersonDescriptor.getTags().isPresent()) {
             Set<Tag> tagsToToggle = new HashSet<Tag>(editPersonDescriptor.getTags().get());
 
-            for (Tag tag: updatedTags) {
-                if (!tagsToToggle.remove(tag)) {
-                    tagsToToggle.add(tag);
+            if (tagsToToggle.isEmpty()) {
+                return tagsToToggle;
+            } else {
+                for (Tag tag : updatedTags) {
+                    if (!tagsToToggle.remove(tag)) {
+                        tagsToToggle.add(tag);
+                    }
                 }
             }
 
