@@ -5,7 +5,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
-import java.util.stream.Stream;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.FindCommand;
@@ -26,28 +25,28 @@ public class FindCommandParser implements Parser<FindCommand> {
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_TAG);
 
-        String trimmedArgs_Name = "";
-        String trimmedArgs_Tag = "";
+        String trimmedArgsName = "";
+        String trimmedArgsTag = "";
         String [] nameKeywords = new String[0];
         String [] tagKeywords = new String[0];
 
         try {
-            if(argMultimap.getValue(PREFIX_NAME).isPresent()) {
-                trimmedArgs_Name = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_NAME)).get().trim();
-                nameKeywords = trimmedArgs_Name.split("\\s+");
-                if(trimmedArgs_Name.isEmpty()) {
+            if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
+                trimmedArgsName = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_NAME)).get().trim();
+                nameKeywords = trimmedArgsName.split("\\s+");
+                if(trimmedArgsName.isEmpty()) {
                     throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
                 }
             }
-            if(argMultimap.getValue(PREFIX_TAG).isPresent()) {
-                trimmedArgs_Tag = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_TAG)).get().trim();
-                tagKeywords = trimmedArgs_Tag.split("\\s+");
-                if(trimmedArgs_Tag.isEmpty()) {
+            if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
+                trimmedArgsTag = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_TAG)).get().trim();
+                tagKeywords = trimmedArgsTag.split("\\s+");
+                if(trimmedArgsTag.isEmpty()) {
                     throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
                 }
             }
 
-            if(trimmedArgs_Name.isEmpty() && trimmedArgs_Tag.isEmpty()) {
+            if (trimmedArgsName.isEmpty() && trimmedArgsTag.isEmpty()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
 
@@ -55,7 +54,8 @@ public class FindCommandParser implements Parser<FindCommand> {
             throw new ParseException(ive.getMessage(), ive);
         }
 
-        return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords), Arrays.asList(tagKeywords)));
+        return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords),
+                Arrays.asList(tagKeywords)));
     }
 
 }

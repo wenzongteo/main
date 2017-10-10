@@ -128,7 +128,7 @@ public class Person implements ReadOnlyPerson {
      */
     @Override
     public boolean containsTags(List<String> tags) {
-        for(Tag t : this.tags.get().toSet()) {
+        for (Tag t : this.tags.get().toSet()) {
             boolean found = tags.stream().anyMatch(tag -> t.tagName.equals(tag));
             if(found) {
                 return true;
