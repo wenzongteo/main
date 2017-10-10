@@ -34,14 +34,14 @@ public class FindCommandParser implements Parser<FindCommand> {
             if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
                 trimmedArgsName = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_NAME)).get().trim();
                 nameKeywords = trimmedArgsName.split("\\s+");
-                if(trimmedArgsName.isEmpty()) {
+                if (trimmedArgsName.isEmpty()) {
                     throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
                 }
             }
             if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
                 trimmedArgsTag = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_TAG)).get().trim();
                 tagKeywords = trimmedArgsTag.split("\\s+");
-                if(trimmedArgsTag.isEmpty()) {
+                if (trimmedArgsTag.isEmpty()) {
                     throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
                 }
             }
