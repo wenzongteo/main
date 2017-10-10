@@ -137,7 +137,7 @@ public class AddCommandTest {
 
         @Override
         public void deleteTag(Tag tag) {
-            fail("This method shouldn not be alled.");
+            fail("This method should not not be called.");
         }
     }
 
