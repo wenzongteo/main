@@ -18,7 +18,7 @@ public class NameContainsKeywordsPredicateTest {
         List<String> firstPredicateKeywordNameList = Collections.singletonList("first");
         List<String> firstPredicateKeywordTagList = Collections.singletonList("tag1");
         List<String> secondPredicateKeywordNameList = Arrays.asList("first", "second");
-        List<String> secondPredicateKeywordTagList = Arrays.asList("tag1","tag2");
+        List<String> secondPredicateKeywordTagList = Arrays.asList("tag1", "tag2");
 
         NameContainsKeywordsPredicate firstPredicate =
                 new NameContainsKeywordsPredicate(firstPredicateKeywordNameList, firstPredicateKeywordTagList);
@@ -47,7 +47,8 @@ public class NameContainsKeywordsPredicateTest {
     public void test_nameContainsKeywords_returnsTrue() {
         // One name keyword with tag1
         NameContainsKeywordsPredicate predicate =
-                new NameContainsKeywordsPredicate(Collections.singletonList("Alice"), Collections.singletonList("tag1"));
+                new NameContainsKeywordsPredicate(Collections.singletonList("Alice"),
+                        Collections.singletonList("tag1"));
         assertTrue(predicate.test(new PersonBuilder().withName("Alice Bob").withTags("tag1").build()));
 
         // Multiple name keywords with tag1
@@ -66,7 +67,8 @@ public class NameContainsKeywordsPredicateTest {
     @Test
     public void test_nameDoesNotContainKeywords_returnsFalse() {
         // Zero keywords
-        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(Collections.emptyList(), Collections.emptyList());
+        NameContainsKeywordsPredicate predicate = new NameContainsKeywordsPredicate(
+                Collections.emptyList(), Collections.emptyList());
         assertFalse(predicate.test(new PersonBuilder().withName("Alice").withTags("tag2").build()));
 
         // Non-matching keyword
