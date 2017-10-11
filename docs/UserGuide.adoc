@@ -13,7 +13,7 @@ ifdef::env-github[]
 endif::[]
 :repoURL: https://github.com/CS2103AUG2017-W14-B2/main
 
-By: `W14-B2`      Since: `Oct 2017`     +
+By: `W14-B2`      Since: `Oct 2017`     Licence: `MIT` +
 Credits: `Team SE-EDU` https://github.com/se-edu/addressbook-level4
 
 <<<
