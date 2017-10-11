@@ -54,6 +54,6 @@ image::hengyu.jpg[width="150", align="left"]
 {empty}[https://github.com/hengyu95[github]] [<<hengyu#, portfolio>>]
 
 Role: Developer +
-Responsibilities: UI
+Responsibilities: Filter
 
 '''
