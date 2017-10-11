@@ -146,7 +146,7 @@ Here are some examples to guide you with editing contacts in Augustine
 
 [caption="Figure 2.4.2.1 "]
 .Before command is run
-image::edit-changeTag-before.png[width="940px"]
+image::editChangeTagBefore.png[width="940px"]
 
 * In _Figure 2.4.2.1_ Bernice has a "colleagues" tag and the command is typed without pressing enter.
 * As both Bernice and the command contains the "colleagues" tag, Augustine will remove the tag.
@@ -155,14 +155,14 @@ image::edit-changeTag-before.png[width="940px"]
 
 [caption="Figure 2.4.2.2 "]
 .After command is run
-image::edit-changeTag-after.png[width="940px"]
+image::editChangeTagAfter.png[width="940px"]
 
 ===== Changing phone number and email
 `edit 2 p/87921929 e/bernice@example.com` +
 
 [caption="Figure 2.4.2.3 "]
 .Before command is run
-image::edit-changephone-before.png[width="940px"]
+image::editChangePhoneBefore.png[width="940px"]
 
 * In _Figure 2.4.2.4_ Bernice phone number is 99272758, and her email is "berniceyu@example.com
 * The command will change the phone number to 87921929 and email to bernice@example.com
@@ -170,7 +170,7 @@ image::edit-changephone-before.png[width="940px"]
 
 [caption="Figure 2.4.2.4 "]
 .After command is run
-image::edit-changephone-after.png[width="940px"]
+image::editChangePhoneAfter.png[width="940px"]
 
 === Locating persons by name: `find`
 
