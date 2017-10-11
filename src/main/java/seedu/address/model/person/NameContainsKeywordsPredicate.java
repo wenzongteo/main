@@ -39,7 +39,8 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
         System.out.println("C");
         return other == this // short circuit if same object
                 || (other instanceof NameContainsKeywordsPredicate // instanceof handles nulls
-                && this.namekeywords.equals(((NameContainsKeywordsPredicate) other).namekeywords)); // state check
+                && this.namekeywords.equals(((NameContainsKeywordsPredicate) other).namekeywords))
+                && this.tagkeywords.equals(((NameContainsKeywordsPredicate) other).tagkeywords); // state check
     }
 
 }
