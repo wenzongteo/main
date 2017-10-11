@@ -1,8 +1,9 @@
-= AddressBook Level 4 - User Guide
+= Augustine - User Guide
 :toc:
-:toc-title:
-:toc-placement: preamble
+:toc-title: Content Page
+:toc-placement: macro
 :sectnums:
+:pagenums:
 :imagesDir: images
 :stylesDir: stylesheets
 :experimental:
@@ -10,10 +11,14 @@ ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
 endif::[]
-:repoURL: https://github.com/se-edu/addressbook-level4
+:repoURL: https://github.com/CS2103AUG2017-W14-B2/main
 
-By: `Team SE-EDU`      Since: `Jun 2016`      Licence: `MIT`
+By: `W14-B2`      Since: `Oct 2017`     Licence: `MIT` +
+Credits: `Team SE-EDU` https://github.com/se-edu/addressbook-level4
 
+<<<
+toc::[]
+<<<
 == Quick Start
 
 .  Ensure you have Java version `1.8.0_60` or later installed in your Computer.
@@ -86,6 +91,8 @@ add n/John Wick p/97488235 e/johnw@example.com a/John street, block 123, #01-01
 ====
 The command above will get you the result below
 
+[caption="Figure 2.2.2.1 "]
+.After executing the command above
 image::addAll.png[width="940px"]
 
 ===== Adding users with some optional fields unfilled
@@ -95,6 +102,8 @@ add n/Sally Ong e/sally@example.com
 ====
 The command above will get you the result below. Note that the fields that are unfilled are represented with a - instead
 
+[caption="Figure 2.4.2.2 "]
+.After executing the command above
 image::addSome.png[width="940px"]
 
 ===== Adding an user that already exists in Augustine
@@ -104,6 +113,8 @@ add n/John Wick p/97488235 e/johnw@example.com a/John street, block 123, #01-01
 ====
 The command above will result in an error as the *exact particulars* of a Contact called John Wick already exists in Augustine
 
+[caption="Figure 2.4.2.3 "]
+.After executing the command above
 image::addFail.png[width="940px"]
 '''
 
@@ -146,7 +157,7 @@ Here are some examples to guide you with editing contacts in Augustine
 
 [caption="Figure 2.4.2.1 "]
 .Before command is run
-image::edit-changeTag-before.png[width="940px"]
+image::editChangeTagBefore.png[width="940px"]
 
 * In _Figure 2.4.2.1_ Bernice has a "colleagues" tag and the command is typed without pressing enter.
 * As both Bernice and the command contains the "colleagues" tag, Augustine will remove the tag.
@@ -155,14 +166,14 @@ image::edit-changeTag-before.png[width="940px"]
 
 [caption="Figure 2.4.2.2 "]
 .After command is run
-image::edit-changeTag-after.png[width="940px"]
+image::editChangeTagAfter.png[width="940px"]
 
 ===== Changing phone number and email
 `edit 2 p/87921929 e/bernice@example.com` +
 
 [caption="Figure 2.4.2.3 "]
 .Before command is run
-image::edit-changephone-before.png[width="940px"]
+image::editChangePhoneBefore.png[width="940px"]
 
 * In _Figure 2.4.2.4_ Bernice phone number is 99272758, and her email is "berniceyu@example.com
 * The command will change the phone number to 87921929 and email to bernice@example.com
@@ -170,7 +181,7 @@ image::edit-changephone-before.png[width="940px"]
 
 [caption="Figure 2.4.2.4 "]
 .After command is run
-image::edit-changephone-after.png[width="940px"]
+image::editChangePhoneAfter.png[width="940px"]
 
 === Locating persons by name: `find`
 

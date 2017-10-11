@@ -50,10 +50,10 @@ Responsibilities: Find
 '''
 
 === Lim Heng Yu
-image::yl_coder.jpg[width="150", align="left"]
-{empty}[http://github.com/yl-coder[github]] [<<johndoe#, portfolio>>]
+image::hengyu.jpg[width="150", align="left"]
+{empty}[https://github.com/hengyu95[github]] [<<hengyu#, portfolio>>]
 
 Role: Developer +
-Responsibilities: UI
+Responsibilities: Filter
 
 '''
