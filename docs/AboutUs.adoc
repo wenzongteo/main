@@ -41,11 +41,11 @@ Responsibilities: Add
 '''
 
 === Bryan Koh
-image::yl_coder.jpg[width="150", align="left"]
-{empty}[http://github.com/yl-coder[github]] [<<johndoe#, portfolio>>]
+image::bryan.jpg[width="150", align="left"]
+{empty}[http://github.com/awarenessxz[github]] [<<bryan#, portfolio>>]
 
 Role: Developer +
-Responsibilities: UI
+Responsibilities: Find
 
 '''
 

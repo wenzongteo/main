@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Collections;
+import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 
@@ -120,6 +121,20 @@ public class Person implements ReadOnlyPerson {
      */
     public void setTags(Set<Tag> replacement) {
         tags.set(new UniqueTagList(replacement));
+    }
+
+    /**
+     * Check if this person have the given tags in argument tag set
+     */
+    @Override
+    public boolean containsTags(List<String> tags) {
+        for (Tag t : this.tags.get().toSet()) {
+            boolean found = tags.stream().anyMatch(tag -> t.tagName.equals(tag));
+            if (found) {
+                return true;
+            }
+        }
+        return false;
     }
 
     @Override
