@@ -23,6 +23,8 @@ public interface ReadOnlyPerson {
     Address getAddress();
     ObjectProperty<UniqueTagList> tagProperty();
     Set<Tag> getTags();
+    ObjectProperty<Birthdate> birthdateProperty();
+    Birthdate getBirthdate();
     boolean containsTags(List<String> tags);
 
     /**
