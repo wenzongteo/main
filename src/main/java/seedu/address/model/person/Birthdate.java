@@ -16,8 +16,8 @@ public class Birthdate {
     public static final String BIRTHDATE_VALIDATION_REGEX = "([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1]" +
             "[0-2])[./-]([0-9]{4}|[0-9]{2})";        // dd/mm/yyyy or d/m/yy or d.m.yyyy with separators: . - /
 
-    public static final String BIRTHDATE_VALIDATION_REGEX2 = "([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1][0-2])" +
-            "[./-])";        // dd/mm or d/m or d.m with separators: . - /
+    public static final String BIRTHDATE_VALIDATION_REGEX2 = "([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([1][0-2]|[0]?[1-9])";
+                   // dd/mm or d/m or d.m with separators: . - /
 
     public final String value;
 
@@ -42,7 +42,7 @@ public class Birthdate {
      * Returns true if a given string is a valid person phone number.
      */
     public static boolean isValidBirthdate(String test) {
-        return (test.matches(BIRTHDATE_VALIDATION_REGEX) || test.matches(BIRTHDATE_VALIDATION_REGEX2));
+        return test.matches(BIRTHDATE_VALIDATION_REGEX) || test.matches(BIRTHDATE_VALIDATION_REGEX2);
     }
 
     @Override
