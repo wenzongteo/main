@@ -9,6 +9,8 @@
 <?import javafx.scene.layout.Region?>
 <?import javafx.scene.layout.VBox?>
 
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.image.Image?>
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1">
   <GridPane HBox.hgrow="ALWAYS">
     <columnConstraints>
@@ -32,13 +34,11 @@
       <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
       <Label fx:id="email" styleClass="cell_small_label" text="\$email" />
     </VBox>
-    <VBox alignment="CENTER" minHeight="105" GridPane.columnIndex="1">
       <padding>
         <Insets top="5" right="5" bottom="5" left="15" />
       </padding>
       <HBox spacing = "5" alignment = "CENTER">
-        <Label fx:id="photo" styleClass="cell_small_label" text="\$photo" />
+          <ImageView fitWidth = "170" fitHeight = "227" preserveRatio="true" smooth ="true" />
       </HBox>
-    </VBox>
   </GridPane>
 </HBox>
