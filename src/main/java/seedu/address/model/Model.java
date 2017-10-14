@@ -40,14 +40,16 @@ public interface Model {
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<ReadOnlyPerson> getFilteredPersonList();
 
-    /** Returns an sorted modifiable view of the filtered person list */
-    ObservableList<ReadOnlyPerson> getFilteredPersonList(int sortOrder);
-
     /**
      * Updates the filter of the filtered person list to filter by the given {@code predicate}.
      * @throws NullPointerException if {@code predicate} is null.
      */
     void updateFilteredPersonList(Predicate<ReadOnlyPerson> predicate);
+
+    /**
+     * Updates the sort format of the filtered person list to sort by the given {@code sortOrder}.
+     */
+    void setSortOrder(int sortOrder);
 
     /** delete tag from all person with the tag **/
     void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException;

@@ -35,7 +35,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final FilteredList<ReadOnlyPerson> filteredPersons;
-    private final SortedList<ReadOnlyPerson> sortedPersonsList;
+    private int sortOrder;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -48,7 +48,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        sortedPersonsList = new SortedList<ReadOnlyPerson>(filteredPersons);
+        sortOrder = 0;
     }
 
     public ModelManager() {
@@ -118,16 +118,22 @@ public class ModelManager extends ComponentManager implements Model {
      */
     @Override
     public ObservableList<ReadOnlyPerson> getFilteredPersonList() {
-        return FXCollections.unmodifiableObservableList(sortedPersonsList);
+        if(sortOrder > 0) {
+            return getFilteredPersonList(sortOrder);
+        }
+        return FXCollections.unmodifiableObservableList(filteredPersons);
     }
 
     /**
-     * @param: int 0 = sort by name ascending, 1 = sort by tags ascending
+     * @param: int
+     * 0 = sort by name ascending
+     * 1 = sort by tags ascending
      * Returns a sorted unmodifable view of the list {@code ReadOnlyPerson} backed by the internal list of
      * {@code addressBook}
      */
-    @Override
-    public ObservableList<ReadOnlyPerson> getFilteredPersonList(int sortOrder) {
+    private ObservableList<ReadOnlyPerson> getFilteredPersonList(int sortOrder) {
+        SortedList<ReadOnlyPerson> sortedPersonsList = new SortedList<ReadOnlyPerson>(filteredPersons);
+
         //sort by name by default
         Comparator<ReadOnlyPerson> sort = new Comparator<ReadOnlyPerson>() {
             @Override
@@ -136,9 +142,8 @@ public class ModelManager extends ComponentManager implements Model {
             }
         };
 
-        if(sortOrder == 2) {
+        if(sortOrder == 1) {
             //sort by tags
-            System.out.println("SORT BY TAG");
             sort = new Comparator<ReadOnlyPerson>() {
                 @Override
                 public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
@@ -164,6 +169,11 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredPersonList(Predicate<ReadOnlyPerson> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public void setSortOrder(int sortOrder) {
+        this.sortOrder = sortOrder;
     }
 
     @Override
