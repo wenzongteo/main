@@ -3,13 +3,19 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Set;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
+import java.util.TreeSet;
+
+import com.sun.org.apache.xalan.internal.xsltc.compiler.util.CompareGenerator;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
@@ -28,6 +34,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final FilteredList<ReadOnlyPerson> filteredPersons;
+    private final SortedList<ReadOnlyPerson> sortedPersonsList;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -40,6 +47,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
+        sortedPersonsList = new SortedList<ReadOnlyPerson>(filteredPersons);
     }
 
     public ModelManager() {
@@ -109,7 +117,27 @@ public class ModelManager extends ComponentManager implements Model {
      */
     @Override
     public ObservableList<ReadOnlyPerson> getFilteredPersonList() {
-        return FXCollections.unmodifiableObservableList(filteredPersons);
+        //return FXCollections.unmodifiableObservableList(filteredPersons);
+        return FXCollections.unmodifiableObservableList(sortedPersonsList);
+    }
+
+    /**
+     * @param: int 1 = sort by name ascending, 2 = sort by tags ascending
+     * Returns a sorted unmodifable view of the list {@code ReadOnlyPerson} backed by the internal list of
+     * {@code addressBook}
+     */
+    @Override
+    public ObservableList<ReadOnlyPerson> getFilteredPersonList(int sortOrder) {
+        //sort by name by default
+        Comparator<ReadOnlyPerson> sort = new Comparator<ReadOnlyPerson>() {
+            @Override
+            public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                return o1.getName().fullName.compareTo(o2.getName().fullName);
+            }
+        };
+
+        sortedPersonsList.setComparator(sort);
+        return FXCollections.unmodifiableObservableList(sortedPersonsList);
     }
 
     @Override
