@@ -104,6 +104,7 @@ public class ParserUtil {
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
     public static Optional<Photo> parsePhoto(Optional<String> photo) throws IllegalValueException {
+        requireNonNull(photo);
         return photo.isPresent() ? Optional.of(new Photo(photo.get())) : Optional.empty();
     }
 
