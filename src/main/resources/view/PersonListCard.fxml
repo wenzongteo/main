@@ -37,8 +37,8 @@
       <padding>
         <Insets top="5" right="5" bottom="5" left="15" />
       </padding>
-      <HBox spacing = "5" alignment = "CENTER">
-          <ImageView fitWidth = "170" fitHeight = "227" preserveRatio="true" smooth ="true" />
+      <HBox spacing = "5" alignment = "CENTER_RIGHT">
+          <ImageView fx:id="photo" fitWidth = "120" fitHeight = "200" preserveRatio="true" smooth ="true" />
       </HBox>
   </GridPane>
 </HBox>
