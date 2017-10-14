@@ -6,6 +6,7 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
+import java.util.SortedSet;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 import java.util.TreeSet;
@@ -117,12 +118,11 @@ public class ModelManager extends ComponentManager implements Model {
      */
     @Override
     public ObservableList<ReadOnlyPerson> getFilteredPersonList() {
-        //return FXCollections.unmodifiableObservableList(filteredPersons);
         return FXCollections.unmodifiableObservableList(sortedPersonsList);
     }
 
     /**
-     * @param: int 1 = sort by name ascending, 2 = sort by tags ascending
+     * @param: int 0 = sort by name ascending, 1 = sort by tags ascending
      * Returns a sorted unmodifable view of the list {@code ReadOnlyPerson} backed by the internal list of
      * {@code addressBook}
      */
@@ -135,6 +135,26 @@ public class ModelManager extends ComponentManager implements Model {
                 return o1.getName().fullName.compareTo(o2.getName().fullName);
             }
         };
+
+        if(sortOrder == 2) {
+            //sort by tags
+            System.out.println("SORT BY TAG");
+            sort = new Comparator<ReadOnlyPerson>() {
+                @Override
+                public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                    SortedSet<Tag> o1SortedTags = new TreeSet<Tag>(o1.getTags());
+                    SortedSet<Tag> o2SortedTags = new TreeSet<Tag>(o2.getTags());
+
+                    if(o1SortedTags.size() == 0) {
+                        return 1;
+                    } else if(o2SortedTags.size() == 0) {
+                        return -1;
+                    } else {
+                        return o1SortedTags.first().tagName.compareTo(o2SortedTags.first().tagName);
+                    }
+                }
+            };
+        }
 
         sortedPersonsList.setComparator(sort);
         return FXCollections.unmodifiableObservableList(sortedPersonsList);
