@@ -85,6 +85,18 @@ public class EditPersonDescriptorBuilder {
     }
 
     /**
+     * Sets the {@code Photo} of the {@code EditPersonDescriptor} that we are building.
+     */
+    public EditPersonDescriptorBuilder withPhoto(String photo) {
+        try {
+            ParserUtil.parsePhoto(Optional.of(photo)).ifPresent(descriptor::setPhoto);
+        } catch (IllegalValueException ive) {
+            throw new IllegalArgumentException("photo is expected to be unique.");
+        }
+        return this;
+    }
+
+    /**
      * Parses the {@code tags} into a {@code Set<Tag>} and set it to the {@code EditPersonDescriptor}
      * that we are building.
      */
