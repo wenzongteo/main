@@ -37,7 +37,7 @@
         <Insets top="5" right="5" bottom="5" left="15" />
       </padding>
       <HBox spacing = "5" alignment = "CENTER">
-        <Label fx:id="photo" styleClass="cell_small_label" text="\$address" />
+        <Label fx:id="photo" styleClass="cell_small_label" text="\$photo" />
       </HBox>
     </VBox>
   </GridPane>
