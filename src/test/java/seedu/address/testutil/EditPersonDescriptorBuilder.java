@@ -33,6 +33,7 @@ public class EditPersonDescriptorBuilder {
         descriptor.setPhone(person.getPhone());
         descriptor.setEmail(person.getEmail());
         descriptor.setAddress(person.getAddress());
+        descriptor.setPhoto(person.getPhoto());
         descriptor.setTags(new HashSet<>(person.getTags()));
     }
 
