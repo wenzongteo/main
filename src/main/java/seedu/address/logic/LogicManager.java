@@ -36,7 +36,7 @@ public class LogicManager extends ComponentManager implements Logic {
         logger.info("----------------[USER COMMAND][" + commandText + "]");
         try {
             Command command = addressBookParser.parseCommand(commandText);
-            model.setSortOrder(0); //resets sort Order to default
+            model.sortFilteredPersons(0); //resets sort Order to default
             command.setData(model, history, undoRedoStack);
             CommandResult result = command.execute();
             undoRedoStack.push(command);

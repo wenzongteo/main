@@ -13,6 +13,7 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
     public static final String COMMAND_ALIAS = "f";
+    private int sortOrder = 0;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names or tag contain any of "
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
@@ -25,14 +26,15 @@ public class FindCommand extends Command {
 
     private final NameContainsKeywordsPredicate predicate;
 
-    public FindCommand(NameContainsKeywordsPredicate predicate) {
+    public FindCommand(NameContainsKeywordsPredicate predicate, int sortOrder) {
         this.predicate = predicate;
+        this.sortOrder = sortOrder;
     }
 
     @Override
     public CommandResult execute() {
         model.updateFilteredPersonList(predicate);
-        model.setSortOrder(1);
+        model.sortFilteredPersons(sortOrder);
         return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredPersonList().size()));
     }
 

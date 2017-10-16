@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.util.Arrays;
@@ -23,10 +24,11 @@ public class FindCommandParser implements Parser<FindCommand> {
      */
     public FindCommand parse(String args) throws ParseException {
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_TAG);
+                ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_TAG, PREFIX_SORT);
 
         String trimmedArgsName = "";
         String trimmedArgsTag = "";
+        int sortOrder = 0;
         String [] nameKeywords = new String[0];
         String [] tagKeywords = new String[0];
 
@@ -46,6 +48,13 @@ public class FindCommandParser implements Parser<FindCommand> {
                 }
             }
 
+            if(argMultimap.getValue(PREFIX_SORT).isPresent()) {
+                sortOrder = ParserUtil.parseSortOrder(argMultimap.getValue(PREFIX_SORT));
+                if(sortOrder < 0) {
+                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+                }
+            }
+
             if (trimmedArgsName.isEmpty() && trimmedArgsTag.isEmpty()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
             }
@@ -55,7 +64,7 @@ public class FindCommandParser implements Parser<FindCommand> {
         }
 
         return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords),
-                Arrays.asList(tagKeywords)));
+                Arrays.asList(tagKeywords)), sortOrder);
     }
 
 }

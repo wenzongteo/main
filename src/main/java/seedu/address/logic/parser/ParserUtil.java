@@ -135,4 +135,27 @@ public class ParserUtil {
         requireNonNull(keywords);
         return keywords.isPresent() ? Optional.of(keywords.get()) : Optional.empty();
     }
+
+    /**
+     * Parses {@code sortOrder} into an {@code index} and returns it. Leading and trailing whitespaces will be
+     * trimmed.
+     * @throws IllegalValueException if the specified index is invalid (not non-zero unsigned integer).
+     */
+    public static int parseSortOrder(Optional<String> sort) throws IllegalValueException {
+        requireNonNull(sort);
+        int sortOrder = 0;
+        if(sort.isPresent()) {
+            switch(sort.get().trim()) {
+                case "name":    sortOrder = 0;
+                                break;
+                case "tag":     sortOrder = 1;
+                                break;
+                default:        sortOrder = -1;
+                                break;
+            }
+        } else {
+            sortOrder = -1;
+        }
+        return sortOrder;
+    }
 }

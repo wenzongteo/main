@@ -35,7 +35,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     private final AddressBook addressBook;
     private final FilteredList<ReadOnlyPerson> filteredPersons;
-    private int sortOrder;
+    private final SortedList<ReadOnlyPerson> sortedPersonsList;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -48,7 +48,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         this.addressBook = new AddressBook(addressBook);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
-        sortOrder = 0;
+        sortedPersonsList = new SortedList<ReadOnlyPerson>(filteredPersons);
     }
 
     public ModelManager() {
@@ -118,10 +118,7 @@ public class ModelManager extends ComponentManager implements Model {
      */
     @Override
     public ObservableList<ReadOnlyPerson> getFilteredPersonList() {
-        if(sortOrder > 0) {
-            return getFilteredPersonList(sortOrder);
-        }
-        return FXCollections.unmodifiableObservableList(filteredPersons);
+        return FXCollections.unmodifiableObservableList(sortedPersonsList);
     }
 
     /**
@@ -131,14 +128,13 @@ public class ModelManager extends ComponentManager implements Model {
      * Returns a sorted unmodifable view of the list {@code ReadOnlyPerson} backed by the internal list of
      * {@code addressBook}
      */
-    private ObservableList<ReadOnlyPerson> getFilteredPersonList(int sortOrder) {
-        SortedList<ReadOnlyPerson> sortedPersonsList = new SortedList<ReadOnlyPerson>(filteredPersons);
+    public void sortFilteredPersons(int sortOrder) {
 
         //sort by name by default
         Comparator<ReadOnlyPerson> sort = new Comparator<ReadOnlyPerson>() {
             @Override
             public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
-                return o1.getName().fullName.compareTo(o2.getName().fullName);
+                return o1.getName().fullName.toUpperCase().compareTo(o2.getName().fullName.toUpperCase());
             }
         };
 
@@ -162,18 +158,12 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
         sortedPersonsList.setComparator(sort);
-        return FXCollections.unmodifiableObservableList(sortedPersonsList);
     }
 
     @Override
     public void updateFilteredPersonList(Predicate<ReadOnlyPerson> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
-    }
-
-    @Override
-    public void setSortOrder(int sortOrder) {
-        this.sortOrder = sortOrder;
     }
 
     @Override
