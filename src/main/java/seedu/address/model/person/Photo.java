@@ -14,7 +14,7 @@ public class Photo {
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
      */
-    public static final String PHOTO_VALIDATION_REGEX = "[^\\s].*"; //Yet to update
+    public static final String PHOTO_VALIDATION_REGEX = "([^\\s]+[\\s\\w]*(\\.(?i)(jpg|jpeg|))$)";
 
     public final String value;
 
@@ -29,10 +29,9 @@ public class Photo {
         } else {
             photo = photo.trim();
         }
-        /*if (!isValidPhoto(address)) {
+        if (!isValidPhoto(photo)) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         }
-        */
         this.value = photo;
     }
 
