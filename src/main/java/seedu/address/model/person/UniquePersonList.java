@@ -2,7 +2,6 @@ package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -63,6 +62,7 @@ public class UniquePersonList implements Iterable<Person> {
             throws DuplicatePersonException, PersonNotFoundException {
         requireNonNull(editedPerson);
 
+        sortInternalList();
         int index = internalList.indexOf(target);
         if (index == -1) {
             throw new PersonNotFoundException();
@@ -82,6 +82,7 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public boolean remove(ReadOnlyPerson toRemove) throws PersonNotFoundException {
         requireNonNull(toRemove);
+        sortInternalList();
         final boolean personFoundAndDeleted = internalList.remove(toRemove);
         if (!personFoundAndDeleted) {
             throw new PersonNotFoundException();
@@ -91,6 +92,7 @@ public class UniquePersonList implements Iterable<Person> {
 
     public void setPersons(UniquePersonList replacement) {
         this.internalList.setAll(replacement.internalList);
+        sortInternalList();
     }
 
     public void setPersons(List<? extends ReadOnlyPerson> persons) throws DuplicatePersonException {
@@ -105,6 +107,7 @@ public class UniquePersonList implements Iterable<Person> {
      * Returns the backing list as an unmodifiable {@code ObservableList}.
      */
     public ObservableList<ReadOnlyPerson> asObservableList() {
+        sortInternalList();
         return FXCollections.unmodifiableObservableList(mappedList);
     }
 
@@ -127,8 +130,7 @@ public class UniquePersonList implements Iterable<Person> {
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof UniquePersonList // instanceof handles nulls
-                        && this.internalList.equals(((UniquePersonList) other).internalList)
-                        && this.sortedInternalList.equals(((UniquePersonList) other).sortedInternalList));
+                && this.sortedInternalList.equals(((UniquePersonList) other).sortedInternalList));
     }
 
     @Override
