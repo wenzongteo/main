@@ -1,6 +1,9 @@
 package seedu.address.model.person;
 
+import java.io.File;
+
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.commons.util.FileUtil;
 
 /**
  * Represents a Person's display picture in the address book
@@ -9,7 +12,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 public class Photo {
     public static final String MESSAGE_PHOTO_CONSTRAINTS =
             "Person's photo should be in jpeg and be of 340px x 453px dimension";
-
+    public static final String MESSAGE_PHOTO_NOT_FOUND = "Error! Photo does not exist!";
     /*
      * The first character of the address must not be a whitespace,
      * otherwise " " (a blank string) becomes a valid input.
@@ -24,13 +27,15 @@ public class Photo {
      * @throws IllegalValueException if given photo string is invalid.
      */
     public Photo(String photo) throws IllegalValueException {
-        if (photo == null) {
-            photo = "data/default.jpeg"; //Give a default profile picture
-        } else {
-            photo = photo.trim();
-        }
+        photo = photo.trim();
+
         if (!isValidPhoto(photo)) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
+        } else {
+            //Check if photo exist.
+            if (!FileUtil.isFileExists(new File(photo))) {
+                throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
+            }
         }
         this.value = photo;
     }
@@ -41,6 +46,7 @@ public class Photo {
     public static boolean isValidPhoto(String test) {
         return test.matches(PHOTO_VALIDATION_REGEX);
     }
+
 
     @Override
     public String toString() {
