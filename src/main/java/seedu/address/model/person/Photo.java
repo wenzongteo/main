@@ -23,17 +23,17 @@ public class Photo {
      *
      * @throws IllegalValueException if given photo string is invalid.
      */
-    public Photo(String address) throws IllegalValueException {
-        if (address == null) {
-            address = "data/default.jpeg"; //Give a default profile picture
+    public Photo(String photo) throws IllegalValueException {
+        if (photo == null) {
+            photo = "data/default.jpeg"; //Give a default profile picture
         } else {
-            address = address.trim();
+            photo = photo.trim();
         }
         /*if (!isValidPhoto(address)) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         }
         */
-        this.value = address;
+        this.value = photo;
     }
 
     /**
@@ -51,8 +51,8 @@ public class Photo {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof Address // instanceof handles nulls
-                && this.value.equals(((Address) other).value)); // state check
+                || (other instanceof Photo // instanceof handles nulls
+                && this.value.equals(((Photo) other).value)); // state check
     }
 
     @Override
