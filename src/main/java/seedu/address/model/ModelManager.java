@@ -49,6 +49,7 @@ public class ModelManager extends ComponentManager implements Model {
         this.addressBook = new AddressBook(addressBook);
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         sortedPersonsList = new SortedList<ReadOnlyPerson>(filteredPersons);
+        sortFilteredPersons(0);
     }
 
     public ModelManager() {
@@ -153,6 +154,13 @@ public class ModelManager extends ComponentManager implements Model {
                     } else {
                         return o1SortedTags.first().tagName.compareTo(o2SortedTags.first().tagName);
                     }
+                }
+            };
+        } else if(sortOrder == 2) {
+            sort = new Comparator<ReadOnlyPerson>() {
+                @Override
+                public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                    return o2.getName().fullName.toUpperCase().compareTo(o1.getName().fullName.toUpperCase());
                 }
             };
         }
