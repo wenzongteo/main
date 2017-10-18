@@ -105,7 +105,8 @@ public class ParserUtil {
      */
     public static Optional<Photo> parsePhoto(Optional<String> photo) throws IllegalValueException {
         requireNonNull(photo);
-        return photo.isPresent() ? Optional.of(new Photo(photo.get())) : Optional.of(new Photo("docs/images/default.jpeg"));
+        return photo.isPresent() ? Optional.of(new Photo(photo.get())) : Optional.of(
+                new Photo("docs/images/default.jpeg"));
     }
 
     /**
