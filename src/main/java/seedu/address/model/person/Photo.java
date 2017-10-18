@@ -33,7 +33,7 @@ public class Photo {
         } else {
             File dp = new File(photo);
             if (!dp.exists()) {
-                throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
+               
             }
         }
         this.value = photo;
