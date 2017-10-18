@@ -1,9 +1,6 @@
 package seedu.address.model.person;
 
-import java.io.File;
-
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.commons.util.FileUtil;
 
 /**
  * Represents a Person's display picture in the address book
