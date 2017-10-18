@@ -29,12 +29,11 @@ public class Photo {
     public Photo(String photo) throws IllegalValueException {
         photo = photo.trim();
 
-        if (!isValidPhoto(photo)) {
+        if (!isValidPhoto(photo) || !FileUtil.isFileExists(new File(photo))) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         } else {
             //Check if photo exist.
             if (!FileUtil.isFileExists(new File(photo))) {
-                throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
             }
         }
         this.value = photo;
