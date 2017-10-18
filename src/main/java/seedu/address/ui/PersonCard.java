@@ -71,7 +71,7 @@ public class PersonCard extends UiPart<Region> {
 
         try {
             StringExpression test = Bindings.convert(person.photoProperty());
-            Image image = new Image(new FileInputStream(test.getValue()));
+            Image image = new Image(new FileInputStream(test.getValue()), 100, 200, true, true);
             photo.setImage(image);
         } catch (Exception e) {
             System.out.println(e);
