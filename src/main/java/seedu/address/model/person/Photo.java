@@ -33,6 +33,7 @@ public class Photo {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         } else {
             if (Files.notExists(Paths.get(photo))) {
+                System.out.println("Not Found!");
                 throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
             } else {
                 this.value = photo;
