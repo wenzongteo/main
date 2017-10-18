@@ -3,7 +3,6 @@ package seedu.address.model.person;
 import java.io.File;
 
 import seedu.address.commons.exceptions.IllegalValueException;
-import seedu.address.commons.util.FileUtil;
 
 /**
  * Represents a Person's display picture in the address book
@@ -33,7 +32,7 @@ public class Photo {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         } else {
             //Check if photo exist.
-            if (!FileUtil.isFileExists(new File(photo))) {
+            if (!new File(photo).exists()) {
                 throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
             }
         }
