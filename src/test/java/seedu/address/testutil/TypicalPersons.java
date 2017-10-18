@@ -28,26 +28,26 @@ public class TypicalPersons {
 
     public static final ReadOnlyPerson ALICE = new PersonBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
-            .withPhone("85355255").withPhoto("data/default.jpeg").withTags("friends").build();
+            .withPhone("85355255").withPhoto("docs/images/default.jpeg").withTags("friends").build();
     public static final ReadOnlyPerson BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-            .withPhoto("data/default.jpeg").withTags("owesMoney", "friends").build();
+            .withPhoto("docs/images/default.jpeg").withTags("owesMoney", "friends").build();
     public static final ReadOnlyPerson CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
-            .withPhoto("data/default.jpeg").withEmail("heinz@example.com").withAddress("wall street").build();
+            .withPhoto("docs/images/default.jpeg").withEmail("heinz@example.com").withAddress("wall street").build();
     public static final ReadOnlyPerson DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
-            .withPhoto("data/default.jpeg").withEmail("cornelia@example.com").withAddress("10th street").build();
+            .withPhoto("docs/images/default.jpeg").withEmail("cornelia@example.com").withAddress("10th street").build();
     public static final ReadOnlyPerson ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("94822242")
-            .withPhoto("data/default.jpeg").withEmail("werner@example.com").withAddress("michegan ave").build();
+            .withPhoto("docs/images/default.jpeg").withEmail("werner@example.com").withAddress("michegan ave").build();
     public static final ReadOnlyPerson FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("94826427")
-            .withPhoto("data/default.jpeg").withEmail("lydia@example.com").withAddress("little tokyo").build();
+            .withPhoto("docs/images/default.jpeg").withEmail("lydia@example.com").withAddress("little tokyo").build();
     public static final ReadOnlyPerson GEORGE = new PersonBuilder().withName("George Best").withPhone("94822442")
-            .withPhoto("data/default.jpeg").withEmail("anna@example.com").withAddress("4th street").build();
+            .withPhoto("docs/images/default.jpeg").withEmail("anna@example.com").withAddress("4th street").build();
 
     // Manually added
     public static final ReadOnlyPerson HOON = new PersonBuilder().withName("Hoon Meier").withPhone("84822424")
-            .withEmail("stefan@example.com").withAddress("little india").withPhoto("data/default.jpeg").build();
+            .withEmail("stefan@example.com").withAddress("little india").withPhoto("docs/images/default.jpeg").build();
     public static final ReadOnlyPerson IDA = new PersonBuilder().withName("Ida Mueller").withPhone("84822131")
-            .withPhoto("data/default.jpeg").withEmail("hans@example.com").withAddress("chicago ave").build();
+            .withPhoto("docs/images/default.jpeg").withEmail("hans@example.com").withAddress("chicago ave").build();
 
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final ReadOnlyPerson AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
@@ -62,11 +62,11 @@ public class TypicalPersons {
 
     // Different situations of missing data.
     public static final ReadOnlyPerson MISSINGNAME = new PersonBuilder().withPhone("84822131")
-            .withEmail("hans@example.com").withAddress("chicago ave").withPhoto("data/default.jpeg").build();
+            .withEmail("hans@example.com").withAddress("chicago ave").withPhoto("docs/images/default.jpeg").build();
     public static final ReadOnlyPerson MISSINGPHONE = new PersonBuilder().withName("Ida Mueller")
-            .withEmail("hans@example.com").withPhoto("data/default.jpeg").withAddress("chicago ave").build();
+            .withEmail("hans@example.com").withPhoto("docs/images/default.jpeg").withAddress("chicago ave").build();
     public static final ReadOnlyPerson MISSINGADDRESS = new PersonBuilder().withName("Ida Mueller")
-            .withPhone("84822131").withEmail("hans@example.com").withPhoto("data/default.jpeg").build();
+            .withPhone("84822131").withEmail("hans@example.com").withPhoto("docs/images/default.jpeg").build();
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 
