@@ -11,7 +11,7 @@ import seedu.address.commons.util.FileUtil;
  */
 public class Photo {
     public static final String MESSAGE_PHOTO_CONSTRAINTS =
-            "Person's photo should be in jpeg and preferred to be of 340px x 453px dimension";
+            "Person's photo should be in jpeg and be of 340px x 453px dimension";
     public static final String MESSAGE_PHOTO_NOT_FOUND = "Error! Photo does not exist!";
     /*
      * The first character of the address must not be a whitespace,
