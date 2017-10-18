@@ -23,8 +23,8 @@ public class PhotoTest {
         assertFalse(Photo.isValidPhoto(".jpeg")); //No file name
 
         // valid Photo
-        assertTrue(Photo.isValidPhoto("data/default.jpeg")); // end with .jpeg file extension
-        assertTrue(Photo.isValidPhoto("data/default.jpg")); // end with .jpg file extension
+        assertTrue(Photo.isValidPhoto("docs/images/default.jpeg")); // end with .jpeg file extension
+        assertTrue(Photo.isValidPhoto("docs/images/yl_coder.jpg")); // end with .jpg file extension
         assertTrue(Photo.isValidPhoto("docs/images/yl_coder.jpg")); // file name with special character _
         assertTrue(Photo.isValidPhoto("docs/images/prof damith.jpg")); //file name with space in between
     }

@@ -31,7 +31,6 @@ public class Photo {
         if (!isValidPhoto(photo)) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         } else {
-            //Check if photo exist.
             if (!new File(photo).exists()) {
                 throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
             }
