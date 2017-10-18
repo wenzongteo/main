@@ -1,7 +1,6 @@
 package seedu.address.model.person;
 
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.File;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 
@@ -32,13 +31,12 @@ public class Photo {
         if (!isValidPhoto(photo)) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         } else {
-            if (Files.notExists(Paths.get(photo))) {
-                System.out.println("Not Found!");
+            File dp = new File(photo);
+            if (dp.exists()) {
                 throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
-            } else {
-                this.value = photo;
             }
         }
+        this.value = photo;
     }
 
     /**
