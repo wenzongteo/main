@@ -34,7 +34,7 @@ public class Photo {
         } else {
             //Check if photo exist.
             if (!FileUtil.isFileExists(new File(photo))) {
-                throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
+                throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
             }
         }
         this.value = photo;
