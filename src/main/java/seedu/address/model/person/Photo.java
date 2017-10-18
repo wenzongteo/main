@@ -33,7 +33,6 @@ public class Photo {
         } else {
             File dp = new File(photo);
             if (!dp.exists()) {
-               
             }
         }
         this.value = photo;
