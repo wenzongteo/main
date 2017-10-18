@@ -32,7 +32,7 @@ public class Photo {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         } else {
             File dp = new File(photo);
-            if (dp.exists()) {
+            if (!dp.exists()) {
                 throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
             }
         }
