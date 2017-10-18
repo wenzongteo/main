@@ -27,7 +27,11 @@ public class Photo {
      * @throws IllegalValueException if given photo string is invalid.
      */
     public Photo(String photo) throws IllegalValueException {
-        photo = photo.trim();
+        if (photo == null) {
+            photo = "data/default.jpeg"; //Give a default profile picture
+        } else {
+            photo = photo.trim();
+        }
 
         if (!isValidPhoto(photo)) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
