@@ -6,8 +6,8 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.SortedSet;
-import java.util.function.Predicate;
 import java.util.TreeSet;
+import java.util.function.Predicate;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
@@ -146,7 +146,7 @@ public class ModelManager extends ComponentManager implements Model {
 
                     if (o1SortedTags.size() == 0) {
                         return 1;
-                    } else if(o2SortedTags.size() == 0) {
+                    } else if (o2SortedTags.size() == 0) {
                         return -1;
                     } else {
                         return o1SortedTags.first().tagName.compareTo(o2SortedTags.first().tagName);

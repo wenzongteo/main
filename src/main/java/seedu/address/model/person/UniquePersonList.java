@@ -112,6 +112,10 @@ public class UniquePersonList implements Iterable<Person> {
         return FXCollections.unmodifiableObservableList(mappedList);
     }
 
+
+    /**
+     * Sort the list in lexicographically name order.
+     */
     private void sortInternalList() {
         Comparator<Person> sort = new Comparator<Person>() {
             @Override
