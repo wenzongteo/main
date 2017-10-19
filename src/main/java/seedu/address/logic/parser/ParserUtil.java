@@ -163,7 +163,7 @@ public class ParserUtil {
     public static int parseSortOrder(Optional<String> sort) throws IllegalValueException {
         requireNonNull(sort);
         int sortOrder = 0;
-        if(sort.isPresent()) {
+        if (sort.isPresent()) {
             switch(sort.get().trim()) {
                 case "name":    sortOrder = 0;
                                 break;

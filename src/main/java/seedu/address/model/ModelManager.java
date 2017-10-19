@@ -3,15 +3,12 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
-import java.util.Collections;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.function.Predicate;
-import java.util.logging.Logger;
 import java.util.TreeSet;
-
-import com.sun.org.apache.xalan.internal.xsltc.compiler.util.CompareGenerator;
+import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -139,7 +136,7 @@ public class ModelManager extends ComponentManager implements Model {
             }
         };
 
-        if(sortOrder == 1) {
+        if (sortOrder == 1) {
             //sort by tags
             sort = new Comparator<ReadOnlyPerson>() {
                 @Override
@@ -147,7 +144,7 @@ public class ModelManager extends ComponentManager implements Model {
                     SortedSet<Tag> o1SortedTags = new TreeSet<Tag>(o1.getTags());
                     SortedSet<Tag> o2SortedTags = new TreeSet<Tag>(o2.getTags());
 
-                    if(o1SortedTags.size() == 0) {
+                    if (o1SortedTags.size() == 0) {
                         return 1;
                     } else if(o2SortedTags.size() == 0) {
                         return -1;
@@ -156,7 +153,7 @@ public class ModelManager extends ComponentManager implements Model {
                     }
                 }
             };
-        } else if(sortOrder == 2) {
+        } else if (sortOrder == 2) {
             sort = new Comparator<ReadOnlyPerson>() {
                 @Override
                 public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {

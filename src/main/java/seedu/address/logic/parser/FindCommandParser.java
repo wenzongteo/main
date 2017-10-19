@@ -48,9 +48,9 @@ public class FindCommandParser implements Parser<FindCommand> {
                 }
             }
 
-            if(argMultimap.getValue(PREFIX_SORT).isPresent()) {
+            if (argMultimap.getValue(PREFIX_SORT).isPresent()) {
                 sortOrder = ParserUtil.parseSortOrder(argMultimap.getValue(PREFIX_SORT));
-                if(sortOrder < 0) {
+                if (sortOrder < 0) {
                     throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
                 }
             }

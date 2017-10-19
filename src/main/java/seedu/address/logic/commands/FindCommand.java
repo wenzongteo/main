@@ -14,7 +14,6 @@ public class FindCommand extends Command {
 
     public static final String COMMAND_WORD = "find";
     public static final String COMMAND_ALIAS = "f";
-    private int sortOrder = 0;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names or tag contain any of "
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
@@ -29,6 +28,7 @@ public class FindCommand extends Command {
             + "5) " + COMMAND_WORD + " " + PREFIX_TAG + "tag1 tag2 tag3 " + PREFIX_SORT + "tag";
 
     private final NameContainsKeywordsPredicate predicate;
+    private int sortOrder = 0;
 
     public FindCommand(NameContainsKeywordsPredicate predicate, int sortOrder) {
         this.predicate = predicate;
