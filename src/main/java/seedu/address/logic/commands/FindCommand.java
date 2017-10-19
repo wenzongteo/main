@@ -1,6 +1,7 @@
 package seedu.address.logic.commands;
 
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import seedu.address.model.person.NameContainsKeywordsPredicate;
@@ -18,11 +19,14 @@ public class FindCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names or tag contain any of "
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
             + "Parameters: "
-            + "[ " + PREFIX_NAME + "KEYWORD [MORE_KEYWORDS]... ] [ " + PREFIX_TAG + "KEYWORD [MORE_KEYWORDS]... ]\n"
+            + "[ " + PREFIX_NAME + "KEYWORD [MORE_KEYWORDS]... ] [ " + PREFIX_TAG + "KEYWORD [MORE_KEYWORDS]... ] "
+            + "[ " + PREFIX_SORT + "[name|tag] ]\n"
             + "Examples:\n"
             + "1) " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob charlie\n"
-            + "2) " + COMMAND_WORD + " " + PREFIX_TAG + " tag1 tag2 tag3\n"
-            + "3) " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob charlie " + PREFIX_TAG + "tag1 tag2 tag3";
+            + "2) " + COMMAND_WORD + " " + PREFIX_TAG + "tag1 tag2 tag3\n"
+            + "3) " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob charlie " + PREFIX_TAG + "tag1 tag2 tag3\n"
+            + "4) " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob charlie " + PREFIX_SORT + "name\n"
+            + "5) " + COMMAND_WORD + " " + PREFIX_TAG + "tag1 tag2 tag3 " + PREFIX_SORT + "tag";
 
     private final NameContainsKeywordsPredicate predicate;
 
