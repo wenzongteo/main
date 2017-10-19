@@ -84,6 +84,7 @@ public class AddressBookParserTest {
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getPersonDetails(person));
         assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
 
+
         //Using edit alias
         command = (EditCommand) parser.parseCommand(EditCommand.COMMAND_ALIAS + " "
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getPersonDetails(person));

@@ -21,6 +21,8 @@ public interface ReadOnlyPerson {
     Email getEmail();
     ObjectProperty<Address> addressProperty();
     Address getAddress();
+    ObjectProperty<Photo> photoProperty();
+    Photo getPhoto();
     ObjectProperty<UniqueTagList> tagProperty();
     Set<Tag> getTags();
     boolean containsTags(List<String> tags);
@@ -49,6 +51,8 @@ public interface ReadOnlyPerson {
                 .append(getEmail())
                 .append(" Address: ")
                 .append(getAddress())
+                .append(" Image: ")
+                .append(getPhoto())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();
