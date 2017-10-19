@@ -1,11 +1,15 @@
 package seedu.address.ui;
 
+import java.io.FileInputStream;
 import java.util.HashMap;
 import java.util.Random;
 
 import javafx.beans.binding.Bindings;
+import javafx.beans.binding.StringExpression;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.FlowPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Region;
@@ -46,6 +50,8 @@ public class PersonCard extends UiPart<Region> {
     private Label birthdate;
     @FXML
     private FlowPane tags;
+    @FXML
+    private ImageView photo;
 
     public PersonCard(ReadOnlyPerson person, int displayedIndex) {
         super(FXML);
@@ -65,6 +71,15 @@ public class PersonCard extends UiPart<Region> {
         address.textProperty().bind(Bindings.convert(person.addressProperty()));
         email.textProperty().bind(Bindings.convert(person.emailProperty()));
         birthdate.textProperty().bind(Bindings.convert(person.birthdateProperty()));
+
+        try {
+            StringExpression test = Bindings.convert(person.photoProperty());
+            Image image = new Image(new FileInputStream(test.getValue()), 100, 200, true, true);
+            photo.setImage(image);
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+
         person.tagProperty().addListener((observable, oldValue, newValue) -> {
             tags.getChildren().clear();
             initTags(person);
