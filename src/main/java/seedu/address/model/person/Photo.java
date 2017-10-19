@@ -39,7 +39,7 @@ public class Photo {
     }
 
     /**
-     * Returns true if a given string is a valid person email.
+     * Returns true if a given string is a valid person photo.
      */
     public static boolean isValidPhoto(String test) {
         return test.matches(PHOTO_VALIDATION_REGEX);
