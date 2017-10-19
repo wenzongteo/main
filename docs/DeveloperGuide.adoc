@@ -389,13 +389,6 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
      }
 ----
 
-
-Figure 3.4.1 below shows you the sequence diagram of how the `Add Command` works in Augustine.
-
-[caption="Figure 3.4.1"]
-.Sequence Diagram for the Add Command
-image::addSequenceDiagram.png[width=""]
-
 ==== Design Considerations
 
 **Aspect:** Detecting of unfilled fields. +
@@ -491,6 +484,11 @@ e.g. `seedu.address.logic.LogicManagerTest`
 
 
 === Troubleshooting Testing
+**Problem: Unable to execute Gradle task.**
+
+* Reason: Java path is configured wrongly or more than one version of Java is detected.
+* Solution: Uninstall all Java files and reinstall the latest `Java SDK 8` available. Ensure the system environment variables (For Windows) is configured properly.
+
 **Problem: `HelpWindowTest` fails with a `NullPointerException`.**
 
 * Reason: One of its dependencies, `UserGuide.html` in `src/main/resources/docs` is missing.
