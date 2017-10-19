@@ -165,15 +165,12 @@ public class ParserUtil {
 		int sortOrder = 0;
 		if (sort.isPresent()) {
 			switch(sort.get().trim()) {
-			case "name":
-				sortOrder = 0;
-				break;
-			case "tag":
-				sortOrder = 1;
-				break;
-			default:
-				sortOrder = -1;
-				break;
+				case "name":    sortOrder = 0;
+								break;
+				case "tag":     sortOrder = 1;
+								break;
+				default:        sortOrder = -1;
+								break;
 			}
 		} else {
 			sortOrder = -1;
