@@ -153,6 +153,11 @@ public class ParserUtil {
         return birthdate.isPresent() ? Optional.of(new Birthdate(birthdate.get())) : Optional.of(new Birthdate("-"));
     }
 
+    public static Optional<Birthdate> parseBirthdateForEdit(Optional<String> birthdate) throws IllegalValueException {
+        requireNonNull(birthdate);
+        return birthdate.isPresent() ? Optional.of(new Birthdate(birthdate.get())) : Optional.empty();
+    }
+
     /**
      *  Parse {@code Optional<String> keywords} into a {@code String}
      */
