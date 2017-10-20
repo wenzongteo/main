@@ -129,10 +129,14 @@ public class Person implements ReadOnlyPerson {
     }
 
     @Override
-    public ObjectProperty<Photo> photoProperty() { return photo; }
+    public ObjectProperty<Photo> photoProperty() {
+        return photo;
+    }
 
     @Override
-    public Photo getPhoto() { return photo.get(); }
+    public Photo getPhoto() {
+        return photo.get();
+    }
 
 
     /**

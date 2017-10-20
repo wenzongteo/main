@@ -131,6 +131,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void sortFilteredPersons(int sortOrder) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public void updateFilteredPersonList(Predicate<ReadOnlyPerson> predicate) {
             fail("This method should not be called.");
         }
