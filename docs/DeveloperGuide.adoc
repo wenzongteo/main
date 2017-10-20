@@ -367,6 +367,49 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+// tag::optionalfields[]
+=== Optional Fields in Contact
+The ability to have unfilled fields within a Contact enables the User to add a contact into Augustine without having to know all the particulars of a Contact.
+
+The User only needs to know the name and email address of the Contact to add it into Augustine.
+
+The optional fields mechanism is facilitated by `ParserUtil`, which is used by `AddCommandParser` to parse argument entered by the User into data of the
+different fields of a Contact. When the relevant methods in `ParserUtil` is being called in `AddCommandParser`, it will check if the input field is empty.
+If there is no value, it will give a value, '-' instead to the relevant field.
+
+The code snippet below shows you how a method in `ParserUtil` detects whether is there a value in the `ArgumentMultiMap` of the associated field and if there is no value, it will return a '-' to AddCommandParser
+instead.
+
+[NOTE] `Field` in the snippet refers to a field in the contact.
+
+[source,java]
+----
+public static Optional<Address> parseField(Optional<String> field) throws IllegalValueException {
+         return field.isPresent() ? Optional.of(new Field(field.get())) : Optional.of(new Field("-"));
+     }
+----
+
+==== Design Considerations
+
+**Aspect:** Detecting of unfilled fields. +
+**Alternative 1 (current choice):** Check if value is present, if value is not present, return a - as value instead. +
+**Pros:** Simple for developers to understand the inner working of the enhancement. +
+**Cons:** All fields are still stored in AddressBook, leading to wastage of space as fields that are not used by the User for each contact are still being stored. +
+**Alternative 2:** Detect if the field exist in AddressBook.xml, if the field does not exist for a particular contact, display the field in the PersonCard as unfilled. +
+**Pros:** Save space and readability of +
+**Cons:** Harder for developers to understand the inner working of the enhancement.
+
+---
+
+**Aspect:** Storing of Contact's Display Picture. +
+**Alternative 1 (current choice):** Store file path that was entered by user into AddressBook.xml and try to render the image from there +
+**Pros:** Simple for developers to understand. +
+**Cons:** Changing of file path or removal of image will lead to rendering error. +
+**Alternative 2:** Create a copy of the image that is in the path entered by user into a folder in Augustine. Store the file path of the copied image into AddressBook.xml and render image from there +
+**Pros:** Changing of file path or removal of the original image by user will not lead to any rendering error. +
+**Cons:** Harder to implement and for developers to understand. Additional file space is needed to store the copied image.
+// end::optionalfields[]
+
 == Documentation
 
 We use asciidoc for writing documentation.
