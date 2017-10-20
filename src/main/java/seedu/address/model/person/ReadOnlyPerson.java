@@ -33,12 +33,15 @@ public interface ReadOnlyPerson {
      * Returns true if both have the same state. (interfaces cannot override .equals)
      */
     default boolean isSameStateAs(ReadOnlyPerson other) {
+
         return other == this // short circuit if same object
                 || (other != null // this is first to avoid NPE below
                 && other.getName().equals(this.getName()) // state checks here onwards
                 && other.getPhone().equals(this.getPhone())
                 && other.getEmail().equals(this.getEmail())
-                && other.getAddress().equals(this.getAddress()));
+                && other.getAddress().equals(this.getAddress())
+                && other.getBirthdate().equals(this.getBirthdate())
+                && other.getPhoto().equals(this.getPhoto()));
     }
 
     /**

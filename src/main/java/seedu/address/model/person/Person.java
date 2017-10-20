@@ -174,11 +174,6 @@ public class Person implements ReadOnlyPerson {
     }
 
     @Override
-    public boolean isSameStateAs(ReadOnlyPerson other) {
-        return false;
-    }
-
-    @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
                 || (other instanceof ReadOnlyPerson // instanceof handles nulls
