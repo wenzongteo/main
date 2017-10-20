@@ -40,10 +40,10 @@ public class Person implements ReadOnlyPerson {
         this.email = new SimpleObjectProperty<>(email);
         this.address = new SimpleObjectProperty<>(address);
         this.photo = new SimpleObjectProperty<>(photo);
-
+        this.birthdate = new SimpleObjectProperty<>(birthdate);
         // protect internal tags from changes in the arg list
         this.tags = new SimpleObjectProperty<>(new UniqueTagList(tags));
-        this.birthdate = new SimpleObjectProperty<>(birthdate);
+
     }
 
     /**
@@ -120,6 +120,10 @@ public class Person implements ReadOnlyPerson {
         return birthdate.get();
     }
 
+    public void setBirthdate(Birthdate birthdate) {
+        this.birthdate.set(requireNonNull(birthdate));
+    }
+
     public void setPhoto(Photo photo) {
         this.photo.set(photo);
     }
@@ -180,7 +184,7 @@ public class Person implements ReadOnlyPerson {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, photo, tags);
+        return Objects.hash(name, phone, email, address, photo, tags, birthdate);
     }
 
     @Override
