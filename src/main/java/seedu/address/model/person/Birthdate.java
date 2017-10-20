@@ -53,8 +53,8 @@ public class Birthdate {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof Phone // instanceof handles nulls
-                && this.value.equals(((Phone) other).value)); // state check
+                || (other instanceof Birthdate // instanceof handles nulls
+                && this.value.equals(((Birthdate) other).value)); // state check
     }
 
     @Override
