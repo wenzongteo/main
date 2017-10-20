@@ -260,7 +260,7 @@ The [fuchsia]`find` command helps you find contacts in Augustine using name or t
 ==== Format
 The format of the [fuchsia]`find` command is as follow:
 ====
-[fuchsia]#find [n/KEYWORD [MORE_KEYWORDS]] [t/KEYWORD [MORE_KEYWORDS]]#
+[fuchsia]#find [ n/KEYWORD [MORE_KEYWORDS] ] [ t/KEYWORD [MORE_KEYWORDS] ] [ s/[name|tag] ]#
 ====
 
 ****
@@ -272,6 +272,10 @@ The format of the [fuchsia]`find` command is as follow:
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* The find command results can be be *sorted by name* or *tag*
+** Find with *sort by tag*: [fuchsia]`find n/adam eunice s/tag`
+** Find with *sort by name*: [fuchsia]`find n/adam eunice s/name`
+* The sort options [name|tag] are *case sensitive*
 ****
 
 [TIP]
@@ -322,9 +326,26 @@ the list of names returned after the command below is entered.
 [horizontal]
 *Command:* :: [fuchsia]`find n/adam t/Colleague`
 
-[caption="Figure 4.5.2.2 "]
+[caption="Figure 4.5.2.3 "]
 .Result of find by name and tag command.
 image::findByNameTag.png[]
+--
+
+. [red]*Find By Name with Sort option*
++
+--
+You can sort the find results by name or tag. Figure 4.5.2.4 below illustrates
+the list of names sorted by tag after the command below is entered.
+
+[NOTE]
+Note that the sort option "name" and "tag" are *case-sensitive*
+
+[horizontal]
+*Command:* :: [fuchsia]`find n/adam zachary janice s/tag`
+
+[caption="Figure 4.5.2.4 "]
+.Result of find by name with sort option command.
+image::findByNameSorted.png[]
 --
 
 '''
@@ -644,7 +665,7 @@ There is no need to save manually.
 |*Clear*|`clear`|c|`clear` +
 |*Delete*|`delete INDEX` +|d|`delete 3` +
 |*Edit*|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +|e|`edit 2 n/James Lee e/jameslee@example.com` +
-|*Find*|`find KEYWORD [MORE_KEYWORDS]` +|f|`find James Jake` +
+|*Find*|`find KEYWORD n/[MORE_KEYWORDS] t/[MORE_KEYWORDS] s/[name\|tag]` +|f|`find n/James Jake` +
 |*List*|`list` +|l|`list` +
 |*Help*|`help` +|h|`help` +
 |*Select*|`select INDEX` +|s|`select 2` +
