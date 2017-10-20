@@ -39,14 +39,14 @@ public class FindCommandTest {
                 new NameContainsKeywordsPredicate(Collections.singletonList("second"),
                         Collections.singletonList("tag2"));
 
-        FindCommand findFirstCommand = new FindCommand(firstPredicate);
-        FindCommand findSecondCommand = new FindCommand(secondPredicate);
+        FindCommand findFirstCommand = new FindCommand(firstPredicate, 0);
+        FindCommand findSecondCommand = new FindCommand(secondPredicate, 0);
 
         // same object -> returns true
         assertTrue(findFirstCommand.equals(findFirstCommand));
 
         // same values -> returns true
-        FindCommand findFirstCommandCopy = new FindCommand(firstPredicate);
+        FindCommand findFirstCommandCopy = new FindCommand(firstPredicate, 0);
         assertTrue(findFirstCommand.equals(findFirstCommandCopy));
 
         // different types -> returns false
@@ -79,7 +79,7 @@ public class FindCommandTest {
     private FindCommand prepareCommand(String userInputName, String userInputTag) {
         FindCommand command =
                 new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(userInputName.split("\\s+")),
-                        Arrays.asList(userInputTag.split("\\s+"))));
+                        Arrays.asList(userInputTag.split("\\s+"))), 0);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }

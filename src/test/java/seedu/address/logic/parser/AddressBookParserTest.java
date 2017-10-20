@@ -109,12 +109,12 @@ public class AddressBookParserTest {
         //Using find command
         FindCommand command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_WORD + " n/" + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords, Collections.emptyList())), command);
+        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords, Collections.emptyList()), 0), command);
 
         //Using find alias
         command = (FindCommand) parser.parseCommand(
                 FindCommand.COMMAND_ALIAS + " n/" + keywords.stream().collect(Collectors.joining(" ")));
-        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords, Collections.emptyList())), command);
+        assertEquals(new FindCommand(new NameContainsKeywordsPredicate(keywords, Collections.emptyList()), 0), command);
     }
 
     @Test

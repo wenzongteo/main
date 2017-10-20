@@ -11,6 +11,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Birthdate;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
@@ -147,11 +148,46 @@ public class ParserUtil {
         return tagSet;
     }
 
+    public static Optional<Birthdate> parseBirthdate(Optional<String> birthdate) throws IllegalValueException {
+        requireNonNull(birthdate);
+        return birthdate.isPresent() ? Optional.of(new Birthdate(birthdate.get())) : Optional.of(new Birthdate("-"));
+    }
+
+    public static Optional<Birthdate> parseBirthdateForEdit(Optional<String> birthdate) throws IllegalValueException {
+        requireNonNull(birthdate);
+        return birthdate.isPresent() ? Optional.of(new Birthdate(birthdate.get())) : Optional.empty();
+    }
+
     /**
      *  Parse {@code Optional<String> keywords} into a {@code String}
      */
     public static Optional<String> parseKeywords(Optional<String> keywords) throws IllegalValueException {
         requireNonNull(keywords);
         return keywords.isPresent() ? Optional.of(keywords.get()) : Optional.empty();
+    }
+
+    /**
+     * Parses {@code String sort} into an {@code int} and returns it.
+     * @throws IllegalValueException if the specified sort is invalid
+     */
+    public static int parseSortOrder(Optional<String> sort) throws IllegalValueException {
+        requireNonNull(sort);
+        int sortOrder = 0;
+        if (sort.isPresent()) {
+            switch(sort.get().trim()) {
+            case "name":
+                sortOrder = 0;
+                break;
+            case "tag":
+                sortOrder = 1;
+                break;
+            default:
+                sortOrder = -1;
+                break;
+            }
+        } else {
+            sortOrder = -1;
+        }
+        return sortOrder;
     }
 }

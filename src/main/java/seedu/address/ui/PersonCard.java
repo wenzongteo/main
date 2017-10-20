@@ -47,6 +47,8 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label email;
     @FXML
+    private Label birthdate;
+    @FXML
     private FlowPane tags;
     @FXML
     private ImageView photo;
@@ -68,6 +70,7 @@ public class PersonCard extends UiPart<Region> {
         phone.textProperty().bind(Bindings.convert(person.phoneProperty()));
         address.textProperty().bind(Bindings.convert(person.addressProperty()));
         email.textProperty().bind(Bindings.convert(person.emailProperty()));
+        birthdate.textProperty().bind(Bindings.convert(person.birthdateProperty()));
 
         try {
             StringExpression test = Bindings.convert(person.photoProperty());
@@ -76,6 +79,7 @@ public class PersonCard extends UiPart<Region> {
         } catch (Exception e) {
             System.out.println(e);
         }
+
         person.tagProperty().addListener((observable, oldValue, newValue) -> {
             tags.getChildren().clear();
             initTags(person);
