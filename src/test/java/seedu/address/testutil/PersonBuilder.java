@@ -124,6 +124,9 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code Birthdate} of the {@code Person} that we are building.
+     */
     public PersonBuilder withBirthdate(String birthdate) {
         try {
             this.person.setBirthdate(new Birthdate(birthdate));
