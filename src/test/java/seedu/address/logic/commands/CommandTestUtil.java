@@ -39,6 +39,7 @@ public class CommandTestUtil {
     public static final String VALID_PHOTO_BOB = "default.jpeg";
     public static final String VALID_TAG_HUSBAND = "husband";
     public static final String VALID_TAG_FRIENDS = "friends";
+    public static final String VALID_TAG_OWESMONEY = "owesMoney";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
