@@ -479,6 +479,10 @@ The format of the [fuchsia]`undo` command is as follow:
 ====
 Undoable commands: those commands that modify the address book's content (`add`, `delete`, `edit` and `clear`).
 ====
+[TIP]
+====
+You can press kbd:[Ctrl+Z] to undo quickly.
+====
 
 ==== Example
 
@@ -534,6 +538,11 @@ The [fuchsia]`redo` command reverses the most recent `undo` command.
 The format of the [fuchsia]`redo` command is as follow:
 ====
 [fuchsia]#redo#
+====
+
+[TIP]
+====
+You can press kbd:[Ctrl+Y] to redo quickly.
 ====
 
 ==== Example
