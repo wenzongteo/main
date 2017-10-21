@@ -17,6 +17,15 @@ By: `W14-B2`      Since: `Oct 2017`      Licence: `MIT`
 <<<
 toc::[]
 <<<
+
+== Software Overview
+
+What is the software about.
+
+== About
+
+What is the developer Guide about
+
 == Setting up
 
 === Prerequisites
@@ -444,8 +453,6 @@ In the xml, the data will be stored as such:
 </nusmodule>
 ----
 
-
-
 ==== Design considerations
 
 **Aspect:** Displaying of schedule +
@@ -476,6 +483,41 @@ In the xml, the data will be stored as such:
 **Pros:** User will not need to know more commands +
 **Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
 
+=== Find with filter and sort Mechanism
+
+The find command is facilitated by the Model and Logic Component. It provides the user with the option to
+filter and sort the contact list.
+
+Contact list are currently wrapped in FilteredList<ReadOnlyPerson> Object. To sort the contact list, the FilterList<ReadOnlyPerson> object
+is converted to SortedList<ReadOnlyPerson> Object. When the find command with sort option is run, the programme will identify the sort type
+and change the sort comparator as shown in the codes below.
+
+image::sortedCode.png[]
+
+The find results are bind to the javafx ListView. Thus any changes to the SortedList<ReadOnlyPerson>, it will automatically be
+updated on the UI. 
+
+==== Design Considerations
+
+**Aspect:** Find users using custom fields (eg. name, tag, email, etc...) +
+**Alternative 1:** finding bases on user define keywords  +
+**Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
+**Cons:** The find command might display unnecessary results. +
+**Alternative 2 (current choice):** Use prefix to define fields +
+**Pros:** There will be more flexibility and find results will be more user specific +
+**Cons:** The find command might contain too many fields and becomes confusing.
+
+---
+
+**Aspect:** Sorting Find Result +
+**Alternative 1:** Create a Sort command +
+**Pros:** Users can sort the list at any point of time, not only during the find command +
+**Cons:** Users will have to run an extra sort command instead of a one line find command with sort options +
+**Alternative 2 (current choice):** Creating a Find Command with sort options +
+**Pros:** Users will only need to run a single line of code to find users in a sorted list. +
+**Cons:** The find command might become too complex.
+
+---
 
 == Documentation
 
