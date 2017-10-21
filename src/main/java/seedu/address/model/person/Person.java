@@ -167,8 +167,8 @@ public class Person implements ReadOnlyPerson {
     @Override
     public boolean containsTags(List<String> tags) {
         for (Tag t : this.tags.get().toSet()) {
-            boolean found = tags.stream().anyMatch(
-                    tag -> StringUtil.containsWordIgnoreCase(t.tagName,tag));
+            boolean found = tags.stream().anyMatch(tag ->
+                    StringUtil.containsWordIgnoreCase(t.tagName, tag));
             if (found) {
                 return true;
             }
