@@ -168,8 +168,8 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void sendEmail() {
-        email.sendEmail();
+    public void sendEmail(String message, String subject, String [] loginDetails) {
+        email.sendEmail(message, subject, loginDetails, sortedPersonsList);
     }
 
     @Override

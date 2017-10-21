@@ -31,7 +31,7 @@ public class EmailCommand extends Command {
     @Override
     public CommandResult execute() {
         requireNonNull(model);
-        model.sendEmail();
+        model.sendEmail(message, subject, loginDetails);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

@@ -1,5 +1,8 @@
 package seedu.address.email;
 
+import javafx.collections.transformation.SortedList;
+import seedu.address.model.person.ReadOnlyPerson;
+
 /**
  * The API of Email component
  */
@@ -20,6 +23,6 @@ public interface Email {
     //void getEmailDraft();
 
     /* send Email Draft to all users */
-    void sendEmail();
+    void sendEmail(String message, String subject, String [] loginDetails, SortedList<ReadOnlyPerson> recipients);
 
 }

@@ -1,11 +1,9 @@
 package seedu.address.email;
 
-import java.awt.*;
-import java.util.Collections;
 import java.util.logging.Logger;
 
 import javafx.collections.FXCollections;
-import javafx.collections.transformation.FilteredList;
+import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -16,15 +14,27 @@ import seedu.address.model.person.ReadOnlyPerson;
 public class EmailManager extends ComponentManager implements Email {
     private static final Logger logger = LogsCenter.getLogger(EmailManager.class);
 
-    private final FilteredList<ReadOnlyPerson> recipients;
+    private SortedList<ReadOnlyPerson> recipients;
     private String message;
-    private boolean isLogin;
+    private String subject;
+    private String [] loginDetails;
 
     public EmailManager() {
-        this.recipients = new FilteredList<ReadOnlyPerson>(FXCollections.emptyObservableList());
+        this.recipients = new SortedList<ReadOnlyPerson>(FXCollections.emptyObservableList());
     }
 
-    public void sendEmail() {
+    public void sendEmail(String message, String subject, String [] loginDetails, SortedList<ReadOnlyPerson> recipients) {
+        //is message empty?
+            //yes --> draft message
+        //is user logged in?
+            //no --> get log in crudential and login
+        //is command send or draft?
+            //send --> send email out.
 
+
+        this.recipients = recipients;
+        this.message = message;
+        this.subject = subject;
+        this.loginDetails = loginDetails;
     }
 }
