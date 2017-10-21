@@ -65,6 +65,9 @@ public class AddressBookParser {
         case EmailCommand.COMMAND_WORD:
             return new EmailCommandParser().parse(arguments);
 
+        case EmailCommand.COMMAND_ALIAS:
+            return new EmailCommandParser().parse(arguments);
+
         case SelectCommand.COMMAND_WORD:
             return new SelectCommandParser().parse(arguments);
 

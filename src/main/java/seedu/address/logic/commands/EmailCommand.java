@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 public class EmailCommand extends Command {
 
     public static final String COMMAND_WORD = "email";
+    public static final String COMMAND_ALIAS = "em";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Emails all contacts in the last displayed list\n"
             + "Parameters: email\n"
