@@ -376,8 +376,6 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
-<<<<<<< HEAD
-// tag::optionalFields[]
 =======
 // tag::optionalfields[]
 >>>>>>> master
@@ -421,9 +419,7 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 **Alternative 2:** Create a copy of the image that is in the path entered by user into a folder in Augustine. Store the file path of the copied image into AddressBook.xml and render image from there +
 **Pros:** Changing of file path or removal of the original image by user will not lead to any rendering error. +
 **Cons:** Harder to implement and for developers to understand. Additional file space is needed to store the copied image.
-<<<<<<< HEAD
-// end::optionalFields[]
-=======
+
 // end::optionalfields[]
 
 === Adding and displaying of schedule
