@@ -1,5 +1,12 @@
 package seedu.address.logic.commands;
 
+import static java.util.Objects.requireNonNull;
+
+import java.util.List;
+
+import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.model.person.ReadOnlyPerson;
+
 public class EmailCommand extends Command {
 
     public static final String COMMAND_WORD = "email";
@@ -16,6 +23,8 @@ public class EmailCommand extends Command {
 
     @Override
     public CommandResult execute() {
+        requireNonNull(model);
+        model.sendEmail();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

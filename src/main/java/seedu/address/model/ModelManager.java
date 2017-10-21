@@ -16,6 +16,8 @@ import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.email.Email;
+import seedu.address.email.EmailManager;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -29,6 +31,7 @@ import seedu.address.model.tag.Tag;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private final Email email;
     private final AddressBook addressBook;
     private final FilteredList<ReadOnlyPerson> filteredPersons;
     private final SortedList<ReadOnlyPerson> sortedPersonsList;
@@ -36,20 +39,21 @@ public class ModelManager extends ComponentManager implements Model {
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs, Email email) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
+        this.email = email;
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         sortedPersonsList = new SortedList<ReadOnlyPerson>(filteredPersons);
         sortFilteredPersons(0);
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new UserPrefs(), new EmailManager());
     }
 
     @Override
@@ -161,6 +165,11 @@ public class ModelManager extends ComponentManager implements Model {
     public void updateFilteredPersonList(Predicate<ReadOnlyPerson> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
+    }
+
+    @Override
+    public void sendEmail() {
+        email.sendEmail();
     }
 
     @Override

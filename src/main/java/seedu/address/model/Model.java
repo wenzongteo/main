@@ -54,4 +54,6 @@ public interface Model {
     /** delete tag from all person with the tag **/
     void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException;
 
+    /** send email based on last displayed person list **/
+    void sendEmail();
 }
