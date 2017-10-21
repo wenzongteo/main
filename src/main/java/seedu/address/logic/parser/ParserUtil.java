@@ -11,6 +11,7 @@ import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Birthdate;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
@@ -145,6 +146,26 @@ public class ParserUtil {
             tagSet.add(new Tag(tagName));
         }
         return tagSet;
+    }
+
+    /**
+     * Parses a {@code Optional<String> birthdate} into an {@code Optional<Birthdate>}
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+
+    public static Optional<Birthdate> parseBirthdate(Optional<String> birthdate) throws IllegalValueException {
+        requireNonNull(birthdate);
+        return birthdate.isPresent() ? Optional.of(new Birthdate(birthdate.get())) : Optional.of(new Birthdate("-"));
+    }
+
+    /**
+     * Parses a {@code Optional<String> birthdate} into an {@code Optional<Birthdate>} if {@code birthdate} is present.
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+
+    public static Optional<Birthdate> parseBirthdateForEdit(Optional<String> birthdate) throws IllegalValueException {
+        requireNonNull(birthdate);
+        return birthdate.isPresent() ? Optional.of(new Birthdate(birthdate.get())) : Optional.empty();
     }
 
     /**
