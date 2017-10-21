@@ -18,7 +18,14 @@ public class EmailCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Email have been drafted";
 
-    public EmailCommand() {
+    private final String message;
+    private final String subject;
+    private final String [] loginDetails;
+
+    public EmailCommand(String message, String subject, String [] loginDetails) {
+        this.message = message;
+        this.subject = subject;
+        this.loginDetails = loginDetails;
     }
 
     @Override

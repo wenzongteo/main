@@ -25,6 +25,6 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     public void sendEmail() {
-       
+
     }
 }

@@ -200,4 +200,31 @@ public class ParserUtil {
         }
         return sortOrder;
     }
+
+    /**
+     * Parses a {@code Optional<String> message} into an {@code String}
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static String parseEmailMessage(Optional<String> message) throws IllegalValueException {
+        requireNonNull(message);
+        return message.isPresent() ? message.get() : "";
+    }
+
+    /**
+     * Parses a {@code Optional<String> subject} into an {@code String}
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static String parseEmailSubject(Optional<String> subject) throws IllegalValueException {
+        requireNonNull(subject);
+        return subject.isPresent() ? subject.get() : "";
+    }
+
+    /**
+     * Parses a {@code Optional<String> login} into an {@code String}
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static String parseLoginDetails(Optional<String> loginDetails) throws IllegalValueException {
+        requireNonNull(loginDetails);
+        return loginDetails.isPresent() ? loginDetails.get() : "";
+    }
 }
