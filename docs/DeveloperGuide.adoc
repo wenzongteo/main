@@ -410,6 +410,73 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 **Cons:** Harder to implement and for developers to understand. Additional file space is needed to store the copied image.
 // end::optionalfields[]
 
+=== Adding and displaying of schedule
+The schedule will utilize https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
+
+The schedule is stored in the `NusModules` class and each `Person` will have an `Optional<NusModules>`.
+`NusModules` uses a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` to store.
+
+Modules are added, edited and deleted using the `nusmod` command.
+The command will be phase by `NusmodCommandParser` and executed in `NusmodCommand`.
+A flag will be used to tell if the user wants to add/edit or delete the module.
+As `NusmodCommand` changes the AddressBook.xml, it will inherit from `UndoableCommands`.
+
+The command `nusmod 2 t/add m/CS1231 sec/2 tut/9` will modify the schedule of the second person in the list
+by adding a module with the `moduleCode` CS1231 with the `lessonType` "sec" and "tut", with `lessonSlot` 2 and 9 respectively.
+
+When adding new module, it will be check against a list of modules (from nusmods api) to see if it is a valid module code.
+
+To edit, the same command is use, new `lessonType` and `lessonSlot` will overwrite previous data.
+
+To delete, `nusmod 2 t/delete m/CS1231` can be used.
+
+In the xml, the data will be stored as such:
+[source,xml]
+----
+<nusmodule moduleCode="CS1231">
+    <sec>2</sec>
+    <tut>9</tut>
+</nusmodule>
+<nusmodule moduleCode="CS2010">
+    <lec>1</lec>
+    <tut>5</tut>
+    <lab>6</lab>
+</nusmodule>
+----
+
+
+
+==== Design considerations
+
+**Aspect:** Displaying of schedule +
+**Alternative 1:** Use javafx to draw the schedule +
+**Pros:** Flexibility with visuals and capabilities +
+**Cons:** Much more work will need to be done. +
+**Alternative 2 (current choice):** Use browser to go to NusMods and use their system to display the schedule +
+**Pros:** Need to do less work as much of the framework is already done +
+**Cons:** Less flexibility and reliance on external servers which might be subjected to changes. Also limited to NUS modules.
+
+---
+
+**Aspect:** Storing of schedule +
+**Alternative 1(current choice):** Store it as a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` +
+**Pros:** Easier to modify and extend with other features, more readable in xml +
+**Cons:** More complicated to store in xml  +
+**Alternative 2:** Store it as one long string that is similar to the query to nusmods +
+**Pros:** As it is a single string, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
+**Cons:** Need to parse when want to modify part of the string, then reformat it back into a string, which can be inefficient
+
+---
+
+**Aspect:** Command to edit schedule +
+**Alternative 1(current choice):** Create new command to add/edit schedule  +
+**Pros:** Codebase can be kept neater as it will be more cohesive +
+**Cons:** User will need to know more commands +
+**Alternative 2:** Modify edit command to handle schedule too +
+**Pros:** User will not need to know more commands +
+**Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
+
+
 == Documentation
 
 We use asciidoc for writing documentation.

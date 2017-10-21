@@ -92,11 +92,12 @@ The [fuchsia]`add` command will enable you to populate Augustine.
 The format of the [fuchsia]`add` command is as follow:
 
 ====
-[fuchsia]#add [n/NAME] [p/PHONE_NUMBER] e/EMAIL [a/ADDRESS] [t/TAG]...#
+[fuchsia]#add [n/NAME] [p/PHONE_NUMBER] e/EMAIL [a/ADDRESS] [b/BIRTHDATE] [t/TAG]...#
 ====
 ****
 * `NAME` of the Contact can only contain alphabets
 * `PHONE_NUMBER` of the Contact must contain only *8 numbers* and start with either '6','8' or '9'
+* `BIRTHDATE` must contain valid date entries separated by '.' '/' '-'
 ****
 
 [TIP]
@@ -115,7 +116,7 @@ result after the command below is entered.
 
 [horizontal]
 *Command:* :: [fuchsia]`add n/John Wick p/97488235 e/johnw@example.com +
-a/John street, block 123, #01-01`
+a/John street, block 123, #01-01 b/01/02/1995`
 
 [caption="Figure 2.2.2.1 "]
 .After executing the add command above
@@ -146,7 +147,7 @@ You cannot add a user that already exists in Augustine. Figure 4.4.2.3 illustrat
 error prompt when the command below is entered.
 
 [horizontal]
-*Command:* :: [fuchsia]`add n/John Wick p/97488235 e/johnw@example.com a/John street, block 123, #01-01`
+*Command:* :: [fuchsia]`add n/John Wick p/97488235 e/johnw@example.com a/John street, block 123, #01-01 b/01/02/1995`
 
 [caption="Figure 2.4.2.3 "]
 .After executing the add command above
@@ -179,7 +180,7 @@ The [fuchsia]`edit` command will help you to modify contacts in Augustine.
 ==== Format
 The format of the [fuchsia]`edit` command is as follow:
 ====
-[fuchsia]#edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...#
+[fuchsia]#edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [b/BIRTHDATE] [t/TAG]...#
 ====
 ****
 * Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index whole number 1, 2, 3, ...
@@ -387,7 +388,7 @@ The command below deletes the 2nd person in address book.
 +
 --
 You can use the `find` command to get a list of filtered users and delete the
-user by the user's index. THe command below deletes the 1st person in the results
+user by the user's index. The command below deletes the 1st person in the results
 of the `find` command.
 
 [horizontal]
@@ -479,6 +480,10 @@ The format of the [fuchsia]`undo` command is as follow:
 ====
 Undoable commands: those commands that modify the address book's content (`add`, `delete`, `edit` and `clear`).
 ====
+[TIP]
+====
+You can press kbd:[Ctrl+Z] to undo quickly.
+====
 
 ==== Example
 
@@ -534,6 +539,11 @@ The [fuchsia]`redo` command reverses the most recent `undo` command.
 The format of the [fuchsia]`redo` command is as follow:
 ====
 [fuchsia]#redo#
+====
+
+[TIP]
+====
+You can press kbd:[Ctrl+Y] to redo quickly.
 ====
 
 ==== Example
