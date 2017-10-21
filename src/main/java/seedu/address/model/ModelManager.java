@@ -153,13 +153,6 @@ public class ModelManager extends ComponentManager implements Model {
                     }
                 }
             };
-        } else if (sortOrder == 2) {
-            sort = new Comparator<ReadOnlyPerson>() {
-                @Override
-                public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
-                    return o2.getName().fullName.toUpperCase().compareTo(o1.getName().fullName.toUpperCase());
-                }
-            };
         }
 
         sortedPersonsList.setComparator(sort);
