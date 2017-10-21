@@ -10,6 +10,7 @@ import java.util.Set;
 
 import javafx.beans.property.ObjectProperty;
 import javafx.beans.property.SimpleObjectProperty;
+import seedu.address.commons.util.StringUtil;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.tag.UniqueTagList;
 
@@ -166,7 +167,8 @@ public class Person implements ReadOnlyPerson {
     @Override
     public boolean containsTags(List<String> tags) {
         for (Tag t : this.tags.get().toSet()) {
-            boolean found = tags.stream().anyMatch(tag -> t.tagName.equals(tag));
+            boolean found = tags.stream().anyMatch(tag ->
+                    StringUtil.containsWordIgnoreCase(t.tagName, tag));
             if (found) {
                 return true;
             }
