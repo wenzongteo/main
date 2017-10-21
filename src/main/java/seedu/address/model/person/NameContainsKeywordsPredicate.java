@@ -22,7 +22,7 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
         if (!namekeywords.isEmpty() && !tagkeywords.isEmpty()) {
             return namekeywords.stream()
                     .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword)
-                            || person.containsTags(tagkeywords));
+                            && person.containsTags(tagkeywords));
         } else if (!namekeywords.isEmpty()) {
             return namekeywords.stream()
                     .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword));
