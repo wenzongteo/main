@@ -494,8 +494,7 @@ and change the sort comparator as shown in the codes below.
 
 image::sortedCode.png[]
 
-The find results are bind to the javafx ListView. Thus any changes to the SortedList<ReadOnlyPerson>, it will automatically be
-updated on the UI. 
+The find results are bind to the javafx ListView. Thus any changes to the SortedList<ReadOnlyPerson>, it will automatically be updated on the UI.
 
 ==== Design Considerations
 
