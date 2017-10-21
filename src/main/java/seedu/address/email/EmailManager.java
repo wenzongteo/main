@@ -23,18 +23,19 @@ public class EmailManager extends ComponentManager implements Email {
         this.recipients = new SortedList<ReadOnlyPerson>(FXCollections.emptyObservableList());
     }
 
-    public void sendEmail(String message, String subject, String [] loginDetails, SortedList<ReadOnlyPerson> recipients) {
-        //is message empty?
-            //yes --> draft message
-        //is user logged in?
-            //no --> get log in crudential and login
-        //is command send or draft?
-            //send --> send email out.
-
-
-        this.recipients = recipients;
-        this.message = message;
-        this.subject = subject;
+    public void craftEmail(String message, String subject, String [] loginDetails, SortedList<ReadOnlyPerson> recipients) {
         this.loginDetails = loginDetails;
+        this.message = message;
+        this.recipients = recipients;
+        this.subject = subject;
+    }
+
+    public void sendEmail(boolean send) {
+        //is message empty?
+        //  yes --> draft message
+        //is user logged in?
+        //  no --> get log in crudential and login
+        //is command send entered?
+        //  send --> send email out.
     }
 }

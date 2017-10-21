@@ -2,9 +2,10 @@ package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_MESSAGE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_LOGIN;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_MESSAGE;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_SEND;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_SUBJECT;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.EmailCommand;
@@ -20,8 +21,9 @@ public class EmailCommandParser implements Parser<EmailCommand> {
     public EmailCommand parse(String args) throws ParseException {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
-                ArgumentTokenizer.tokenize(args, PREFIX_EMAIL_MESSAGE, PREFIX_EMAIL_SUBJECT, PREFIX_EMAIL_LOGIN);
+                ArgumentTokenizer.tokenize(args, PREFIX_EMAIL_MESSAGE, PREFIX_EMAIL_SUBJECT, PREFIX_EMAIL_LOGIN, PREFIX_EMAIL_SEND);
 
+        boolean send = false;
         String message = "";
         String subject = "";
         String login = "";
@@ -47,10 +49,14 @@ public class EmailCommandParser implements Parser<EmailCommand> {
                     throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
                 }
             }
+            if (argMultimap.getValue(PREFIX_EMAIL_SEND).isPresent()) {
+                send = true;
+            }
+
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
 
-        return new EmailCommand(message, subject, loginDetails);
+        return new EmailCommand(message, subject, loginDetails, send);
     }
 }

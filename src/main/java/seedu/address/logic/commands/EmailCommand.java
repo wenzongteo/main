@@ -18,20 +18,22 @@ public class EmailCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Email have been drafted";
 
+    private final boolean send;
     private final String message;
     private final String subject;
     private final String [] loginDetails;
 
-    public EmailCommand(String message, String subject, String [] loginDetails) {
-        this.message = message;
-        this.subject = subject;
+    public EmailCommand(String message, String subject, String [] loginDetails, boolean send) {
         this.loginDetails = loginDetails;
+        this.message = message;
+        this.send = send;
+        this.subject = subject;
     }
 
     @Override
     public CommandResult execute() {
         requireNonNull(model);
-        model.sendEmail(message, subject, loginDetails);
+        model.sendEmail(message, subject, loginDetails, send);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

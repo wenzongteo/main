@@ -55,5 +55,5 @@ public interface Model {
     void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException;
 
     /** send email based on last displayed person list **/
-    void sendEmail(String message, String subject, String [] loginDetails);
+    void sendEmail(String message, String subject, String [] loginDetails, boolean send);
 }
