@@ -4,6 +4,7 @@ import java.util.Set;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
+import seedu.address.model.person.Birthdate;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
@@ -24,6 +25,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_PHOTO = "default.jpeg";
     public static final String DEFAULT_TAGS = "friends";
+    public static final String DEFAULT_BIRTHDATE = "31/12/1995";
 
     private Person person;
 
@@ -35,8 +37,9 @@ public class PersonBuilder {
             Address defaultAddress = new Address(DEFAULT_ADDRESS);
             Photo defaultPhoto = new Photo(DEFAULT_PHOTO);
             Set<Tag> defaultTags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
+            Birthdate defaultBirthdate = new Birthdate(DEFAULT_BIRTHDATE);
             this.person = new Person(defaultName, defaultPhone, defaultEmail, defaultAddress, defaultPhoto,
-                    defaultTags);
+                    defaultTags, defaultBirthdate);
         } catch (IllegalValueException ive) {
             throw new AssertionError("Default person's values are invalid.");
         }
@@ -117,6 +120,18 @@ public class PersonBuilder {
             this.person.setPhoto(new Photo(photo));
         } catch (IllegalValueException ive) {
             throw new IllegalArgumentException("photo is expected.");
+        }
+        return this;
+    }
+
+    /**
+     * Sets the {@code Birthdate} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withBirthdate(String birthdate) {
+        try {
+            this.person.setBirthdate(new Birthdate(birthdate));
+        } catch (IllegalValueException ive) {
+            throw new IllegalArgumentException("birthdate is expected.");
         }
         return this;
     }

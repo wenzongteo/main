@@ -17,6 +17,15 @@ By: `W14-B2`      Since: `Oct 2017`      Licence: `MIT`
 <<<
 toc::[]
 <<<
+
+== Software Overview
+
+What is the software about.
+
+== About
+
+What is the developer Guide about
+
 == Setting up
 
 === Prerequisites
@@ -367,7 +376,11 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
+<<<<<<< HEAD
 // tag::optionalFields[]
+=======
+// tag::optionalfields[]
+>>>>>>> master
 === Optional Fields in Contact
 The ability to have unfilled fields within a Contact enables the User to add a contact into Augustine without having to know all the particulars of a Contact.
 
@@ -408,7 +421,110 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 **Alternative 2:** Create a copy of the image that is in the path entered by user into a folder in Augustine. Store the file path of the copied image into AddressBook.xml and render image from there +
 **Pros:** Changing of file path or removal of the original image by user will not lead to any rendering error. +
 **Cons:** Harder to implement and for developers to understand. Additional file space is needed to store the copied image.
+<<<<<<< HEAD
 // end::optionalFields[]
+=======
+// end::optionalfields[]
+
+=== Adding and displaying of schedule
+The schedule will utilize https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
+
+The schedule is stored in the `NusModules` class and each `Person` will have an `Optional<NusModules>`.
+`NusModules` uses a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` to store.
+
+Modules are added, edited and deleted using the `nusmod` command.
+The command will be phase by `NusmodCommandParser` and executed in `NusmodCommand`.
+A flag will be used to tell if the user wants to add/edit or delete the module.
+As `NusmodCommand` changes the AddressBook.xml, it will inherit from `UndoableCommands`.
+
+The command `nusmod 2 t/add m/CS1231 sec/2 tut/9` will modify the schedule of the second person in the list
+by adding a module with the `moduleCode` CS1231 with the `lessonType` "sec" and "tut", with `lessonSlot` 2 and 9 respectively.
+
+When adding new module, it will be check against a list of modules (from nusmods api) to see if it is a valid module code.
+
+To edit, the same command is use, new `lessonType` and `lessonSlot` will overwrite previous data.
+
+To delete, `nusmod 2 t/delete m/CS1231` can be used.
+
+In the xml, the data will be stored as such:
+[source,xml]
+----
+<nusmodule moduleCode="CS1231">
+    <sec>2</sec>
+    <tut>9</tut>
+</nusmodule>
+<nusmodule moduleCode="CS2010">
+    <lec>1</lec>
+    <tut>5</tut>
+    <lab>6</lab>
+</nusmodule>
+----
+
+==== Design considerations
+
+**Aspect:** Displaying of schedule +
+**Alternative 1:** Use javafx to draw the schedule +
+**Pros:** Flexibility with visuals and capabilities +
+**Cons:** Much more work will need to be done. +
+**Alternative 2 (current choice):** Use browser to go to NusMods and use their system to display the schedule +
+**Pros:** Need to do less work as much of the framework is already done +
+**Cons:** Less flexibility and reliance on external servers which might be subjected to changes. Also limited to NUS modules.
+
+---
+
+**Aspect:** Storing of schedule +
+**Alternative 1(current choice):** Store it as a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` +
+**Pros:** Easier to modify and extend with other features, more readable in xml +
+**Cons:** More complicated to store in xml  +
+**Alternative 2:** Store it as one long string that is similar to the query to nusmods +
+**Pros:** As it is a single string, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
+**Cons:** Need to parse when want to modify part of the string, then reformat it back into a string, which can be inefficient
+
+---
+
+**Aspect:** Command to edit schedule +
+**Alternative 1(current choice):** Create new command to add/edit schedule  +
+**Pros:** Codebase can be kept neater as it will be more cohesive +
+**Cons:** User will need to know more commands +
+**Alternative 2:** Modify edit command to handle schedule too +
+**Pros:** User will not need to know more commands +
+**Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
+
+=== Find with filter and sort Mechanism
+
+The find command is facilitated by the Model and Logic Component. It provides the user with the option to
+filter and sort the contact list.
+
+Contact list are currently wrapped in FilteredList<ReadOnlyPerson> Object. To sort the contact list, the FilterList<ReadOnlyPerson> object
+is converted to SortedList<ReadOnlyPerson> Object. When the find command with sort option is run, the programme will identify the sort type
+and change the sort comparator as shown in the codes below.
+
+image::sortedCode.png[]
+
+The find results are bind to the javafx ListView. Thus any changes to the SortedList<ReadOnlyPerson>, it will automatically be updated on the UI.
+
+==== Design Considerations
+
+**Aspect:** Find users using custom fields (eg. name, tag, email, etc...) +
+**Alternative 1:** finding bases on user define keywords  +
+**Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
+**Cons:** The find command might display unnecessary results. +
+**Alternative 2 (current choice):** Use prefix to define fields +
+**Pros:** There will be more flexibility and find results will be more user specific +
+**Cons:** The find command might contain too many fields and becomes confusing.
+
+---
+
+**Aspect:** Sorting Find Result +
+**Alternative 1:** Create a Sort command +
+**Pros:** Users can sort the list at any point of time, not only during the find command +
+**Cons:** Users will have to run an extra sort command instead of a one line find command with sort options +
+**Alternative 2 (current choice):** Creating a Find Command with sort options +
+**Pros:** Users will only need to run a single line of code to find users in a sorted list. +
+**Cons:** The find command might become too complex.
+
+---
+>>>>>>> master
 
 == Documentation
 
@@ -821,6 +937,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |have a built in browser |I can view my contacts on their linkedin, facebook or instagram profile
 
+|`* *` |user |store the birthdates of my contacts |easily keep track of their birthdates
+
 |`*` |user with many persons in the address book |sort persons by name |locate a person easily
 
 |`*` |lazy user |want to have customizable shortcuts |execute commands easily
@@ -965,7 +1083,7 @@ Use case ends.
 *Extensions*
 
 [none]
-* 1a. User does not exists.
+* 1a. User does not exist.
 
 [none]
 * 2a. User enter person's particulars in different format than stored.
@@ -1001,12 +1119,12 @@ Use case ends.
 .  Should work on any link:#mainstream-os[mainstream OS] as long as it has Java `1.8.0_60` or higher installed.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance for typical usage.
 .  A user with above average typing speed for regular English text (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
-.  A user with a passable understanding of technology and the English language should be able to operate the application without significant problems.
+.  A user with a passable understanding of technology and the English language should be able to operate the application without significant problems. (Can use computers, phones, applications, etc. easily, and is literate)
 .  Should favour DOS style commands over Unix-style commands.
 .  Should come with automated JUnit tests and source code for modifications and resolving of bugs.
 .  The data should be stored locally and be human editable.
 .  The data should be accurate.
-.  Should be able to work with the defualt email of mainstream-os.
+.  Should be able to work with the defualt email applicaton of any link:#mainstream-os[mainstream OS]
 
 {More to be added}
 

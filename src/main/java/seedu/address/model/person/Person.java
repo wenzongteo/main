@@ -26,20 +26,25 @@ public class Person implements ReadOnlyPerson {
     private ObjectProperty<Photo> photo;
 
     private ObjectProperty<UniqueTagList> tags;
+    private ObjectProperty<Birthdate> birthdate;
 
     /**
      * Every field must be present and not null.
      */
-    public Person(Name name, Phone phone, Email email, Address address, Photo photo, Set<Tag> tags) {
-        requireAllNonNull(name, phone, email, address, tags);
+
+    public Person(Name name, Phone phone, Email email, Address address, Photo photo, Set<Tag> tags,
+                  Birthdate birthdate) {
+        requireAllNonNull(name, phone, email, address, tags, birthdate);
+
         this.name = new SimpleObjectProperty<>(name);
         this.phone = new SimpleObjectProperty<>(phone);
         this.email = new SimpleObjectProperty<>(email);
         this.address = new SimpleObjectProperty<>(address);
         this.photo = new SimpleObjectProperty<>(photo);
-
+        this.birthdate = new SimpleObjectProperty<>(birthdate);
         // protect internal tags from changes in the arg list
         this.tags = new SimpleObjectProperty<>(new UniqueTagList(tags));
+
     }
 
     /**
@@ -47,7 +52,7 @@ public class Person implements ReadOnlyPerson {
      */
     public Person(ReadOnlyPerson source) {
         this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(),
-                source.getPhoto(), source.getTags());
+                source.getPhoto(), source.getTags(), source.getBirthdate());
     }
 
     public void setName(Name name) {
@@ -106,6 +111,20 @@ public class Person implements ReadOnlyPerson {
         return address.get();
     }
 
+    @Override
+    public ObjectProperty<Birthdate> birthdateProperty() {
+        return birthdate;
+    }
+
+    @Override
+    public Birthdate getBirthdate() {
+        return birthdate.get();
+    }
+
+    public void setBirthdate(Birthdate birthdate) {
+        this.birthdate.set(requireNonNull(birthdate));
+    }
+
     public void setPhoto(Photo photo) {
         this.photo.set(photo);
     }
@@ -119,6 +138,7 @@ public class Person implements ReadOnlyPerson {
     public Photo getPhoto() {
         return photo.get();
     }
+
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
@@ -164,7 +184,7 @@ public class Person implements ReadOnlyPerson {
     @Override
     public int hashCode() {
         // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, email, address, photo, tags);
+        return Objects.hash(name, phone, email, address, photo, tags, birthdate);
     }
 
     @Override
