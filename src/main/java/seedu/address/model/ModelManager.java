@@ -5,7 +5,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
 import java.util.Comparator;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -141,8 +140,8 @@ public class ModelManager extends ComponentManager implements Model {
             sort = new Comparator<ReadOnlyPerson>() {
                 @Override
                 public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
-                    SortedSet<Tag> o1SortedTags = new TreeSet<Tag>(o1.getTags());
-                    SortedSet<Tag> o2SortedTags = new TreeSet<Tag>(o2.getTags());
+                    TreeSet<Tag> o1SortedTags = new TreeSet<Tag>(o1.getTags());
+                    TreeSet<Tag> o2SortedTags = new TreeSet<Tag>(o2.getTags());
 
                     if (o1SortedTags.size() == 0) {
                         return 1;
