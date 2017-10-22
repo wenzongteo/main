@@ -6,7 +6,6 @@ import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
-import java.util.Optional;
 import java.util.Set;
 
 import javafx.beans.property.ObjectProperty;
