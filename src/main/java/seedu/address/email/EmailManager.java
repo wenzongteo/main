@@ -1,5 +1,6 @@
 package seedu.address.email;
 
+import java.util.Properties;
 import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -52,24 +53,28 @@ public class EmailManager extends ComponentManager implements Email {
     @Override
     public void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException {
 
+        //Step 1. Verify that the email draft consists of message and subject
         if (!message.containsContent()) {
             //throw exception that user needs to enter message and subject to send email
             throw new EmailMessageEmptyException();
         }
-        verifyUserEmailFormat();
+        //Step 2. Verify that the user have logged in.
         if (!isUserLogin()) {
             //throw exception that user needs to enter login details to send email
             throw new EmailLoginInvalidException();
+        } else {
+            //Step3 . Verify that the user have logged in with a gmail account
+            verifyUserEmailFormat();
         }
 
+        //Step 4. set up the email Object
 
-        //set up email Object
 
         //send out details
 
         //reset the email draft after email have been sent
         this.emailStatus = "sent";
-        this.message = new Message();
+        resetData();
     }
 
     @Override
@@ -98,6 +103,25 @@ public class EmailManager extends ComponentManager implements Email {
                 throw new EmailLoginInvalidException();
             }
         }
+    }
+
+    /** Prepare Email to be send **/
+    private void prepEmail() {
+        final String username = loginDetails[0];
+        final String password = loginDetails[1];
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.socketFactory.port", "465");
+        props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+        props.put("mail.smtp.port", "465");
+    }
+
+    /** reset Email Draft Data **/
+    private void resetData() {
+        this.message = new Message();
+        this.loginDetails = new String[0];
     }
 
 }
