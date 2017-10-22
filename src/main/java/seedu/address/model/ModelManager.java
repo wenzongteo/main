@@ -19,6 +19,8 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.email.Email;
 import seedu.address.email.EmailManager;
+import seedu.address.email.exceptions.EmailLoginInvalidException;
+import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.message.Message;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -175,14 +177,12 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void sendEmail(Message message, boolean send) {
+    public void sendEmail(Message message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException {
         email.composeEmail(message);
 
         if (send) {
             email.sendEmail();
         }
-
-        System.out.println(email.getEmailStatus());
     }
 
     @Override

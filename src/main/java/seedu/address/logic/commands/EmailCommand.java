@@ -5,7 +5,10 @@ import static java.util.Objects.requireNonNull;
 import java.util.ArrayList;
 import java.util.List;
 
+import seedu.address.email.exceptions.EmailLoginInvalidException;
+import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.message.Message;
+import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.ReadOnlyPerson;
 
@@ -19,6 +22,10 @@ public class EmailCommand extends Command {
             + "Examples: email";
 
     public static final String MESSAGE_SUCCESS = "Email have been  %1$s";
+    public static final String MESSAGE_LOGIN_INVALID = "You must log in before you can send an email.\n"
+            + "Command: email el/<useremail>:<password>";
+    public static final String MESSAGE_EMPTY_INVALID = "You must fill in the message and subject before you can send an email.\n"
+            + "Command: email em/<messages> es/<subjects>";
 
     private final Message message;
     private final String [] loginDetails;
@@ -39,7 +46,7 @@ public class EmailCommand extends Command {
     }
 
     @Override
-    public CommandResult execute() {
+    public CommandResult execute() throws CommandException {
         requireNonNull(model);
 
         //Update recipient list based on last displayed list
@@ -47,11 +54,17 @@ public class EmailCommand extends Command {
         ArrayList<Email> recipientsEmail = extractEmailFromContacts(lastShownList);
         message.setRecipientsEmail(recipientsEmail);
 
-        //Set up Email Details
-        model.loginEmail(loginDetails);
-        model.sendEmail(message, send);
+        try {
+            //Set up Email Details
+            model.loginEmail(loginDetails);
+            model.sendEmail(message, send);
+            return new CommandResult(String.format(MESSAGE_SUCCESS, model.getEmailStatus()));
+        } catch(EmailLoginInvalidException e) {
+            throw new CommandException(MESSAGE_LOGIN_INVALID);
+        } catch (EmailMessageEmptyException e) {
+            throw new CommandException(MESSAGE_EMPTY_INVALID);
+        }
 
-        return new CommandResult(String.format(MESSAGE_SUCCESS, model.getEmailStatus()));
     }
 
     @Override

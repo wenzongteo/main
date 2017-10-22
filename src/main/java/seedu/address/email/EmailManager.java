@@ -5,6 +5,8 @@ import java.util.logging.Logger;
 
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.email.exceptions.EmailLoginInvalidException;
+import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.message.Message;
 
 /*
@@ -40,15 +42,15 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     @Override
-    public void sendEmail() {
+    public void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException {
 
         if (!message.containsContent()) {
-            //throw exception that user needs to enter message and subject
-            System.out.println("Exception thrown for empty messsage or subject");
+            //throw exception that user needs to enter message and subject to send email
+            throw new EmailMessageEmptyException();
         }
         if (!isUserLogin()) {
-            //throw exception that user needs to enter login details
-            System.out.println("Exception trown, user is not login");
+            //throw exception that user needs to enter login details to send email
+            throw new EmailLoginInvalidException();
         }
 
         //send out details
@@ -60,6 +62,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     @Override
     public void loginEmail(String [] loginDetails) {
+        //replace login details and ignore if login details is omitted.
         if (loginDetails.length != 0 && loginDetails.length == 2) {
             //command entered with login prefix
             this.loginDetails = loginDetails;
