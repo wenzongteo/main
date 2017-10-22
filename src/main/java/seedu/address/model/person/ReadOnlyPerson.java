@@ -1,7 +1,6 @@
 package seedu.address.model.person;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.Set;
 
 import javafx.beans.property.ObjectProperty;

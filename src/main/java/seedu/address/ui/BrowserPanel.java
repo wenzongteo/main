@@ -58,11 +58,11 @@ public class BrowserPanel extends UiPart<Region> {
         }
     }
 
-    public String getSemester(){
+    public String getSemester() {
         return semester;
     }
 
-    public String getAcademicYear(){
+    public String getAcademicYear() {
         return academicYear;
     }
 
