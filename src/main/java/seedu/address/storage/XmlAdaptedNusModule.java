@@ -1,17 +1,17 @@
 package seedu.address.storage;
 
+import java.util.ArrayList;
+import java.util.HashMap;;
+import java.util.List;
+import java.util.Map;
+
 import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
 /**
- * JAXB-friendly adapted version of the Tag.
+ * JAXB-friendly adapted version of the NusModule.
  */
 public class XmlAdaptedNusModule {
 
@@ -27,7 +27,7 @@ public class XmlAdaptedNusModule {
     public XmlAdaptedNusModule() {}
 
     /**
-     * Converts a given Tag into this class for JAXB use.
+     * Converts a given NusModule Map.Entry into this class for JAXB use.
      *
      * @param source future changes to this will not affect the created
      */
@@ -39,7 +39,7 @@ public class XmlAdaptedNusModule {
     }
 
     /**
-     * Converts this jaxb-friendly adapted tag object into the model's Tag object.
+     * Converts this jaxb-friendly adapted NusModule object into the model's NusModule Entry
      *
      * @throws IllegalValueException if there were any data constraints violated in the adapted person
      */
@@ -56,5 +56,3 @@ public class XmlAdaptedNusModule {
     }
 
 }
-
-//TODO: CHANGE COMMENTS AND FIX CHECKSTYLE
