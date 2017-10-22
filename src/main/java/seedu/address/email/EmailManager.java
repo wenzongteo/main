@@ -15,14 +15,17 @@ public class EmailManager extends ComponentManager implements Email {
 
     private Message message;
     private String [] loginDetails;
+    private String emailStatus;
 
     public EmailManager() {
         this.message = new Message();
         this.loginDetails = new String[0];
+        this.emailStatus = "";
     }
 
     @Override
     public void composeEmail(Message message) {
+        this.emailStatus = "drafted";
         this.message = message;
     }
 
@@ -31,26 +34,34 @@ public class EmailManager extends ComponentManager implements Email {
         return this.message;
     }
 
+    @Override
+    public String getEmailStatus() {
+        return this.emailStatus;
+    }
+
+    @Override
     public void sendEmail() {
 
-        if (message.containsContent()) {
+        if (!message.containsContent()) {
             //throw exception that user needs to enter message and subject
             System.out.println("Exception thrown for empty messsage or subject");
         }
-        if (isUserLogin()) {
+        if (!isUserLogin()) {
             //throw exception that user needs to enter login details
             System.out.println("Exception trown, user is not login");
         }
 
-        //extract email recipients email
-        extractEmailFromContacts();
-
         //send out details
+
+        this.emailStatus = "sent";
     }
 
     @Override
     public void loginEmail(String [] loginDetails) {
-        this.loginDetails = loginDetails;
+        if (loginDetails.length != 0 && loginDetails.length == 2) {
+            //command entered with login prefix
+            this.loginDetails = loginDetails;
+        }
     }
 
     public boolean isUserLogin() {
@@ -61,10 +72,4 @@ public class EmailManager extends ComponentManager implements Email {
         }
     }
 
-    private void extractEmailFromContacts() {
-        System.out.println(this.message.getRecipientsEmails().size());
-        for(seedu.address.model.person.Email p : this.message.getRecipientsEmails()) {
-            System.out.println(p);
-        }
-    }
 }

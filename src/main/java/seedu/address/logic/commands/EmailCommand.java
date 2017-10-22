@@ -18,7 +18,7 @@ public class EmailCommand extends Command {
             + "Parameters: email\n"
             + "Examples: email";
 
-    public static final String MESSAGE_SUCCESS = "Email have been drafted";
+    public static final String MESSAGE_SUCCESS = "Email have been  %1$s";
 
     private final Message message;
     private final String [] loginDetails;
@@ -30,7 +30,7 @@ public class EmailCommand extends Command {
         this.loginDetails = loginDetails;
     }
 
-    private ArrayList<Email> getRecipientsEmail(List<ReadOnlyPerson> lastShownList) {
+    private ArrayList<Email> extractEmailFromContacts(List<ReadOnlyPerson> lastShownList) {
         ArrayList<Email> recipientsEmail = new ArrayList<Email>(lastShownList.size());
         for(ReadOnlyPerson p: lastShownList) {
             recipientsEmail.add(p.getEmail());
@@ -44,13 +44,14 @@ public class EmailCommand extends Command {
 
         //Update recipient list based on last displayed list
         List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
-        ArrayList<Email> recipientsEmail = getRecipientsEmail(lastShownList);
+        ArrayList<Email> recipientsEmail = extractEmailFromContacts(lastShownList);
         message.setRecipientsEmail(recipientsEmail);
 
         //Set up Email Details
         model.loginEmail(loginDetails);
         model.sendEmail(message, send);
-        return new CommandResult(MESSAGE_SUCCESS);
+
+        return new CommandResult(String.format(MESSAGE_SUCCESS, model.getEmailStatus()));
     }
 
     @Override

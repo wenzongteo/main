@@ -171,10 +171,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void loginEmail(String [] loginDetails) {
-        if (loginDetails.length != 0 && loginDetails.length == 2) {
-            //command entered with login prefix
-            email.loginEmail(loginDetails);
-        }
+        email.loginEmail(loginDetails);
     }
 
     @Override
@@ -184,6 +181,13 @@ public class ModelManager extends ComponentManager implements Model {
         if (send) {
             email.sendEmail();
         }
+
+        System.out.println(email.getEmailStatus());
+    }
+
+    @Override
+    public String getEmailStatus() {
+        return email.getEmailStatus();
     }
 
     @Override

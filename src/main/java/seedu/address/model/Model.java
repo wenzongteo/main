@@ -63,4 +63,7 @@ public interface Model {
     /** set login credentials for sending emails **/
     void loginEmail(String [] loginDetails);
 
+    /** get Email Sent status **/
+    String getEmailStatus();
+
 }

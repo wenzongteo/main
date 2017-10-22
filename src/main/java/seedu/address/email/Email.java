@@ -18,16 +18,16 @@ public interface Email {
     /* Checks if user is Log in */
     boolean isUserLogin();
 
-    /* create Email Draft */
-    //void createEmailDraft(String message);
+    /* Create Email Draft with all details */
+    void composeEmail(Message message);
 
     /* view Email Draft */
     Message getEmailDraft();
 
+    /* View Email Send Status */
+    String getEmailStatus();
+
     /* send Email Draft to all users */
     void sendEmail();
-
-    /* Craft Email with all details */
-    void composeEmail(Message message);
 
 }
