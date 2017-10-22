@@ -53,7 +53,9 @@ public class EmailManager extends ComponentManager implements Email {
 
         //send out details
 
+        //reset the email draft after email have been sent
         this.emailStatus = "sent";
+        this.message = new Message();
     }
 
     @Override
