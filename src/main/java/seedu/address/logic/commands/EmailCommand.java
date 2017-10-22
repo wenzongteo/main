@@ -22,8 +22,8 @@ public class EmailCommand extends Command {
             + "Examples: email";
 
     public static final String MESSAGE_SUCCESS = "Email have been  %1$s";
-    public static final String MESSAGE_LOGIN_INVALID = "You must log in before you can send an email.\n"
-            + "Command: email el/<useremail>:<password>";
+    public static final String MESSAGE_LOGIN_INVALID = "You must log in with a gmail email account before you can send an email.\n"
+            + "Command: email el/<username@gmail.com>:<password>";
     public static final String MESSAGE_EMPTY_INVALID = "You must fill in the message and subject before you can send an email.\n"
             + "Command: email em/<messages> es/<subjects>";
 

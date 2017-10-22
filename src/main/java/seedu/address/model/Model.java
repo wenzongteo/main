@@ -1,13 +1,11 @@
 package seedu.address.model;
 
-import java.util.ArrayList;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.message.Message;
-import seedu.address.model.person.Email;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;

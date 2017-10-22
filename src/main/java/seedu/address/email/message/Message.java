@@ -1,8 +1,6 @@
 package seedu.address.email.message;
 
 import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
 
 import seedu.address.model.person.Email;
 

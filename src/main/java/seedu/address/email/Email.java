@@ -1,10 +1,8 @@
 package seedu.address.email;
 
-import javafx.collections.transformation.SortedList;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.message.Message;
-import seedu.address.model.person.ReadOnlyPerson;
 
 /**
  * The API of Email component

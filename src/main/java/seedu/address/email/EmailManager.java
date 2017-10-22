@@ -1,7 +1,8 @@
 package seedu.address.email;
 
-import java.util.ArrayList;
 import java.util.logging.Logger;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
@@ -14,6 +15,7 @@ import seedu.address.email.message.Message;
  */
 public class EmailManager extends ComponentManager implements Email {
     private static final Logger logger = LogsCenter.getLogger(EmailManager.class);
+    private static final Pattern GMAIL_FORMAT = Pattern.compile("^[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(@gmail.com)$");
 
     private Message message;
     private String [] loginDetails;
@@ -48,10 +50,14 @@ public class EmailManager extends ComponentManager implements Email {
             //throw exception that user needs to enter message and subject to send email
             throw new EmailMessageEmptyException();
         }
+        verifyUserEmailFormat();
         if (!isUserLogin()) {
             //throw exception that user needs to enter login details to send email
             throw new EmailLoginInvalidException();
         }
+
+
+        //set up email Object
 
         //send out details
 
@@ -71,9 +77,20 @@ public class EmailManager extends ComponentManager implements Email {
 
     public boolean isUserLogin() {
         if(this.loginDetails.length != 2) {
+            //The loginDetails empty
             return false;
         } else {
             return true;
+        }
+    }
+
+    /** Verify if the user is using a gmail account **/
+    private void verifyUserEmailFormat() throws EmailLoginInvalidException {
+        if(this.loginDetails.length == 2) {
+            final Matcher matcher = GMAIL_FORMAT.matcher(this.loginDetails[0].trim());
+            if (!matcher.matches()) {
+                throw new EmailLoginInvalidException();
+            }
         }
     }
 
