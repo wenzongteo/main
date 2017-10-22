@@ -23,7 +23,7 @@ public interface Email {
     //void getEmailDraft();
 
     /* send Email Draft to all users */
-    void sendEmail(boolean send);
+    void sendEmail();
 
     /* Craft Email with all details */
     void craftEmail(String message, String subject, String [] loginDetails, SortedList<ReadOnlyPerson> recipients);

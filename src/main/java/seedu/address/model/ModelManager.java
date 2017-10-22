@@ -170,7 +170,10 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public void sendEmail(String message, String subject, String [] loginDetails, boolean send) {
         email.craftEmail(message, subject, loginDetails, sortedPersonsList);
-        email.sendEmail(send);
+        System.out.println(send);
+        if(send) {
+            email.sendEmail();
+        }
     }
 
     @Override

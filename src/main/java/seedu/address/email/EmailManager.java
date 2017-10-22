@@ -30,12 +30,25 @@ public class EmailManager extends ComponentManager implements Email {
         this.subject = subject;
     }
 
-    public void sendEmail(boolean send) {
-        //is message empty?
-        //  yes --> draft message
-        //is user logged in?
-        //  no --> get log in crudential and login
-        //is command send entered?
-        //  send --> send email out.
+    public void sendEmail() {
+        if(message.isEmpty() || subject.isEmpty()) {
+            //throw exception that user needs to enter message and subject
+            System.out.println("Exception thrown");
+        }
+        if(loginDetails.length != 2) {
+            //throw exception that user needs to enter login details
+            System.out.println("Exception trown");
+        }
+
+        //extract email recipients email
+        extractEmailFromContacts();
+
+        //send out details
+    }
+
+    private void extractEmailFromContacts() {
+        for(ReadOnlyPerson p : recipients) {
+            System.out.println(p.getEmail());
+        }
     }
 }
