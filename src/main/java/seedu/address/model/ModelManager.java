@@ -3,6 +3,7 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.util.ArrayList;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -18,6 +19,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
 import seedu.address.email.Email;
 import seedu.address.email.EmailManager;
+import seedu.address.email.message.Message;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -168,10 +170,18 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void sendEmail(String message, String subject, String [] loginDetails, boolean send) {
-        email.craftEmail(message, subject, loginDetails, sortedPersonsList);
-        System.out.println(send);
-        if(send) {
+    public void loginEmail(String [] loginDetails) {
+        if (loginDetails.length != 0 && loginDetails.length == 2) {
+            //command entered with login prefix
+            email.loginEmail(loginDetails);
+        }
+    }
+
+    @Override
+    public void sendEmail(Message message, boolean send) {
+        email.composeEmail(message);
+
+        if (send) {
             email.sendEmail();
         }
     }

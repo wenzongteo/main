@@ -2,9 +2,11 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
+import java.util.ArrayList;
 import java.util.List;
 
-import seedu.address.logic.commands.exceptions.CommandException;
+import seedu.address.email.message.Message;
+import seedu.address.model.person.Email;
 import seedu.address.model.person.ReadOnlyPerson;
 
 public class EmailCommand extends Command {
@@ -18,22 +20,36 @@ public class EmailCommand extends Command {
 
     public static final String MESSAGE_SUCCESS = "Email have been drafted";
 
-    private final boolean send;
-    private final String message;
-    private final String subject;
+    private final Message message;
     private final String [] loginDetails;
+    private final boolean send;
 
     public EmailCommand(String message, String subject, String [] loginDetails, boolean send) {
-        this.loginDetails = loginDetails;
-        this.message = message;
+        this.message = new Message(message, subject);
         this.send = send;
-        this.subject = subject;
+        this.loginDetails = loginDetails;
+    }
+
+    private ArrayList<Email> getRecipientsEmail(List<ReadOnlyPerson> lastShownList) {
+        ArrayList<Email> recipientsEmail = new ArrayList<Email>(lastShownList.size());
+        for(ReadOnlyPerson p: lastShownList) {
+            recipientsEmail.add(p.getEmail());
+        }
+        return recipientsEmail;
     }
 
     @Override
     public CommandResult execute() {
         requireNonNull(model);
-        model.sendEmail(message, subject, loginDetails, send);
+
+        //Update recipient list based on last displayed list
+        List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
+        ArrayList<Email> recipientsEmail = getRecipientsEmail(lastShownList);
+        message.setRecipientsEmail(recipientsEmail);
+
+        //Set up Email Details
+        model.loginEmail(loginDetails);
+        model.sendEmail(message, send);
         return new CommandResult(MESSAGE_SUCCESS);
     }
 

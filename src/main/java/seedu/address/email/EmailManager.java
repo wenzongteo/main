@@ -1,12 +1,11 @@
 package seedu.address.email;
 
+import java.util.ArrayList;
 import java.util.logging.Logger;
 
-import javafx.collections.FXCollections;
-import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.email.message.Message;
 
 /*
  * Handles how email are sent out of the application.
@@ -14,30 +13,33 @@ import seedu.address.model.person.ReadOnlyPerson;
 public class EmailManager extends ComponentManager implements Email {
     private static final Logger logger = LogsCenter.getLogger(EmailManager.class);
 
-    private SortedList<ReadOnlyPerson> recipients;
-    private String message;
-    private String subject;
+    private Message message;
     private String [] loginDetails;
 
     public EmailManager() {
-        this.recipients = new SortedList<ReadOnlyPerson>(FXCollections.emptyObservableList());
+        this.message = new Message();
+        this.loginDetails = new String[0];
     }
 
-    public void craftEmail(String message, String subject, String [] loginDetails, SortedList<ReadOnlyPerson> recipients) {
-        this.loginDetails = loginDetails;
+    @Override
+    public void composeEmail(Message message) {
         this.message = message;
-        this.recipients = recipients;
-        this.subject = subject;
+    }
+
+    @Override
+    public Message getEmailDraft() {
+        return this.message;
     }
 
     public void sendEmail() {
-        if(message.isEmpty() || subject.isEmpty()) {
+
+        if (message.containsContent()) {
             //throw exception that user needs to enter message and subject
-            System.out.println("Exception thrown");
+            System.out.println("Exception thrown for empty messsage or subject");
         }
-        if(loginDetails.length != 2) {
+        if (isUserLogin()) {
             //throw exception that user needs to enter login details
-            System.out.println("Exception trown");
+            System.out.println("Exception trown, user is not login");
         }
 
         //extract email recipients email
@@ -46,9 +48,23 @@ public class EmailManager extends ComponentManager implements Email {
         //send out details
     }
 
+    @Override
+    public void loginEmail(String [] loginDetails) {
+        this.loginDetails = loginDetails;
+    }
+
+    public boolean isUserLogin() {
+        if(this.loginDetails.length != 2) {
+            return false;
+        } else {
+            return true;
+        }
+    }
+
     private void extractEmailFromContacts() {
-        for(ReadOnlyPerson p : recipients) {
-            System.out.println(p.getEmail());
+        System.out.println(this.message.getRecipientsEmails().size());
+        for(seedu.address.model.person.Email p : this.message.getRecipientsEmails()) {
+            System.out.println(p);
         }
     }
 }
