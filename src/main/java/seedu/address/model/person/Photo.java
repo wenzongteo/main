@@ -35,9 +35,12 @@ public class Photo {
             if (!FileUtil.isFileExists(image)) {
                 throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
             } else {
-
+                this.value = photo;
             }
         }
+    }
+
+    public Photo(String photo, int num) {
         this.value = photo;
     }
 
@@ -47,7 +50,6 @@ public class Photo {
     public static boolean isValidPhoto(String test) {
         return test.matches(PHOTO_VALIDATION_REGEX);
     }
-
 
     @Override
     public String toString() {
