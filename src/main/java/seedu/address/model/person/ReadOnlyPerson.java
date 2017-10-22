@@ -1,6 +1,7 @@
 package seedu.address.model.person;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 
 import javafx.beans.property.ObjectProperty;
@@ -27,6 +28,8 @@ public interface ReadOnlyPerson {
     Set<Tag> getTags();
     ObjectProperty<Birthdate> birthdateProperty();
     Birthdate getBirthdate();
+    ObjectProperty<NusModules> nusModulesProperty();
+    NusModules getNusModules();
     boolean containsTags(List<String> tags);
 
     /**

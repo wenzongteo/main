@@ -55,6 +55,9 @@ public class TypicalPersons {
     public static final ReadOnlyPerson IDA = new PersonBuilder().withName("Ida Mueller").withPhone("84822131")
             .withPhoto("default.jpeg").withEmail("hans@example.com").withAddress("chicago ave")
             .withBirthdate("12/12/1995").build();
+    public static final ReadOnlyPerson ALICE_WITH_NUSMODULE = new PersonBuilder().withName("Alice Pauline")
+            .withAddress("123, Jurong West Ave 6, #08-111").withEmail("alice@example.com")
+            .withNusModules("CS1231").build();
 
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final ReadOnlyPerson AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)

@@ -1,17 +1,22 @@
 package seedu.address.storage;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
+import javax.xml.bind.annotation.XmlElementWrapper;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthdate;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.NusModules;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
@@ -33,12 +38,14 @@ public class XmlAdaptedPerson {
     private String address;
     @XmlElement(required = true)
     private String photo;
+    @XmlElement(required = true)
+    private String birthdate;
 
     @XmlElement
     private List<XmlAdaptedTag> tagged = new ArrayList<>();
 
-    @XmlElement(required = true)
-    private String birthdate;
+    @XmlElement(name = "nusModule")
+    private List<XmlAdaptedNusModule> nusModules = new ArrayList<>();
 
     /**
      * Constructs an XmlAdaptedPerson.
@@ -63,6 +70,12 @@ public class XmlAdaptedPerson {
             tagged.add(new XmlAdaptedTag(tag));
         }
         birthdate = source.getBirthdate().value;
+        nusModules = new ArrayList<>();
+        if (source.getNusModules() != null) {
+            for (Map.Entry<String, HashMap<String, String>> module : source.getNusModules().value.entrySet()) {
+                nusModules.add(new XmlAdaptedNusModule(module));
+            }
+        }
     }
 
     /**
@@ -82,7 +95,19 @@ public class XmlAdaptedPerson {
         final Photo photo = new Photo(this.photo);
         final Set<Tag> tags = new HashSet<>(personTags);
         final Birthdate birthdate = new Birthdate(this.birthdate);
-        return new Person(name, phone, email, address, photo, tags, birthdate);
+
+        NusModules personNusModules = new NusModules();
+        if (!nusModules.isEmpty()) {
+            for (XmlAdaptedNusModule nusModule : nusModules) {
+                for (Map.Entry<String, HashMap<String, String>> mod : nusModule.toNusModulesModelEntry().entrySet()) {
+                    personNusModules = personNusModules.addModule(mod.getKey(), mod.getValue());
+                }
+            }
+        }
+
+        return new Person(name, phone, email, address, photo, tags, birthdate, personNusModules);
+
+
 
     }
 }

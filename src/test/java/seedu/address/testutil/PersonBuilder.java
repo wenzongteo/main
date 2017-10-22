@@ -1,5 +1,6 @@
 package seedu.address.testutil;
 
+import java.util.HashMap;
 import java.util.Set;
 
 import seedu.address.commons.exceptions.IllegalValueException;
@@ -7,6 +8,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthdate;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.NusModules;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
@@ -132,6 +134,20 @@ public class PersonBuilder {
             this.person.setBirthdate(new Birthdate(birthdate));
         } catch (IllegalValueException ive) {
             throw new IllegalArgumentException("birthdate is expected.");
+        }
+        return this;
+    }
+
+    /**
+     * Sets the {@code NusModules} of the {@code Person} that we are building.
+     */
+    public PersonBuilder withNusModules(String nusModule) {
+        HashMap<String, HashMap<String, String>> testNusModule = new HashMap<>();
+        testNusModule.put(nusModule, new HashMap<>());
+        try {
+            this.person.setNusModules(new NusModules(testNusModule));
+        } catch (IllegalValueException ive) {
+            throw new IllegalArgumentException("nusModule is wrong format.");
         }
         return this;
     }

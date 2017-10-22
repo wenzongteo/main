@@ -11,6 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.layout.Region;
 import javafx.scene.web.WebView;
 import seedu.address.MainApp;
+import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -21,19 +22,23 @@ import seedu.address.model.person.ReadOnlyPerson;
 public class BrowserPanel extends UiPart<Region> {
 
     public static final String DEFAULT_PAGE = "default.html";
-    public static final String GOOGLE_SEARCH_URL_PREFIX = "https://www.google.com.sg/search?safe=off&q=";
-    public static final String GOOGLE_SEARCH_URL_SUFFIX = "&cad=h";
+    public static final String NUSMODS_SEARCH_URL_PREFIX = "https://nusmods.com/timetable/";
 
     private static final String FXML = "BrowserPanel.fxml";
+
+    private String semester;
+    private String academicYear;
+
 
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 
     @FXML
     private WebView browser;
 
-    public BrowserPanel() {
+    public BrowserPanel(Config config) {
         super(FXML);
 
+        setAcademicYearSemester(config);
         // To prevent triggering events for typing inside the loaded Web page.
         getRoot().setOnKeyPressed(Event::consume);
 
@@ -41,13 +46,33 @@ public class BrowserPanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
+    /**
+     * Loads nusmods website base on person object
+     * @param person
+     */
     private void loadPersonPage(ReadOnlyPerson person) {
-        loadPage(GOOGLE_SEARCH_URL_PREFIX + person.getName().fullName.replaceAll(" ", "+")
-                + GOOGLE_SEARCH_URL_SUFFIX);
+        // Loads website if nusModule is not null or empty
+        if (person.getNusModules() != null && !person.getNusModules().value.isEmpty()) {
+            loadPage(NUSMODS_SEARCH_URL_PREFIX + academicYear + "/sem" + semester + "?"
+                    + person.getNusModules().toString());
+        }
+    }
+
+    public String getSemester(){
+        return semester;
+    }
+
+    public String getAcademicYear(){
+        return academicYear;
     }
 
     public void loadPage(String url) {
         Platform.runLater(() -> browser.getEngine().load(url));
+    }
+
+    private void setAcademicYearSemester(Config config) {
+        academicYear = config.getAcademicYear();
+        semester = config.getSemester();
     }
 
     /**

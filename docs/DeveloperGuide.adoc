@@ -442,15 +442,15 @@ To delete, `nusmod 2 t/delete m/CS1231` can be used.
 In the xml, the data will be stored as such:
 [source,xml]
 ----
-<nusmodule moduleCode="CS1231">
-    <sec>2</sec>
-    <tut>9</tut>
-</nusmodule>
-<nusmodule moduleCode="CS2010">
-    <lec>1</lec>
-    <tut>5</tut>
-    <lab>6</lab>
-</nusmodule>
+<nusModule moduleCode="CS1231">
+    <lesson lessonType="SEC">2</lesson>
+    <lesson lessonType="TUT">9</lesson>
+</nusModule>
+<nusModule moduleCode="CS2010">
+    <lesson lessonType="SEC">1</lesson>
+    <lesson lessonType="TUT">2</lesson>
+    <lesson lessonType="LEC">3</lesson>
+</nusModule>
 ----
 
 ==== Design considerations
