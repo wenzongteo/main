@@ -29,8 +29,14 @@ public class EmailManager extends ComponentManager implements Email {
 
     @Override
     public void composeEmail(Message message) {
-        this.emailStatus = "drafted";
+        if(message.getSubject().isEmpty()) {
+            message.setSubject(this.message.getSubject());
+        }
+        if(message.getMessage().isEmpty()) {
+            message.setMessage(this.message.getMessage());
+        }
         this.message = message;
+        this.emailStatus = "drafted";
     }
 
     @Override
