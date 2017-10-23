@@ -117,11 +117,15 @@ public class PersonBuilder {
      * Sets the {@code Photo} of the {@code Person} that we are building.
      */
     public PersonBuilder withPhoto(String photo) {
+        this.person.setPhoto(new Photo(photo, 0));
+        /*
         try {
-            this.person.setPhoto(new Photo(photo));
+            this.person.setPhoto(new Photo(photo,0));
         } catch (IllegalValueException ive) {
             throw new IllegalArgumentException("photo is expected.");
         }
+        return this;
+        */
         return this;
     }
 
