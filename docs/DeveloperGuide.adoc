@@ -378,7 +378,6 @@ Certain properties of the application can be controlled (e.g App name, logging l
 
 =======
 // tag::optionalfields[]
->>>>>>> master
 === Optional Fields in Contact
 The ability to have unfilled fields within a Contact enables the User to add a contact into Augustine without having to know all the particulars of a Contact.
 
@@ -520,7 +519,6 @@ The find results are bind to the javafx ListView. Thus any changes to the Sorted
 **Cons:** The find command might become too complex.
 
 ---
->>>>>>> master
 
 == Documentation
 
