@@ -79,7 +79,7 @@ public class XmlAdaptedPerson {
         final Phone phone = new Phone(this.phone);
         final Email email = new Email(this.email);
         final Address address = new Address(this.address);
-        final Photo photo = new Photo(this.photo);
+        final Photo photo = new Photo(this.photo, 0);
         final Set<Tag> tags = new HashSet<>(personTags);
         final Birthdate birthdate = new Birthdate(this.birthdate);
         return new Person(name, phone, email, address, photo, tags, birthdate);

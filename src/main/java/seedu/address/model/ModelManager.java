@@ -107,7 +107,9 @@ public class ModelManager extends ComponentManager implements Model {
         String destination = folder + email.toString() + fileExt;
         Path sourcePath = Paths.get(photo.toString());
         Path destPath = Paths.get(destination);
+
         Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
+
         return folder + email.toString() + fileExt;
     }
 
