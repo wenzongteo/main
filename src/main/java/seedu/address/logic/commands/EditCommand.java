@@ -115,8 +115,8 @@ public class EditCommand extends UndoableCommand {
 
             if (changeEmail == true) { //if email is changed then delete the old one.
                 model.removeImage(oldPhoto);
+                //Not surre why but photo isn't updated immediately when changing email.
             }
-
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {
