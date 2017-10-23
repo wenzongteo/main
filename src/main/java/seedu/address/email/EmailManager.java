@@ -5,6 +5,13 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.mail.MessagingException;
+import javax.mail.PasswordAuthentication;
+import javax.mail.Session;
+import javax.mail.Transport;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
@@ -68,6 +75,7 @@ public class EmailManager extends ComponentManager implements Email {
         }
 
         //Step 4. set up the email Object
+        prepEmail();
 
 
         //send out details
@@ -116,6 +124,27 @@ public class EmailManager extends ComponentManager implements Email {
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.port", "465");
+
+        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+            @Override
+            protected PasswordAuthentication getPasswordAuthentication() {
+                return new PasswordAuthentication(username, password);
+            }
+        });
+
+        try {
+            javax.mail.Message newMessage = new MimeMessage(session);
+            newMessage.setFrom(new InternetAddress(username));
+            newMessage.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress("email@hotmail.com"));
+            newMessage.setSubject(message.getSubject());
+            newMessage.setText(message.getMessage());
+
+            Transport.send(newMessage);
+            System.out.println("message sent successfully");
+
+        } catch (MessagingException e) {
+            throw new RuntimeException(e);
+        }
     }
 
     /** reset Email Draft Data **/
