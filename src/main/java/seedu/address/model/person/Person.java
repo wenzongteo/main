@@ -28,6 +28,7 @@ public class Person implements ReadOnlyPerson {
 
     private ObjectProperty<UniqueTagList> tags;
     private ObjectProperty<Birthdate> birthdate;
+    private ObjectProperty<NusModules> nusModules;
 
     /**
      * Every field must be present and not null.
@@ -49,11 +50,31 @@ public class Person implements ReadOnlyPerson {
     }
 
     /**
+     * Constructor which includes nusModule
+     */
+
+    public Person(Name name, Phone phone, Email email, Address address, Photo photo, Set<Tag> tags,
+                  Birthdate birthdate, NusModules nusModules) {
+        requireAllNonNull(name, phone, email, address, tags, birthdate);
+
+        this.name = new SimpleObjectProperty<>(name);
+        this.phone = new SimpleObjectProperty<>(phone);
+        this.email = new SimpleObjectProperty<>(email);
+        this.address = new SimpleObjectProperty<>(address);
+        this.photo = new SimpleObjectProperty<>(photo);
+        this.birthdate = new SimpleObjectProperty<>(birthdate);
+        // protect internal tags from changes in the arg list
+        this.tags = new SimpleObjectProperty<>(new UniqueTagList(tags));
+        this.nusModules = new SimpleObjectProperty<>(nusModules);
+
+    }
+
+    /**
      * Creates a copy of the given ReadOnlyPerson.
      */
     public Person(ReadOnlyPerson source) {
         this(source.getName(), source.getPhone(), source.getEmail(), source.getAddress(),
-                source.getPhoto(), source.getTags(), source.getBirthdate());
+                source.getPhoto(), source.getTags(), source.getBirthdate(), source.getNusModules());
     }
 
     public void setName(Name name) {
@@ -140,6 +161,26 @@ public class Person implements ReadOnlyPerson {
         return photo.get();
     }
 
+    @Override
+    public ObjectProperty<NusModules> nusModulesProperty() {
+        return nusModules;
+    }
+
+    @Override
+    public NusModules getNusModules() {
+        if (nusModules == null) {
+            return null;
+        }
+        return nusModules.get();
+    }
+
+    public void setNusModules(NusModules nusModules) {
+        if (this.nusModules == null) {
+            this.nusModules = new SimpleObjectProperty<>(nusModules);
+        } else {
+            this.nusModules.set(nusModules);
+        }
+    }
 
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
