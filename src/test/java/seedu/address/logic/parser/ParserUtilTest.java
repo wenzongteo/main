@@ -2,6 +2,7 @@ package seedu.address.logic.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;
@@ -37,8 +38,12 @@ public class ParserUtilTest {
     private static final String VALID_EMAIL = "rachel@example.com";
     private static final String VALID_TAG_1 = "friend";
     private static final String VALID_TAG_2 = "neighbour";
+    private static final String VALID_EMAIL_MESSAGE = "hello";
+    private static final String VALID_EMAIL_SUBJECT = "subject header";
+    private static final String VALID_EMAIL_LOGIN = "adam@gmail.com:password";
 
     private static final String NOT_FILLED = "-";
+    private static final String EMPTY_STRING = "";
 
     @Rule
     public final ExpectedException thrown = ExpectedException.none();
@@ -197,5 +202,40 @@ public class ParserUtilTest {
         Set<Tag> expectedTagSet = new HashSet<Tag>(Arrays.asList(new Tag(VALID_TAG_1), new Tag(VALID_TAG_2)));
 
         assertEquals(expectedTagSet, actualTagSet);
+    }
+
+    @Test
+    public void parseEmailDraft_null_throwsNullPointerException() throws Exception {
+        thrown.expect(NullPointerException.class);
+        ParserUtil.parseEmailMessage(null);
+        ParserUtil.parseEmailSubject(null);
+        ParserUtil.parseLoginDetails(null);
+    }
+
+    @Test
+    public void parseEmailDraft_emptyString_returnsEmptyString() throws Exception {
+        assertTrue(ParserUtil.parseEmailMessage(Optional.of(EMPTY_STRING)).trim().isEmpty());
+        assertTrue(ParserUtil.parseEmailSubject(Optional.of(EMPTY_STRING)).trim().isEmpty());
+        assertTrue(ParserUtil.parseLoginDetails(Optional.of(EMPTY_STRING)).trim().isEmpty());
+    }
+
+    @Test
+    public void parseEmailDraft_validArgs_returnsMessage() throws Exception {
+        //Expected Email Message
+        String expectedMessage = VALID_EMAIL_MESSAGE;
+        String message = ParserUtil.parseEmailMessage(Optional.of(VALID_EMAIL_MESSAGE));
+
+        //Expected Email Subject
+        String expectedSubject = VALID_EMAIL_SUBJECT;
+        String subject = ParserUtil.parseEmailSubject(Optional.of(VALID_EMAIL_SUBJECT));
+
+        //Expected Email Login Details
+        String expectedLoginDetails = VALID_EMAIL_LOGIN;
+        String loginDetails = ParserUtil.parseEmailSubject(Optional.of(VALID_EMAIL_LOGIN));
+
+        //Verifies if all argument are parsed correctly.
+        assertEquals(expectedMessage, message);
+        assertEquals(expectedSubject, subject);
+        assertEquals(expectedLoginDetails, loginDetails);
     }
 }

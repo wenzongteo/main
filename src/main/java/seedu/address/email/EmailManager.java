@@ -110,7 +110,7 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     /** Verify if the user is using a gmail account **/
-    private boolean wrongUserEmailFormat() {
+    public boolean wrongUserEmailFormat() {
         if(this.loginDetails.length == 2) {
             final Matcher matcher = GMAIL_FORMAT.matcher(this.loginDetails[0].trim());
             if (!matcher.matches()) {
@@ -161,6 +161,37 @@ public class EmailManager extends ComponentManager implements Email {
     private void resetData() {
         this.message = new MessageDraft();
         this.loginDetails = new String[0];
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+
+        // short circuit if same object
+        if (obj == this) {
+            return true;
+        }
+
+        // instanceof handles nulls
+        if (!(obj instanceof EmailManager)) {
+            return false;
+        }
+
+        // state check
+        EmailManager other = (EmailManager) obj;
+        return message.equals(other.message)
+                && this.loginDetailsEquals(other.loginDetails);
+    }
+
+    private boolean loginDetailsEquals(String [] other) {
+        if(this.loginDetails.length == other.length) {
+            for(int i=0; i<this.loginDetails.length; i++) {
+                if(this.loginDetails[i] != other[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 
 }

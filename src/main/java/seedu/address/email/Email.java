@@ -21,6 +21,9 @@ public interface Email {
     /* Checks if user is Log in */
     boolean isUserLogin();
 
+    /* Verifies user's login email format */
+    boolean wrongUserEmailFormat();
+
     /* Create Email Draft with all details */
     void composeEmail(MessageDraft message);
 

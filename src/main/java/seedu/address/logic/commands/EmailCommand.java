@@ -94,6 +94,21 @@ public class EmailCommand extends Command {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof EmailCommand); // instanceof handles nulls
+                || (other instanceof EmailCommand // instanceof handles nulls
+                && ((EmailCommand) other).message.equals(this.message)
+                && ((EmailCommand) other).loginDetailsEquals(this.loginDetails)
+                && ((EmailCommand) other).send == this.send);
+    }
+
+    private boolean loginDetailsEquals(String [] other) {
+        if(this.loginDetails.length == other.length) {
+            for(int i=0; i<this.loginDetails.length; i++) {
+                if(this.loginDetails[i] != other[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
     }
 }

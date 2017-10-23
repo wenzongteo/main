@@ -19,6 +19,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
     public MessageDraft(String message, String subject) {
         this.message = message;
         this.subject = subject;
+        this.recipientsEmail = new InternetAddress[0];
     }
 
     @Override
@@ -64,4 +65,18 @@ public class MessageDraft implements ReadOnlyMessageDraft {
                 || (other instanceof ReadOnlyMessageDraft // instanceof handles nulls
                 && this.isSameStateAs((ReadOnlyMessageDraft) other));
     }
+
+    @Override
+    public boolean recipientsEquals(InternetAddress [] other) {
+        if (other.length == this.recipientsEmail.length) {
+            for (int i = 0; i < recipientsEmail.length; i++) {
+                if(other[i] != this.recipientsEmail[i]) {
+                    return false;
+                }
+            }
+            return true;
+        }
+        return false;
+    }
+
 }

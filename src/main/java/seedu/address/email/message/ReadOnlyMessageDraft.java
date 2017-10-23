@@ -24,6 +24,8 @@ public interface ReadOnlyMessageDraft {
                 || (other != null // this is first to avoid NPE below
                 && other.getMessage().equals(this.getMessage()) // state checks here onwards
                 && other.getSubject().equals(this.getSubject())
-                && other.getRecipientsEmails().equals(this.getRecipientsEmails()));
+                && other.recipientsEquals(this.getRecipientsEmails()));
     }
+
+    boolean recipientsEquals(InternetAddress [] other);
 }

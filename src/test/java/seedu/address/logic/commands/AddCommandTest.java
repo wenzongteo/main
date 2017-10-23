@@ -161,7 +161,6 @@ public class AddCommandTest {
             fail("This method sould not be called.");
             return "";
         }
-
     }
 
     /**
