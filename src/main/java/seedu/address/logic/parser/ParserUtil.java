@@ -109,7 +109,7 @@ public class ParserUtil {
         String userGuideUrl = ParserUtil.class.getResource("/images/default.jpeg").toString();
         System.out.println(userGuideUrl.substring(6));
         return photo.isPresent() ? Optional.of(new Photo(photo.get())) : Optional.of(
-                new Photo(userGuideUrl.substring(6)));
+                new Photo("data/images/default.jpeg"));
     }
 
     /**

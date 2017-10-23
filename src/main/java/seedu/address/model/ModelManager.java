@@ -1,5 +1,6 @@
 package seedu.address.model;
 
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
@@ -108,7 +109,7 @@ public class ModelManager extends ComponentManager implements Model {
         Path sourcePath = Paths.get(photo.toString());
         Path destPath = Paths.get(destination);
 
-        Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
+        Files.copy(sourcePath, destPath, REPLACE_EXISTING);
 
         return folder + email.toString() + fileExt;
     }

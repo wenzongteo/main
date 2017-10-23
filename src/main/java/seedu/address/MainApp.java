@@ -1,6 +1,9 @@
 package seedu.address;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -34,6 +37,8 @@ import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
+
+import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
  * The main entry point to the application.
@@ -89,6 +94,24 @@ public class MainApp extends Application {
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
         try {
+            String dataFolderPath = "data";
+            String imagesFolderPath = "data/images";
+
+            File dataFolder = new File(dataFolderPath);
+            File imagesFolder = new File(imagesFolderPath);
+
+            if (!imagesFolder.exists()) {
+                imagesFolder.mkdirs();
+                try {
+                    //URL url = this.getClass().getClassLoader().getResource("/images/default.jpeg");
+                    Files.copy(Paths.get(this.getClass().getClassLoader().getResource("/images/default.jpeg")
+                            .toString()), Paths.get("data/images/default.jpeg"), REPLACE_EXISTING);
+                } catch (IOException e) {
+                    throw new AssertionError("File exists!");
+                }
+            } else {
+
+            }
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
