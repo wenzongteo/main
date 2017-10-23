@@ -17,6 +17,7 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
+import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
 
 /*
@@ -61,7 +62,7 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     @Override
-    public void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException {
+    public void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException {
 
         //Step 1. Verify that the email draft consists of message and subject
         if (!message.containsContent()) {
@@ -73,6 +74,10 @@ public class EmailManager extends ComponentManager implements Email {
         if (!isUserLogin() || wrongUserEmailFormat()) {
             //throw exception that user needs to enter gmail login details to send email
             throw new EmailLoginInvalidException();
+        }
+        //Step 4. Verify that Recipient's list is not empty
+        if(message.getRecipientsEmails().length <= 0) {
+            throw new EmailRecipientsEmptyException();
         }
 
         //Step 5. sending Email out using JavaMail API

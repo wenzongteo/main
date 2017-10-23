@@ -9,6 +9,7 @@ import javax.mail.internet.AddressException;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
+import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Email;
@@ -28,6 +29,8 @@ public class EmailCommand extends Command {
             + "Command: email el/<username@gmail.com>:<password>";
     public static final String MESSAGE_EMPTY_INVALID = "You must fill in the message and subject before you can send an email.\n"
             + "Command: email em/<messages> es/<subjects>";
+    public static final String MESSAGE_RECIPIENT_INVALID = "You must have at least 1 recipients in your contacts display list before you can send an email.\n"
+            + "Command: use the list or find command";
 
     private final MessageDraft message;
     private final String [] loginDetails;
@@ -73,6 +76,8 @@ public class EmailCommand extends Command {
             throw new CommandException(MESSAGE_LOGIN_INVALID);
         } catch (EmailMessageEmptyException e) {
             throw new CommandException(MESSAGE_EMPTY_INVALID);
+        } catch (EmailRecipientsEmptyException e) {
+            throw new CommandException(MESSAGE_RECIPIENT_INVALID);
         }
 
     }

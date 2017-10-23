@@ -20,6 +20,7 @@ import seedu.address.email.Email;
 import seedu.address.email.EmailManager;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
+import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -176,7 +177,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException {
+    public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException {
         email.composeEmail(message);
 
         if (send) {

@@ -2,6 +2,7 @@ package seedu.address.email;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
+import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
 
 /**
@@ -28,6 +29,6 @@ public interface Email {
     String getEmailStatus();
 
     /* send Email Draft to all users */
-    void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException;
+    void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException;
 
 }
