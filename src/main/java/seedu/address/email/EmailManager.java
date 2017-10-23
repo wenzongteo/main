@@ -29,11 +29,13 @@ public class EmailManager extends ComponentManager implements Email {
     private MessageDraft message;
     private String [] loginDetails;
     private String emailStatus;
+    private Properties props;
 
     public EmailManager() {
         this.message = new MessageDraft();
         this.loginDetails = new String[0];
         this.emailStatus = "";
+        prepEmail();
     }
 
     @Override
@@ -67,19 +69,14 @@ public class EmailManager extends ComponentManager implements Email {
             throw new EmailMessageEmptyException();
         }
         //Step 2. Verify that the user have logged in.
-        if (!isUserLogin()) {
-            //throw exception that user needs to enter login details to send email
+        //Step 3. Verify that the user have logged in with a gmail account
+        if (!isUserLogin() || wrongUserEmailFormat()) {
+            //throw exception that user needs to enter gmail login details to send email
             throw new EmailLoginInvalidException();
-        } else {
-            //Step3 . Verify that the user have logged in with a gmail account
-            verifyUserEmailFormat();
         }
 
-        //Step 4. set up the email Object
-        prepEmail();
-
-
-        //send out details
+        //Step 4. sending Email out using JavaMail API
+        sendingEmail();
 
         //reset the email draft after email have been sent
         this.emailStatus = "sent";
@@ -105,26 +102,30 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     /** Verify if the user is using a gmail account **/
-    private void verifyUserEmailFormat() throws EmailLoginInvalidException {
+    private boolean wrongUserEmailFormat() {
         if(this.loginDetails.length == 2) {
             final Matcher matcher = GMAIL_FORMAT.matcher(this.loginDetails[0].trim());
             if (!matcher.matches()) {
-                throw new EmailLoginInvalidException();
+                return true;
             }
         }
+        return false;
     }
 
-    /** Prepare Email to be send **/
+    /** Prepare Email Default Properties **/
     private void prepEmail() {
-        final String username = loginDetails[0];
-        final String password = loginDetails[1];
-
-        Properties props = new Properties();
+        props = new Properties();
         props.put("mail.smtp.auth", "true");
         props.put("mail.smtp.host", "smtp.gmail.com");
         props.put("mail.smtp.socketFactory.port", "465");
         props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         props.put("mail.smtp.port", "465");
+    }
+
+    /** Send email out using JavaMail API **/
+    private void sendingEmail() {
+        final String username = loginDetails[0];
+        final String password = loginDetails[1];
 
         Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
             @Override
@@ -136,7 +137,7 @@ public class EmailManager extends ComponentManager implements Email {
         try {
             Message newMessage = new MimeMessage(session);
             newMessage.setFrom(new InternetAddress(username));
-            newMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("email@hotmail.com"));
+            newMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("brooklen36@hotmail.com"));
             newMessage.setSubject(message.getSubject());
             newMessage.setText(message.getMessage());
 
