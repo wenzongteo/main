@@ -27,6 +27,8 @@ public interface ReadOnlyPerson {
     Set<Tag> getTags();
     ObjectProperty<Birthdate> birthdateProperty();
     Birthdate getBirthdate();
+    ObjectProperty<NusModules> nusModulesProperty();
+    NusModules getNusModules();
     boolean containsTags(List<String> tags);
 
     /**
