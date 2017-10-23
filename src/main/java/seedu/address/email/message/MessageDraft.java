@@ -1,6 +1,6 @@
 package seedu.address.email.message;
 
-import java.util.ArrayList;
+import javax.mail.internet.InternetAddress;
 
 import seedu.address.model.person.Email;
 
@@ -8,12 +8,12 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     private String message;
     private String subject;
-    private ArrayList<Email> recipientsEmail;
+    private InternetAddress [] recipientsEmail;
 
     public MessageDraft() {
         this.message = "";
         this.subject = "";
-        this.recipientsEmail = new ArrayList<Email>();
+        this.recipientsEmail = new InternetAddress[0];
     }
 
     public MessageDraft(String message, String subject) {
@@ -40,12 +40,13 @@ public class MessageDraft implements ReadOnlyMessageDraft {
     }
 
     @Override
-    public ArrayList<Email> getRecipientsEmails() {
+    public InternetAddress[] getRecipientsEmails() {
         return this.recipientsEmail;
     }
 
-    public void setRecipientsEmail(ArrayList<Email> recipientsEmail) {
-        this.recipientsEmail = recipientsEmail;
+    public void setRecipientsEmail(InternetAddress[] recipientsEmail) {
+        this.recipientsEmail = new InternetAddress[recipientsEmail.length];
+        System.arraycopy(recipientsEmail,0,this.recipientsEmail,0, recipientsEmail.length);
     }
 
     @Override

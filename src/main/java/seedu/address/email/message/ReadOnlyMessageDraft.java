@@ -1,6 +1,6 @@
 package seedu.address.email.message;
 
-import java.util.ArrayList;
+import javax.mail.internet.InternetAddress;
 
 import seedu.address.model.person.Email;
 
@@ -11,7 +11,7 @@ import seedu.address.model.person.Email;
 public interface ReadOnlyMessageDraft {
     String getMessage();
     String getSubject();
-    ArrayList<Email> getRecipientsEmails();
+    InternetAddress [] getRecipientsEmails();
 
     boolean containsContent();
 

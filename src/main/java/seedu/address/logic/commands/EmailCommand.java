@@ -2,8 +2,10 @@ package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
 
-import java.util.ArrayList;
 import java.util.List;
+
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.AddressException;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
@@ -37,10 +39,14 @@ public class EmailCommand extends Command {
         this.loginDetails = loginDetails;
     }
 
-    private ArrayList<Email> extractEmailFromContacts(List<ReadOnlyPerson> lastShownList) {
-        ArrayList<Email> recipientsEmail = new ArrayList<Email>(lastShownList.size());
-        for(ReadOnlyPerson p: lastShownList) {
-            recipientsEmail.add(p.getEmail());
+    private InternetAddress[] extractEmailFromContacts(List<ReadOnlyPerson> lastShownList) throws AddressException {
+        InternetAddress [] recipientsEmail = new InternetAddress[lastShownList.size()];
+        try {
+            for (int i = 0; i < lastShownList.size(); i++) {
+                recipientsEmail[i] = new InternetAddress(lastShownList.get(i).getEmail().value);
+            }
+        } catch (AddressException e) {
+            throw new AddressException();
         }
         return recipientsEmail;
     }
@@ -50,9 +56,13 @@ public class EmailCommand extends Command {
         requireNonNull(model);
 
         //Update recipient list based on last displayed list
-        List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
-        ArrayList<Email> recipientsEmail = extractEmailFromContacts(lastShownList);
-        message.setRecipientsEmail(recipientsEmail);
+        try {
+            List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
+            InternetAddress [] recipientsEmail = extractEmailFromContacts(lastShownList);
+            message.setRecipientsEmail(recipientsEmail);
+        } catch(AddressException e) {
+            assert false : "The target email cannot be missing or be wrong format";
+        }
 
         try {
             //Set up Email Details

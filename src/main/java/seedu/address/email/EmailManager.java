@@ -75,7 +75,7 @@ public class EmailManager extends ComponentManager implements Email {
             throw new EmailLoginInvalidException();
         }
 
-        //Step 4. sending Email out using JavaMail API
+        //Step 5. sending Email out using JavaMail API
         sendingEmail();
 
         //reset the email draft after email have been sent
@@ -137,7 +137,7 @@ public class EmailManager extends ComponentManager implements Email {
         try {
             Message newMessage = new MimeMessage(session);
             newMessage.setFrom(new InternetAddress(username));
-            newMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("brooklen36@hotmail.com"));
+            newMessage.setRecipients(Message.RecipientType.TO, message.getRecipientsEmails());
             newMessage.setSubject(message.getSubject());
             newMessage.setText(message.getMessage());
 
