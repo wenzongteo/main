@@ -20,7 +20,7 @@ import org.junit.rules.ExpectedException;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
+import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
@@ -173,8 +173,8 @@ public class ParserUtilTest {
 
     @Test
     public void parseEmail_validValue_returnsEmail() throws Exception {
-        Email expectedEmail = new Email(VALID_EMAIL);
-        Optional<Email> actualEmail = ParserUtil.parseEmail(Optional.of(VALID_EMAIL));
+        EmailAddress expectedEmail = new EmailAddress(VALID_EMAIL);
+        Optional<EmailAddress> actualEmail = ParserUtil.parseEmail(Optional.of(VALID_EMAIL));
 
         assertEquals(expectedEmail, actualEmail.get());
     }

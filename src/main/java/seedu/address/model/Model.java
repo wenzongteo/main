@@ -1,5 +1,6 @@
 package seedu.address.model;
 
+import java.io.IOException;
 import java.util.function.Predicate;
 
 import javax.mail.AuthenticationFailedException;
@@ -9,6 +10,8 @@ import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
+import seedu.address.model.person.EmailAddress;
+import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -32,6 +35,9 @@ public interface Model {
 
     /** Adds the given person */
     void addPerson(ReadOnlyPerson person) throws DuplicatePersonException;
+
+    /** Copy a person's contact into a fixed location */
+    String addImage(EmailAddress email, Photo photo) throws IOException;
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.

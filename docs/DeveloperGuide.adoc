@@ -417,6 +417,7 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 **Alternative 2:** Create a copy of the image that is in the path entered by user into a folder in Augustine. Store the file path of the copied image into AddressBook.xml and render image from there +
 **Pros:** Changing of file path or removal of the original image by user will not lead to any rendering error. +
 **Cons:** Harder to implement and for developers to understand. Additional file space is needed to store the copied image.
+
 // end::optionalfields[]
 
 === Adding and displaying of schedule
@@ -592,10 +593,16 @@ e.g. `seedu.address.logic.LogicManagerTest`
 
 
 === Troubleshooting Testing
+**Problem: Unable to execute Gradle task.**
+
+* Reason: Java path is configured wrongly or more than one version of Java is detected.
+* Solution: Uninstall all Java files and reinstall the latest `Java SDK 8` available. Ensure the system environment variables (For Windows) is configured properly.
+
 **Problem: `HelpWindowTest` fails with a `NullPointerException`.**
 
 * Reason: One of its dependencies, `UserGuide.html` in `src/main/resources/docs` is missing.
 * Solution: Execute Gradle task `processResources`.
+
 
 == Dev Ops
 
@@ -1132,18 +1139,3 @@ A contact detail that is not meant to be shared with others
 ....
 
 [appendix]
-== Product Survey
-
-*Product Name*
-
-Author: ...
-
-Pros:
-
-* ...
-* ...
-
-Cons:
-
-* ...
-* ...

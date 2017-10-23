@@ -2,8 +2,6 @@ package seedu.address.email.message;
 
 import javax.mail.internet.InternetAddress;
 
-import seedu.address.model.person.Email;
-
 public class MessageDraft implements ReadOnlyMessageDraft {
 
     private String message;

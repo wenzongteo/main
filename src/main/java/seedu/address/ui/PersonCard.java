@@ -45,7 +45,7 @@ public class PersonCard extends UiPart<Region> {
     @FXML
     private Label address;
     @FXML
-    private Label email;
+    private Label emailAddress;
     @FXML
     private Label birthdate;
     @FXML
@@ -69,13 +69,15 @@ public class PersonCard extends UiPart<Region> {
         name.textProperty().bind(Bindings.convert(person.nameProperty()));
         phone.textProperty().bind(Bindings.convert(person.phoneProperty()));
         address.textProperty().bind(Bindings.convert(person.addressProperty()));
-        email.textProperty().bind(Bindings.convert(person.emailProperty()));
+        emailAddress.textProperty().bind(Bindings.convert(person.emailAddressProperty()));
         birthdate.textProperty().bind(Bindings.convert(person.birthdateProperty()));
 
         try {
-            StringExpression test = Bindings.convert(person.photoProperty());
-            Image image = new Image(new FileInputStream(test.getValue()), 100, 200, true, true);
+            StringExpression filePath = Bindings.convert(person.photoProperty());
+            FileInputStream imageInputStream = new FileInputStream(filePath.getValue());
+            Image image = new Image(imageInputStream, 100, 200, true, true);
             photo.setImage(image);
+            imageInputStream.close();
         } catch (Exception e) {
             System.out.println(e);
         }

@@ -3,13 +3,15 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -18,10 +20,11 @@ import java.util.Set;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
+import seedu.address.commons.util.FileUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthdate;
-import seedu.address.model.person.Email;
+import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -47,14 +50,14 @@ public class EditCommand extends UndoableCommand {
             + "Parameters: INDEX (must be a positive integer) "
             + "[" + PREFIX_NAME + "NAME] "
             + "[" + PREFIX_PHONE + "PHONE] "
-            + "[" + PREFIX_EMAIL + "EMAIL] "
+            + "[" + PREFIX_EMAIL_ADDRESS + "EMAIL] "
             + "[" + PREFIX_ADDRESS + "ADDRESS] "
             + "[" + PREFIX_PHOTO + "PHOTO] "
             + "[" + PREFIX_BIRTHDATE + "BIRTHDATE] "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_PHONE + "91234567 "
-            + PREFIX_EMAIL + "johndoe@example.com";
+            + PREFIX_EMAIL_ADDRESS + "johndoe@example.com";
 
     public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Edited Person: %1$s";
     public static final String MESSAGE_NOT_EDITED = "At least one field to edit must be provided.";
@@ -62,6 +65,7 @@ public class EditCommand extends UndoableCommand {
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
+    private Photo originalPhoto;
 
     /**
      * @param index of the person in the filtered person list to edit
@@ -76,7 +80,7 @@ public class EditCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult executeUndoableCommand() throws CommandException, IOException {
         List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
@@ -86,12 +90,27 @@ public class EditCommand extends UndoableCommand {
         ReadOnlyPerson personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        try {
-            model.updatePerson(personToEdit, editedPerson);
+        try { //One is user never change photo, another choice is user got change photo.
+            originalPhoto = personToEdit.getPhoto();
+            String intendedPhotoPath = "data/images/" + editedPerson.getEmailAddress().toString() + ".jpg";
+
+            if (FileUtil.isFileExists(new File(intendedPhotoPath)) && personToEdit.getPhoto()
+                    .equals(editedPerson.getPhoto())) { //Never change photo
+
+            } else { //Got change photo
+                originalPhoto = editedPerson.getPhoto();
+            }
+
+            editedPerson.setPhoto(new Photo(intendedPhotoPath, 0));
+
+            model.updatePerson(personToEdit, editedPerson); //Image does not exist yet.
+            model.addImage(editedPerson.getEmailAddress(), originalPhoto);
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("The target person cannot be missing");
+        } catch (IOException ioe) {
+            throw new AssertionError("The file must exist");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
@@ -139,7 +158,7 @@ public class EditCommand extends UndoableCommand {
 
         Name updatedName = editPersonDescriptor.getName().orElse(personToEdit.getName());
         Phone updatedPhone = editPersonDescriptor.getPhone().orElse(personToEdit.getPhone());
-        Email updatedEmail = editPersonDescriptor.getEmail().orElse(personToEdit.getEmail());
+        EmailAddress updatedEmail = editPersonDescriptor.getEmailAddress().orElse(personToEdit.getEmailAddress());
         Address updatedAddress = editPersonDescriptor.getAddress().orElse(personToEdit.getAddress());
         Photo updatedPhoto = editPersonDescriptor.getPhoto().orElse(personToEdit.getPhoto());
         Set<Tag> updatedTags = processTags(personToEdit, editPersonDescriptor);
@@ -178,7 +197,7 @@ public class EditCommand extends UndoableCommand {
     public static class EditPersonDescriptor {
         private Name name;
         private Phone phone;
-        private Email email;
+        private EmailAddress emailAddress;
         private Address address;
         private Photo photo;
         private Set<Tag> tags;
@@ -189,7 +208,7 @@ public class EditCommand extends UndoableCommand {
         public EditPersonDescriptor(EditPersonDescriptor toCopy) {
             this.name = toCopy.name;
             this.phone = toCopy.phone;
-            this.email = toCopy.email;
+            this.emailAddress = toCopy.emailAddress;
             this.address = toCopy.address;
             this.photo = toCopy.photo;
             this.tags = toCopy.tags;
@@ -200,7 +219,7 @@ public class EditCommand extends UndoableCommand {
          * Returns true if at least one field is edited.
          */
         public boolean isAnyFieldEdited() {
-            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.email, this.address, this.photo, this.tags,
+            return CollectionUtil.isAnyNonNull(this.name, this.phone, this.emailAddress, this.address, this.photo, this.tags,
                     this.birthdate);
         }
 
@@ -220,12 +239,12 @@ public class EditCommand extends UndoableCommand {
             return Optional.ofNullable(phone);
         }
 
-        public void setEmail(Email email) {
-            this.email = email;
+        public void setEmailAddress(EmailAddress emailAddress) {
+            this.emailAddress = emailAddress;
         }
 
-        public Optional<Email> getEmail() {
-            return Optional.ofNullable(email);
+        public Optional<EmailAddress> getEmailAddress() {
+            return Optional.ofNullable(emailAddress);
         }
 
         public void setPhoto(Photo photo) {
@@ -277,7 +296,7 @@ public class EditCommand extends UndoableCommand {
 
             return getName().equals(e.getName())
                     && getPhone().equals(e.getPhone())
-                    && getEmail().equals(e.getEmail())
+                    && getEmailAddress().equals(e.getEmailAddress())
                     && getAddress().equals(e.getAddress())
                     && getPhoto().equals(e.getPhoto())
                     && getTags().equals(e.getTags())

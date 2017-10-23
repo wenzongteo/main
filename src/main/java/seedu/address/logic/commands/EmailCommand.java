@@ -13,7 +13,6 @@ import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
 import seedu.address.logic.commands.exceptions.CommandException;
-import seedu.address.model.person.Email;
 import seedu.address.model.person.ReadOnlyPerson;
 
 public class EmailCommand extends Command {
@@ -51,7 +50,7 @@ public class EmailCommand extends Command {
         InternetAddress [] recipientsEmail = new InternetAddress[lastShownList.size()];
         try {
             for (int i = 0; i < lastShownList.size(); i++) {
-                recipientsEmail[i] = new InternetAddress(lastShownList.get(i).getEmail().value);
+                recipientsEmail[i] = new InternetAddress(lastShownList.get(i).getEmailAddress().value);
             }
         } catch (AddressException e) {
             throw new AddressException();

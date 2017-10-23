@@ -2,8 +2,6 @@ package seedu.address.email.message;
 
 import javax.mail.internet.InternetAddress;
 
-import seedu.address.model.person.Email;
-
 /**
  * A read-only immutable interface for a email message in the addressbook.
  * Implementations should guarantee: details are present and not null, field values are validated.

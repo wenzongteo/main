@@ -31,7 +31,7 @@ public class EditPersonDescriptorBuilder {
         descriptor = new EditPersonDescriptor();
         descriptor.setName(person.getName());
         descriptor.setPhone(person.getPhone());
-        descriptor.setEmail(person.getEmail());
+        descriptor.setEmailAddress(person.getEmailAddress());
         descriptor.setAddress(person.getAddress());
         descriptor.setPhoto(person.getPhoto());
         descriptor.setBirthdate(person.getBirthdate());
@@ -65,9 +65,9 @@ public class EditPersonDescriptorBuilder {
     /**
      * Sets the {@code Email} of the {@code EditPersonDescriptor} that we are building.
      */
-    public EditPersonDescriptorBuilder withEmail(String email) {
+    public EditPersonDescriptorBuilder withEmailAddress(String emailAddress) {
         try {
-            ParserUtil.parseEmail(Optional.of(email)).ifPresent(descriptor::setEmail);
+            ParserUtil.parseEmail(Optional.of(emailAddress)).ifPresent(descriptor::setEmailAddress);
         } catch (IllegalValueException ive) {
             throw new IllegalArgumentException("email is expected to be unique.");
         }

@@ -3,6 +3,12 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -15,6 +21,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
@@ -24,7 +31,9 @@ import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
+import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -89,6 +98,28 @@ public class ModelManager extends ComponentManager implements Model {
         addressBook.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         indicateAddressBookChanged();
+    }
+
+    @Override
+    public synchronized String addImage(EmailAddress email, Photo photo) throws IOException {
+        String folder = "data/images/";
+        String fileExt = ".jpg";
+
+        File imageFolder = new File(folder);
+
+        if (!imageFolder.exists()) {
+            imageFolder.mkdir();
+        } else {
+
+        }
+
+        String destination = folder + email.toString() + fileExt;
+        Path sourcePath = Paths.get(photo.toString());
+        Path destPath = Paths.get(destination);
+
+        Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
+
+        return folder + email.toString() + fileExt;
     }
 
     @Override

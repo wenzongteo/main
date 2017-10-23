@@ -6,7 +6,7 @@ import java.util.Set;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthdate;
-import seedu.address.model.person.Email;
+import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.NusModules;
 import seedu.address.model.person.Person;
@@ -23,9 +23,9 @@ public class PersonBuilder {
 
     public static final String DEFAULT_NAME = "Alice Pauline";
     public static final String DEFAULT_PHONE = "85355255";
-    public static final String DEFAULT_EMAIL = "alice@gmail.com";
+    public static final String DEFAULT_EMAIL = "alice@example.com";
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
-    public static final String DEFAULT_PHOTO = "default.jpeg";
+    public static final String DEFAULT_STORED_PHOTO = "data/images/alice@example.com.jpg";
     public static final String DEFAULT_TAGS = "friends";
     public static final String DEFAULT_BIRTHDATE = "31/12/1995";
 
@@ -35,9 +35,9 @@ public class PersonBuilder {
         try {
             Name defaultName = new Name(DEFAULT_NAME);
             Phone defaultPhone = new Phone(DEFAULT_PHONE);
-            Email defaultEmail = new Email(DEFAULT_EMAIL);
+            EmailAddress defaultEmail = new EmailAddress(DEFAULT_EMAIL);
             Address defaultAddress = new Address(DEFAULT_ADDRESS);
-            Photo defaultPhoto = new Photo(DEFAULT_PHOTO);
+            Photo defaultPhoto = new Photo(DEFAULT_STORED_PHOTO, 0);
             Set<Tag> defaultTags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
             Birthdate defaultBirthdate = new Birthdate(DEFAULT_BIRTHDATE);
             this.person = new Person(defaultName, defaultPhone, defaultEmail, defaultAddress, defaultPhoto,
@@ -105,9 +105,9 @@ public class PersonBuilder {
     /**
      * Sets the {@code Email} of the {@code Person} that we are building.
      */
-    public PersonBuilder withEmail(String email) {
+    public PersonBuilder withEmailAddress(String email) {
         try {
-            this.person.setEmail(new Email(email));
+            this.person.setEmailAddress(new EmailAddress(email));
         } catch (IllegalValueException ive) {
             throw new IllegalArgumentException("email is expected to be unique.");
         }
@@ -118,11 +118,15 @@ public class PersonBuilder {
      * Sets the {@code Photo} of the {@code Person} that we are building.
      */
     public PersonBuilder withPhoto(String photo) {
+        this.person.setPhoto(new Photo(photo, 0));
+        /*
         try {
-            this.person.setPhoto(new Photo(photo));
+            this.person.setPhoto(new Photo(photo,0));
         } catch (IllegalValueException ive) {
             throw new IllegalArgumentException("photo is expected.");
         }
+        return this;
+        */
         return this;
     }
 
