@@ -1,8 +1,12 @@
 package seedu.address.model;
 
+import java.io.IOException;
 import java.util.function.Predicate;
 
 import javafx.collections.ObservableList;
+
+import seedu.address.model.person.Email;
+import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -26,6 +30,9 @@ public interface Model {
 
     /** Adds the given person */
     void addPerson(ReadOnlyPerson person) throws DuplicatePersonException;
+
+    /** Copy a person's contact into a fixed location */
+    String addImage(Email email, Photo photo) throws IOException;
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.

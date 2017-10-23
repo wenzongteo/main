@@ -7,6 +7,7 @@ import static seedu.address.logic.commands.CommandTestUtil.deleteFirstPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.Collections;
 
@@ -34,22 +35,26 @@ public class RedoCommandTest {
     }
 
     @Test
-    public void execute() {
+    public void execute() throws IOException {
         UndoRedoStack undoRedoStack = prepareStack(
                 Collections.emptyList(), Arrays.asList(deleteCommandTwo, deleteCommandOne));
         RedoCommand redoCommand = new RedoCommand();
         redoCommand.setData(model, EMPTY_COMMAND_HISTORY, undoRedoStack);
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs());
 
-        // multiple commands in redoStack
-        deleteFirstPerson(expectedModel);
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+        try {
+            // multiple commands in redoStack
+            deleteFirstPerson(expectedModel);
+            assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
 
-        // single command in redoStack
-        deleteFirstPerson(expectedModel);
-        assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
+            // single command in redoStack
+            deleteFirstPerson(expectedModel);
+            assertCommandSuccess(redoCommand, model, RedoCommand.MESSAGE_SUCCESS, expectedModel);
 
-        // no command in redoStack
-        assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
+            // no command in redoStack
+            assertCommandFailure(redoCommand, model, RedoCommand.MESSAGE_FAILURE);
+        } catch (IOException e) {
+            System.out.println("Impossible");
+        }
     }
 }
