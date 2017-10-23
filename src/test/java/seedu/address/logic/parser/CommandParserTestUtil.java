@@ -3,10 +3,10 @@ package seedu.address.logic.parser;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
+
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.parser.exceptions.ParseException;
-
-import java.io.IOException;
 
 /**
  * Contains helper methods for testing command parsers.
