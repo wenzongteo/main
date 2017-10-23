@@ -40,8 +40,7 @@ public interface ReadOnlyPerson {
                 && other.getPhone().equals(this.getPhone())
                 && other.getEmail().equals(this.getEmail())
                 && other.getAddress().equals(this.getAddress())
-                && other.getBirthdate().equals(this.getBirthdate())
-                && other.getPhoto().equals(this.getPhoto()));
+                && other.getBirthdate().equals(this.getBirthdate()));
     }
 
     /**

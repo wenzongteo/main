@@ -104,11 +104,6 @@ public class EditCommand extends UndoableCommand {
             System.out.println("original photo: " + originalPhoto.toString());
             System.out.println("edited photo: " + editedPerson.getPhoto().toString());
 
-            int startPt = originalPhoto.toString().indexOf("data/images/");
-            String test = originalPhoto.toString().substring(startPt + 12);
-
-            System.out.println(test);
-
             model.addImage(editedPerson.getEmail(), originalPhoto);
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);

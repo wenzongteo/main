@@ -36,7 +36,7 @@ public class PersonBuilder {
             Phone defaultPhone = new Phone(DEFAULT_PHONE);
             Email defaultEmail = new Email(DEFAULT_EMAIL);
             Address defaultAddress = new Address(DEFAULT_ADDRESS);
-            Photo defaultPhoto = new Photo(DEFAULT_STORED_PHOTO,0);
+            Photo defaultPhoto = new Photo(DEFAULT_STORED_PHOTO);
             Set<Tag> defaultTags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
             Birthdate defaultBirthdate = new Birthdate(DEFAULT_BIRTHDATE);
             this.person = new Person(defaultName, defaultPhone, defaultEmail, defaultAddress, defaultPhoto,
