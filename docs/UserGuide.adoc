@@ -1,5 +1,4 @@
 = Augustine - User Guide
-
 :toc:
 :toc-title: Content Page
 :toc-placement: macro
