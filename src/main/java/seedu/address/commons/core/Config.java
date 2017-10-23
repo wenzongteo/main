@@ -14,6 +14,8 @@ public class Config {
     private String appTitle = "Augustine";
     private Level logLevel = Level.INFO;
     private String userPrefsFilePath = "preferences.json";
+    private String academicYear = "2017-2018";
+    private String semester = "1";
 
     public String getAppTitle() {
         return appTitle;
@@ -37,6 +39,14 @@ public class Config {
 
     public void setUserPrefsFilePath(String userPrefsFilePath) {
         this.userPrefsFilePath = userPrefsFilePath;
+    }
+
+    public String getAcademicYear() {
+        return academicYear;
+    }
+
+    public String getSemester() {
+        return semester;
     }
 
     @Override
