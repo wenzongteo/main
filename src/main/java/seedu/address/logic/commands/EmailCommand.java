@@ -4,6 +4,7 @@ import static java.util.Objects.requireNonNull;
 
 import java.util.List;
 
+import javax.mail.AuthenticationFailedException;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.AddressException;
 
@@ -31,6 +32,10 @@ public class EmailCommand extends Command {
             + "Command: email em/<messages> es/<subjects>";
     public static final String MESSAGE_RECIPIENT_INVALID = "You must have at least 1 recipients in your contacts display list before you can send an email.\n"
             + "Command: use the list or find command";
+    public static final String MESSAGE_AUTHENTICATION_FAIL = "You are unable to log in to your gmail account. Please check the following:\n"
+            + "1) You have entered the correct email address and password.\n"
+            + "2) You have enabled 'Allow less secure app' to sign in to your gmail account settings";
+    public static final String MESSAGE_FAIL_UNKNOWN = "Unexpected error have occurred...Please try again later";
 
     private final MessageDraft message;
     private final String [] loginDetails;
@@ -78,6 +83,10 @@ public class EmailCommand extends Command {
             throw new CommandException(MESSAGE_EMPTY_INVALID);
         } catch (EmailRecipientsEmptyException e) {
             throw new CommandException(MESSAGE_RECIPIENT_INVALID);
+        } catch (AuthenticationFailedException e) {
+            throw new CommandException(MESSAGE_AUTHENTICATION_FAIL);
+        } catch (RuntimeException e) {
+            throw new CommandException(MESSAGE_FAIL_UNKNOWN);
         }
 
     }

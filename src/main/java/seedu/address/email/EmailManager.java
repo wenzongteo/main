@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.mail.AuthenticationFailedException;
 import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
@@ -12,6 +13,8 @@ import javax.mail.Session;
 import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
+
+import com.sun.mail.util.MailConnectException;
 
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
@@ -62,7 +65,7 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     @Override
-    public void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException {
+    public void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
 
         //Step 1. Verify that the email draft consists of message and subject
         if (!message.containsContent()) {
@@ -128,11 +131,11 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     /** Send email out using JavaMail API **/
-    private void sendingEmail() {
+    private void sendingEmail() throws AuthenticationFailedException {
         final String username = loginDetails[0];
         final String password = loginDetails[1];
 
-        Session session = Session.getDefaultInstance(props, new javax.mail.Authenticator() {
+        Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
             protected PasswordAuthentication getPasswordAuthentication() {
                 return new PasswordAuthentication(username, password);
@@ -147,8 +150,8 @@ public class EmailManager extends ComponentManager implements Email {
             newMessage.setText(message.getMessage());
 
             Transport.send(newMessage);
-            System.out.println("message sent successfully");
-
+        } catch (AuthenticationFailedException e) {
+            throw new AuthenticationFailedException();
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }

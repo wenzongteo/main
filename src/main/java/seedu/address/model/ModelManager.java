@@ -9,6 +9,8 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javax.mail.AuthenticationFailedException;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -177,7 +179,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException {
+    public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
         email.composeEmail(message);
 
         if (send) {
