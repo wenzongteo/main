@@ -4,19 +4,19 @@ import java.util.ArrayList;
 
 import seedu.address.model.person.Email;
 
-public class Message implements ReadOnlyMessage {
+public class MessageDraft implements ReadOnlyMessageDraft {
 
     private String message;
     private String subject;
     private ArrayList<Email> recipientsEmail;
 
-    public Message() {
+    public MessageDraft() {
         this.message = "";
         this.subject = "";
         this.recipientsEmail = new ArrayList<Email>();
     }
 
-    public Message(String message, String subject) {
+    public MessageDraft(String message, String subject) {
         this.message = message;
         this.subject = subject;
     }
@@ -60,7 +60,7 @@ public class Message implements ReadOnlyMessage {
     @Override
     public boolean equals(Object other) {
         return other == this // short circuit if same object
-                || (other instanceof ReadOnlyMessage // instanceof handles nulls
-                && this.isSameStateAs((ReadOnlyMessage) other));
+                || (other instanceof ReadOnlyMessageDraft // instanceof handles nulls
+                && this.isSameStateAs((ReadOnlyMessageDraft) other));
     }
 }

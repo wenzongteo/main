@@ -5,6 +5,7 @@ import java.util.logging.Logger;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import javax.mail.Message;
 import javax.mail.MessagingException;
 import javax.mail.PasswordAuthentication;
 import javax.mail.Session;
@@ -16,7 +17,7 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
-import seedu.address.email.message.Message;
+import seedu.address.email.message.MessageDraft;
 
 /*
  * Handles how email are sent out of the application.
@@ -25,18 +26,18 @@ public class EmailManager extends ComponentManager implements Email {
     private static final Logger logger = LogsCenter.getLogger(EmailManager.class);
     private static final Pattern GMAIL_FORMAT = Pattern.compile("^[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(@gmail.com)$");
 
-    private Message message;
+    private MessageDraft message;
     private String [] loginDetails;
     private String emailStatus;
 
     public EmailManager() {
-        this.message = new Message();
+        this.message = new MessageDraft();
         this.loginDetails = new String[0];
         this.emailStatus = "";
     }
 
     @Override
-    public void composeEmail(Message message) {
+    public void composeEmail(MessageDraft message) {
         if(message.getSubject().isEmpty()) {
             message.setSubject(this.message.getSubject());
         }
@@ -48,7 +49,7 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     @Override
-    public Message getEmailDraft() {
+    public MessageDraft getEmailDraft() {
         return this.message;
     }
 
@@ -133,9 +134,9 @@ public class EmailManager extends ComponentManager implements Email {
         });
 
         try {
-            javax.mail.Message newMessage = new MimeMessage(session);
+            Message newMessage = new MimeMessage(session);
             newMessage.setFrom(new InternetAddress(username));
-            newMessage.setRecipient(javax.mail.Message.RecipientType.TO, new InternetAddress("email@hotmail.com"));
+            newMessage.setRecipient(Message.RecipientType.TO, new InternetAddress("email@hotmail.com"));
             newMessage.setSubject(message.getSubject());
             newMessage.setText(message.getMessage());
 
@@ -149,7 +150,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     /** reset Email Draft Data **/
     private void resetData() {
-        this.message = new Message();
+        this.message = new MessageDraft();
         this.loginDetails = new String[0];
     }
 

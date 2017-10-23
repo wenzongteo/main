@@ -5,7 +5,7 @@ import java.util.function.Predicate;
 import javafx.collections.ObservableList;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
-import seedu.address.email.message.Message;
+import seedu.address.email.message.MessageDraft;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -58,7 +58,7 @@ public interface Model {
     void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException;
 
     /** send email based on last displayed person list **/
-    void sendEmail(Message message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException;
+    void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException;
 
     /** set login credentials for sending emails **/
     void loginEmail(String [] loginDetails);

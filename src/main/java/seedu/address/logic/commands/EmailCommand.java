@@ -7,7 +7,7 @@ import java.util.List;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
-import seedu.address.email.message.Message;
+import seedu.address.email.message.MessageDraft;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Email;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -27,12 +27,12 @@ public class EmailCommand extends Command {
     public static final String MESSAGE_EMPTY_INVALID = "You must fill in the message and subject before you can send an email.\n"
             + "Command: email em/<messages> es/<subjects>";
 
-    private final Message message;
+    private final MessageDraft message;
     private final String [] loginDetails;
     private final boolean send;
 
     public EmailCommand(String message, String subject, String [] loginDetails, boolean send) {
-        this.message = new Message(message, subject);
+        this.message = new MessageDraft(message, subject);
         this.send = send;
         this.loginDetails = loginDetails;
     }
