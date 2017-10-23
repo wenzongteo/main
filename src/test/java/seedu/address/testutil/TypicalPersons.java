@@ -34,7 +34,8 @@ public class TypicalPersons {
             .withBirthdate("12/12/1995").build();
     public static final ReadOnlyPerson BENSON = new PersonBuilder().withName("Benson Meier")
             .withAddress("311, Clementi Ave 2, #02-25").withEmail("johnd@example.com").withPhone("98765432")
-            .withPhoto("default.jpeg").withTags("owesMoney", "friends").withBirthdate("12/11/1995").build();
+            .withPhoto("data/images/johnd@example.com.jpg").withTags("owesMoney", "friends").withBirthdate("12/11/1995")
+            .build();
     public static final ReadOnlyPerson CARL = new PersonBuilder().withName("Carl Kurz").withPhone("95352563")
             .withPhoto("data/images/heinz@example.com.jpg").withEmail("heinz@example.com").withAddress("wall street")
             .withBirthdate("12/10/1995").build();

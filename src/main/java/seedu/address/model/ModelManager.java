@@ -107,10 +107,7 @@ public class ModelManager extends ComponentManager implements Model {
         String destination = folder + email.toString() + fileExt;
         Path sourcePath = Paths.get(photo.toString());
         Path destPath = Paths.get(destination);
-        System.out.println("Source File: " + sourcePath.toString());
-        System.out.println("Destination: " + destPath.toString());
         Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
-        System.out.println("Why not working...");
         return folder + email.toString() + fileExt;
     }
 
