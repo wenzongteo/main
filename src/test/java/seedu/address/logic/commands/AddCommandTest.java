@@ -14,6 +14,7 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
+import seedu.address.email.message.MessageDraft;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -144,6 +145,23 @@ public class AddCommandTest {
         public void deleteTag(Tag tag) {
             fail("This method should not not be called.");
         }
+
+        @Override
+        public void loginEmail(String [] loginDetails) {
+            fail("This method sould not be called.");
+        }
+
+        @Override
+        public void sendEmail(MessageDraft message, boolean send) {
+            fail("This method sould not be called.");
+        }
+
+        @Override
+        public String getEmailStatus() {
+            fail("This method sould not be called.");
+            return "";
+        }
+
     }
 
     /**
