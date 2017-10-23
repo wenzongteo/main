@@ -73,9 +73,11 @@ public class PersonCard extends UiPart<Region> {
         birthdate.textProperty().bind(Bindings.convert(person.birthdateProperty()));
 
         try {
-            StringExpression test = Bindings.convert(person.photoProperty());
-            Image image = new Image(new FileInputStream(test.getValue()), 100, 200, true, true);
+            StringExpression filePath = Bindings.convert(person.photoProperty());
+            FileInputStream imageInputStream = new FileInputStream(filePath.getValue());
+            Image image = new Image(imageInputStream, 100, 200, true, true);
             photo.setImage(image);
+            imageInputStream.close();
         } catch (Exception e) {
             System.out.println(e);
         }
