@@ -4,11 +4,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
+
 import seedu.address.email.message.MessageDraft;
 
 public class EmailManagerTest {
 
-    Email email = new EmailManager();
+    private Email email = new EmailManager();
 
     @Test
     public void isUserLogin() {

@@ -35,7 +35,7 @@ public class MessageDraftTest {
 
     @Test
     public void equals() {
-        final MessageDraft standardMessageDraft = new MessageDraft("Hello","Subject");
+        final MessageDraft standardMessageDraft = new MessageDraft("Hello", "Subject");
         InternetAddress[] recipientsEmail = new InternetAddress[2];
         try {
             recipientsEmail[0] = new InternetAddress("ben@gmail.com");

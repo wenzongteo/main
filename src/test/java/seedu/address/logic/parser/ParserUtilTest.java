@@ -2,7 +2,6 @@ package seedu.address.logic.parser;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
 import static seedu.address.logic.parser.ParserUtil.MESSAGE_INVALID_INDEX;

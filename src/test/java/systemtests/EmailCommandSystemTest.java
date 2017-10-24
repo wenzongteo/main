@@ -1,16 +1,13 @@
 package systemtests;
 
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
-import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_JOHN_EMAILTESTER;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_LOGIN;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_MESSAGE;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_SUBJECT;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_LOGIN_INPUT;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_MESSAGE;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_SUBJECT;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_LOGIN_LENGTH;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_LOGIN;
-import static seedu.address.logic.commands.CommandTestUtil.NAME_DESC_JOHN_EMAILTESTER;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_SUBJECT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_JOHN_EMAILTESTER;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_LOGIN;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_MESSAGE;
@@ -18,20 +15,14 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_SUBJECT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_JOHN_EMAILTESTER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
-import java.util.List;
-
 import org.junit.Test;
 
 import javax.mail.AuthenticationFailedException;
-import javax.mail.internet.AddressException;
-import javax.mail.internet.InternetAddress;
 
-import seedu.address.email.Email;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
-import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.EmailCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.Model;
@@ -153,14 +144,15 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
      * browser url and selected card remains unchanged.
      * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model).
      */
-    private void assertCommandSucess(String command, MessageDraft message, String [] loginDetails, boolean send, String status) throws Exception {
+    private void assertCommandSucess(String command, MessageDraft message, String [] loginDetails,
+                                     boolean send, String status) throws Exception {
         Model expectedModel = getModel();
 
         try {
             //Set up Email Details
             expectedModel.loginEmail(loginDetails);
             expectedModel.sendEmail(message, send);
-        } catch(EmailLoginInvalidException e) {
+        } catch (EmailLoginInvalidException e) {
             throw new IllegalArgumentException(EmailCommand.MESSAGE_LOGIN_INVALID);
         } catch (EmailMessageEmptyException e) {
             throw new IllegalArgumentException(EmailCommand.MESSAGE_EMPTY_INVALID);

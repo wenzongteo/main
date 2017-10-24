@@ -11,9 +11,11 @@ import java.util.function.Predicate;
 import javax.mail.AuthenticationFailedException;
 
 import javafx.collections.ObservableList;
+
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
 import seedu.address.email.Email;
 import seedu.address.email.EmailManager;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
@@ -40,7 +42,7 @@ import seedu.address.model.tag.Tag;
 public class EmailCommandTest {
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
-    private Predicate<ReadOnlyPerson> PREDICATE_SHOW_NO_PERSON = unused -> false;
+    private Predicate<ReadOnlyPerson> Predicate_Show_No_Person = unused -> false;
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -53,7 +55,7 @@ public class EmailCommandTest {
         thrown.expectMessage(EmailCommand.MESSAGE_EMPTY_INVALID);
 
         String [] loginDetails = {"adam@gmail.com", "password"};
-        getEmailCommand("","", loginDetails, true, modelStub).execute();
+        getEmailCommand("", "", loginDetails, true, modelStub).execute();
     }
 
     @Test
@@ -65,11 +67,11 @@ public class EmailCommandTest {
 
         //Non Gmail Login --> Throws exception
         String [] loginDetail1 = {"adam@yahoo.com", "password"};
-        getEmailCommand("","", loginDetail1, true, modelStub).execute();
+        getEmailCommand("", "", loginDetail1, true, modelStub).execute();
 
         //Invalid Login Details Only accepts 2 fields --> Throws exception
         String [] loginDetail2 = {"adam@yahoo.com", "password", "hello"};
-        getEmailCommand("","", loginDetail2, true, modelStub).execute();
+        getEmailCommand("", "", loginDetail2, true, modelStub).execute();
     }
 
     @Test
@@ -80,7 +82,7 @@ public class EmailCommandTest {
         thrown.expectMessage(EmailCommand.MESSAGE_RECIPIENT_INVALID);
 
         String [] loginDetails = {"adam@gmail.com", "password"};
-        getEmailCommand("","", loginDetails, true, modelStub).execute();
+        getEmailCommand("", "", loginDetails, true, modelStub).execute();
     }
 
     /**
@@ -88,7 +90,8 @@ public class EmailCommandTest {
      */
     private class ModelStubThrowingEmailMessageEmptyException extends ModelStub {
         @Override
-        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
+        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
+                EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
             throw new EmailMessageEmptyException();
         }
 
@@ -108,7 +111,8 @@ public class EmailCommandTest {
      */
     private class ModelStubThrowingEmailLoginInvalidException extends ModelStub {
         @Override
-        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
+        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
+                EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
             throw new EmailLoginInvalidException();
         }
 
@@ -128,7 +132,8 @@ public class EmailCommandTest {
      */
     private class ModelStubThrowingEmailRecipientsEmptyException extends ModelStub {
         @Override
-        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
+        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
+                EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
             throw new EmailRecipientsEmptyException();
         }
 
@@ -139,7 +144,7 @@ public class EmailCommandTest {
 
         @Override
         public ObservableList<ReadOnlyPerson> getFilteredPersonList() {
-            model.updateFilteredPersonList(PREDICATE_SHOW_NO_PERSON);
+            model.updateFilteredPersonList(Predicate_Show_No_Person);
             return model.getFilteredPersonList();
         }
     }
@@ -214,7 +219,8 @@ public class EmailCommandTest {
         }
 
         @Override
-        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
+        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
+                EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
             fail("This method sould not be called.");
         }
 
@@ -229,7 +235,8 @@ public class EmailCommandTest {
     /**
      * Generates a new EmailCommand with the details of the given message.
      */
-    private EmailCommand getEmailCommand(String message, String subject, String [] loginDetails, boolean send, Model model) {
+    private EmailCommand getEmailCommand(String message, String subject,
+                                         String [] loginDetails, boolean send, Model model) {
         EmailCommand command = new EmailCommand(message, subject, loginDetails, send);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;

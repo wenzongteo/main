@@ -32,7 +32,8 @@ public class EmailAddressTest {
         assertTrue(EmailAddress.isValidEmailAddress("a@b"));  // minimal
         assertTrue(EmailAddress.isValidEmailAddress("test@localhost"));   // alphabets only
         assertTrue(EmailAddress.isValidEmailAddress("123@145"));  // numeric local part and domain name
-        assertTrue(EmailAddress.isValidEmailAddress("a1@example1.com"));  // mixture of alphanumeric and dot characters
+        assertTrue(EmailAddress.isValidEmailAddress(
+                "a1@example1.com"));  // mixture of alphanumeric and dot characters
         assertTrue(EmailAddress.isValidEmailAddress("_user_@_e_x_a_m_p_l_e_.com_"));    // underscores
         assertTrue(EmailAddress.isValidEmailAddress("peter_jack@very_very_very_long_example.com"));   // long domain name
         assertTrue(EmailAddress.isValidEmailAddress("if.you.dream.it_you.can.do.it@example.com"));    // long local part
