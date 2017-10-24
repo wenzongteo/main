@@ -4,9 +4,9 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_LOGIN;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_MESSAGE;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_SUBJECT;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_MESSAGE;
-import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_LOGIN_LENGTH;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_LOGIN;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_LOGIN_LENGTH;
+import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_MESSAGE;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_SUBJECT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_JOHN_EMAILTESTER;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_LOGIN;
@@ -15,9 +15,9 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_SUBJECT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_JOHN_EMAILTESTER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
-import org.junit.Test;
-
 import javax.mail.AuthenticationFailedException;
+
+import org.junit.Test;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
@@ -172,7 +172,8 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
      * Performs the same verification as {@code assertCommandSuccess(String, Message, String [], boolean)} except
      * that the result display box displays {@code expectedResultMessage} and the model related components equal to
      * {@code expectedModel}.
-     * @see EmailCommandSystemTest#assertCommandSuccess(String, MessageDraft, String [], boolean)
+     * @see EmailCommandSystemTest#
+     * assertCommandSuccess(String, MessageDraft, String [], boolean)
      */
     private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
         executeCommand(command);
@@ -203,7 +204,8 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
     /**
      * Performs the same verification as {@code assertCommandSuccess(String, String)} except
      * that the displayed person list is empty.
-     * @see EmailCommandSystemTest#assertCommandSuccess(String, String)
+     * @see EmailCommandSystemTest#
+     * assertCommandSuccess(String, String)
      */
     private void assertCommandFailureEmptyList(String command, String expectedResultMessage) throws Exception {
         Model expectedModel = getModel();

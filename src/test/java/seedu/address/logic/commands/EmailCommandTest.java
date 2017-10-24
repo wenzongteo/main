@@ -10,11 +10,11 @@ import java.util.function.Predicate;
 
 import javax.mail.AuthenticationFailedException;
 
-import javafx.collections.ObservableList;
-
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
+
+import javafx.collections.ObservableList;
 
 import seedu.address.email.Email;
 import seedu.address.email.EmailManager;
@@ -41,11 +41,11 @@ import seedu.address.model.tag.Tag;
  */
 public class EmailCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
-    private Predicate<ReadOnlyPerson> Predicate_Show_No_Person = unused -> false;
-
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
+    private Predicate<ReadOnlyPerson> Predicate_Show_No_Person = unused -> false;
 
     @Test
     public void email_sendingFail_emailMessageEmptyException() throws Exception {
