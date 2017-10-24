@@ -45,12 +45,12 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     public void setRecipientsEmail(InternetAddress[] recipientsEmail) {
         this.recipientsEmail = new InternetAddress[recipientsEmail.length];
-        System.arraycopy(recipientsEmail,0,this.recipientsEmail,0, recipientsEmail.length);
+        System.arraycopy(recipientsEmail, 0, this.recipientsEmail, 0, recipientsEmail.length);
     }
 
     @Override
     public boolean containsContent() {
-        if(this.message.isEmpty() || this.subject.isEmpty()) {
+        if (this.message.isEmpty() || this.subject.isEmpty()) {
             return false;
         } else {
             return true;
@@ -68,7 +68,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
     public boolean recipientsEquals(InternetAddress [] other) {
         if (other.length == this.recipientsEmail.length) {
             for (int i = 0; i < recipientsEmail.length; i++) {
-                if(other[i] != this.recipientsEmail[i]) {
+                if (other[i] != this.recipientsEmail[i]) {
                     return false;
                 }
             }

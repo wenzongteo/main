@@ -34,6 +34,7 @@ public interface Email {
     String getEmailStatus();
 
     /* send Email Draft to all users */
-    void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException;
+    void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException,
+            EmailRecipientsEmptyException, AuthenticationFailedException;
 
 }

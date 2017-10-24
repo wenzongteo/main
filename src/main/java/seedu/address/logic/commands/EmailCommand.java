@@ -5,8 +5,8 @@ import static java.util.Objects.requireNonNull;
 import java.util.List;
 
 import javax.mail.AuthenticationFailedException;
-import javax.mail.internet.InternetAddress;
 import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
@@ -15,6 +15,9 @@ import seedu.address.email.message.MessageDraft;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.ReadOnlyPerson;
 
+/*
+ * Compose an email draft or send the draft out using gmail account
+ */
 public class EmailCommand extends Command {
 
     public static final String COMMAND_WORD = "email";
@@ -25,13 +28,17 @@ public class EmailCommand extends Command {
             + "Examples: email";
 
     public static final String MESSAGE_SUCCESS = "Email have been  %1$s";
-    public static final String MESSAGE_LOGIN_INVALID = "You must log in with a gmail email account before you can send an email.\n"
+    public static final String MESSAGE_LOGIN_INVALID = "You must log in with a gmail email account before you can send "
+            + "an email.\n"
             + "Command: email el/<username@gmail.com>:<password>";
-    public static final String MESSAGE_EMPTY_INVALID = "You must fill in the message and subject before you can send an email.\n"
+    public static final String MESSAGE_EMPTY_INVALID = "You must fill in the message and subject before you can send "
+            + "an email.\n"
             + "Command: email em/<messages> es/<subjects>";
-    public static final String MESSAGE_RECIPIENT_INVALID = "You must have at least 1 recipients in your contacts display list before you can send an email.\n"
+    public static final String MESSAGE_RECIPIENT_INVALID = "You must have at least 1 recipients in your contacts "
+            + "display list before you can send an email.\n"
             + "Command: use the list or find command";
-    public static final String MESSAGE_AUTHENTICATION_FAIL = "You are unable to log in to your gmail account. Please check the following:\n"
+    public static final String MESSAGE_AUTHENTICATION_FAIL = "You are unable to log in to your gmail account. Please "
+            + "check the following:\n"
             + "1) You have entered the correct email address and password.\n"
             + "2) You have enabled 'Allow less secure app' to sign in to your gmail account settings";
     public static final String MESSAGE_FAIL_UNKNOWN = "Unexpected error have occurred...Please try again later";
@@ -67,7 +74,7 @@ public class EmailCommand extends Command {
             List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
             InternetAddress [] recipientsEmail = extractEmailFromContacts(lastShownList);
             message.setRecipientsEmail(recipientsEmail);
-        } catch(AddressException e) {
+        } catch (AddressException e) {
             assert false : "The target email cannot be missing or be wrong format";
         }
 
@@ -76,7 +83,7 @@ public class EmailCommand extends Command {
             model.loginEmail(loginDetails);
             model.sendEmail(message, send);
             return new CommandResult(String.format(MESSAGE_SUCCESS, model.getEmailStatus()));
-        } catch(EmailLoginInvalidException e) {
+        } catch (EmailLoginInvalidException e) {
             throw new CommandException(MESSAGE_LOGIN_INVALID);
         } catch (EmailMessageEmptyException e) {
             throw new CommandException(MESSAGE_EMPTY_INVALID);
@@ -100,9 +107,9 @@ public class EmailCommand extends Command {
     }
 
     private boolean loginDetailsEquals(String [] other) {
-        if(this.loginDetails.length == other.length) {
-            for(int i=0; i<this.loginDetails.length; i++) {
-                if(this.loginDetails[i] != other[i]) {
+        if (this.loginDetails.length == other.length) {
+            for (int i = 0; i < this.loginDetails.length; i++) {
+                if (this.loginDetails[i] != other[i]) {
                     return false;
                 }
             }

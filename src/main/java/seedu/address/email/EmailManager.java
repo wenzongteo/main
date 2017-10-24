@@ -14,8 +14,6 @@ import javax.mail.Transport;
 import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeMessage;
 
-import com.sun.mail.util.MailConnectException;
-
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
@@ -36,6 +34,8 @@ public class EmailManager extends ComponentManager implements Email {
     private Properties props;
 
     public EmailManager() {
+        logger.fine("Initializing Email Component");
+
         this.message = new MessageDraft();
         this.loginDetails = new String[0];
         this.emailStatus = "";
@@ -44,10 +44,10 @@ public class EmailManager extends ComponentManager implements Email {
 
     @Override
     public void composeEmail(MessageDraft message) {
-        if(message.getSubject().isEmpty()) {
+        if (message.getSubject().isEmpty()) {
             message.setSubject(this.message.getSubject());
         }
-        if(message.getMessage().isEmpty()) {
+        if (message.getMessage().isEmpty()) {
             message.setMessage(this.message.getMessage());
         }
         this.message = message;
@@ -65,7 +65,8 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     @Override
-    public void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
+    public void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException,
+            EmailRecipientsEmptyException, AuthenticationFailedException {
 
         //Step 1. Verify that the email draft consists of message and subject
         if (!message.containsContent()) {
@@ -79,7 +80,7 @@ public class EmailManager extends ComponentManager implements Email {
             throw new EmailLoginInvalidException();
         }
         //Step 4. Verify that Recipient's list is not empty
-        if(message.getRecipientsEmails().length <= 0) {
+        if (message.getRecipientsEmails().length <= 0) {
             throw new EmailRecipientsEmptyException();
         }
 
@@ -101,7 +102,7 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     public boolean isUserLogin() {
-        if(this.loginDetails.length != 2) {
+        if (this.loginDetails.length != 2) {
             //The loginDetails empty
             return false;
         } else {
@@ -111,7 +112,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     /** Verify if the user is using a gmail account **/
     public boolean wrongUserEmailFormat() {
-        if(this.loginDetails.length == 2) {
+        if (this.loginDetails.length == 2) {
             final Matcher matcher = GMAIL_FORMAT.matcher(this.loginDetails[0].trim());
             if (!matcher.matches()) {
                 return true;
@@ -183,9 +184,9 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     private boolean loginDetailsEquals(String [] other) {
-        if(this.loginDetails.length == other.length) {
-            for(int i=0; i<this.loginDetails.length; i++) {
-                if(this.loginDetails[i] != other[i]) {
+        if (this.loginDetails.length == other.length) {
+            for (int i = 0; i < this.loginDetails.length; i++) {
+                if (this.loginDetails[i] != other[i]) {
                     return false;
                 }
             }
