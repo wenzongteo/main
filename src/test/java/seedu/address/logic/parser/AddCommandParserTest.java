@@ -124,53 +124,61 @@ public class AddCommandParserTest {
                 .withBirthdate(VALID_BIRTHDATE_AMY).build();
 
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY, new AddCommand(expectedPerson));
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY,
+                new AddCommand(expectedPerson));
 
         // zero tags - using command alias
         assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_AMY + PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY, new AddCommand(expectedPerson));
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY,
+                new AddCommand(expectedPerson));
 
         // missing name prefix - using command word
         expectedPerson = new PersonBuilder().withName(NOT_FILLED).withPhone(VALID_PHONE_AMY)
                 .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(VALID_PHOTO_AMY)
                 .withBirthdate(VALID_BIRTHDATE_AMY).withTags().build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + VALID_NAME_AMY + PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY, new AddCommand(expectedPerson));
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY,
+                new AddCommand(expectedPerson));
 
         // missing name prefix - using command alias
         expectedPerson = new PersonBuilder().withName(NOT_FILLED).withPhone(VALID_PHONE_AMY)
                 .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(VALID_PHOTO_AMY)
                 .withBirthdate(VALID_BIRTHDATE_AMY).withTags().build();
         assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + VALID_NAME_AMY + PHONE_DESC_AMY
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY, new AddCommand(expectedPerson));
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY,
+                new AddCommand(expectedPerson));
 
         // missing phone - using command word
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NOT_FILLED)
                 .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(VALID_PHOTO_AMY).withTags()
                 .withBirthdate(VALID_BIRTHDATE_AMY).withTags().build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY, new AddCommand(expectedPerson));
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY,
+                new AddCommand(expectedPerson));
 
         // missing phone - using command alias
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NOT_FILLED)
                 .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(VALID_PHOTO_AMY)
                 .withBirthdate(VALID_BIRTHDATE_AMY).withTags().build();
         assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_AMY
-                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY, new AddCommand(expectedPerson));
+                + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY,
+                new AddCommand(expectedPerson));
 
         // missing name - using command word
         expectedPerson = new PersonBuilder().withName(NOT_FILLED).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto(VALID_PHOTO_BOB)
                 .withBirthdate(VALID_BIRTHDATE_BOB).withTags().build();
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + PHONE_DESC_BOB
-                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + BIRTHDATE_DESC_BOB, new AddCommand(expectedPerson));
+                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + BIRTHDATE_DESC_BOB,
+                new AddCommand(expectedPerson));
 
         // missing name - using command alias
         expectedPerson = new PersonBuilder().withName(NOT_FILLED).withPhone(VALID_PHONE_BOB)
                 .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto(VALID_PHOTO_BOB)
                 .withBirthdate(VALID_BIRTHDATE_BOB).withTags().build();
         assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + PHONE_DESC_BOB
-                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + BIRTHDATE_DESC_BOB, new AddCommand(expectedPerson));
+                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + BIRTHDATE_DESC_BOB,
+                new AddCommand(expectedPerson));
 
         // missing address - using command word
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
