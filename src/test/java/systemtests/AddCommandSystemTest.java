@@ -55,7 +55,7 @@ import seedu.address.logic.commands.SelectCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
 import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
+import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -102,33 +102,33 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_PERSON);
 
         /* Case: add a person with all fields same as another person in the address book except name -> added */
-        toAdd = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
-                .withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_AMY)
-                .withPhoto(IMAGE_STORAGE_AMY).build();
+        toAdd = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_AMY)
+                .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIENDS)
+                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto(IMAGE_STORAGE_AMY).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a person with all fields same as another person in the address book except phone -> added */
-        toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB).withEmail(VALID_EMAIL_AMY)
-                .withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_AMY)
-                .withPhoto(IMAGE_STORAGE_AMY).build();
+        toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB)
+                .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIENDS)
+                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto(IMAGE_STORAGE_AMY).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a person with all fields same as another person in the address book except email -> added */
-        toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_BOB)
-                .withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_AMY)
-                .withPhoto(IMAGE_STORAGE_BOB).build();
+        toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
+                .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIENDS)
+                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto(IMAGE_STORAGE_BOB).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_BOB + ADDRESS_DESC_AMY
                 + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: add a person with all fields same as another person in the address book except address -> added */
-        toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY).withEmail(VALID_EMAIL_AMY)
-                .withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_AMY)
-                .withPhoto(IMAGE_STORAGE_AMY).build();
+        toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
+                .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_FRIENDS)
+                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto(IMAGE_STORAGE_AMY).build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_BOB
                 + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
@@ -186,7 +186,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: invalid email -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + INVALID_EMAIL_DESC + ADDRESS_DESC_AMY;
-        assertCommandFailure(command, Email.MESSAGE_EMAIL_CONSTRAINTS);
+        assertCommandFailure(command, EmailAddress.MESSAGE_EMAIL_CONSTRAINTS);
 
         /* Case: invalid address -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + INVALID_ADDRESS_DESC;

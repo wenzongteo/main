@@ -43,7 +43,7 @@ import org.junit.Test;
 
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.model.person.Address;
-import seedu.address.model.person.Email;
+import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
@@ -56,7 +56,7 @@ public class AddCommandParserTest {
     @Test
     public void parse_allFieldsPresent_success() {
         Person expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_FRIENDS)
+                .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_FRIENDS)
                 .withBirthdate(VALID_BIRTHDATE_BOB).withPhoto(IMAGE_STORAGE_BOB).build();
 
         // multiple names - last name accepted - using command word
@@ -101,7 +101,7 @@ public class AddCommandParserTest {
 
         // multiple tags - all accepted - using command word
         Person expectedPersonMultipleTags = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-                .withEmail(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withBirthdate(VALID_BIRTHDATE_BOB)
+                .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withBirthdate(VALID_BIRTHDATE_BOB)
                 .withPhoto(IMAGE_STORAGE_BOB).withTags(VALID_TAG_FRIENDS, VALID_TAG_HUSBAND).build();
 
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_BOB
@@ -118,7 +118,7 @@ public class AddCommandParserTest {
     public void parse_optionalFieldsMissing_success() {
         // zero tags - using command word
         Person expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
-                .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(IMAGE_STORAGE_AMY)
+                .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(IMAGE_STORAGE_AMY)
                 .withBirthdate(VALID_BIRTHDATE_AMY).build();
 
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
@@ -132,7 +132,7 @@ public class AddCommandParserTest {
 
         // missing phone - using command word
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NOT_FILLED)
-                .withEmail(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(IMAGE_STORAGE_AMY)
+                .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(IMAGE_STORAGE_AMY)
                 .withBirthdate(VALID_BIRTHDATE_AMY).withTags().build();
 
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY
@@ -146,7 +146,7 @@ public class AddCommandParserTest {
 
         // missing address - using command word
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
-                .withEmail(VALID_EMAIL_AMY).withAddress(NOT_FILLED).withPhoto(IMAGE_STORAGE_AMY)
+                .withEmailAddress(VALID_EMAIL_AMY).withAddress(NOT_FILLED).withPhoto(IMAGE_STORAGE_AMY)
                 .withBirthdate(VALID_BIRTHDATE_AMY).withTags().build();
 
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
@@ -158,7 +158,7 @@ public class AddCommandParserTest {
 
         // missing 2 fields (phone and address) - using command word
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NOT_FILLED)
-                .withEmail(VALID_EMAIL_AMY).withAddress(NOT_FILLED).withPhoto(IMAGE_STORAGE_AMY)
+                .withEmailAddress(VALID_EMAIL_AMY).withAddress(NOT_FILLED).withPhoto(IMAGE_STORAGE_AMY)
                 .withBirthdate(VALID_BIRTHDATE_AMY).withTags().build();
 
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY + EMAIL_DESC_AMY + PHOTO_DESC_AMY
@@ -233,12 +233,12 @@ public class AddCommandParserTest {
         // invalid email - using command word
         assertParseFailure(parser, AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_BOB
                 + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB + PHOTO_DESC_BOB  + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                Email.MESSAGE_EMAIL_CONSTRAINTS);
+                EmailAddress.MESSAGE_EMAIL_CONSTRAINTS);
 
         // invalid email - using command alias
         assertParseFailure(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_BOB + PHONE_DESC_BOB
                 + INVALID_EMAIL_DESC + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                Email.MESSAGE_EMAIL_CONSTRAINTS);
+                EmailAddress.MESSAGE_EMAIL_CONSTRAINTS);
 
         // invalid address - using command word
         assertParseFailure(parser, AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB

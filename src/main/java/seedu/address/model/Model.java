@@ -3,9 +3,15 @@ package seedu.address.model;
 import java.io.IOException;
 import java.util.function.Predicate;
 
-import javafx.collections.ObservableList;
+import javax.mail.AuthenticationFailedException;
 
-import seedu.address.model.person.Email;
+import javafx.collections.ObservableList;
+import seedu.address.email.Email;
+import seedu.address.email.exceptions.EmailLoginInvalidException;
+import seedu.address.email.exceptions.EmailMessageEmptyException;
+import seedu.address.email.exceptions.EmailRecipientsEmptyException;
+import seedu.address.email.message.MessageDraft;
+import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -25,6 +31,9 @@ public interface Model {
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
 
+    /** Returns the email Manager Component */
+    Email getEmailManager();
+
     /** Deletes the given person. */
     void deletePerson(ReadOnlyPerson target) throws PersonNotFoundException;
 
@@ -32,7 +41,7 @@ public interface Model {
     void addPerson(ReadOnlyPerson person) throws DuplicatePersonException;
 
     /** Copy a person's contact into a fixed location */
-    String addImage(Email email, Photo photo) throws IOException;
+    String addImage(EmailAddress email, Photo photo) throws IOException;
 
     /**
      * Replaces the given person {@code target} with {@code editedPerson}.
@@ -60,5 +69,15 @@ public interface Model {
 
     /** delete tag from all person with the tag **/
     void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException;
+
+    /** send email based on last displayed person list **/
+    void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException,
+            EmailRecipientsEmptyException, AuthenticationFailedException;
+
+    /** set login credentials for sending emails **/
+    void loginEmail(String [] loginDetails);
+
+    /** get Email Sent status **/
+    String getEmailStatus();
 
 }

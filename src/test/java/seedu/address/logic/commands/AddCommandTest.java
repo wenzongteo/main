@@ -20,13 +20,15 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import javafx.collections.ObservableList;
+import seedu.address.email.Email;
+import seedu.address.email.message.MessageDraft;
 import seedu.address.logic.CommandHistory;
 import seedu.address.logic.UndoRedoStack;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
-import seedu.address.model.person.Email;
+import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -122,7 +124,13 @@ public class AddCommandTest {
         }
 
         @Override
-        public String addImage(Email email, Photo photo) throws IOException {
+        public Email getEmailManager() {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        @Override
+        public String addImage(EmailAddress emailAddress, Photo photo) throws IOException {
             String folder = "data/images/";
             File imageFolder = new File(folder);
 
@@ -132,11 +140,11 @@ public class AddCommandTest {
 
             }
 
-            String destination = folder + email.toString() + ".jpg";
+            String destination = folder + emailAddress.toString() + ".jpg";
             Path sourcePath = Paths.get(photo.toString());
             Path destPath = Paths.get(destination);
             Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
-            return folder + email.toString() + ".jpg";
+            return folder + emailAddress.toString() + ".jpg";
         }
 
         @Override
@@ -169,6 +177,22 @@ public class AddCommandTest {
         @Override
         public void deleteTag(Tag tag) {
             fail("This method should not not be called.");
+        }
+
+        @Override
+        public void loginEmail(String [] loginDetails) {
+            fail("This method sould not be called.");
+        }
+
+        @Override
+        public void sendEmail(MessageDraft message, boolean send) {
+            fail("This method sould not be called.");
+        }
+
+        @Override
+        public String getEmailStatus() {
+            fail("This method sould not be called.");
+            return "";
         }
     }
 
