@@ -28,6 +28,11 @@ import seedu.address.model.person.Person;
 public class XmlAddressBookStorageTest {
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/XmlAddressBookStorageTest/");
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    @Rule
+    public TemporaryFolder testFolder = new TemporaryFolder();
     @Before
     public void setup() throws Exception {
         String imageFilePath = "data/images/";
@@ -58,12 +63,6 @@ public class XmlAddressBookStorageTest {
             throw new AssertionError("Impossible");
         }
     }
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    @Rule
-    public TemporaryFolder testFolder = new TemporaryFolder();
 
     @Test
     public void readAddressBook_nullFilePath_throwsNullPointerException() throws Exception {

@@ -28,6 +28,10 @@ import seedu.address.model.tag.Tag;
 
 public class AddressBookTest {
 
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    private final AddressBook addressBook = new AddressBook();
     @Before
     public void setup() throws Exception {
         String imageFilePath = "data/images/";
@@ -58,11 +62,6 @@ public class AddressBookTest {
             throw new AssertionError("Impossible");
         }
     }
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    private final AddressBook addressBook = new AddressBook();
 
     @Test
     public void constructor() {

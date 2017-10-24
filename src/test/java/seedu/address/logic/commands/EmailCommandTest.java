@@ -12,8 +12,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.function.Predicate;
 
-import javax.mail.AuthenticationFailedException;
-
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -45,6 +43,11 @@ import seedu.address.model.tag.Tag;
  * Contains integration tests (interaction with the Model) and unit tests for {@code EmailCommand}.
  */
 public class EmailCommandTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
+
+    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
+    private Predicate<ReadOnlyPerson> predicateShowNoPerson = unused -> false;
 
     @Before
     public void setup() throws Exception {
@@ -76,12 +79,6 @@ public class EmailCommandTest {
             throw new AssertionError("Impossible");
         }
     }
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
-
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
-    private Predicate<ReadOnlyPerson> predicateShowNoPerson = unused -> false;
 
     @Test
     public void email_sendingFail_emailMessageEmptyException() throws Exception {

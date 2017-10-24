@@ -24,6 +24,8 @@ import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.testutil.AddressBookBuilder;
 
 public class ModelManagerTest {
+    @Rule
+    public ExpectedException thrown = ExpectedException.none();
     @Before
     public void setup() throws Exception {
         String imageFilePath = "data/images/";
@@ -54,9 +56,6 @@ public class ModelManagerTest {
             throw new AssertionError("Impossible");
         }
     }
-
-    @Rule
-    public ExpectedException thrown = ExpectedException.none();
 
     @Test
     public void getFilteredPersonList_modifyList_throwsUnsupportedOperationException() {

@@ -24,7 +24,12 @@ import seedu.address.model.UserPrefs;
 import seedu.address.ui.testutil.EventsCollectorRule;
 
 public class StorageManagerTest {
+    @Rule
+    public TemporaryFolder testFolder = new TemporaryFolder();
+    @Rule
+    public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
 
+    private StorageManager storageManager;
     @Before
     public void setup() throws Exception {
         String imageFilePath = "data/images/";
@@ -55,13 +60,6 @@ public class StorageManagerTest {
             throw new AssertionError("Impossible");
         }
     }
-
-    @Rule
-    public TemporaryFolder testFolder = new TemporaryFolder();
-    @Rule
-    public final EventsCollectorRule eventsCollectorRule = new EventsCollectorRule();
-
-    private StorageManager storageManager;
 
     @Before
     public void setUp() {

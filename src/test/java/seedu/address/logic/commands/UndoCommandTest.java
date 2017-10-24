@@ -35,33 +35,34 @@ public class UndoCommandTest {
 
     @Before
     public void setUp() {
-            String imageFilePath = "data/images/";
-            File imageFolder = new File(imageFilePath);
+        String imageFilePath = "data/images/";
+        File imageFolder = new File(imageFilePath);
 
-            if (!imageFolder.exists()) {
-                imageFolder.mkdirs();
-            } else {
+        if (!imageFolder.exists()) {
+            imageFolder.mkdirs();
+        } else {
 
-            }
+        }
 
-            try {
-                Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                        StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
-                        StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
-                        StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                        StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
-                        StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
-                        StandardCopyOption.REPLACE_EXISTING);
-                Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
-                        StandardCopyOption.REPLACE_EXISTING);
-            } catch (IOException e) {
-                throw new AssertionError("Impossible");
-            }
+        try {
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new AssertionError("Impossible");
+        }
+
         deleteCommandOne.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
         deleteCommandTwo.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
     }

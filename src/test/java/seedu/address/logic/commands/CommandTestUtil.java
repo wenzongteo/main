@@ -25,7 +25,6 @@ import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
-import seedu.address.testutil.Assert;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
