@@ -42,7 +42,6 @@ import static seedu.address.testutil.TypicalPersons.IDA;
 import static seedu.address.testutil.TypicalPersons.LEE;
 import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
 import static seedu.address.testutil.TypicalPersons.MISSINGADDRESS;
-import static seedu.address.testutil.TypicalPersons.MISSINGNAME;
 import static seedu.address.testutil.TypicalPersons.MISSINGPHONE;
 
 import java.io.File;
@@ -92,13 +91,13 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new AssertionError("Impossible");
@@ -184,9 +183,9 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(ALICE);
 
         /* Case: add a person with tags, command with parameters in random order -> added */
-        toAdd = BOB;
+        toAdd = LEE;
         command = AddCommand.COMMAND_WORD + TAG_DESC_FRIEND + BIRTHDATE_DESC_BOB + PHONE_DESC_BOB
-                + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + NAME_DESC_BOB + TAG_DESC_HUSBAND + EMAIL_DESC_BOB;
+                + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + NAME_DESC_BOB + EMAIL_DESC_BOB;
         assertCommandSuccess(command, toAdd);
 
         /* Case: selects first card in the person list, add a person -> added, card selection remains unchanged */
@@ -196,9 +195,6 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: add a person, missing tags -> added */
         assertCommandSuccess(HOON);
-
-        /* Case: missing name -> approved */
-        assertCommandSuccess(MISSINGNAME);
 
         /* Case: missing phone -> approved */
         assertCommandSuccess(MISSINGPHONE);

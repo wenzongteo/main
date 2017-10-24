@@ -48,8 +48,6 @@ public class DeleteCommandTest {
         }
 
         try {
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/default.jpeg"),
-                    StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
@@ -63,6 +61,20 @@ public class DeleteCommandTest {
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new AssertionError("Impossible");
@@ -79,8 +91,9 @@ public class DeleteCommandTest {
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new EmailManager());
         expectedModel.deletePerson(personToDelete);
 
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/default.jpeg"),
-                StandardCopyOption.REPLACE_EXISTING);
+        System.out.println(personToDelete.getName().toString());
+        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/" + personToDelete.getEmailAddress()
+                .toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
@@ -100,11 +113,11 @@ public class DeleteCommandTest {
         DeleteCommand deleteCommand = prepareCommand(INDEX_FIRST_PERSON);
 
         String expectedMessage = String.format(DeleteCommand.MESSAGE_DELETE_PERSON_SUCCESS, personToDelete);
-
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new EmailManager());
         expectedModel.deletePerson(personToDelete);
         showNoPerson(expectedModel);
-
+        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/" + personToDelete.getEmailAddress()
+                .toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
         assertCommandSuccess(deleteCommand, model, expectedMessage, expectedModel);
     }
 
