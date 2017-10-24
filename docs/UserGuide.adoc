@@ -107,10 +107,10 @@ Augustine only allow one contact with the same details to reside in it
 ==== Examples
 Here are some examples to guide you with adding contacts into Augustine:
 
-. [red]*Adding users with all fields filled*
+. [red]*Adding contacts with all fields filled*
 +
 --
-You can add a new user using the command below. Figure 4.2.2.1 illustrates the
+You can add a new contact using the command below. Figure 4.2.2.1 illustrates the
 result after the command below is entered.
 
 [horizontal]
@@ -122,10 +122,10 @@ a/John street, block 123, #01-01 b/01/02/1995`
 image::addAll.png[width="940px"]
 --
 
-. [red]*Adding users with some optional fields unfilled*
+. [red]*Adding contacts with some optional fields unfilled*
 +
 --
-You can add a new user without entering all the fields. Figure 4.4.2.2 illustrates
+You can add a new contact without entering all the fields. Figure 4.4.2.2 illustrates
 the result after the command below is entered.
 
 [NOTE]
@@ -139,10 +139,10 @@ Note that the fields that are unfilled are represented with a - instead
 image::addSome.png[width="940px"]
 --
 
-. [red]*Adding an user that already exists in Augustine*
+. [red]*Adding an contact that already exists in Augustine*
 +
 --
-You cannot add a user that already exists in Augustine. Figure 4.4.2.3 illustrates the
+You cannot add a contact that already exists in Augustine. Figure 4.4.2.3 illustrates the
 error prompt when the command below is entered.
 
 [horizontal]
@@ -182,20 +182,22 @@ The format of the [fuchsia]`edit` command is as follow:
 [fuchsia]#edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [b/BIRTHDATE] [t/TAG]...#
 ====
 ****
-* Edits the person at the specified `INDEX`. The index refers to the index number shown in the last person listing. The index whole number 1, 2, 3, ...
+* Edits the person at the specified `INDEX`.
+* `INDEX` refers to the index number shown in the the list of contacts.
+* The index must be a whole number 1, 2, 3, ...
 * At least one of the optional fields must be provided.
 * Apart from tags, existing values will be updated with the new values, replacing them.
 * When editing tags, new tags will be added and existing tags will be removed.
 * You can remove all the person's tags by typing `t/` without specifying any tags after it.
-* `NAME` and `TAG` must be alphanumeric
-* `PHONE_NUMBER` of the Contact must contain only *8 numbers* and start with either '6','8' or '9'
+* `NAME` and `TAG` must be alphanumeric.
+* `PHONE_NUMBER` of the Contact must contain only *8 numbers* and start with either '6','8' or '9'.
 ****
 
 [TIP]
-You can use the alias `e` instead of typing out `edit`
+You can use the alias `e` instead of typing out `edit`.
 
 [WARNING]
-You cannot edit someone to have the exactly the same details as another contact
+You cannot edit someone to have the exact same details as another contact.
 
 ==== Examples
 Here are some examples to guide you with editing contacts in Augustine:
@@ -203,9 +205,9 @@ Here are some examples to guide you with editing contacts in Augustine:
 . [red]*Adding and removing tags*
 +
 --
-You can add or remove the tags of a particular user using the [fuchsia]`edit` command below.
-Figure 4.4.2.1 illustrates the details of the user "bernice" before the command is executed and
-Figure 4.4.2.2 illustrates the changes to the details of the user "bernice" after the command
+You can add or remove the tags of a particular contact using the [fuchsia]`edit` command below.
+Figure 4.4.2.1 illustrates the details of the contact "bernice" before the command is executed and
+Figure 4.4.2.2 illustrates the changes to the details of the contact "bernice" after the command
 is executed.
 
 [horizontal]
@@ -215,10 +217,10 @@ is executed.
 .Before command is run
 image::editChangeTagBefore.png[width="940px"]
 
-* In _Figure 4.4.2.1_ Bernice has a "colleagues" tag and the command is typed without pressing enter.
+* In Figure 4.4.2.1 Bernice has a "colleagues" tag and the command is typed without pressing enter.
 * As both Bernice and the command contains the "colleagues" tag, Augustine will remove the tag.
 * As the command contains a "friends" tag, but Bernice do not currently have it, the tag is added.
-* _Figure 4.4.2.2_ shows the result after the command is ran.
+* Figure 4.4.2.2 shows the result after the command is ran.
 
 [caption="Figure 4.4.2.2 "]
 .After command is run
@@ -229,9 +231,9 @@ image::editChangeTagAfter.png[width="940px"]
 . [red]*Changing phone number and email*
 +
 --
-You can change the phone number and email of a particular user using [fuchsia]`edit` command below.
-Figure 4.4.2.3 illustrates the details of the user "bernice" before the command is executed and
-Figure 4.4.2.4 illustrates the changes to the details of the user "bernice" after the command
+You can change the phone number and email of a particular contact using [fuchsia]`edit` command below.
+Figure 4.4.2.3 illustrates the details of the contact "bernice" before the command is executed and
+Figure 4.4.2.4 illustrates the changes to the details of the contact "bernice" after the command
 is executed.
 
 [horizontal]
@@ -241,9 +243,9 @@ is executed.
 .Before command is run
 image::editChangePhoneBefore.png[width="940px"]
 
-* In _Figure 2.4.2.4_ Bernice phone number is 99272758, and her email is "berniceyu@example.com
+* In Figure 2.4.2.4 Bernice phone number is 99272758, and her email is berniceyu@example.com
 * The command will change the phone number to 87921929 and email to bernice@example.com
-* _Figure 2.4.2.4_ shows the result after the command is ran.
+* Figure 2.4.2.4 shows the result after the command is ran.
 
 [caption="Figure 4.4.2.4 "]
 .After command is run
@@ -362,18 +364,21 @@ The format of the [fuchsia]`delete` command is as follow:
 ====
 ****
 * Deletes the person at the specified `INDEX`.
-* The index refers to the index number shown in the most recent listing.
-* The index *must be a positive integer* 1, 2, 3, ...
+* `INDEX` refers to the index number shown in the the list of contacts.
+* The index must be a whole number 1, 2, 3, ...
 ****
+
+[TIP]
+You can use the alias `d` instead of typing out `delete`
 
 ==== Example
 
-Here are some examples on you can delete users:
+Here are some examples on using the command to delete contacts:
 
-. [red]*Delete user from list*
+. [red]*Delete contact from list*
 +
 --
-You can list all the users in Augustine and delete the user by the user's index.
+You can list all the contacts in Augustine and delete the contact by the contact's index.
 The command below deletes the 2nd person in address book.
 
 [horizontal]
@@ -383,11 +388,11 @@ The command below deletes the 2nd person in address book.
 
 --
 
-. [red]*Delete user from find results*
+. [red]*Delete contact from find results*
 +
 --
-You can use the `find` command to get a list of filtered users and delete the
-user by the user's index. The command below deletes the 1st person in the results
+You can use the `find` command to get a list of filtered contacts and delete the
+contact by the contact's index. The command below deletes the 1st person in the results
 of the `find` command.
 
 [horizontal]
@@ -398,10 +403,9 @@ of the `find` command.
 
 '''
 
-=== Selecting a person : [fuchsia]`select`
+=== Displaying a person's timetable : [fuchsia]`select`
 
-The [fuchsia]`select` command selects the person identified by the index
-number used in the last person listing.
+Augustine is integrated with https://nusmods.com. You can use the [fuchsia]`select` command to display the timetable of a contact on the NUSmods website.
 
 ==== Format
 The format of the [fuchsia]`select` command is as follow:
@@ -409,33 +413,40 @@ The format of the [fuchsia]`select` command is as follow:
 [fuchsia]#select INDEX#
 ====
 ****
-* Selects the person and loads the Google search page the person at the specified `INDEX`.
-* The index refers to the index number shown in the most recent listing.
-* The index *must be a positive integer* `1, 2, 3, ...`
+* Selects the person specified at `INDEX` and loads the NUSmods webpage with the timetable belonging to the contact.
+* `INDEX` refers to the index number shown in the the list of contacts.
+* The index must be a whole number 1, 2, 3, ...
 ****
+
+[TIP]
+You can use the alias `s` instead of typing out `select`
 
 ==== Example
 
-Here are some examples on you can delete users:
+Here are some example of using the [fuchsia]`select` command:
 
-. [red]*Select user from list results*
+. [red]*Select contact from list results*
 +
 --
-You can list all the users in Augustine and delete the user by the user's index.
-The command below deletes the 2nd person in address book.
+You can list all the contacts in Augustine and select the contact by the contact's index.
+The command below selects the 2nd person in address book. The result is shown in Figure 4.7.2.1.
 
 [horizontal]
 *Command:* ::
 `list` +
 [fuchsia]`select 2`
 
+[caption="Figure 4.7.2.1 "]
+.Before command is run
+image::select2After.png[width="940px"]
+
 --
 
-. [red]*Select user from find results*
+. [red]*Select contact from find results*
 +
 --
-You can use the `find` command to get a list of filtered users and delete the
-user by the user's index. THe command below deletes the 1st person in the results
+You can use the `find` command to get a list of filtered contacts and delete the
+contact by the contact's index. The command below selects the 1st person in the results
 of the `find` command.
 
 [horizontal]
@@ -446,9 +457,83 @@ of the `find` command.
 
 '''
 
+=== Using NUS timetable: [fuchsia]`nusmods`
+
+Augustine is integrated with https://nusmods.com.
+You can use the [fuchsia]`nusmods` command to add, edit or delete modules from a contact.
+Remember than you can use [fuchsia]`select` to display a contact's timetable.
+
+Before adding modules to contacts, you will need to open `config.json` and enter the current academic year.
+The config file can be found in the same folder as Augustine.
+
+==== Format
+The format of the [fuchsia]`nusmods` command is as follow:
+====
+[fuchsia]#nusmods INDEX t/[add/delete/url] [u/URL] [m/MODULE_CODE] [LESSON_TYPE/LESSON_SLOT]...#
+====
+****
+* Changes the modules of the person at the specified `INDEX`.
+* `INDEX` refers to the index number shown in the the list of contacts.
+* The index must be a whole number 1, 2, 3, ...
+* t/ is followed by either "add", "delete" or "url".
+** "t/add" will require `m/MODULE_CODE` and one or more `LESSON_TYPE/LESSON_SLOT`
+*** `LESSON_TYPE` is a 3 letter combination. For example, lec and tut for lectures and tutorials respectively. You can visit the NUSmods website if you are unsure what is the 3 letter combination of a lesson type or which lesson types a module.
+*** `LESSON_SLOT` is to indicate which slot the contact is allocated to. For example, "tut/5" means that he belongs in tutorial group 5.
+*** You can use "t/add" to update lesson slots too.
+** "t/delete" will require `m/MODULE_CODE` only.
+** "t/url" will require `u/URL`.
+*** `URL` is a NUSmods URL which already have all the modules. This will make it easy to share timetables as you do not need to manually modules one by one.
+*** This will overwrite all existing modules the contact had.
+****
+
+[TIP]
+You can use the alias `nm` instead of typing out `nusmods`
+
+[TIP]
+Most students in NUS uses NUSmods, ask them for their timetable URL to save time populating Augustine!
+
+==== Example
+
+Here are some example of using the [fuchsia]`nusmods` command:
+
+. [red]*Input timetable with URL*
++
+--
+The following command will overwrite the timetable of contact listed at 1 to the timetable given in the URL.
+
+[horizontal]
+*Command:* ::
+`nusmods 1 t/url u/https://nusmods.com/timetable/2017-2018/sem1?cs2101[SEC]=5&CS2103T[TUT]=T5&MA1101R[LAB]=B01&MA1101R[LEC]=SL2&MA1101R[TUT]=T13&CS2010[LEC]=1&CS2010[LAB]=6&CS2010[TUT]=5&GET1020[LEC]=L1`+
+
+--
+
+. [red]*Add or update a module and its lesson's time slots*
++
+--
+The following command will add or update the contact listed at index 2 to have the module MA1101R. The tutorial group will be set to T13 and the lecture to SL2.
+
+[horizontal]
+*Command:* ::
+`nusmods 2 t/add m/MA1101R lec/SL2 tut/T13` +
+--
+
+. [red]*Removing a module from a contact*
++
+--
+The following command will remove the module CS2010 from the timetable of the context listed at index 2.
+
+[horizontal]
+*Command:* ::
+`nusmods 2 t/remove m/CS2010` +
+
+--
+
+'''
+
+
 === Email contacts : [fuchsia]`email`
 
-The [fuchsia]`email` command emails all the users in the last displayed contact's list
+The [fuchsia]`email` command emails all the contacts in the last displayed contact's list
 in Augustine.
 
 ==== Format
@@ -480,7 +565,7 @@ Here are some examples on how you can email your contacts:
 +
 --
 You can compose an email draft in Augustine.
-Figure 4.8.2.1 illustrates the result after you execute the command below.
+Figure 4.9.2.1 illustrates the result after you execute the command below.
 
 [NOTE]
 Note that the email draft is stored until Augustine exits or when the email have been sent.
@@ -488,7 +573,7 @@ Note that the email draft is stored until Augustine exits or when the email have
 [horizontal]
 *Command:* :: [fuchsia]`email em/message es/subject`
 
-[caption="Figure 4.8.2.1 "]
+[caption="Figure 4.9.2.1 "]
 .Result of email command.
 image::emailStep1.png[]
 
@@ -498,7 +583,7 @@ image::emailStep1.png[]
 +
 --
 You have to login to your google email before you can send an email can compose an email.
-Figure 4.8.2.2 illustrates the result after you execute the command below.
+Figure 4.9.2.2 illustrates the result after you execute the command below.
 
 [NOTE]
 Note that the email you login with *must be a gmail email account*.
@@ -506,7 +591,7 @@ Note that the email you login with *must be a gmail email account*.
 [horizontal]
 *Command:* :: [fuchsia]`email el/adam@gmail.com:password`
 
-[caption="Figure 4.8.2.2 "]
+[caption="Figure 4.9.2.2 "]
 .Result of email command.
 image::emailStep2.png[]
 
@@ -517,7 +602,7 @@ image::emailStep2.png[]
 --
 After following example 1 and 2 above, you have successfully compose an email draft
 and login to your google email. To send an email, you can simply run the command below.
-Figure 4.8.2.3 illustrates illustrates the result after executing the command
+Figure 4.9.2.3 illustrates illustrates the result after executing the command
 below.
 
 [NOTE]
@@ -526,7 +611,7 @@ Note that you must have *at least 1 person* in your current displayed contact li
 [horizontal]
 *Command:* :: [fuchsia]`email -send`
 
-[caption="Figure 4.8.2.3 "]
+[caption="Figure 4.9.2.3 "]
 .Result of email command.
 image::emailStep3.png[]
 
@@ -535,8 +620,8 @@ image::emailStep3.png[]
 . [red]*Compose and send the email draft in one single command*
 +
 --
-You can compose an email and send it to all users displayed in your current contact list
-in one single command. Figure 4.8.2.4 illustrates the result after executing the command
+You can compose an email and send it to all contacts displayed in your current contact list
+in one single command. Figure 4.9.2.4 illustrates the result after executing the command
 below.
 
 [horizontal]
@@ -544,7 +629,7 @@ below.
 `list` +
 [fuchsia]`email em/message es/subject el/adam@gmail.com:password -send`
 
-[caption="Figure 4.8.2.4 "]
+[caption="Figure 4.9.2.4 "]
 .Result of email command.
 image::emailSingleCommand.png[]
 
@@ -732,7 +817,7 @@ The format of the [fuchsia]`filter` command is as follow:
 . [red]*Filter by Name*
 +
 --
-You can [fuchsia]`filter` users by name. The command below will display only the
+You can [fuchsia]`filter` contacts by name. The command below will display only the
 entries with name "John"
 
 [horizontal]
@@ -742,7 +827,7 @@ entries with name "John"
 . [red]*Filter by Multiple Names*
 +
 --
-You can [fuchsia]`filter` users by multiple name. The command below will display only the
+You can [fuchsia]`filter` contacts by multiple name. The command below will display only the
 entries with name "John" AND entries with name "Sally".
 
 [horizontal]
@@ -752,7 +837,7 @@ entries with name "John" AND entries with name "Sally".
 . [red]*Filter by Tags*
 +
 --
-You can [fuchsia]`filter` users by multiple name. The command below will display only the
+You can [fuchsia]`filter` contacts by multiple name. The command below will display only the
 entries tagged under "Owes money"
 
 [horizontal]
