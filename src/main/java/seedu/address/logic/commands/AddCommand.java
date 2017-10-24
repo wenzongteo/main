@@ -3,7 +3,7 @@ package seedu.address.logic.commands;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_BIRTHDATE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_ADDRESS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
@@ -26,17 +26,17 @@ public class AddCommand extends UndoableCommand {
     public static final String COMMAND_ALIAS = "a";
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Adds a person to the address book. "
-            + "Parameters (Only email parameter is compulsory): \n"
+            + "Parameters (Only email address parameter is compulsory): \n"
             + PREFIX_NAME + "NAME "
             + PREFIX_PHONE + "PHONE "
-            + PREFIX_EMAIL + "EMAIL "
+            + PREFIX_EMAIL_ADDRESS + "EMAIL "
             + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_BIRTHDATE + "BIRTHDATE "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
-            + PREFIX_EMAIL + "johnd@example.com "
+            + PREFIX_EMAIL_ADDRESS + "johnd@example.com "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
             + PREFIX_BIRTHDATE + "25/12 "
             + PREFIX_PHOTO + "/data/photo.jpeg "
@@ -62,11 +62,11 @@ public class AddCommand extends UndoableCommand {
         requireNonNull(model);
         try {
             originalPhoto = toAdd.getPhoto();
-            String intendedPhotoPath = "data/images/" + toAdd.getEmail().toString() + ".jpg";
+            String intendedPhotoPath = "data/images/" + toAdd.getEmailAddress().toString() + ".jpg";
 
             toAdd.setPhoto(new Photo(intendedPhotoPath, 0));
             model.addPerson(toAdd);
-            model.addImage(toAdd.getEmail(), originalPhoto);
+            model.addImage(toAdd.getEmailAddress(), originalPhoto);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicatePersonException e) {
             toAdd.setPhoto(originalPhoto);

@@ -12,7 +12,7 @@ import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.StringUtil;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthdate;
-import seedu.address.model.person.Email;
+import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
@@ -106,7 +106,8 @@ public class ParserUtil {
      */
     public static Optional<Photo> parsePhoto(Optional<String> photo) throws IllegalValueException {
         requireNonNull(photo);
-        return photo.isPresent() ? Optional.of(new Photo(photo.get())) : Optional.of(new Photo("default.jpeg"));
+        return photo.isPresent() ? Optional.of(new Photo(photo.get())) : Optional.of(
+                new Photo("data/images/default.jpeg"));
     }
 
     /**
@@ -122,18 +123,18 @@ public class ParserUtil {
      * Parses a {@code Optional<String> email} into an {@code Optional<Email>}
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
-    public static Optional<Email> parseEmail(Optional<String> email) throws IllegalValueException {
-        requireNonNull(email);
-        return email.isPresent() ? Optional.of(new Email(email.get())) : Optional.empty();
+    public static Optional<EmailAddress> parseEmail(Optional<String> emailAddress) throws IllegalValueException {
+        requireNonNull(emailAddress);
+        return emailAddress.isPresent() ? Optional.of(new EmailAddress(emailAddress.get())) : Optional.empty();
     }
 
     /**
      * Parses a {@code Optional<String> email} into an {@code Optional<Email>} if {@code email} is present.
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
-    public static Optional<Email> parseEmailForEdit(Optional<String> email) throws IllegalValueException {
-        requireNonNull(email);
-        return email.isPresent() ? Optional.of(new Email(email.get())) : Optional.empty();
+    public static Optional<EmailAddress> parseEmailForEdit(Optional<String> emailAddress) throws IllegalValueException {
+        requireNonNull(emailAddress);
+        return emailAddress.isPresent() ? Optional.of(new EmailAddress(emailAddress.get())) : Optional.empty();
     }
 
     /**
@@ -199,5 +200,32 @@ public class ParserUtil {
             sortOrder = -1;
         }
         return sortOrder;
+    }
+
+    /**
+     * Parses a {@code Optional<String> message} into an {@code String}
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static String parseEmailMessage(Optional<String> message) throws IllegalValueException {
+        requireNonNull(message);
+        return message.isPresent() ? message.get() : "";
+    }
+
+    /**
+     * Parses a {@code Optional<String> subject} into an {@code String}
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static String parseEmailSubject(Optional<String> subject) throws IllegalValueException {
+        requireNonNull(subject);
+        return subject.isPresent() ? subject.get() : "";
+    }
+
+    /**
+     * Parses a {@code Optional<String> login} into an {@code String}
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static String parseLoginDetails(Optional<String> loginDetails) throws IllegalValueException {
+        requireNonNull(loginDetails);
+        return loginDetails.isPresent() ? loginDetails.get() : "";
     }
 }

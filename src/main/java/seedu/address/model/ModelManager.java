@@ -15,6 +15,8 @@ import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
 
+import javax.mail.AuthenticationFailedException;
+
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
@@ -23,8 +25,13 @@ import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
-
-import seedu.address.model.person.Email;
+import seedu.address.email.Email;
+import seedu.address.email.EmailManager;
+import seedu.address.email.exceptions.EmailLoginInvalidException;
+import seedu.address.email.exceptions.EmailMessageEmptyException;
+import seedu.address.email.exceptions.EmailRecipientsEmptyException;
+import seedu.address.email.message.MessageDraft;
+import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -39,6 +46,7 @@ import seedu.address.model.tag.Tag;
 public class ModelManager extends ComponentManager implements Model {
     private static final Logger logger = LogsCenter.getLogger(ModelManager.class);
 
+    private final Email email;
     private final AddressBook addressBook;
     private final FilteredList<ReadOnlyPerson> filteredPersons;
     private final SortedList<ReadOnlyPerson> sortedPersonsList;
@@ -46,20 +54,21 @@ public class ModelManager extends ComponentManager implements Model {
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
      */
-    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs) {
+    public ModelManager(ReadOnlyAddressBook addressBook, UserPrefs userPrefs, Email email) {
         super();
         requireAllNonNull(addressBook, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
 
         this.addressBook = new AddressBook(addressBook);
+        this.email = email;
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         sortedPersonsList = new SortedList<ReadOnlyPerson>(filteredPersons);
         sortFilteredPersons(0);
     }
 
     public ModelManager() {
-        this(new AddressBook(), new UserPrefs());
+        this(new AddressBook(), new UserPrefs(), new EmailManager());
     }
 
     @Override
@@ -71,6 +80,11 @@ public class ModelManager extends ComponentManager implements Model {
     @Override
     public ReadOnlyAddressBook getAddressBook() {
         return addressBook;
+    }
+
+    @Override
+    public Email getEmailManager() {
+        return email;
     }
 
     /** Raises an event to indicate the model has changed */
@@ -92,7 +106,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized String addImage(Email email, Photo photo) throws IOException {
+    public synchronized String addImage(EmailAddress email, Photo photo) throws IOException {
         String folder = "data/images/";
         String fileExt = ".jpg";
 
@@ -196,6 +210,26 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public void loginEmail(String [] loginDetails) {
+        email.loginEmail(loginDetails);
+    }
+
+    @Override
+    public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
+            EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
+        email.composeEmail(message);
+
+        if (send) {
+            email.sendEmail();
+        }
+    }
+
+    @Override
+    public String getEmailStatus() {
+        return email.getEmailStatus();
+    }
+
+    @Override
     public boolean equals(Object obj) {
 
         // short circuit if same object
@@ -210,8 +244,9 @@ public class ModelManager extends ComponentManager implements Model {
 
         // state check
         ModelManager other = (ModelManager) obj;
-        return addressBook.equals(other.addressBook)
-                && sortedPersonsList.equals(other.sortedPersonsList);
+        return  addressBook.equals(other.addressBook)
+                && sortedPersonsList.equals(other.sortedPersonsList)
+                && email.equals(other.email);
     }
 
 }

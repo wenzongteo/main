@@ -33,7 +33,7 @@ public class PersonCardTest extends GuiUnitTest {
         guiRobot.interact(() -> {
             personWithTags.setName(ALICE.getName());
             personWithTags.setAddress(ALICE.getAddress());
-            personWithTags.setEmail(ALICE.getEmail());
+            personWithTags.setEmailAddress(ALICE.getEmailAddress());
             personWithTags.setPhone(ALICE.getPhone());
             personWithTags.setTags(ALICE.getTags());
         });
