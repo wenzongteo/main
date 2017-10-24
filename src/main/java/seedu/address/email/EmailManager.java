@@ -26,7 +26,8 @@ public class EmailManager extends ComponentManager implements Email {
     private static final Logger logger = LogsCenter.getLogger(EmailManager.class);
 
     private final EmailLogin emailLogin;
-    private MessageDraft message;
+    private final EmailCompose emailCompose;
+
     private String emailStatus;
     private Properties props;
 
@@ -34,26 +35,20 @@ public class EmailManager extends ComponentManager implements Email {
         logger.fine("Initializing Email Component");
 
         this.emailLogin = new EmailLogin();
-        this.message = new MessageDraft();
+        this.emailCompose = new EmailCompose();
         this.emailStatus = "";
         prepEmail();
     }
 
     @Override
     public void composeEmail(MessageDraft message) {
-        if (message.getSubject().isEmpty()) {
-            message.setSubject(this.message.getSubject());
-        }
-        if (message.getMessage().isEmpty()) {
-            message.setMessage(this.message.getMessage());
-        }
-        this.message = message;
+        emailCompose.composeEmail(message);
         this.emailStatus = "drafted";
     }
 
     @Override
     public MessageDraft getEmailDraft() {
-        return this.message;
+        return emailCompose.getMessage();
     }
 
     @Override
@@ -66,7 +61,7 @@ public class EmailManager extends ComponentManager implements Email {
             EmailRecipientsEmptyException, AuthenticationFailedException {
 
         //Step 1. Verify that the email draft consists of message and subject
-        if (!message.containsContent()) {
+        if (!emailCompose.getMessage().containsContent()) {
             //throw exception that user needs to enter message and subject to send email
             throw new EmailMessageEmptyException();
         }
@@ -77,7 +72,7 @@ public class EmailManager extends ComponentManager implements Email {
             throw new EmailLoginInvalidException();
         }
         //Step 4. Verify that Recipient's list is not empty
-        if (message.getRecipientsEmails().length <= 0) {
+        if (emailCompose.getMessage().getRecipientsEmails().length <= 0) {
             throw new EmailRecipientsEmptyException();
         }
 
@@ -128,9 +123,9 @@ public class EmailManager extends ComponentManager implements Email {
         try {
             Message newMessage = new MimeMessage(session);
             newMessage.setFrom(new InternetAddress(username));
-            newMessage.setRecipients(Message.RecipientType.TO, message.getRecipientsEmails());
-            newMessage.setSubject(message.getSubject());
-            newMessage.setText(message.getMessage());
+            newMessage.setRecipients(Message.RecipientType.TO, emailCompose.getMessage().getRecipientsEmails());
+            newMessage.setSubject(emailCompose.getMessage().getSubject());
+            newMessage.setText(emailCompose.getMessage().getMessage());
 
             Transport.send(newMessage);
         } catch (AuthenticationFailedException e) {
@@ -142,7 +137,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     /** reset Email Draft Data **/
     private void resetData() {
-        this.message = new MessageDraft();
+        this.emailCompose.resetData();
         this.emailLogin.resetData();
     }
 
@@ -161,7 +156,7 @@ public class EmailManager extends ComponentManager implements Email {
 
         // state check
         EmailManager other = (EmailManager) obj;
-        return message.equals(other.message)
+        return this.emailCompose.equals(((EmailManager) obj).emailCompose)
                 && this.emailLogin.equals(((EmailManager) obj).emailLogin);
     }
 
