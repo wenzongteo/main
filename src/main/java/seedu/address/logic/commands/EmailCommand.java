@@ -115,7 +115,7 @@ public class EmailCommand extends Command {
     /**
      * For validating if the loginDetails are equal (Testing)
      *
-     * @param loginDetails to compare with
+     * @param other to compare with
      * @return true if loginDetails are equal
      **/
     private boolean loginDetailsEquals(String [] other) {
