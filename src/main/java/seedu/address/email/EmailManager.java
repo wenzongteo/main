@@ -101,6 +101,9 @@ public class EmailManager extends ComponentManager implements Email {
         }
     }
 
+    /*
+     * Checks if the email manager holds the username and password of user
+     */
     public boolean isUserLogin() {
         if (this.loginDetails.length != 2) {
             //The loginDetails empty
@@ -183,6 +186,9 @@ public class EmailManager extends ComponentManager implements Email {
                 && this.loginDetailsEquals(other.loginDetails);
     }
 
+    /*
+     * For validating if the loginDetails are equal (Testing)
+     */
     private boolean loginDetailsEquals(String [] other) {
         if (this.loginDetails.length == other.length) {
             for (int i = 0; i < this.loginDetails.length; i++) {

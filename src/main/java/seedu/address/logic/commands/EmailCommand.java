@@ -53,6 +53,9 @@ public class EmailCommand extends Command {
         this.loginDetails = loginDetails;
     }
 
+    /*
+     * Extract Email from last display person {@code lastshownList} into an InternetAddresss[] for sending email
+     */
     private InternetAddress[] extractEmailFromContacts(List<ReadOnlyPerson> lastShownList) throws AddressException {
         InternetAddress [] recipientsEmail = new InternetAddress[lastShownList.size()];
         try {
@@ -106,6 +109,9 @@ public class EmailCommand extends Command {
                 && ((EmailCommand) other).send == this.send);
     }
 
+    /*
+     * For validating if the loginDetails are equal (Testing)
+     */
     private boolean loginDetailsEquals(String [] other) {
         if (this.loginDetails.length == other.length) {
             for (int i = 0; i < this.loginDetails.length; i++) {
