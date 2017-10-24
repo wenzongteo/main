@@ -1,9 +1,10 @@
 package seedu.address;
 
 import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -37,8 +38,6 @@ import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlAddressBookStorage;
 import seedu.address.ui.Ui;
 import seedu.address.ui.UiManager;
-
-import static java.nio.file.StandardCopyOption.REPLACE_EXISTING;
 
 /**
  * The main entry point to the application.
@@ -94,24 +93,32 @@ public class MainApp extends Application {
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
         try {
-            String dataFolderPath = "data";
             String imagesFolderPath = "data/images";
 
-            File dataFolder = new File(dataFolderPath);
             File imagesFolder = new File(imagesFolderPath);
 
             if (!imagesFolder.exists()) {
                 imagesFolder.mkdirs();
-                try {
-                    //URL url = this.getClass().getClassLoader().getResource("/images/default.jpeg");
-                    Files.copy(Paths.get(this.getClass().getClassLoader().getResource("/images/default.jpeg")
-                            .toString()), Paths.get("data/images/default.jpeg"), REPLACE_EXISTING);
-                } catch (IOException e) {
-                    throw new AssertionError("File exists!");
-                }
+                ClassLoader classloader = Thread.currentThread().getContextClassLoader();
+                //Files.copy(Paths.get(ClassLoader.getSystemClassLoader().getResource("/images/default.jpeg")
+                //        .toString()), Paths.get("data/images/default.jpeg"), REPLACE_EXISTING);
+                //Not working too
+
+                //Files.copy(Paths.get(this.getClass().getClassLoader().getResource("/resources/images/default.jpeg")
+                    //        .toString()), Paths.get("data/images/default.jpeg"), REPLACE_EXISTING);
+                //Definitely not working.
             } else {
 
             }
+
+            InputStream is = this.getClass().getResourceAsStream("/images/default.jpeg");
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+
+            File targetFile = new File("data/images/default.jpeg");
+            OutputStream outStream = new FileOutputStream(targetFile);
+            outStream.write(buffer);
+
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
