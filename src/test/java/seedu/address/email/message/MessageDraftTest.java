@@ -6,7 +6,6 @@ import static org.junit.Assert.assertTrue;
 import javax.mail.internet.InternetAddress;
 
 import org.junit.Test;
-import sun.plugin2.message.Message;
 
 public class MessageDraftTest {
 
