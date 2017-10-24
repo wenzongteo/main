@@ -106,7 +106,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @see #syncMasterTagListWith(Person)
      */
     public void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedReadOnlyPerson)
-            throws DuplicatePersonException, PersonNotFoundException {
+            throws DuplicatePersonException, PersonNotFoundException, IOException {
         requireNonNull(editedReadOnlyPerson);
 
         Person editedPerson = new Person(editedReadOnlyPerson);
@@ -151,7 +151,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Removes {@code key} from this {@code AddressBook}.
      * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
      */
-    public boolean removePerson(ReadOnlyPerson key) throws PersonNotFoundException {
+    public boolean removePerson(ReadOnlyPerson key) throws PersonNotFoundException, IOException {
         if (persons.remove(key)) {
             return true;
         } else {

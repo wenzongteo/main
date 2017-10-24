@@ -90,21 +90,8 @@ public class EditCommand extends UndoableCommand {
         ReadOnlyPerson personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        try { //One is user never change photo, another choice is user got change photo.
-            originalPhoto = personToEdit.getPhoto();
-            String intendedPhotoPath = "data/images/" + editedPerson.getEmailAddress().toString() + ".jpg";
-
-            if (FileUtil.isFileExists(new File(intendedPhotoPath)) && personToEdit.getPhoto()
-                    .equals(editedPerson.getPhoto())) { //Never change photo
-
-            } else { //Got change photo
-                originalPhoto = editedPerson.getPhoto();
-            }
-
-            editedPerson.setPhoto(new Photo(intendedPhotoPath, 0));
-
-            model.updatePerson(personToEdit, editedPerson); //Image does not exist yet.
-            model.addImage(editedPerson.getEmailAddress(), originalPhoto);
+        try {
+            model.updatePerson(personToEdit, editedPerson);
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {

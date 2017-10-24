@@ -10,6 +10,13 @@ import static seedu.address.testutil.TestUtil.getPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.commons.core.Messages;
@@ -25,6 +32,37 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
 
     private static final String MESSAGE_INVALID_DELETE_COMMAND_FORMAT =
             String.format(Messages.MESSAGE_INVALID_COMMAND_FORMAT, DeleteCommand.MESSAGE_USAGE);
+
+    @Before
+    public void setup() throws Exception {
+        String imageFilePath = "data/images/";
+        File imageFolder = new File(imageFilePath);
+
+        if (!imageFolder.exists()) {
+            imageFolder.mkdirs();
+        } else {
+
+        }
+
+        try {
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new AssertionError("Impossible");
+        }
+    }
 
     @Test
     public void delete() {
@@ -122,6 +160,8 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
             model.deletePerson(targetPerson);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("targetPerson is retrieved from model.");
+        } catch (IOException ioe) {
+            throw new AssertionError("Image must exist");
         }
         return targetPerson;
     }

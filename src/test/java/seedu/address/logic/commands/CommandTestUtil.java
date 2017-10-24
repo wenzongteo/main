@@ -25,6 +25,7 @@ import seedu.address.model.Model;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.testutil.Assert;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
 
 /**
@@ -162,6 +163,8 @@ public class CommandTestUtil {
             model.deletePerson(firstPerson);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("Person in filtered list must exist in model.", pnfe);
+        } catch (IOException ioe) {
+            throw new AssertionError("Image must exist");
         }
     }
 }

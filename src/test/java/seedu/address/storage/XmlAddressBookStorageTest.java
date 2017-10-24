@@ -7,8 +7,13 @@ import static seedu.address.testutil.TypicalPersons.HOON;
 import static seedu.address.testutil.TypicalPersons.IDA;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -22,6 +27,37 @@ import seedu.address.model.person.Person;
 
 public class XmlAddressBookStorageTest {
     private static final String TEST_DATA_FOLDER = FileUtil.getPath("./src/test/data/XmlAddressBookStorageTest/");
+
+    @Before
+    public void setup() throws Exception {
+        String imageFilePath = "data/images/";
+        File imageFolder = new File(imageFilePath);
+
+        if (!imageFolder.exists()) {
+            imageFolder.mkdirs();
+        } else {
+
+        }
+
+        try {
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new AssertionError("Impossible");
+        }
+    }
 
     @Rule
     public ExpectedException thrown = ExpectedException.none();
