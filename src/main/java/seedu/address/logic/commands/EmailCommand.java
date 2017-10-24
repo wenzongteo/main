@@ -17,6 +17,7 @@ import seedu.address.model.person.ReadOnlyPerson;
 
 /*
  * Compose an email draft or send the draft out using gmail account
+ * @param
  */
 public class EmailCommand extends Command {
 
@@ -55,6 +56,8 @@ public class EmailCommand extends Command {
 
     /*
      * Extract Email from last display person {@code lastshownList} into an InternetAddresss[] for sending email
+     * @params: List<ReadOnlyPerson> lastShownList
+     * @return: InternetAddress[]
      */
     private InternetAddress[] extractEmailFromContacts(List<ReadOnlyPerson> lastShownList) throws AddressException {
         InternetAddress [] recipientsEmail = new InternetAddress[lastShownList.size()];
@@ -111,6 +114,8 @@ public class EmailCommand extends Command {
 
     /*
      * For validating if the loginDetails are equal (Testing)
+     * @params: String [] other
+     * @return boolean
      */
     private boolean loginDetailsEquals(String [] other) {
         if (this.loginDetails.length == other.length) {

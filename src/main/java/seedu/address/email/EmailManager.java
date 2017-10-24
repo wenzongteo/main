@@ -103,6 +103,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     /*
      * Checks if the email manager holds the username and password of user
+     * @return boolean
      */
     public boolean isUserLogin() {
         if (this.loginDetails.length != 2) {
@@ -188,6 +189,8 @@ public class EmailManager extends ComponentManager implements Email {
 
     /*
      * For validating if the loginDetails are equal (Testing)
+     * @params String [] others
+     * @return boolean
      */
     private boolean loginDetailsEquals(String [] other) {
         if (this.loginDetails.length == other.length) {
