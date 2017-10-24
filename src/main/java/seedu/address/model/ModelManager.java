@@ -82,6 +82,11 @@ public class ModelManager extends ComponentManager implements Model {
         return addressBook;
     }
 
+    @Override
+    public Email getEmailManager() {
+        return email;
+    }
+
     /** Raises an event to indicate the model has changed */
     private void indicateAddressBookChanged() {
         raise(new AddressBookChangedEvent(addressBook));
@@ -238,8 +243,9 @@ public class ModelManager extends ComponentManager implements Model {
 
         // state check
         ModelManager other = (ModelManager) obj;
-        return addressBook.equals(other.addressBook)
-                && sortedPersonsList.equals(other.sortedPersonsList);
+        return  addressBook.equals(other.addressBook)
+                && sortedPersonsList.equals(other.sortedPersonsList)
+                && email.equals(other.email);
     }
 
 }

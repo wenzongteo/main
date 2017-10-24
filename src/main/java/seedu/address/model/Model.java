@@ -9,6 +9,7 @@ import javafx.collections.ObservableList;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
+import seedu.address.email.Email;
 import seedu.address.email.message.MessageDraft;
 import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Photo;
@@ -29,6 +30,9 @@ public interface Model {
 
     /** Returns the AddressBook */
     ReadOnlyAddressBook getAddressBook();
+
+    /** Returns the email Manager Component */
+    Email getEmailManager();
 
     /** Deletes the given person. */
     void deletePerson(ReadOnlyPerson target) throws PersonNotFoundException;

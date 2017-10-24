@@ -171,6 +171,12 @@ public class EmailCommandTest {
         }
 
         @Override
+        public Email getEmailManager() {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        @Override
         public void deletePerson(ReadOnlyPerson target) throws PersonNotFoundException {
             fail("This method should not be called.");
         }
@@ -221,7 +227,7 @@ public class EmailCommandTest {
     }
 
     /**
-     * Generates a new AddCommand with the details of the given person.
+     * Generates a new EmailCommand with the details of the given message.
      */
     private EmailCommand getEmailCommand(String message, String subject, String [] loginDetails, boolean send, Model model) {
         EmailCommand command = new EmailCommand(message, subject, loginDetails, send);
