@@ -448,6 +448,112 @@ of the `find` command.
 
 '''
 
+=== Email contacts : [fuchsia]`email`
+
+The [fuchsia]`email` command emails all the users in the last displayed contact's list
+in Augustine.
+
+==== Format
+The format of the [fuchsia]`email` command is as follow:
+====
+[fuchsia]#email [em/MESSAGE] [es/SUBJECT] [el/adam@gmail.com:password] [-send]#
+====
+****
+* The email command requires the *message* (em/), *subject* (es/), *google email login* (el/)
+and *at least 1 person* in the displayed contact list to send an email.
+* The login email must be a *gmail* account
+* The login gmail account must enable *"allow low less secure app to log in"* in the google
+ gmail settings in order to send an email from Augustine
+* To create an email draft:
+** Add *message* to email draft: [fuchsia]`email em/message to send`
+** Add *subject* to email draft: [fuchsia]`email es/subject of email`
+** *Login* to google email: [fuchsia]`email el/adam@gmail.com:password`
+* To send an email:
+** Send the current email draft: [fuchsia]`email -send`
+** Create a new email draft and *send*: [fuchsia]`email em/message es/subject
+el/adam@gmail.com:password -send`
+* The composed email will be sent to all contacts currently displayed in Augustine.
+****
+
+==== Example
+Here are some examples on how you can email your contacts:
+
+. [red]*Compose an email draft*
++
+--
+You can compose an email draft in Augustine.
+Figure 4.8.2.1 illustrates the result after you execute the command below.
+
+[NOTE]
+Note that the email draft is stored until Augustine exits or when the email have been sent.
+
+[horizontal]
+*Command:* :: [fuchsia]`email em/message es/subject`
+
+[caption="Figure 4.8.2.1 "]
+.Result of email command.
+image::emailStep1.png[]
+
+--
+
+. [red]*Login to Email*
++
+--
+You have to login to your google email before you can send an email can compose an email.
+Figure 4.8.2.2 illustrates the result after you execute the command below.
+
+[NOTE]
+Note that the email you login with *must be a gmail email account*.
+
+[horizontal]
+*Command:* :: [fuchsia]`email el/adam@gmail.com:password`
+
+[caption="Figure 4.8.2.2 "]
+.Result of email command.
+image::emailStep2.png[]
+
+--
+
+. [red]*Sending the Email Draft*
++
+--
+After following example 1 and 2 above, you have successfully compose an email draft
+and login to your google email. To send an email, you can simply run the command below.
+Figure 4.8.2.3 illustrates illustrates the result after executing the command
+below.
+
+[NOTE]
+Note that you must have *at least 1 person* in your current displayed contact list.
+
+[horizontal]
+*Command:* :: [fuchsia]`email -send`
+
+[caption="Figure 4.8.2.3 "]
+.Result of email command.
+image::emailStep3.png[]
+
+--
+
+. [red]*Compose and send the email draft in one single command*
++
+--
+You can compose an email and send it to all users displayed in your current contact list
+in one single command. Figure 4.8.2.4 illustrates the result after executing the command
+below.
+
+[horizontal]
+*Command:* ::
+`list` +
+[fuchsia]`email em/message es/subject el/adam@gmail.com:password -send`
+
+[caption="Figure 4.8.2.4 "]
+.Result of email command.
+image::emailSingleCommand.png[]
+
+--
+
+'''
+
 === Listing entered commands : [fuchsia]`history`
 
 The [fuchsia]`history` command lists all the commands that you have entered in
@@ -680,6 +786,7 @@ There is no need to save manually.
 |*List*|`list` +|l|`list` +
 |*Help*|`help` +|h|`help` +
 |*Select*|`select INDEX` +|s|`select 2` +
+|*Email*|`email em/MESSAGE es/SUBJECT el/user@gmail.com:password -send` +|em|`email em/message es/subject el/adam@gmail.com:password -send`
 |*History*|`history`|h|`history` +
 |*Undo*|`undo`|u|`undo` +
 |*Redo*|`redo`|r|`redo` +
