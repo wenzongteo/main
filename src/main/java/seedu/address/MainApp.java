@@ -1,6 +1,10 @@
 package seedu.address;
 
+import java.io.File;
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
 import java.util.Map;
 import java.util.Optional;
 import java.util.logging.Logger;
@@ -95,6 +99,24 @@ public class MainApp extends Application {
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
         try {
+            String imagesFolderPath = "data/images";
+
+            File imagesFolder = new File(imagesFolderPath);
+
+            if (!imagesFolder.exists()) {
+                imagesFolder.mkdirs();
+            } else {
+
+            }
+
+            InputStream is = this.getClass().getResourceAsStream("/images/default.jpeg");
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
+
+            File targetFile = new File("data/images/default.jpeg");
+            OutputStream outStream = new FileOutputStream(targetFile);
+            outStream.write(buffer);
+
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {
                 logger.info("Data file not found. Will be starting with a sample AddressBook");
