@@ -15,10 +15,9 @@ import seedu.address.email.message.MessageDraft;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.ReadOnlyPerson;
 
-/*
+/**
  * Compose an email draft or send the draft out using gmail account
- * @param
- */
+ **/
 public class EmailCommand extends Command {
 
     public static final String COMMAND_WORD = "email";
@@ -54,11 +53,12 @@ public class EmailCommand extends Command {
         this.loginDetails = loginDetails;
     }
 
-    /*
+    /**
      * Extract Email from last display person {@code lastshownList} into an InternetAddresss[] for sending email
-     * @params: List<ReadOnlyPerson> lastShownList
-     * @return: InternetAddress[]
-     */
+     *
+     * @params: last shown display person list
+     * @return: list of internet email address
+     **/
     private InternetAddress[] extractEmailFromContacts(List<ReadOnlyPerson> lastShownList) throws AddressException {
         InternetAddress [] recipientsEmail = new InternetAddress[lastShownList.size()];
         try {
@@ -112,11 +112,12 @@ public class EmailCommand extends Command {
                 && ((EmailCommand) other).send == this.send);
     }
 
-    /*
+    /**
      * For validating if the loginDetails are equal (Testing)
-     * @params: String [] other
-     * @return boolean
-     */
+     * 
+     * @params: loginDetails to compare with
+     * @return true if loginDetails are equal
+     **/
     private boolean loginDetailsEquals(String [] other) {
         if (this.loginDetails.length == other.length) {
             for (int i = 0; i < this.loginDetails.length; i++) {

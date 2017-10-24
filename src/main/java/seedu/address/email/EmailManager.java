@@ -21,9 +21,9 @@ import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
 
-/*
+/**
  * Handles how email are sent out of the application.
- */
+ **/
 public class EmailManager extends ComponentManager implements Email {
     private static final Logger logger = LogsCenter.getLogger(EmailManager.class);
     private static final Pattern GMAIL_FORMAT = Pattern.compile("^[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(@gmail.com)$");
@@ -101,10 +101,11 @@ public class EmailManager extends ComponentManager implements Email {
         }
     }
 
-    /*
+    /**
      * Checks if the email manager holds the username and password of user
+     *
      * @return boolean
-     */
+     **/
     public boolean isUserLogin() {
         if (this.loginDetails.length != 2) {
             //The loginDetails empty
@@ -187,11 +188,12 @@ public class EmailManager extends ComponentManager implements Email {
                 && this.loginDetailsEquals(other.loginDetails);
     }
 
-    /*
+    /**
      * For validating if the loginDetails are equal (Testing)
-     * @params String [] others
-     * @return boolean
-     */
+     *
+     * @params: loginDetails to compare with
+     * @return true if loginDetails are equal
+     **/
     private boolean loginDetailsEquals(String [] other) {
         if (this.loginDetails.length == other.length) {
             for (int i = 0; i < this.loginDetails.length; i++) {

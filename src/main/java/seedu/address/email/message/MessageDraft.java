@@ -2,9 +2,9 @@ package seedu.address.email.message;
 
 import javax.mail.internet.InternetAddress;
 
-/*
+/**
  * Email Message Object for storing Email Drafts Contents
- */
+ **/
 public class MessageDraft implements ReadOnlyMessageDraft {
 
     private String message;
