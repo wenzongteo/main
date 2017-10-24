@@ -111,6 +111,11 @@ public class AddCommandTest {
         }
 
         @Override
+        public void removeImage(Photo photo) {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public void resetData(ReadOnlyAddressBook newData) {
             fail("This method should not be called.");
         }
