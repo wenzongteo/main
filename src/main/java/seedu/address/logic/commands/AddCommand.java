@@ -9,8 +9,11 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
+import java.io.IOException;
+
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
@@ -42,8 +45,10 @@ public class AddCommand extends UndoableCommand {
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_FILE_ERROR = "File is not found!";
 
     private final Person toAdd;
+    private Photo originalPhoto;
 
     /**
      * Creates an AddCommand to add the specified {@code ReadOnlyPerson}
@@ -53,15 +58,23 @@ public class AddCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult executeUndoableCommand() throws CommandException, IOException {
         requireNonNull(model);
         try {
+            originalPhoto = toAdd.getPhoto();
+            String intendedPhotoPath = "data/images/" + toAdd.getEmail().toString() + ".jpg";
+
+            toAdd.setPhoto(new Photo(intendedPhotoPath, 0));
             model.addPerson(toAdd);
+            model.addImage(toAdd.getEmail(), originalPhoto);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicatePersonException e) {
+            toAdd.setPhoto(originalPhoto);
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
+        } catch (IOException e) {
+            toAdd.setPhoto(originalPhoto);
+            throw new CommandException(MESSAGE_FILE_ERROR);
         }
-
     }
 
     @Override

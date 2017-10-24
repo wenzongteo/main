@@ -10,6 +10,8 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
+import java.io.File;
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Optional;
@@ -18,6 +20,7 @@ import java.util.Set;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
+import seedu.address.commons.util.FileUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthdate;
@@ -62,6 +65,7 @@ public class EditCommand extends UndoableCommand {
 
     private final Index index;
     private final EditPersonDescriptor editPersonDescriptor;
+    private Photo originalPhoto;
 
     /**
      * @param index of the person in the filtered person list to edit
@@ -76,7 +80,7 @@ public class EditCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException {
+    public CommandResult executeUndoableCommand() throws CommandException, IOException {
         List<ReadOnlyPerson> lastShownList = model.getFilteredPersonList();
 
         if (index.getZeroBased() >= lastShownList.size()) {
@@ -86,12 +90,27 @@ public class EditCommand extends UndoableCommand {
         ReadOnlyPerson personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        try {
-            model.updatePerson(personToEdit, editedPerson);
+        try { //One is user never change photo, another choice is user got change photo.
+            originalPhoto = personToEdit.getPhoto();
+            String intendedPhotoPath = "data/images/" + editedPerson.getEmail().toString() + ".jpg";
+
+            if (FileUtil.isFileExists(new File(intendedPhotoPath)) && personToEdit.getPhoto()
+                    .equals(editedPerson.getPhoto())) { //Never change photo
+
+            } else { //Got change photo
+                originalPhoto = editedPerson.getPhoto();
+            }
+
+            editedPerson.setPhoto(new Photo(intendedPhotoPath, 0));
+
+            model.updatePerson(personToEdit, editedPerson); //Image does not exist yet.
+            model.addImage(editedPerson.getEmail(), originalPhoto);
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("The target person cannot be missing");
+        } catch (IOException ioe) {
+            throw new AssertionError("The file must exist");
         }
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));

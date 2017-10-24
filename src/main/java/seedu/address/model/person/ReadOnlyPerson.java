@@ -27,6 +27,8 @@ public interface ReadOnlyPerson {
     Set<Tag> getTags();
     ObjectProperty<Birthdate> birthdateProperty();
     Birthdate getBirthdate();
+    ObjectProperty<NusModules> nusModulesProperty();
+    NusModules getNusModules();
     boolean containsTags(List<String> tags);
 
     /**
@@ -40,8 +42,7 @@ public interface ReadOnlyPerson {
                 && other.getPhone().equals(this.getPhone())
                 && other.getEmail().equals(this.getEmail())
                 && other.getAddress().equals(this.getAddress())
-                && other.getBirthdate().equals(this.getBirthdate())
-                && other.getPhoto().equals(this.getPhoto()));
+                && other.getBirthdate().equals(this.getBirthdate()));
     }
 
     /**

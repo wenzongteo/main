@@ -1,5 +1,6 @@
 package seedu.address.ui;
 
+import java.io.IOException;
 import java.util.logging.Logger;
 
 import com.google.common.eventbus.Subscribe;
@@ -146,7 +147,7 @@ public class MainWindow extends UiPart<Region> {
      * Fills up all the placeholders of this window.
      */
     void fillInnerParts() {
-        browserPanel = new BrowserPanel();
+        browserPanel = new BrowserPanel(config);
         browserPlaceholder.getChildren().add(browserPanel.getRoot());
 
         personListPanel = new PersonListPanel(logic.getFilteredPersonList());
@@ -231,7 +232,7 @@ public class MainWindow extends UiPart<Region> {
             // process result of the command
             logger.info("Result: " + commandResult.feedbackToUser);
             raise(new NewResultAvailableEvent(commandResult.feedbackToUser, false));
-        } catch (CommandException | ParseException e) {
+        } catch (CommandException | ParseException | IOException e) {
             raise(new NewResultAvailableEvent(e.getMessage(), true));
         }
     }
@@ -247,7 +248,7 @@ public class MainWindow extends UiPart<Region> {
             // process result of the command
             logger.info("Result: " + commandResult.feedbackToUser);
             raise(new NewResultAvailableEvent(commandResult.feedbackToUser, false));
-        } catch (CommandException | ParseException e) {
+        } catch (CommandException | ParseException | IOException e) {
             raise(new NewResultAvailableEvent(e.getMessage(), true));
         }
     }

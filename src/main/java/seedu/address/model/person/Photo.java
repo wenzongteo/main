@@ -13,9 +13,9 @@ public class Photo {
     public static final String MESSAGE_PHOTO_CONSTRAINTS =
             "Person's photo should be in jpeg and preferred to be of 340px x 453px dimension";
     public static final String MESSAGE_PHOTO_NOT_FOUND = "Error! Photo does not exist!";
-    /*
-     * The first character of the address must not be a whitespace,
-     * otherwise " " (a blank string) becomes a valid input.
+
+    /**
+     * Can contain multiple words but must end with .jpg or .jpeg
      */
     public static final String PHOTO_VALIDATION_REGEX = "([^\\s]+[\\s\\w]*(\\.(?i)(jpg|jpeg|))$)";
 
@@ -23,8 +23,7 @@ public class Photo {
 
     /**
      * Validates given photo.
-     *
-     * @throws IllegalValueException if given photo string is invalid.
+     * @throws IllegalValueException if given photo string is invalid or file is not found.
      */
     public Photo(String photo) throws IllegalValueException {
         photo = photo.trim();
@@ -32,10 +31,16 @@ public class Photo {
         if (!isValidPhoto(photo)) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         } else {
-            if (!FileUtil.isFileExists(new File(photo))) {
+            File image = new File(photo);
+            if (!FileUtil.isFileExists(image)) {
                 throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
+            } else {
+                this.value = photo;
             }
         }
+    }
+
+    public Photo(String photo, int num) {
         this.value = photo;
     }
 
@@ -45,7 +50,6 @@ public class Photo {
     public static boolean isValidPhoto(String test) {
         return test.matches(PHOTO_VALIDATION_REGEX);
     }
-
 
     @Override
     public String toString() {
@@ -63,5 +67,4 @@ public class Photo {
     public int hashCode() {
         return value.hashCode();
     }
-
 }

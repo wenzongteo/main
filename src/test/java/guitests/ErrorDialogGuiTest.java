@@ -28,5 +28,4 @@ public class ErrorDialogGuiTest extends AddressBookGuiTest {
         assertEquals(FILE_OPS_ERROR_DIALOG_CONTENT_MESSAGE + ":\n" + IO_EXCEPTION_STUB.toString(),
                 alertDialog.getContentText());
     }
-
 }

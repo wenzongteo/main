@@ -5,6 +5,12 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.function.Predicate;
@@ -20,7 +26,9 @@ import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.AddressBook;
 import seedu.address.model.Model;
 import seedu.address.model.ReadOnlyAddressBook;
+import seedu.address.model.person.Email;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -111,6 +119,24 @@ public class AddCommandTest {
         public ReadOnlyAddressBook getAddressBook() {
             fail("This method should not be called.");
             return null;
+        }
+
+        @Override
+        public String addImage(Email email, Photo photo) throws IOException {
+            String folder = "data/images/";
+            File imageFolder = new File(folder);
+
+            if (!imageFolder.exists()) {
+                imageFolder.mkdir();
+            } else {
+
+            }
+
+            String destination = folder + email.toString() + ".jpg";
+            Path sourcePath = Paths.get(photo.toString());
+            Path destPath = Paths.get(destination);
+            Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
+            return folder + email.toString() + ".jpg";
         }
 
         @Override

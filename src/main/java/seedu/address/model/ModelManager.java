@@ -3,9 +3,14 @@ package seedu.address.model;
 import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.util.CollectionUtil.requireAllNonNull;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Comparator;
 import java.util.Set;
-import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.function.Predicate;
 import java.util.logging.Logger;
@@ -14,10 +19,14 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.FilteredList;
 import javafx.collections.transformation.SortedList;
+
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+
+import seedu.address.model.person.Email;
 import seedu.address.model.person.Person;
+import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
@@ -83,6 +92,28 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
+    public synchronized String addImage(Email email, Photo photo) throws IOException {
+        String folder = "data/images/";
+        String fileExt = ".jpg";
+
+        File imageFolder = new File(folder);
+
+        if (!imageFolder.exists()) {
+            imageFolder.mkdir();
+        } else {
+
+        }
+
+        String destination = folder + email.toString() + fileExt;
+        Path sourcePath = Paths.get(photo.toString());
+        Path destPath = Paths.get(destination);
+
+        Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
+
+        return folder + email.toString() + fileExt;
+    }
+
+    @Override
     public void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedPerson)
             throws DuplicatePersonException, PersonNotFoundException {
         requireAllNonNull(target, editedPerson);
@@ -141,8 +172,8 @@ public class ModelManager extends ComponentManager implements Model {
             sort = new Comparator<ReadOnlyPerson>() {
                 @Override
                 public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
-                    SortedSet<Tag> o1SortedTags = new TreeSet<Tag>(o1.getTags());
-                    SortedSet<Tag> o2SortedTags = new TreeSet<Tag>(o2.getTags());
+                    TreeSet<Tag> o1SortedTags = new TreeSet<Tag>(o1.getTags());
+                    TreeSet<Tag> o2SortedTags = new TreeSet<Tag>(o2.getTags());
 
                     if (o1SortedTags.size() == 0) {
                         return 1;
@@ -151,13 +182,6 @@ public class ModelManager extends ComponentManager implements Model {
                     } else {
                         return o1SortedTags.first().tagName.compareTo(o2SortedTags.first().tagName);
                     }
-                }
-            };
-        } else if (sortOrder == 2) {
-            sort = new Comparator<ReadOnlyPerson>() {
-                @Override
-                public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
-                    return o2.getName().fullName.toUpperCase().compareTo(o1.getName().fullName.toUpperCase());
                 }
             };
         }
