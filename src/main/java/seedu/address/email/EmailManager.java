@@ -2,8 +2,6 @@ package seedu.address.email;
 
 import java.util.Properties;
 import java.util.logging.Logger;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
 
 import javax.mail.AuthenticationFailedException;
 import javax.mail.Message;
@@ -26,18 +24,17 @@ import seedu.address.email.message.MessageDraft;
  **/
 public class EmailManager extends ComponentManager implements Email {
     private static final Logger logger = LogsCenter.getLogger(EmailManager.class);
-    private static final Pattern GMAIL_FORMAT = Pattern.compile("^[A-Za-z0-9]+(\\.[A-Za-z0-9]+)*(@gmail.com)$");
 
+    private final EmailLogin emailLogin;
     private MessageDraft message;
-    private String [] loginDetails;
     private String emailStatus;
     private Properties props;
 
     public EmailManager() {
         logger.fine("Initializing Email Component");
 
+        this.emailLogin = new EmailLogin();
         this.message = new MessageDraft();
-        this.loginDetails = new String[0];
         this.emailStatus = "";
         prepEmail();
     }
@@ -75,7 +72,7 @@ public class EmailManager extends ComponentManager implements Email {
         }
         //Step 2. Verify that the user have logged in.
         //Step 3. Verify that the user have logged in with a gmail account
-        if (!isUserLogin() || wrongUserEmailFormat()) {
+        if (!isUserLogin()) {
             //throw exception that user needs to enter gmail login details to send email
             throw new EmailLoginInvalidException();
         }
@@ -93,12 +90,8 @@ public class EmailManager extends ComponentManager implements Email {
     }
 
     @Override
-    public void loginEmail(String [] loginDetails) {
-        //replace login details and ignore if login details is omitted.
-        if (loginDetails.length != 0 && loginDetails.length == 2) {
-            //command entered with login prefix
-            this.loginDetails = loginDetails;
-        }
+    public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
+        emailLogin.loginEmail(loginDetails);
     }
 
     /**
@@ -107,23 +100,7 @@ public class EmailManager extends ComponentManager implements Email {
      * @return boolean
      **/
     public boolean isUserLogin() {
-        if (this.loginDetails.length != 2) {
-            //The loginDetails empty
-            return false;
-        } else {
-            return true;
-        }
-    }
-
-    /** Verify if the user is using a gmail account **/
-    public boolean wrongUserEmailFormat() {
-        if (this.loginDetails.length == 2) {
-            final Matcher matcher = GMAIL_FORMAT.matcher(this.loginDetails[0].trim());
-            if (!matcher.matches()) {
-                return true;
-            }
-        }
-        return false;
+        return emailLogin.isUserLogin();
     }
 
     /** Prepare Email Default Properties **/
@@ -138,8 +115,8 @@ public class EmailManager extends ComponentManager implements Email {
 
     /** Send email out using JavaMail API **/
     private void sendingEmail() throws AuthenticationFailedException {
-        final String username = loginDetails[0];
-        final String password = loginDetails[1];
+        final String username = emailLogin.getEmailLogin();
+        final String password = emailLogin.getPassword();
 
         Session session = Session.getInstance(props, new javax.mail.Authenticator() {
             @Override
@@ -166,7 +143,7 @@ public class EmailManager extends ComponentManager implements Email {
     /** reset Email Draft Data **/
     private void resetData() {
         this.message = new MessageDraft();
-        this.loginDetails = new String[0];
+        this.emailLogin.resetData();
     }
 
     @Override
@@ -185,25 +162,7 @@ public class EmailManager extends ComponentManager implements Email {
         // state check
         EmailManager other = (EmailManager) obj;
         return message.equals(other.message)
-                && this.loginDetailsEquals(other.loginDetails);
-    }
-
-    /**
-     * For validating if the loginDetails are equal (Testing)
-     *
-     * @params: loginDetails to compare with
-     * @return true if loginDetails are equal
-     **/
-    private boolean loginDetailsEquals(String [] other) {
-        if (this.loginDetails.length == other.length) {
-            for (int i = 0; i < this.loginDetails.length; i++) {
-                if (this.loginDetails[i] != other[i]) {
-                    return false;
-                }
-            }
-            return true;
-        }
-        return false;
+                && this.emailLogin.equals(((EmailManager) obj).emailLogin);
     }
 
 }

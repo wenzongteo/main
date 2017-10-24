@@ -210,7 +210,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void loginEmail(String [] loginDetails) {
+    public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         email.loginEmail(loginDetails);
     }
 

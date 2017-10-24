@@ -13,16 +13,13 @@ import seedu.address.email.message.MessageDraft;
 public interface Email {
 
     /* Login to send Email */
-    void loginEmail(String [] loginDetails);
+    void loginEmail(String [] loginDetails) throws EmailLoginInvalidException;
 
     /* Logout of Email */
     //void logoutEmail();
 
     /* Checks if user is Log in */
     boolean isUserLogin();
-
-    /* Verifies user's login email format */
-    boolean wrongUserEmailFormat();
 
     /* Create Email Draft with all details */
     void composeEmail(MessageDraft message);
