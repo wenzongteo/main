@@ -92,31 +92,28 @@ public class UniquePersonList implements Iterable<Person> {
         String intendedPhotoPath = "data/images/" + editedPerson.getEmailAddress().toString() + ".jpg";
         boolean deleteFile = false;
 
-        if (target.getEmailAddress().equals(editedPerson.getEmailAddress()) &&
-                !target.getPhoto().equals(editedPerson.getPhoto())) { //Only Photo changed.
-            System.out.println("1");
+        if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && !target.getPhoto().equals(editedPerson.getPhoto())) { //Only Photo changed.
             person.setPhoto(new Photo(intendedPhotoPath, 0));
             Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
                     StandardCopyOption.REPLACE_EXISTING);
 
-        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress()) &&
-                target.getPhoto().equals(editedPerson.getPhoto())) { //only email changed. still got bug.
-            System.out.println("2");
-            person.setPhoto(new Photo(intendedPhotoPath, 0));
-            Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
-                    StandardCopyOption.REPLACE_EXISTING);
-            deleteFile = true;
-
-        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress()) &&
-                !target.getPhoto().equals(editedPerson.getPhoto())) { //Both changed.
-            System.out.println("3"); //still Got bug
+        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && target.getPhoto().equals(editedPerson.getPhoto())) { //only email changed.
             person.setPhoto(new Photo(intendedPhotoPath, 0));
             Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
                     StandardCopyOption.REPLACE_EXISTING);
             deleteFile = true;
 
-        } else if (target.getEmailAddress().equals(editedPerson.getEmailAddress()) &&
-                target.getPhoto().equals(editedPerson.getPhoto())) { //No special update
+        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && !target.getPhoto().equals(editedPerson.getPhoto())) { //Both changed.
+            person.setPhoto(new Photo(intendedPhotoPath, 0));
+            Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
+                    StandardCopyOption.REPLACE_EXISTING);
+            deleteFile = true;
+
+        } else if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && target.getPhoto().equals(editedPerson.getPhoto())) { //No special update
         } else {
             throw new AssertionError("Shouldn't be here");
         }

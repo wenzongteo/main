@@ -86,7 +86,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      *
      * @throws DuplicatePersonException if an equivalent person already exists.
      */
-    public void addPerson(ReadOnlyPerson p) throws DuplicatePersonException, IOException{
+    public void addPerson(ReadOnlyPerson p) throws DuplicatePersonException, IOException {
         Person newPerson = new Person(p);
         syncMasterTagListWith(newPerson);
         // TODO: the tags master list will be updated even though the below line fails.
