@@ -545,6 +545,68 @@ The find results are bind to the javafx ListView. Thus any changes to the Sorted
 
 ---
 
+=== Email Mechanism
+
+The email mechanism is facilitated by the `Email component`. It allows the sending of email via using an external
+library, JavaMail. The sections below will explain how the email mechanism works and some of the design considerations.
+
+==== Implementation Details
+
+There are 3 classes, `EmailLogin`, `EmailSend`, `EmailCompose`, in the EmailManager that facilitates the email process.
+Before the user is able to send an email, the user have to login and compose the email. The section below covers how
+each class process an email.
+
+===== EmailCompose
+
+The `EmailCompose` class creates an `MessageDraft` object which stores the email's message, subject and the recipients
+emails.
+
+===== EmailLogin
+
+The `EmailLogin` class stores the login details and verifies that the user's email is a gmail account using regular
+expression.
+
+===== EmailSend
+
+The `EmailSend` class sets up the connection to send email via `JavaMail` API. The email is rejected if the
+`MessageDraft` object in `EmailCompose` is empty or the login details in `EmailLogin` is invalid.
+
+==== Design considerations
+
+---
+[Big]#**Aspect:** Method for sending Email#
+====
+**Alternative 1:** Using Pop up Default Email Client +
+
+* **Pros:** User have more control over the editing of email content when using an Email Client. +
+* **Cons:** The app will no longer be CLI based. +
+====
+====
+**Alternative 2 (current choice):** Using JavaMail API +
+
+* **Pros:** Email will be sent from the application. +
+* **Cons:** User will have less control over the email content and the email will be less secure. +
+
+====
+
+---
+[Big]#**Aspect:** Identifying Recipient Email List#
+====
+**Alternative 1:** Add Recipient Email List using prefix in Email Command +
+
+* **Pros:** Users can control who to email to using CLI. +
+* **Cons:** Users will have less flexibility and might have to type a long command if there are more than
+ one recipients. +
+====
+====
+**Alternative 2 (current choice):** Select Recipient Email List based on last displayed contact list +
+
+* **Pros:** Users will not need to type a long Email command for multiple recipients. +
+* **Cons:** Users will have to execute the find command to get the desired list of recipients first before they can
+ execute the email command +
+====
+---
+
 == Documentation
 
 We use asciidoc for writing documentation.
