@@ -45,7 +45,7 @@ public class EmailCommandTest {
     public ExpectedException thrown = ExpectedException.none();
 
     private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
-    private Predicate<ReadOnlyPerson> Predicate_Show_No_Person = unused -> false;
+    private Predicate<ReadOnlyPerson> predicateShowNoPerson = unused -> false;
 
     @Test
     public void email_sendingFail_emailMessageEmptyException() throws Exception {
@@ -144,7 +144,7 @@ public class EmailCommandTest {
 
         @Override
         public ObservableList<ReadOnlyPerson> getFilteredPersonList() {
-            model.updateFilteredPersonList(Predicate_Show_No_Person);
+            model.updateFilteredPersonList(predicateShowNoPerson);
             return model.getFilteredPersonList();
         }
     }

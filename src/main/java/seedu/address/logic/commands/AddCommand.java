@@ -48,7 +48,6 @@ public class AddCommand extends UndoableCommand {
     public static final String MESSAGE_FILE_ERROR = "File is not found!";
 
     private final Person toAdd;
-    private Photo originalPhoto;
 
     /**
      * Creates an AddCommand to add the specified {@code ReadOnlyPerson}
@@ -58,21 +57,14 @@ public class AddCommand extends UndoableCommand {
     }
 
     @Override
-    public CommandResult executeUndoableCommand() throws CommandException, IOException {
+    public CommandResult executeUndoableCommand() throws CommandException {
         requireNonNull(model);
         try {
-            originalPhoto = toAdd.getPhoto();
-            String intendedPhotoPath = "data/images/" + toAdd.getEmailAddress().toString() + ".jpg";
-
-            toAdd.setPhoto(new Photo(intendedPhotoPath, 0));
             model.addPerson(toAdd);
-            model.addImage(toAdd.getEmailAddress(), originalPhoto);
             return new CommandResult(String.format(MESSAGE_SUCCESS, toAdd));
         } catch (DuplicatePersonException e) {
-            toAdd.setPhoto(originalPhoto);
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (IOException e) {
-            toAdd.setPhoto(originalPhoto);
             throw new CommandException(MESSAGE_FILE_ERROR);
         }
     }

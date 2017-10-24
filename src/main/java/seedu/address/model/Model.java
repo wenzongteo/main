@@ -38,7 +38,7 @@ public interface Model {
     void deletePerson(ReadOnlyPerson target) throws PersonNotFoundException;
 
     /** Adds the given person */
-    void addPerson(ReadOnlyPerson person) throws DuplicatePersonException;
+    void addPerson(ReadOnlyPerson person) throws DuplicatePersonException, IOException;
 
     /** Copy a person's contact into a fixed location */
     String addImage(EmailAddress email, Photo photo) throws IOException;

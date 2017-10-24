@@ -1,7 +1,10 @@
 package seedu.address.model.util;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
+
+import com.sun.xml.internal.ws.policy.spi.AssertionCreationException;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.model.AddressBook;
@@ -56,6 +59,8 @@ public class SampleDataUtil {
             return sampleAb;
         } catch (DuplicatePersonException e) {
             throw new AssertionError("sample data cannot contain duplicate persons", e);
+        } catch (IOException e) {
+            throw new AssertionError("default image should exist");
         }
     }
 

@@ -15,11 +15,13 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIENDS;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import seedu.address.model.AddressBook;
+import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 
@@ -68,11 +70,14 @@ public class TypicalPersons {
             .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(IMAGE_STORAGE_AMY)
             .withTags(VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_AMY).build();
     public static final ReadOnlyPerson BOB = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
-            .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto(IMAGE_STORAGE_BOB)
+            .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto("default.jpeg")
             .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_BOB).build();
     public static final ReadOnlyPerson WEN = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
             .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto(IMAGE_STORAGE_BOB)
             .withTags(VALID_TAG_HUSBAND).withBirthdate(VALID_BIRTHDATE_BOB).build();
+    public static final ReadOnlyPerson LEE = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
+            .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto("default.jpeg")
+            .withTags(VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_BOB).build();
 
     // Different situations of missing data.
     public static final ReadOnlyPerson MISSINGNAME = new PersonBuilder().withPhone("84822131")
@@ -98,6 +103,8 @@ public class TypicalPersons {
             try {
                 ab.addPerson(person);
             } catch (DuplicatePersonException e) {
+                assert false : "not possible";
+            } catch (IOException e) {
                 assert false : "not possible";
             }
         }

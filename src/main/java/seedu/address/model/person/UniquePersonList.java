@@ -2,6 +2,10 @@ package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -43,12 +47,22 @@ public class UniquePersonList implements Iterable<Person> {
      *
      * @throws DuplicatePersonException if the person to add is a duplicate of an existing person in the list.
      */
-    public void add(ReadOnlyPerson toAdd) throws DuplicatePersonException {
+    public void add(ReadOnlyPerson toAdd) throws DuplicatePersonException, IOException {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
             throw new DuplicatePersonException();
         }
-        internalList.add(new Person(toAdd));
+
+        Person person = new Person(toAdd);
+
+        Photo originalPhoto = toAdd.getPhoto();
+        String intendedPhotoPath = "data/images/" + toAdd.getEmailAddress().toString() + ".jpg";
+        person.setPhoto(new Photo(intendedPhotoPath, 0));
+
+        Files.copy(Paths.get(originalPhoto.toString()), Paths.get(intendedPhotoPath),
+                StandardCopyOption.REPLACE_EXISTING);
+
+        internalList.add(new Person(person));
         sortInternalList();
     }
 
@@ -95,7 +109,7 @@ public class UniquePersonList implements Iterable<Person> {
         sortInternalList();
     }
 
-    public void setPersons(List<? extends ReadOnlyPerson> persons) throws DuplicatePersonException {
+    public void setPersons(List<? extends ReadOnlyPerson> persons) throws DuplicatePersonException, IOException {
         final UniquePersonList replacement = new UniquePersonList();
         for (final ReadOnlyPerson person : persons) {
             replacement.add(new Person(person));

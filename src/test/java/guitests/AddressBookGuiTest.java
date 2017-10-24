@@ -54,21 +54,11 @@ public abstract class AddressBookGuiTest {
 
     @Before
     public void setup() throws Exception {
-        String datafilePath = "data/";
-
-        File dataFolder = new File(datafilePath);
-
-        if (!dataFolder.exists()) {
-            dataFolder.mkdir();
-        } else {
-
-        }
-
         String imageFilePath = "data/images/";
         File imageFolder = new File(imageFilePath);
 
         if (!imageFolder.exists()) {
-            imageFolder.mkdir();
+            imageFolder.mkdirs();
         } else {
 
         }
@@ -85,6 +75,8 @@ public abstract class AddressBookGuiTest {
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new AssertionError("Impossible");
