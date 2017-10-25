@@ -15,9 +15,6 @@ public interface Email {
     /* Login to send Email */
     void loginEmail(String [] loginDetails) throws EmailLoginInvalidException;
 
-    /* Logout of Email */
-    //void logoutEmail();
-
     /* Checks if user is Log in */
     boolean isUserLogin();
 

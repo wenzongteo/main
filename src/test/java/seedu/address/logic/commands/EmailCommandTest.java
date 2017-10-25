@@ -96,7 +96,7 @@ public class EmailCommandTest {
         }
 
         @Override
-        public void loginEmail(String [] loginDetails) {
+        public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
             model.loginEmail(loginDetails);
         }
 
@@ -117,7 +117,7 @@ public class EmailCommandTest {
         }
 
         @Override
-        public void loginEmail(String [] loginDetails) {
+        public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
             model.loginEmail(loginDetails);
         }
 
@@ -138,7 +138,7 @@ public class EmailCommandTest {
         }
 
         @Override
-        public void loginEmail(String [] loginDetails) {
+        public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
             model.loginEmail(loginDetails);
         }
 
@@ -214,7 +214,7 @@ public class EmailCommandTest {
         }
 
         @Override
-        public void loginEmail(String [] loginDetails) {
+        public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
             fail("This method sould not be called.");
         }
 
