@@ -72,8 +72,8 @@ If you do not see the welcome screen, click `File > Close Project` to close the 
 . Click `Open as Project`.
 . Click `OK` to accept the default settings.
 . Press `Control + Tab + T` simultaneously to open a console in Intellij IDEA IDE and execute the following command:
-- For Windows: `gradlew processResources`
-- For Mac/Linux: `./gradlew processResources`
+- For Windows   : `gradlew processResources`
+- For Mac/Linux : `./gradlew processResources`
 
 [NOTE]
 The command should finish executing with the `BUILD SUCCESSFUL` message. +
@@ -82,8 +82,8 @@ This will generate all resources required by the application and tests.
 === Verifying the setup [Edited in v1.4]
 
 . Run `src\main\java\seedu\address\MainApp.java` in Intellij IDEA IDE and try executing a few commands.
-. link:#testing[Run the tests] by right clicking and selecting the `Run All Tests` option on the test folder
-under `src` folder in Intellij IDEA IDE.  *Ensure* that all test cases pass before commencing coding.
+. link:#testing[Run all tests] by right clicking on the `src/test/java` folder in Intellij IDEA IDE and choose `Run 'All Tests'`.
+*Ensure* that all test cases pass before you start coding.
 
 === Configurations to do before coding [Edited in v1.4]
 Now that you have successfully imported Augustine's source code into your computer, do ensure that you have completed the following before
@@ -99,8 +99,8 @@ with our coding standard.
 Apply the following modifications to tweak the settings to comply with our coding standard:
 
 . Go to:
-- For Windows/Linux: `File > Settings...`.
-- For macOS: `IntelliJ IDEA > Preferences...`.
+- For Windows/Linux : `File > Settings...`.
+- For macOS         : `IntelliJ IDEA > Preferences...`.
 . Select `Editor > Code Style > Java`.
 . Click on the `Imports` tab to set the order
 
@@ -670,9 +670,9 @@ The `EmailSend` class sets up the connection to send email via `JavaMail` API. T
 ====
 ---
 
-== Documentation
+== Documentation [Updated in V1.4]
 
-We use asciidoc for writing documentation.
+Documentations for Augustine are done in acsiidoc.
 
 [NOTE]
 We chose asciidoc over Markdown because asciidoc, although a bit more complex than Markdown, provides more flexibility in formatting.
@@ -680,11 +680,16 @@ We chose asciidoc over Markdown because asciidoc, although a bit more complex th
 === Editing Documentation
 
 See <<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>> to learn how to render `.adoc` files locally to preview the end result of your edits.
-Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows you to preview the changes you have made to your `.adoc` files in real-time.
+Alternatively, you can download the `AsciiDoc plugin` for IntelliJ Idea IDE, which allows you to preview the changes you have made to your `.adoc`
+files in real-time.
+
+---
 
 === Publishing Documentation
 
 See <<UsingTravis#deploying-github-pages, UsingTravis.adoc>> to learn how to deploy GitHub Pages using Travis.
+
+---
 
 === Converting Documentation to PDF format
 
@@ -693,92 +698,124 @@ We use https://www.google.com/chrome/browser/desktop/[Google Chrome] for convert
 Here are the steps to convert the project documentation files to PDF format.
 
 .  Follow the instructions in <<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>> to convert the AsciiDoc files in the `docs/` directory to HTML format.
-.  Go to your generated HTML files in the `build/docs` folder, right click on them and select `Open with` -> `Google Chrome`.
+.  Go to your generated HTML files in the `build/docs` folder, right click on them and select `Open with -> Google Chrome`.
 .  Within Chrome, click on the `Print` option in Chrome's menu.
 .  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot below.
 
 image::chrome_save_as_pdf.png[width="300"]
-_Figure 5.6.1 : Saving documentation as PDF files in Chrome_
+_Figure 6.3.1 : Saving documentation as PDF files in Chrome_
 
-== Testing
+== Testing [Updated in V1.4]
+
+Tests are a vital part in the development of Augustine as it ensures that the existing features in Augustine are working as intended as well as
+ensuring that new features introduced into Augustine has no conflict with the existing features.
 
 === Running Tests
 
-There are three ways to run tests.
+There are three ways to run tests in Augustine.
 
-[TIP]
-The most reliable way to run tests is the 3rd one. The first two methods might fail some GUI tests due to platform/resolution-specific idiosyncrasies.
-
-*Method 1: Using IntelliJ JUnit test runner*
+*Method 1: Using IntelliJ IDEA IDE JUnit test runner*
 
 * To run all tests, right-click on the `src/test/java` folder and choose `Run 'All Tests'`
 * To run a subset of tests, you can right-click on a test package, test class, or a test and choose `Run 'ABC'`
 
 *Method 2: Using Gradle*
 
-* Open a console and run the command `gradlew clean allTests` (Mac/Linux: `./gradlew clean allTests`)
+Open a console and run the following command:
+
+- Windows       : `gradlew clean allTests`
+- Mac/Linux     : `./gradlew clean allTests`
 
 [NOTE]
 See <<UsingGradle#, UsingGradle.adoc>> for more info on how to run tests using Gradle.
 
 *Method 3: Using Gradle (headless)*
 
-Thanks to the https://github.com/TestFX/TestFX[TestFX] library we use, our GUI tests can be run in the _headless_ mode. In the headless mode, GUI tests do not show up on the screen. That means the developer can do other things on the Computer while the tests are running.
+Thanks to the https://github.com/TestFX/TestFX[TestFX] library that Augustine uses, our GUI tests can be run in the _headless_ mode.
+In headless mode, GUI tests do not show up on the screen, allowing the developer to continue using the Computer while the tests are running.
 
-To run tests in headless mode, open a console and run the command `gradlew clean headless allTests` (Mac/Linux: `./gradlew clean headless allTests`)
+To run tests in headless mode, open a console and run the following command:
+
+- Windows   : `gradlew clean headless allTests`
+- Mac/Linux : `./gradlew clean headless allTests`)
+
+[TIP]
+The most reliable way to run tests in Augustine is the 3rd method as the first two methods might fail some GUI tests due to platform/
+resolution-specific idiosyncrasies.
+
+---
 
 === Types of tests
 
-We have two types of tests:
+We have two types of tests available in Augustine:
 
 .  *GUI Tests* - These are tests involving the GUI. They include,
-.. _System Tests_ that test the entire App by simulating user actions on the GUI. These are in the `systemtests` package.
-.. _Unit tests_ that test the individual components. These are in `seedu.address.ui` package.
+.. _System Tests_ that test Augustine by simulating user actions on the GUI. These are in the `systemtests` package.
+.. _Unit tests_ that test the individual components within Augustine. These are in `seedu.address.ui` package.
 .  *Non-GUI Tests* - These are tests not involving the GUI. They include,
-..  _Unit tests_ targeting the lowest level methods/classes. +
+..  _Unit tests_ that test the lowest level methods/classes within Augustine. +
 e.g. `seedu.address.commons.StringUtilTest`
-..  _Integration tests_ that are checking the integration of multiple code units (those code units are assumed to be working). +
+..  _Integration tests_ that test the integration of multiple code units that are assumed to be working within Augustine. +
 e.g. `seedu.address.storage.StorageManagerTest`
-..  Hybrids of unit and integration tests. These test are checking multiple code units as well as how the are connected together. +
+..  Hybrids of unit and integration tests that tests multiple code units as well as how they are connected together within Augustine. +
 e.g. `seedu.address.logic.LogicManagerTest`
 
+---
 
-=== Troubleshooting Testing
-**Problem: Unable to execute Gradle task.**
+=== Troubleshoot Testing
+**Problem: Unable to execute gradlew commands.**
 
-* Reason: Java path is configured wrongly or more than one version of Java is detected.
-* Solution: Uninstall all Java files and reinstall the latest `Java SDK 8` available. Ensure the system environment variables (For Windows) is configured properly.
+* Reason: Java path is configured wrongly or more than one version of Java is detected within the system.
+* Solution: Uninstall all Java files and reinstall the latest `Java JDK 8` available.
+For *Windows platform*, ensure that the system environment variables are properly configured.
 
 **Problem: `HelpWindowTest` fails with a `NullPointerException`.**
 
 * Reason: One of its dependencies, `UserGuide.html` in `src/main/resources/docs` is missing.
 * Solution: Execute Gradle task `processResources`.
 
+== Development Operations [Updated in V1.4]
 
-== Dev Ops
+Usage of automation and monitoring tools are a vital part of Augustine's developmental process. These tools help to reduce hiccups in
+Augustine's development as stability of Augustine is not compromised despite the constant addition of new features.
 
 === Build Automation
 
 See <<UsingGradle#, UsingGradle.adoc>> to learn how to use Gradle for build automation.
 
-=== Continuous Integration
+---
 
-We use https://travis-ci.org/[Travis CI] and https://www.appveyor.com/[AppVeyor] to perform _Continuous Integration_ on our projects. See <<UsingTravis#, UsingTravis.adoc>> and <<UsingAppVeyor#, UsingAppVeyor.adoc>> for more details.
+=== Continuous Integration (CI)
+
+Augustine uses both Travis and AppVeyor to perform _Continuous Integration_ during it's developmental process.
+
+See <<UsingTravis#, UsingTravis.adoc>> and <<UsingAppVeyor#, UsingAppVeyor.adoc>> to learn how to use Travis and AppVeyor for CI.
+
+---
 
 === Making a Release
 
-Here are the steps to create a new release.
+We publish a new release everytime a new feature is added onto Augustine.
+
+Here are the steps to create a new release for Augustine.
 
 .  Update the version number in link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp.java`].
 .  Generate a JAR file <<UsingGradle#creating-the-jar-file, using Gradle>>.
 .  Tag the repo with the version number. e.g. `v0.1`
-.  https://help.github.com/articles/creating-releases/[Create a new release using GitHub] and upload the JAR file you created.
+.  https://help.github.com/articles/creating-releases/[Create a new release using GitHub] and upload the JAR file that you created in Step 2.
+
+---
 
 === Managing Dependencies
 
-A project often depends on third-party libraries. For example, Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing. Managing these _dependencies_ can be automated using Gradle. For example, Gradle can download the dependencies automatically, which is better than these alternatives. +
-a. Include those libraries in the repo (this bloats the repo size) +
-b. Require developers to download those libraries manually (this creates extra work for developers)
+Augustine uses Gradle to manage it's dependencies on third-party libraries. Gradle will automatically download the dependencies automatically.
+
+Other ways of managing dependencies are as follows:
+
+.  Include those libraries in the repo which bloats the repo size.
+.  Require developers to download those libraries manually which creates extra work for developers.
+
+[INFO] Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing.
 
 [appendix]
 == Suggested Programming Tasks to Get Started
