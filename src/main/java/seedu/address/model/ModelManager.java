@@ -168,6 +168,8 @@ public class ModelManager extends ComponentManager implements Model {
      * @param: int
      * 0 = sort by name ascending
      * 1 = sort by tags ascending
+     * 2 = sort by email ascending
+     * 3 = sort by address ascending
      * Returns a sorted unmodifable view of the list {@code ReadOnlyPerson} backed by the internal list of
      * {@code addressBook}
      */
@@ -196,6 +198,22 @@ public class ModelManager extends ComponentManager implements Model {
                     } else {
                         return o1SortedTags.first().tagName.compareTo(o2SortedTags.first().tagName);
                     }
+                }
+            };
+        } else if (sortOrder == 2) {
+            //sort by emails
+            sort = new Comparator<ReadOnlyPerson>() {
+                @Override
+                public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                    return o1.getEmailAddress().value.toUpperCase().compareTo(o2.getEmailAddress().value.toUpperCase());
+                }
+            };
+        } else if (sortOrder == 3) {
+            //sort by address
+            sort = new Comparator<ReadOnlyPerson>() {
+                @Override
+                public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                    return o1.getAddress().value.toUpperCase().compareTo(o2.getAddress().value.toUpperCase());
                 }
             };
         }
