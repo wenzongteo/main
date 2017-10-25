@@ -35,20 +35,28 @@ This user guide provides a overview on the features available in Augustine
 and how to use each feature.
 
 
-== Getting Started
+== Getting Started [Edited in v1.4]
 
-.  Ensure you have Java version `1.8.0_60` or later installed in your Computer.
+Ensure that you have completed following tasks before proceeding the User Guide further.
+
+.  Ensure you have Java version *`1.8.0_60 or later`* installed in your Computer.
 +
 [NOTE]
-Having any Java 8 version is not enough. +
-This app will not work with earlier versions of Java 8.
+Augustine will *not work* with any version of Java earlier than `Java 8.6`.
+
 +
-.  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for your Address Book.
+.  Download the latest `augustine.jar` link:https://github.com/CS2103AUG2017-W14-B2/main/releases[here].
+.  Copy the jar file to the folder you want to use as the home folder for your Address Book.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
+*Figure 1.1* below shows you how the program is supposed to look like upon start up.
+
 +
+[caption="Figure 1.1 "]
+.First start up of Augustine.
 image::Ui.png[width="790"]
+..
 +
+
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
 .  Some example commands you can try:
