@@ -75,7 +75,7 @@ public interface Model {
             EmailRecipientsEmptyException, AuthenticationFailedException;
 
     /** set login credentials for sending emails **/
-    void loginEmail(String [] loginDetails);
+    void loginEmail(String [] loginDetails) throws EmailLoginInvalidException;
 
     /** get Email Sent status **/
     String getEmailStatus();

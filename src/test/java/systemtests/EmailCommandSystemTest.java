@@ -156,6 +156,12 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
 
         /**
+         * Case: Email Command to draft email with a non gmail account --> invalid
+         **/
+        command = EmailCommand.COMMAND_WORD + INVALID_EMAIL_LOGIN;
+        assertCommandFailure(command, EmailCommand.MESSAGE_LOGIN_INVALID);
+
+        /**
          * Case: Email Command to send email with an empty last display list --> invalid
          **/
         command = EmailCommand.COMMAND_WORD + EMAIL_MESSAGE + EMAIL_SUBJECT + EMAIL_LOGIN + EMAIL_COMMAND_SEND;
