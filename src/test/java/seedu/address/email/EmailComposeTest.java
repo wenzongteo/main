@@ -12,6 +12,22 @@ public class EmailComposeTest {
     private EmailCompose emailCompose = new EmailCompose();
 
     @Test
+    public void resetData() {
+        //Creates standard EmailCompose class
+        MessageDraft message = new MessageDraft("message", "subject");
+        emailCompose.composeEmail(message);
+        EmailCompose standardEmailCompose = new EmailCompose();
+        standardEmailCompose.composeEmail(message);
+
+        //both object should be same
+        assertTrue(standardEmailCompose.equals(emailCompose));
+
+        //after reset, object should be different
+        emailCompose.resetData();
+        assertFalse(standardEmailCompose.equals(emailCompose));
+    }
+
+    @Test
     public void composeEmail() {
         MessageDraft message;
 

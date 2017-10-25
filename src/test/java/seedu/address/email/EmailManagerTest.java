@@ -1,7 +1,10 @@
 package seedu.address.email;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+
+import javax.mail.internet.InternetAddress;
 
 import org.junit.Test;
 
@@ -11,6 +14,15 @@ import seedu.address.email.message.MessageDraft;
 public class EmailManagerTest {
 
     private Email email = new EmailManager();
+
+    @Test
+    public void getEmailDraft() {
+        MessageDraft message = new MessageDraft("message", "subject");
+        email.composeEmail(message);
+
+        //getEmailDraft should be equal
+        assertTrue(message.equals(email.getEmailDraft()));
+    }
 
     @Test
     public void isUserLogin() {
