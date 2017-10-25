@@ -1,7 +1,10 @@
 package seedu.address.model;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.File;
@@ -25,6 +28,7 @@ import javafx.collections.ObservableList;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.tag.Tag;
+import seedu.address.testutil.AddressBookBuilder;
 
 public class AddressBookTest {
 
@@ -126,6 +130,19 @@ public class AddressBookTest {
         public ObservableList<Tag> getTagList() {
             return tags;
         }
+    }
+
+    @Test
+    public void emailHashCode() {
+        AddressBook addressBook1 = new AddressBookBuilder().withPerson(ALICE).build();
+        AddressBook addressBook2 = new AddressBookBuilder().withPerson(BENSON).build();
+
+        //hashcode matches for same address --> return true
+        assertTrue(addressBook1.hashCode() == addressBook1.hashCode());
+
+        //hashcode don't match for different address --> return false
+        assertFalse(addressBook1.hashCode() == addressBook2.hashCode());
+
     }
 
 }

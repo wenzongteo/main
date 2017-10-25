@@ -1,5 +1,6 @@
 package seedu.address.email;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -57,6 +58,58 @@ public class EmailLoginTest {
         } catch (EmailLoginInvalidException e) {
             assert true : "user is unable to login with non gmail account";
         }
+    }
+
+    @Test
+    public void getEmailLogin() {
+        String [] loginDetails = {"adam@gmail.com", "password"};
+
+        //user is not login --> return ""
+        assertEquals("", emailLogin.getEmailLogin());
+
+        //user is login --> returns user
+        try {
+            emailLogin.loginEmail(loginDetails);
+        } catch (EmailLoginInvalidException e) {
+            assert false : "shouldn't hit this case at all";
+        }
+        assertEquals("adam@gmail.com", emailLogin.getEmailLogin());
+    }
+
+    @Test
+    public void getPassword() {
+        String [] loginDetails = {"adam@gmail.com", "password"};
+
+        //user is not login --> return ""
+        assertEquals("", emailLogin.getPassword());
+
+        //user is login --> returns password
+        try {
+            emailLogin.loginEmail(loginDetails);
+        } catch (EmailLoginInvalidException e) {
+            assert false : "shouldn't hit this case at all";
+        }
+        assertEquals("password", emailLogin.getPassword());
+    }
+
+    @Test
+    public void resetData() {
+        //Creates standard EmailLogin class
+        String [] loginDetails = {"adam@gmail.com", "password"};
+        EmailLogin standardEmailLogin = new EmailLogin();
+        try {
+            emailLogin.loginEmail(loginDetails);
+            standardEmailLogin.loginEmail(loginDetails);
+        } catch (EmailLoginInvalidException e) {
+            assert false : "shouldn't hit this case at all";
+        }
+
+        //both object should be same
+        assertTrue(standardEmailLogin.equals(emailLogin));
+
+        //after reset, object should be different
+        emailLogin.resetData();
+        assertFalse(standardEmailLogin.equals(emailLogin));
     }
 
     @Test
