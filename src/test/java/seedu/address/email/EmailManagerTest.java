@@ -1,10 +1,7 @@
 package seedu.address.email;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-
-import javax.mail.internet.InternetAddress;
 
 import org.junit.Test;
 
