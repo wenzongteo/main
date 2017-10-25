@@ -20,11 +20,15 @@ toc::[]
 
 == Software Overview
 
-What is the software about.
+Augustine is a Command Line Interface (CLI) Address Book that seeks to assist primarily Students and Tutors that are in University and seeks to provide them with a comprehensive software to virtually store the contact information of either their friends or students
+
+Developed in Java, Augustine is able to be executed in both Windows and Unix environment and is able to reach out to a bigger target audience.
 
 == About
 
-What is the developer Guide about
+This Developer Guide seeks to assist both existing and new Developers that are interested in joining the developer team to further develop Augustine.
+
+
 
 == Setting up
 
