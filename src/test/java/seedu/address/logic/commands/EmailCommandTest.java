@@ -11,6 +11,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.function.Predicate;
+import javax.mail.AuthenticationFailedException;
 
 import org.junit.Before;
 import org.junit.Rule;
@@ -38,6 +39,7 @@ import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+
 
 /**
  * Contains integration tests (interaction with the Model) and unit tests for {@code EmailCommand}.
