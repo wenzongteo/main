@@ -20,7 +20,7 @@ Credits: `Team SE-EDU` https://github.com/se-edu/addressbook-level4
 toc::[]
 <<<
 
-== Product Overview
+== Product Overview [Edited in v1.3]
 
 Every year, a new chapter of your school life begins in August. You will meet new friends and
 establish new connections in school. However, it will be difficult to keep track of all the
@@ -29,7 +29,7 @@ contact number, address, time table and social media account.
 
 Augustine allows you to add your friend's details...
 
-== About
+== About [Edited in v1.3]
 
 This user guide provides a overview on the features available in Augustine
 and how to use each feature.
@@ -405,7 +405,7 @@ of the `find` command.
 
 '''
 
-=== Displaying a person's timetable : [fuchsia]`select`
+=== Displaying a person's timetable : [fuchsia]`select` [Edited in v1.3]
 
 Augustine is integrated with https://nusmods.com. You can use the [fuchsia]`select` command to display the timetable of a contact on the NUSmods website.
 
@@ -459,7 +459,7 @@ of the `find` command.
 
 '''
 
-=== Using NUS timetable: [fuchsia]`nusmods`
+=== Using NUS timetable: [fuchsia]`nusmods` [Edited in v1.3]
 
 Augustine is integrated with https://nusmods.com.
 You can use the [fuchsia]`nusmods` command to add, edit or delete modules from a contact.
@@ -533,7 +533,7 @@ The following command will remove the module CS2010 from the timetable of the co
 '''
 
 
-=== Email contacts : [fuchsia]`email`
+=== Email contacts : [fuchsia]`email` [Edited in v1.3]
 
 The [fuchsia]`email` command emails all the contacts in the last displayed contact's list
 in Augustine.
@@ -858,7 +858,7 @@ There is no need to save manually.
 *Q*: How do I transfer my data to another Computer? +
 *A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.
 
-== Command Summary
+== Command Summary [Edited in v1.3]
 
 
 |===
