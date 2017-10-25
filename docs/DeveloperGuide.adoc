@@ -104,7 +104,7 @@ When you are ready to start coding,
 
 This section covers how the software is design and an overview on the some of components of the software.
 
-=== Architecture Design
+=== Architecture Design [Edited in v1.3]
 
 image::Architecture.png[width="600"]
 _Figure 4.1 : Architecture Diagram_
@@ -436,17 +436,42 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 **Pros:** Save space and readability of +
 **Cons:** Harder for developers to understand the inner working of the enhancement.
 
+// end::optionalfields[]
+
 ---
 
+=== Image Storage [Edited in v1.3]
+Each contact in Augustine can be appointed with a Image so that the User can easily identify a Contact.
+
+The image appointed will be copied over to the `/data/images` folder and stored with the file name "contact's email address".jpg.
+
+The image will be affected when the user does the following to a Contact:
+
+- Edit current email
+The associated contact picture will be renamed to the new email address.
+
+- Update Image
+The new image will overwrite the existing image in the stored location.
+
+- Delete Contact
+The associated Image of the Contact will also be deleted.
+
+[NOTE]
+A default image is given if the User did not specify an image.
+
+
+---
+
+==== Design Considerations
 **Aspect:** Storing of Contact's Display Picture. +
-**Alternative 1:** Store file path that was entered by user into AddressBook.xml and try to render the image from there +
-**Pros:** Simple for developers to understand. +
-**Cons:** Changing of file path or removal of image will lead to rendering error. +
-**Alternative 2 (current choice):** Create a copy of the image that is in the path entered by user into a folder in Augustine. Store the file path of the copied image into AddressBook.xml and render image from there +
+**Alternative 1 (current choice):** Create a copy of the image that is in the path entered by user into a folder in Augustine. Store the file path of the copied image into AddressBook.xml and render image from there +
 **Pros:** Changing of file path or removal of the original image by user will not lead to any rendering error. +
 **Cons:** Addition storage space on the device is required.
+**Alternative 2:** Store file path that was entered by user into AddressBook.xml and try to render the image from there +
+**Pros:** Simple for developers to understand. +
+**Cons:** Changing of file path or removal of image will lead to rendering error. +
 
-// end::optionalfields[]
+---
 
 === Adding and displaying of schedule [Edited in v1.3]
 The schedule will utilize https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
