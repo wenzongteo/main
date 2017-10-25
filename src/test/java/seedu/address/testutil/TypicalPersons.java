@@ -114,6 +114,9 @@ public class TypicalPersons {
         return ab;
     }
 
+    /**
+     *  Initialize all photos to ensure the photo is available.
+     */
     public static void initializePictures() {
         try {
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
