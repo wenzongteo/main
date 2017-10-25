@@ -20,14 +20,13 @@ toc::[]
 
 == Software Overview [Edited in v1.3]
 
-Augustine is a Command Line Interface (CLI) Address Book that seeks to assist primarily Students and Tutors that are in University and seeks to provide them with a comprehensive software to virtually store the contact information of either their friends or students
+Augustine is a Command Line Interface (CLI) Address Book that seeks to assist Students and Tutors that are currently in University by providing them with a comprehensive software to store the contact information of either their friends or students virtually on their laptops.
 
-Developed in Java, Augustine is able to be executed in both Windows and Unix environment and is able to reach out to a bigger target audience.
+Developed in Java, Augustine is able to be executed in both Windows and Unix environment and is thus able to cater to users of the various platforms.
 
 == About [Edited in v1.3]
 
-This Developer Guide seeks to assist both existing and new Developers that are interested in joining the developer team to further develop Augustine.
-
+This Developer Guide seeks to assist both existing and new Developers that are interested in joining the Development team of Augustine.
 
 == Setting up
 
@@ -427,7 +426,7 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
      }
 ----
 
-==== Design Considerations
+==== Design Considerations [Edited in v1.3]
 
 **Aspect:** Detecting of unfilled fields. +
 **Alternative 1 (current choice):** Check if value is present, if value is not present, return a - as value instead. +
@@ -440,12 +439,12 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 ---
 
 **Aspect:** Storing of Contact's Display Picture. +
-**Alternative 1 (current choice):** Store file path that was entered by user into AddressBook.xml and try to render the image from there +
+**Alternative 1:** Store file path that was entered by user into AddressBook.xml and try to render the image from there +
 **Pros:** Simple for developers to understand. +
 **Cons:** Changing of file path or removal of image will lead to rendering error. +
-**Alternative 2:** Create a copy of the image that is in the path entered by user into a folder in Augustine. Store the file path of the copied image into AddressBook.xml and render image from there +
+**Alternative 2 (current choice):** Create a copy of the image that is in the path entered by user into a folder in Augustine. Store the file path of the copied image into AddressBook.xml and render image from there +
 **Pros:** Changing of file path or removal of the original image by user will not lead to any rendering error. +
-**Cons:** Harder to implement and for developers to understand. Additional file space is needed to store the copied image.
+**Cons:** Addition storage space on the device is required.
 
 // end::optionalfields[]
 
