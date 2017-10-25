@@ -15,8 +15,15 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_SUBJECT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_JOHN_EMAILTESTER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 import javax.mail.AuthenticationFailedException;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
@@ -33,6 +40,37 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
 
     private static final String EMAIL_SUCCESSFULLY_DRAFTED = "drafted";
     private static final String EMAIL_COMMAND_SEND = " -send";
+
+    @Before
+    public void setup() throws Exception {
+        String imageFilePath = "data/images/";
+        File imageFolder = new File(imageFilePath);
+
+        if (!imageFolder.exists()) {
+            imageFolder.mkdirs();
+        } else {
+
+        }
+
+        try {
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new AssertionError("Impossible");
+        }
+    }
 
     @Test
     public void sendEmail() throws Exception {

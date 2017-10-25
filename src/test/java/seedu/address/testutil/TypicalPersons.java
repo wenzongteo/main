@@ -15,6 +15,10 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIENDS;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -40,14 +44,14 @@ public class TypicalPersons {
             .withPhoto("data/images/heinz@example.com.jpg").withEmailAddress("heinz@example.com")
             .withAddress("wall street").withBirthdate("12/10/1995").build();
     public static final ReadOnlyPerson DANIEL = new PersonBuilder().withName("Daniel Meier").withPhone("87652533")
-            .withPhoto("default.jpeg").withEmailAddress("cornelia@example.com").withAddress("10th street")
-            .withBirthdate("23/05/1993").build();
+            .withPhoto("data/images/cornelia@example.com.jpg").withEmailAddress("cornelia@example.com")
+            .withAddress("10th street").withBirthdate("23/05/1993").build();
     public static final ReadOnlyPerson ELLE = new PersonBuilder().withName("Elle Meyer").withPhone("94822242")
-            .withPhoto("default.jpeg").withEmailAddress("werner@example.com").withAddress("michegan ave")
-            .withBirthdate("12/02/1992").build();
+            .withPhoto("data/images/werner@example.com.jpg").withEmailAddress("werner@example.com")
+            .withAddress("michegan ave").withBirthdate("12/02/1992").build();
     public static final ReadOnlyPerson FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("94826427")
-            .withPhoto("default.jpeg").withEmailAddress("lydia@example.com").withAddress("little tokyo")
-            .withBirthdate("13/10/1995").build();
+            .withPhoto("data/images/lydia@example.com.jpg").withEmailAddress("lydia@example.com")
+            .withAddress("little tokyo").withBirthdate("13/10/1995").build();
     public static final ReadOnlyPerson GEORGE = new PersonBuilder().withName("George Best").withPhone("94822442")
             .withPhoto("data/images/anna@example.com.jpg").withEmailAddress("anna@example.com")
             .withAddress("4th street").withBirthdate("10/12/1995").build();
@@ -61,7 +65,7 @@ public class TypicalPersons {
             .withAddress("chicago ave").withBirthdate("12/12/1995").build();
     public static final ReadOnlyPerson ALICE_WITH_NUSMODULE = new PersonBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmailAddress("alice@example.com")
-            .withNusModules("CS1231").build();
+            .withNusModules("CS1231").withPhoto("data/images/alice@example.com.jpg").build();
 
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final ReadOnlyPerson AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
@@ -73,11 +77,14 @@ public class TypicalPersons {
     public static final ReadOnlyPerson WEN = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
             .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto(IMAGE_STORAGE_BOB)
             .withTags(VALID_TAG_HUSBAND).withBirthdate(VALID_BIRTHDATE_BOB).build();
+    public static final ReadOnlyPerson LEE = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
+            .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto("default.jpeg")
+            .withTags(VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_BOB).build();
+    public static final ReadOnlyPerson MAT = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB)
+            .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto("default.jpeg")
+            .withTags(VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_BOB).build();
 
     // Different situations of missing data.
-    public static final ReadOnlyPerson MISSINGNAME = new PersonBuilder().withPhone("84822131")
-            .withEmailAddress("hans@example.com").withAddress("chicago ave")
-            .withPhoto("data/images/hans@example.com.jpg").build();
     public static final ReadOnlyPerson MISSINGPHONE = new PersonBuilder().withName("Ida Mueller")
             .withEmailAddress("hans@example.com").withPhoto("data/images/hans@example.com.jpg")
             .withAddress("chicago ave").build();
@@ -94,14 +101,55 @@ public class TypicalPersons {
      */
     public static AddressBook getTypicalAddressBook() {
         AddressBook ab = new AddressBook();
+        initializePictures();
         for (ReadOnlyPerson person : getTypicalPersons()) {
             try {
                 ab.addPerson(person);
             } catch (DuplicatePersonException e) {
                 assert false : "not possible";
+            } catch (IOException e) {
+                assert false : "photo error";
             }
         }
         return ab;
+    }
+
+    /**
+     *  Initialize all photos to ensure the photo is available.
+     */
+    public static void initializePictures() {
+        try {
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            System.out.println("Preprocess failed");
+        }
     }
 
     public static List<ReadOnlyPerson> getTypicalPersons() {

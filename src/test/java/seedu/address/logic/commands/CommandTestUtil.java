@@ -75,6 +75,7 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_DESC = " " + PREFIX_EMAIL_ADDRESS + "bob!yahoo"; // missing '@' symbol
     public static final String INVALID_ADDRESS_DESC = " " + PREFIX_ADDRESS; // empty string not allowed for addresses
     public static final String INVALID_TAG_DESC = " " + PREFIX_TAG + "hubby*"; // '*' not allowed in tags
+    public static final String INVALID_BIRTHDATE_DESC = " " + PREFIX_BIRTHDATE + "35/12/1995"; // no date contains 35
     public static final String INVALID_EMAIL_LOGIN_INPUT = "bernicefortesting@gmail.com:key:key";
     public static final String INVALID_EMAIL_LOGIN_USERNAME = "bernicefortesting@yahoo.com:password";
 
@@ -162,6 +163,8 @@ public class CommandTestUtil {
             model.deletePerson(firstPerson);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("Person in filtered list must exist in model.", pnfe);
+        } catch (IOException ioe) {
+            throw new AssertionError("Image must exist");
         }
     }
 }
