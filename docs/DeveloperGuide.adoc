@@ -35,10 +35,10 @@ This Developer Guide seeks to assist both experienced and new Developers that ar
 or understand the underlying mechanisms of Augustine.
 
 == Getting Started [Edited in v1.4]
-Before proceeding further with the Guide, ensure that you have achieved the following requirements:
+Before proceeding further with the Developer Guide, ensure that you have achieved the following requirements:
 
 === Prerequisites [Edited in v1.4]
-. *Java SE Development Kit* (JDK) `v1.8.0_60` or later.
+. *Java SE Development Kit* (JDK) `v1.8.0_60` or later is installed.
 
 You can download the latest JDK from
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here] [http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html]
@@ -46,34 +46,34 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.h
 [NOTE]
 Augustine will *not work* with any version of Java earlier than `Java 8.6`.
 
-. *Intellij IDEA* Integrated Development Environment (IDE)
+. *Intellij IDEA* Integrated Development Environment (IDE) is installed.
 
 You can download Intellij IDEA IDE from https://www.jetbrains.com/idea/download/[here] [https://www.jetbrains.com/idea/download]
 
 [NOTE]
-Either version of Intellij IDEA IDE will work. +
-By default, Intellij IDEA IDE has Gradle and JavaFx plugins installed. +
-Ensure that both Gradle and JavaFx plugins are enabled. If you have disabled them, go to `File > Settings > Plugins`
- to re-enable them.
+Either version of Intellij IDEA IDE will work.
+
+By default, Intellij IDEA IDE has Gradle and JavaFx plugins installed. Ensure that both Gradle and JavaFx plugins are enabled.
+If you have disabled them, go to `File > Settings > Plugins` to re-enable them.
 
 === Setting up the project in your computer [Edited in v1.4]
 
-. Fork this repo to your own *Github account*, and clone the fork to your computer.
+. *Fork* this repo to your own Github account, and *clone* the fork to your computer.
 . Open IntelliJ IDEA IDE and you should see the Welcome Screen.
 
 [NOTE]
-If you do not see the welcome screen, click `File` > `Close Project` to close the existing project dialog first.
+If you do not see the welcome screen, click `File > Close Project` to close the existing project dialog first.
 
 . Set up the correct JDK version for Gradle.
-.. Click `Configure` > `Project Defaults` > `Project Structure`.
+.. Click `Configure > Project Defaults > Project Structure`.
 .. Click `New...` and find the directory of your JDK.
 . Click `Import Project`.
 . Locate the `build.gradle` file and select it. Click `OK`.
 . Click `Open as Project`.
 . Click `OK` to accept the default settings.
-. Press `Crtl + Tab + T` to open a console in Intellij IDEA IDE and execute the following command:
-- For Windows: `gradlew processResources`.
-- For Mac/Linux: `./gradlew processResources`).
+. Press `Control + Tab + T` simultaneously to open a console in Intellij IDEA IDE and execute the following command:
+- For Windows: `gradlew processResources`
+- For Mac/Linux: `./gradlew processResources`
 
 [NOTE]
 The command should finish executing with the `BUILD SUCCESSFUL` message. +
@@ -82,11 +82,12 @@ This will generate all resources required by the application and tests.
 === Verifying the setup [Edited in v1.4]
 
 . Run `src\main\java\seedu\address\MainApp.java` in Intellij IDEA IDE and try executing a few commands.
-. Right click on the test folder under `src` folder in Intellij IDSEA IDE. link:#testing[Run the tests] and *ensure* they all pass.
+. link:#testing[Run the tests] by right clicking and selecting the `Run All Tests` option on the test folder
+under `src` folder in Intellij IDEA IDE.  *Ensure* that all test cases pass before commencing coding.
 
 === Configurations to do before coding [Edited in v1.4]
 Now that you have successfully imported Augustine's source code into your computer, do ensure that you have completed the following before
-you commence coding in the source code:
+you commence coding:
 
 ==== Configuring the coding style [Edited in v1.4]
 
@@ -109,12 +110,13 @@ import statements
 `import all other imports`. Add a `<blank line>` between each `import`
 
 [TIP]
-Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure IntelliJ IDE to check style-compliance as you code.
+You can also configure IntelliJ IDE to assist you in checking for style-compliance as you code. See <<UsingCheckstyle#, UsingCheckstyle.adoc>>
+to learn how to configure it.
 
 ==== Updating documentation to match your fork
 
 After forking the repo, links in the documentation will still point to the `CS2103AUG2017-W14-B2/main` repo. If you plan to develop this as a
-separate product (i.e. instead of contributing to `CS2103AUG2017-W14-B2/main`) , you should replace the URL in the variable `repoURL` in both
+separate product instead of contributing to `CS2103AUG2017-W14-B2/main`, you should replace the URL in the variable `repoURL` in both
 `DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your forked repo.
 
 ==== Setting up Continuous Integration (CI)
@@ -124,8 +126,8 @@ CI tools such as Travis and AppVeyor should be set up to prevent integration pro
 See <<UsingTravis#, UsingTravis.adoc>> and <<UsingAppVeyor#, UsingAppVeyor.adoc>>) to learn how to set them up.
 
 [NOTE]
-Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms
-(Travis is Unix-based and AppVeyor is Windows-based)
+Having both Travis and AppVeyor ensures Augustine works on both Unix-based platforms and Windows-based platforms as
+Travis checks for Unix-based platforms while AppVeyor checks for Windows-based platforms.
 
 ==== Getting started with coding
 
