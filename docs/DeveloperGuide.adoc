@@ -18,91 +18,125 @@ By: `W14-B2`      Since: `Oct 2017`      Licence: `MIT`
 toc::[]
 <<<
 
-== Software Overview [Edited in v1.3]
+== Software Overview [Edited in v1.4]
 
-Augustine is a Command Line Interface (CLI) Address Book that seeks to assist Students and Tutors that are currently in University by providing them with a comprehensive software to store the contact information of either their friends or students virtually on their laptops.
+Augustine is a virtual Address Book that seeks to assist students that are currently pursuing their studies in National
+University of Singapore (NUS). As a virtual Address Book, Augustine can provide students with a comprehensive software
+to virtually store contact details of their friends in NUS.
 
-Developed in Java, Augustine is able to be executed in both Windows and Unix environment and is thus able to cater to users of the various platforms.
+Command Line Interface (CLI) is the primary mode of input in Augustine while a General User Interface is used to give
+users visual feedback of queries that are performed.
 
-== About [Edited in v1.3]
+Developed in Java, Augustine can cater to all students as it can be executed in both Windows and Unix environment.
 
-This Developer Guide seeks to assist both existing and new Developers that are interested in joining the Development team of Augustine.
+== Purpose [Edited in v1.4]
 
-== Setting up
+This Developer Guide seeks to assist both experienced and new Developers that are interested in contributing to Augustine
+or understand the underlying mechanisms of Augustine.
 
-=== Prerequisites
+== Getting Started [Edited in v1.4]
+Before proceeding further with the Guide, ensure that you have achieved the following requirements:
 
-. *JDK `1.8.0_60`* or later
-+
+=== Prerequisites [Edited in v1.4]
+. *Java SE Development Kit* (JDK) `v1.8.0_60` or later.
+
+You can download the latest JDK from
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here] [http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html]
+
 [NOTE]
-Having any Java 8 version is not enough. +
-This app will not work with earlier versions of Java 8.
-+
+Augustine will *not work* with any version of Java earlier than `Java 8.6`.
 
-. *IntelliJ* IDE
-+
+. *Intellij IDEA* Integrated Development Environment (IDE)
+
+You can download Intellij IDEA IDE from https://www.jetbrains.com/idea/download/[here] [https://www.jetbrains.com/idea/download]
+
 [NOTE]
-IntelliJ by default has Gradle and JavaFx plugins installed. +
-Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
+Either version of Intellij IDEA IDE will work. +
+By default, Intellij IDEA IDE has Gradle and JavaFx plugins installed. +
+Ensure that both Gradle and JavaFx plugins are enabled. If you have disabled them, go to `File > Settings > Plugins`
+ to re-enable them.
 
+=== Setting up the project in your computer [Edited in v1.4]
 
-=== Setting up the project in your computer
+. Fork this repo to your own *Github account*, and clone the fork to your computer.
+. Open IntelliJ IDEA IDE and you should see the Welcome Screen.
 
-. Fork this repo, and clone the fork to your computer
-. Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first)
-. Set up the correct JDK version for Gradle
-.. Click `Configure` > `Project Defaults` > `Project Structure`
-.. Click `New...` and find the directory of the JDK
-. Click `Import Project`
-. Locate the `build.gradle` file and select it. Click `OK`
-. Click `Open as Project`
-. Click `OK` to accept the default settings
-. Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). It should finish with the `BUILD SUCCESSFUL` message. +
+[NOTE]
+If you do not see the welcome screen, click `File` > `Close Project` to close the existing project dialog first.
+
+. Set up the correct JDK version for Gradle.
+.. Click `Configure` > `Project Defaults` > `Project Structure`.
+.. Click `New...` and find the directory of your JDK.
+. Click `Import Project`.
+. Locate the `build.gradle` file and select it. Click `OK`.
+. Click `Open as Project`.
+. Click `OK` to accept the default settings.
+. Press `Crtl + Tab + T` to open a console in Intellij IDEA IDE and execute the following command:
+- For Windows: `gradlew processResources`.
+- For Mac/Linux: `./gradlew processResources`).
+
+[NOTE]
+The command should finish executing with the `BUILD SUCCESSFUL` message. +
 This will generate all resources required by the application and tests.
 
-=== Verifying the setup
+=== Verifying the setup [Edited in v1.4]
 
-. Run the `seedu.address.MainApp` and try a few commands
-. link:#testing[Run the tests] to ensure they all pass.
+. Run `src\main\java\seedu\address\MainApp.java` in Intellij IDEA IDE and try executing a few commands.
+. Right click on the test folder under `src` folder in Intellij IDSEA IDE. link:#testing[Run the tests] and *ensure* they all pass.
 
-=== Configurations to do before writing code
+=== Configurations to do before coding [Edited in v1.4]
+Now that you have successfully imported Augustine's source code into your computer, do ensure that you have completed the following before
+you commence coding in the source code:
 
-==== Configuring the coding style
+==== Configuring the coding style [Edited in v1.4]
 
-This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.md[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
+This project follows the coding standard set forth by https://github.com/oss-generic/process/blob/master/docs/CodingStandards.md[oss-generic].
 
-. Go to `File` > `Settings...` (Windows/Linux), or `IntelliJ IDEA` > `Preferences...` (macOS)
-. Select `Editor` > `Code Style` > `Java`
+While IntelliJ IDEA IDE default style is mostly compliant with it, minor modifications to the default settings is required to fully comply
+with our coding standard.
+
+Apply the following modifications to tweak the settings to comply with our coding standard:
+
+. Go to:
+- For Windows/Linux: `File > Settings...`.
+- For macOS: `IntelliJ IDEA > Preferences...`.
+. Select `Editor > Code Style > Java`.
 . Click on the `Imports` tab to set the order
 
-* For `Class count to use import with '\*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the import statements
-* For `Import Layout`: The order is `import static all other imports`, `import java.\*`, `import javax.*`, `import org.\*`, `import com.*`, `import all other imports`. Add a `<blank line>` between each `import`
+* For `Class count to use import with '\*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the
+import statements
+* For `Import Layout`: The order is `import static all other imports`, `import java.\*`, `import javax.*`, `import org.\*`, `import com.*`,
+`import all other imports`. Add a `<blank line>` between each `import`
 
-Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure Intellij to check style-compliance as you write code.
+[TIP]
+Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure IntelliJ IDE to check style-compliance as you code.
 
 ==== Updating documentation to match your fork
 
-After forking the repo, links in the documentation will still point to the `se-edu/addressbook-level4` repo. If you plan to develop this as a separate product (i.e. instead of contributing to the `se-edu/addressbook-level4`) , you should replace the URL in the variable `repoURL` in `DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your fork.
+After forking the repo, links in the documentation will still point to the `CS2103AUG2017-W14-B2/main` repo. If you plan to develop this as a
+separate product (i.e. instead of contributing to `CS2103AUG2017-W14-B2/main`) , you should replace the URL in the variable `repoURL` in both
+`DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your forked repo.
 
-==== Setting up CI
+==== Setting up Continuous Integration (CI)
 
-Set up Travis to perform Continuous Integration (CI) for your fork. See <<UsingTravis#, UsingTravis.adoc>> to learn how to set it up.
+CI tools such as Travis and AppVeyor should be set up to prevent integration problems during development.
 
-Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingAppVeyor.adoc>>).
+See <<UsingTravis#, UsingTravis.adoc>> and <<UsingAppVeyor#, UsingAppVeyor.adoc>>) to learn how to set them up.
 
 [NOTE]
-Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms (Travis is Unix-based and AppVeyor is Windows-based)
+Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms
+(Travis is Unix-based and AppVeyor is Windows-based)
 
 ==== Getting started with coding
 
 When you are ready to start coding,
 
-1. Get some sense of the overall design by reading the link:#architecture[Architecture] section.
+1. Understand the overall design by reading the link:#architecture[Architecture] section.
 2. Take a look at the section link:#suggested-programming-tasks-to-get-started[Suggested Programming Tasks to Get Started].
 
-== Software Architecture [Edited in v1.3]
+== Software Architecture
 
-This section covers how the software is design and an overview on the some of components of the software.
+This section covers how Augustine is design while also providing an overview of the components in Augustine.
 
 === Architecture Design [Edited in v1.3]
 
