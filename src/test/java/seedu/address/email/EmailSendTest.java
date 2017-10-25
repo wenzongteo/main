@@ -1,6 +1,7 @@
 package seedu.address.email;
 
 import org.junit.Test;
+
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.message.MessageDraft;
