@@ -18,16 +18,15 @@ By: `W14-B2`      Since: `Oct 2017`      Licence: `MIT`
 toc::[]
 <<<
 
-== Software Overview
+== Software Overview [Edited in v1.3]
 
 Augustine is a Command Line Interface (CLI) Address Book that seeks to assist primarily Students and Tutors that are in University and seeks to provide them with a comprehensive software to virtually store the contact information of either their friends or students
 
 Developed in Java, Augustine is able to be executed in both Windows and Unix environment and is able to reach out to a bigger target audience.
 
-== About
+== About [Edited in v1.3]
 
 This Developer Guide seeks to assist both existing and new Developers that are interested in joining the developer team to further develop Augustine.
-
 
 
 == Setting up
@@ -102,7 +101,7 @@ When you are ready to start coding,
 1. Get some sense of the overall design by reading the link:#architecture[Architecture] section.
 2. Take a look at the section link:#suggested-programming-tasks-to-get-started[Suggested Programming Tasks to Get Started].
 
-== Software Architecture
+== Software Architecture [Edited in v1.3]
 
 This section covers how the software is design and an overview on the some of components of the software.
 
@@ -227,7 +226,7 @@ The `Model`,
 * exposes an unmodifiable `ObservableList<ReadOnlyPerson>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
-==== Email component
+==== Email component [Edited in v1.3]
 
 image::EmailComponent.png[width="800"]
 _Figure 4.3.4 : Structure of the Model Component_
@@ -450,7 +449,7 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 
 // end::optionalfields[]
 
-=== Adding and displaying of schedule
+=== Adding and displaying of schedule [Edited in v1.3]
 The schedule will utilize https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
 
 The schedule is stored in the `NusModules` class and each `Person` will have an `Optional<NusModules>`.
@@ -514,7 +513,7 @@ In the xml, the data will be stored as such:
 **Pros:** User will not need to know more commands +
 **Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
 
-=== Find with filter and sort Mechanism
+=== Find with filter and sort Mechanism [Edited in v1.3]
 
 The find command is facilitated by the Model and Logic Component. It provides the user with the option to
 filter and sort the contact list.
@@ -549,7 +548,7 @@ The find results are bind to the javafx ListView. Thus any changes to the Sorted
 
 ---
 
-=== Email Mechanism
+=== Email Mechanism [Edited in v1.3]
 
 The email mechanism is facilitated by the `Email component`. It allows the sending of email via using an external
 library, JavaMail. The sections below will explain how the email mechanism works and some of the design considerations.
