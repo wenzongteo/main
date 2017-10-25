@@ -2,6 +2,10 @@ package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -43,12 +47,22 @@ public class UniquePersonList implements Iterable<Person> {
      *
      * @throws DuplicatePersonException if the person to add is a duplicate of an existing person in the list.
      */
-    public void add(ReadOnlyPerson toAdd) throws DuplicatePersonException {
+    public void add(ReadOnlyPerson toAdd) throws DuplicatePersonException, IOException {
         requireNonNull(toAdd);
         if (contains(toAdd)) {
             throw new DuplicatePersonException();
         }
-        internalList.add(new Person(toAdd));
+
+        Person person = new Person(toAdd);
+
+        Photo originalPhoto = toAdd.getPhoto();
+        String intendedPhotoPath = "data/images/" + toAdd.getEmailAddress().toString() + ".jpg";
+        person.setPhoto(new Photo(intendedPhotoPath, 0));
+
+        Files.copy(Paths.get(originalPhoto.toString()), Paths.get(intendedPhotoPath),
+                StandardCopyOption.REPLACE_EXISTING);
+
+        internalList.add(new Person(person));
         sortInternalList();
     }
 
@@ -59,7 +73,7 @@ public class UniquePersonList implements Iterable<Person> {
      * @throws PersonNotFoundException if {@code target} could not be found in the list.
      */
     public void setPerson(ReadOnlyPerson target, ReadOnlyPerson editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException {
+            throws DuplicatePersonException, PersonNotFoundException, IOException {
         requireNonNull(editedPerson);
 
         int index = internalList.indexOf(target);
@@ -71,8 +85,44 @@ public class UniquePersonList implements Iterable<Person> {
             throw new DuplicatePersonException();
         }
 
-        internalList.set(index, new Person(editedPerson));
+        Person person = new Person(editedPerson);
+
+        Photo originalPhoto = target.getPhoto();
+        Photo newPhoto = editedPerson.getPhoto();
+        String intendedPhotoPath = "data/images/" + editedPerson.getEmailAddress().toString() + ".jpg";
+        boolean deleteFile = false;
+
+        if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && !target.getPhoto().equals(editedPerson.getPhoto())) { //Only Photo changed.
+            person.setPhoto(new Photo(intendedPhotoPath, 0));
+            Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
+                    StandardCopyOption.REPLACE_EXISTING);
+
+        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && target.getPhoto().equals(editedPerson.getPhoto())) { //only email changed.
+            person.setPhoto(new Photo(intendedPhotoPath, 0));
+            Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
+                    StandardCopyOption.REPLACE_EXISTING);
+            deleteFile = true;
+
+        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && !target.getPhoto().equals(editedPerson.getPhoto())) { //Both changed.
+            person.setPhoto(new Photo(intendedPhotoPath, 0));
+            Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
+                    StandardCopyOption.REPLACE_EXISTING);
+            deleteFile = true;
+
+        } else if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && target.getPhoto().equals(editedPerson.getPhoto())) { //No special update
+        } else {
+            throw new AssertionError("Shouldn't be here");
+        }
+
+        internalList.set(index, new Person(person));
         sortInternalList();
+        if (deleteFile == true) {
+            Files.delete(Paths.get(originalPhoto.toString()));
+        }
     }
 
     /**
@@ -80,13 +130,14 @@ public class UniquePersonList implements Iterable<Person> {
      *
      * @throws PersonNotFoundException if no such person could be found in the list.
      */
-    public boolean remove(ReadOnlyPerson toRemove) throws PersonNotFoundException {
+    public boolean remove(ReadOnlyPerson toRemove) throws PersonNotFoundException, IOException {
         requireNonNull(toRemove);
         sortInternalList();
         final boolean personFoundAndDeleted = internalList.remove(toRemove);
         if (!personFoundAndDeleted) {
             throw new PersonNotFoundException();
         }
+        Files.delete(Paths.get(toRemove.getPhoto().toString()));
         return personFoundAndDeleted;
     }
 
@@ -95,7 +146,7 @@ public class UniquePersonList implements Iterable<Person> {
         sortInternalList();
     }
 
-    public void setPersons(List<? extends ReadOnlyPerson> persons) throws DuplicatePersonException {
+    public void setPersons(List<? extends ReadOnlyPerson> persons) throws DuplicatePersonException, IOException {
         final UniquePersonList replacement = new UniquePersonList();
         for (final ReadOnlyPerson person : persons) {
             replacement.add(new Person(person));

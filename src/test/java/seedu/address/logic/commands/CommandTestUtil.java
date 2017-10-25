@@ -162,6 +162,8 @@ public class CommandTestUtil {
             model.deletePerson(firstPerson);
         } catch (PersonNotFoundException pnfe) {
             throw new AssertionError("Person in filtered list must exist in model.", pnfe);
+        } catch (IOException ioe) {
+            throw new AssertionError("Image must exist");
         }
     }
 }

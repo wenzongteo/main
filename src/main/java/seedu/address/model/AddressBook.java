@@ -2,6 +2,7 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -51,7 +52,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     //// list overwrite operations
 
-    public void setPersons(List<? extends ReadOnlyPerson> persons) throws DuplicatePersonException {
+    public void setPersons(List<? extends ReadOnlyPerson> persons) throws DuplicatePersonException, IOException {
         this.persons.setPersons(persons);
     }
 
@@ -68,6 +69,8 @@ public class AddressBook implements ReadOnlyAddressBook {
             setPersons(newData.getPersonList());
         } catch (DuplicatePersonException e) {
             assert false : "AddressBooks should not have duplicate persons";
+        } catch (IOException e) {
+            assert false : "Photo should exist";
         }
 
         setTags(new HashSet<>(newData.getTagList()));
@@ -83,7 +86,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      *
      * @throws DuplicatePersonException if an equivalent person already exists.
      */
-    public void addPerson(ReadOnlyPerson p) throws DuplicatePersonException {
+    public void addPerson(ReadOnlyPerson p) throws DuplicatePersonException, IOException {
         Person newPerson = new Person(p);
         syncMasterTagListWith(newPerson);
         // TODO: the tags master list will be updated even though the below line fails.
@@ -103,7 +106,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @see #syncMasterTagListWith(Person)
      */
     public void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedReadOnlyPerson)
-            throws DuplicatePersonException, PersonNotFoundException {
+            throws DuplicatePersonException, PersonNotFoundException, IOException {
         requireNonNull(editedReadOnlyPerson);
 
         Person editedPerson = new Person(editedReadOnlyPerson);
@@ -148,7 +151,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Removes {@code key} from this {@code AddressBook}.
      * @throws PersonNotFoundException if the {@code key} is not in this {@code AddressBook}.
      */
-    public boolean removePerson(ReadOnlyPerson key) throws PersonNotFoundException {
+    public boolean removePerson(ReadOnlyPerson key) throws PersonNotFoundException, IOException {
         if (persons.remove(key)) {
             return true;
         } else {

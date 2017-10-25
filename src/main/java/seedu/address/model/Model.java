@@ -35,10 +35,10 @@ public interface Model {
     Email getEmailManager();
 
     /** Deletes the given person. */
-    void deletePerson(ReadOnlyPerson target) throws PersonNotFoundException;
+    void deletePerson(ReadOnlyPerson target) throws PersonNotFoundException, IOException;
 
     /** Adds the given person */
-    void addPerson(ReadOnlyPerson person) throws DuplicatePersonException;
+    void addPerson(ReadOnlyPerson person) throws DuplicatePersonException, IOException;
 
     /** Copy a person's contact into a fixed location */
     String addImage(EmailAddress email, Photo photo) throws IOException;
@@ -50,8 +50,8 @@ public interface Model {
      *      another existing person in the list.
      * @throws PersonNotFoundException if {@code target} could not be found in the list.
      */
-    void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException;
+    void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedPerson) throws DuplicatePersonException,
+            PersonNotFoundException, IOException;
 
     /** Returns an unmodifiable view of the filtered person list */
     ObservableList<ReadOnlyPerson> getFilteredPersonList();
@@ -68,7 +68,7 @@ public interface Model {
     void sortFilteredPersons(int sortOrder);
 
     /** delete tag from all person with the tag **/
-    void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException;
+    void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException, IOException;
 
     /** send email based on last displayed person list **/
     void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException,
