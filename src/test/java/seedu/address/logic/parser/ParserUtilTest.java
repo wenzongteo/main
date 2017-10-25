@@ -23,6 +23,7 @@ import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
+import sun.net.www.ParseUtil;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
@@ -236,5 +237,39 @@ public class ParserUtilTest {
         assertEquals(expectedMessage, message);
         assertEquals(expectedSubject, subject);
         assertEquals(expectedLoginDetails, loginDetails);
+    }
+
+    @Test
+    public void parseSortOrder() {
+        int result;
+
+        try {
+            //assertEqual -1 if String empty
+            result = ParserUtil.parseSortOrder(Optional.of(""));
+            assertEquals(-1, result);
+
+            //assertEqual 0 if String name
+            result = ParserUtil.parseSortOrder(Optional.of("name"));
+            assertEquals(0, result);
+
+            //assertEqual 1 if String tag
+            result = ParserUtil.parseSortOrder(Optional.of("tag"));
+            assertEquals(1, result);
+
+            //assertEqual 2 if String email
+            result = ParserUtil.parseSortOrder(Optional.of("email"));
+            assertEquals(2, result);
+
+            //assertEqual 3 if String address
+            result = ParserUtil.parseSortOrder(Optional.of("address"));
+            assertEquals(3, result);
+
+            //assertEqual -1 if String invalid
+            result = ParserUtil.parseSortOrder(Optional.of("phone"));
+            assertEquals(-1, result);
+
+        } catch (IllegalValueException e) {
+            assert false : "Should not hit this at all";
+        }
     }
 }
