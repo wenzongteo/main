@@ -55,7 +55,7 @@ public class EmailLoginTest {
             assertFalse(emailLogin.isUserLogin());
 
         } catch (EmailLoginInvalidException e) {
-            assert true: "user is unable to login with non gmail account";
+            assert true : "user is unable to login with non gmail account";
         }
     }
 
