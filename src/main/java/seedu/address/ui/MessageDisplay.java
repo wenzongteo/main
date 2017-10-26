@@ -48,7 +48,7 @@ public class MessageDisplay extends UiPart<Region> {
             public void run() {
                 messageDisplay.setValue(event.message.getMessage());
                 recipientsDisplay.setValue(event.message.getSubject());
-                subjectDisplay.setValue(event.message.getRecipientsEmails().toString());
+                subjectDisplay.setValue(event.message.getRecipientsEmailtoString());
             }
         });
     }

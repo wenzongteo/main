@@ -10,6 +10,7 @@ public interface ReadOnlyMessageDraft {
     String getMessage();
     String getSubject();
     InternetAddress [] getRecipientsEmails();
+    String getRecipientsEmailtoString();
 
     boolean containsContent();
 

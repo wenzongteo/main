@@ -52,6 +52,18 @@ public class MessageDraft implements ReadOnlyMessageDraft {
     }
 
     @Override
+    public String getRecipientsEmailtoString() {
+        String receipients = "";
+        for (int i = 0; i < recipientsEmail.length; i++) {
+            receipients += recipientsEmail[i].getAddress();
+            if (i != recipientsEmail.length - 1) {
+                receipients += ", ";
+            }
+        }
+        return receipients;
+    }
+
+    @Override
     public boolean containsContent() {
         if (this.message.isEmpty() || this.subject.isEmpty()) {
             return false;
