@@ -99,6 +99,7 @@ public class MainApp extends Application {
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
         try {
+            System.out.println("hihi");
             String imagesFolderPath = "data/images";
             String editedPhotoPath = "data/edited";
 
