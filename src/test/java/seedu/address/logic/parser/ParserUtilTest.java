@@ -23,7 +23,6 @@ import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.tag.Tag;
-import sun.net.www.ParseUtil;
 
 public class ParserUtilTest {
     private static final String INVALID_NAME = "R@chel";
