@@ -46,8 +46,8 @@ public class MainWindow extends UiPart<Region> {
 
     // Independent Ui parts residing in this Ui container
     private BrowserPanel browserPanel;
-    private PersonListPanel personListPanel;
     private Config config;
+    private LeftDisplayPanel leftDisplayPanel;
     private UserPrefs prefs;
 
     @FXML
@@ -72,7 +72,7 @@ public class MainWindow extends UiPart<Region> {
     private MenuItem shortcutMenuScrollUp;
 
     @FXML
-    private StackPane personListPanelPlaceholder;
+    private StackPane leftDisplayPanelPlacedholder;
 
     @FXML
     private StackPane resultDisplayPlaceholder;
@@ -150,8 +150,8 @@ public class MainWindow extends UiPart<Region> {
         browserPanel = new BrowserPanel(config);
         browserPlaceholder.getChildren().add(browserPanel.getRoot());
 
-        personListPanel = new PersonListPanel(logic.getFilteredPersonList());
-        personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
+        leftDisplayPanel = new LeftDisplayPanel(logic.getFilteredPersonList());
+        leftDisplayPanelPlacedholder.getChildren().add(leftDisplayPanel.getRoot());
 
         ResultDisplay resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());
@@ -210,7 +210,7 @@ public class MainWindow extends UiPart<Region> {
      */
     @FXML
     private void handleScrollDown() {
-        personListPanel.scrollDown();
+        leftDisplayPanel.scrollDown();
     }
 
     /**
@@ -218,7 +218,7 @@ public class MainWindow extends UiPart<Region> {
      */
     @FXML
     private void handleScrollUp() {
-        personListPanel.scrollUp();
+        leftDisplayPanel.scrollUp();
     }
 
     /**
@@ -275,7 +275,7 @@ public class MainWindow extends UiPart<Region> {
     }
 
     public PersonListPanel getPersonListPanel() {
-        return this.personListPanel;
+        return this.leftDisplayPanel.getPersonListPanel();
     }
 
     void releaseResources() {
