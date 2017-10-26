@@ -192,6 +192,12 @@ public class ParserUtil {
             case "tag":
                 sortOrder = 1;
                 break;
+            case "email":
+                sortOrder = 2;
+                break;
+            case "address":
+                sortOrder = 3;
+                break;
             default:
                 sortOrder = -1;
                 break;
