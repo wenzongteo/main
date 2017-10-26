@@ -98,8 +98,8 @@ public class UniquePersonList implements Iterable<Person> {
                 && !target.getPhoto().equals(editedPerson.getPhoto())) { //Only Photo changed.
 
             person.setPhoto(new Photo(intendedPhotoPath, 0));
-            Files.copy(Paths.get(intendedPhotoPath), Paths.get("data/edited/" +
-                    editedPerson.getEmailAddress().toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get(intendedPhotoPath), Paths.get("data/edited/"
+                    + editedPerson.getEmailAddress().toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
                     StandardCopyOption.REPLACE_EXISTING);
 
