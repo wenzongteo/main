@@ -39,7 +39,7 @@ import seedu.address.testutil.PersonBuilder;
 public class EmailCommandSystemTest extends AddressBookSystemTest {
 
     private static final String EMAIL_SUCCESSFULLY_DRAFTED = "drafted";
-    private static final String EMAIL_COMMAND_SEND = " -send";
+    private static final String EMAIL_COMMAND_SEND = " et/send";
 
     @Before
     public void setup() throws Exception {
