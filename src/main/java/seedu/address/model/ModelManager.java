@@ -262,7 +262,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         // state check
         ModelManager other = (ModelManager) obj;
-        return  addressBook.equals(other.addressBook)
+        return addressBook.equals(other.addressBook)
                 && sortedPersonsList.equals(other.sortedPersonsList)
                 && email.equals(other.email);
     }

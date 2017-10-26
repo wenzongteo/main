@@ -19,6 +19,7 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
 
     @Override
     public boolean test(ReadOnlyPerson person) {
+
         if (!namekeywords.isEmpty() && !tagkeywords.isEmpty()) {
             return namekeywords.stream()
                     .anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword)

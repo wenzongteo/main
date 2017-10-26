@@ -4,9 +4,13 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_PERSONS_LISTED_OVERVIEW;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BENSON;
 import static seedu.address.testutil.TypicalPersons.CARL;
+import static seedu.address.testutil.TypicalPersons.DANIEL;
 import static seedu.address.testutil.TypicalPersons.ELLE;
 import static seedu.address.testutil.TypicalPersons.FIONA;
+import static seedu.address.testutil.TypicalPersons.GEORGE;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.File;
@@ -107,17 +111,42 @@ public class FindCommandTest {
     @Test
     public void execute_multipleKeywords_multiplePersonsFound() {
         String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
-        FindCommand command = prepareCommand("Kurz Elle Kunz", "friends");
-        assertCommandSuccess(command, expectedMessage, Arrays.asList(CARL, ELLE, FIONA));
+        FindCommand command = prepareCommand("Carl Meier", "friends");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(BENSON, CARL, DANIEL));
+    }
+
+    @Test
+    public void execute_multipleNameKeywords_multiplePersonsFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 3);
+        FindCommand command = prepareCommand("Alice Meier", "");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(ALICE, BENSON, DANIEL));
+    }
+
+    @Test
+    public void execute_multipleTagKeywords_multiplePersonsFound() {
+        String expectedMessage = String.format(MESSAGE_PERSONS_LISTED_OVERVIEW, 7);
+        FindCommand command = prepareCommand("", "friends");
+        assertCommandSuccess(command, expectedMessage, Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
     }
 
     /**
      * Parses {@code userInput} into a {@code FindCommand}.
      */
     private FindCommand prepareCommand(String userInputName, String userInputTag) {
+        String [] nameKeywords = new String[0];
+        String [] tagKeywords = new String[0];
+
+        if (!userInputName.isEmpty()) {
+            nameKeywords = userInputName.split("\\s+");
+        }
+        if (!userInputTag.isEmpty()) {
+            tagKeywords = userInputTag.split("\\s+");
+        }
+
+
         FindCommand command =
-                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(userInputName.split("\\s+")),
-                        Arrays.asList(userInputTag.split("\\s+"))), 0);
+                new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords),
+                        Arrays.asList(tagKeywords)), 0);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
