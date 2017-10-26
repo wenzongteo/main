@@ -34,6 +34,11 @@ public class MessageDisplay extends UiPart<Region> {
 
     public MessageDisplay() {
         super(FXML);
+
+        messageArea.setWrapText(true);
+        recipientsArea.setWrapText(true);
+        subjectArea.setWrapText(true);
+
         messageArea.textProperty().bind(messageDisplay);
         recipientsArea.textProperty().bind(recipientsDisplay);
         subjectArea.textProperty().bind(subjectDisplay);
