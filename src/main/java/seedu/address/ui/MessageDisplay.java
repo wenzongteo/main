@@ -41,14 +41,14 @@ public class MessageDisplay extends UiPart<Region> {
     }
 
     @Subscribe
-    private void handleNewResultAvailableEvent(EmailDraftChangedEvent event) {
+    private void handleEmailDraftChangedEvent(EmailDraftChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
                 messageDisplay.setValue(event.message.getMessage());
-                recipientsDisplay.setValue(event.message.getSubject());
-                subjectDisplay.setValue(event.message.getRecipientsEmailtoString());
+                recipientsDisplay.setValue(event.message.getRecipientsEmailtoString());
+                subjectDisplay.setValue(event.message.getSubject());
             }
         });
     }
