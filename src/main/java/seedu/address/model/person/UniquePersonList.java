@@ -60,10 +60,9 @@ public class UniquePersonList implements Iterable<Person> {
 
         Photo originalPhoto = toAdd.getPhoto();
         String intendedPhotoPath = "data/images/" + toAdd.getEmailAddress().toString() + ".jpg";
-        person.setPhoto(new Photo(intendedPhotoPath, 0));
-
         Files.copy(Paths.get(originalPhoto.toString()), Paths.get(intendedPhotoPath),
                 StandardCopyOption.REPLACE_EXISTING);
+        person.setPhoto(new Photo(intendedPhotoPath, 0));
 
         internalList.add(new Person(person));
         sortInternalList();

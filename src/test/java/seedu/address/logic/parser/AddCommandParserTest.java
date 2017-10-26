@@ -40,6 +40,12 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseFailure;
 import static seedu.address.logic.parser.CommandParserTestUtil.assertParseSuccess;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.logic.commands.AddCommand;
@@ -54,6 +60,18 @@ import seedu.address.testutil.PersonBuilder;
 
 public class AddCommandParserTest {
     private AddCommandParser parser = new AddCommandParser();
+
+    @Before
+    public void initialize() {
+        try {
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new AssertionError("impossibru!");
+        }
+    }
 
     @Test
     public void parse_allFieldsPresent_success() {
