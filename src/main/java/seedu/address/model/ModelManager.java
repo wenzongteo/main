@@ -25,6 +25,7 @@ import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.ui.EmailDraftChangedEvent;
 import seedu.address.email.Email;
 import seedu.address.email.EmailManager;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
@@ -240,6 +241,7 @@ public class ModelManager extends ComponentManager implements Model {
         if (send) {
             email.sendEmail();
         }
+        raise(new EmailDraftChangedEvent(email.getEmailDraft()));
     }
 
     @Override
