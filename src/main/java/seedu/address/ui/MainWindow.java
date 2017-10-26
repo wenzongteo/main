@@ -72,6 +72,9 @@ public class MainWindow extends UiPart<Region> {
     private MenuItem shortcutMenuScrollUp;
 
     @FXML
+    private MenuItem shortcutMenuToggleTab;
+
+    @FXML
     private StackPane leftDisplayPanelPlacedholder;
 
     @FXML
@@ -111,6 +114,7 @@ public class MainWindow extends UiPart<Region> {
         setAccelerator(shortcutMenuRedo, KeyCombination.valueOf("Ctrl+y"));
         setAccelerator(shortcutMenuScrollUp, KeyCombination.valueOf("Page Up"));
         setAccelerator(shortcutMenuScrollDown, KeyCombination.valueOf("Page Down"));
+        setAccelerator(shortcutMenuToggleTab, KeyCombination.valueOf("Ctrl+t"));
     }
 
     /**
@@ -219,6 +223,14 @@ public class MainWindow extends UiPart<Region> {
     @FXML
     private void handleScrollUp() {
         leftDisplayPanel.scrollUp();
+    }
+
+    /**
+     * Calls UI to toggle Tabs
+     */
+    @FXML
+    private void handleToggleTabs() {
+        leftDisplayPanel.toggleTabs();
     }
 
     /**

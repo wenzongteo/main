@@ -22,6 +22,8 @@ public class LeftDisplayPanel extends UiPart<Region> {
     private PersonListPanel personListPanel;
     private MessageDisplay messageDisplay;
 
+    private boolean toggle;
+
     @FXML
     private TabPane leftDisplayPanel;
 
@@ -45,6 +47,20 @@ public class LeftDisplayPanel extends UiPart<Region> {
 
         messageDisplay = new MessageDisplay();
         messageDraftPanelPlaceholder.getChildren().add(messageDisplay.getRoot());
+
+        toggle = true;
+    }
+
+    /**
+     * Toggle Tabs
+     */
+    public void toggleTabs() {
+        if  (toggle) {
+            leftDisplayPanel.getSelectionModel().select(emailDraftTab);
+        } else {
+            leftDisplayPanel.getSelectionModel().select(personListTab);
+        }
+        toggle = !toggle;
     }
 
     /**
