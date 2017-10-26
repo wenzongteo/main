@@ -11,7 +11,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.NewResultAvailableEvent;
+import seedu.address.commons.events.ui.EmailDraftChangedEvent;
 
 /**
  * A ui for the display of the current email draft
@@ -41,14 +41,14 @@ public class MessageDisplay extends UiPart<Region> {
     }
 
     @Subscribe
-    private void handleNewResultAvailableEvent(NewResultAvailableEvent event) {
+    private void handleNewResultAvailableEvent(EmailDraftChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         Platform.runLater(new Runnable() {
             @Override
             public void run() {
-                messageDisplay.setValue(event.message);
-                recipientsDisplay.setValue(event.message);
-                subjectDisplay.setValue(event.message);
+                messageDisplay.setValue(event.message.getMessage());
+                recipientsDisplay.setValue(event.message.getSubject());
+                subjectDisplay.setValue(event.message.getRecipientsEmails().toString());
             }
         });
     }
