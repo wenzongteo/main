@@ -10,7 +10,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_TASK;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.EmailCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import sun.net.www.ParseUtil;
 
 /**
  * Parses input arguments and creates a new EmailCommand object
