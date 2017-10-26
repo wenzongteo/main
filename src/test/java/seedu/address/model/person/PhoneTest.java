@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import seedu.address.commons.exceptions.IllegalValueException;
+
 public class PhoneTest {
 
     @Test
@@ -23,5 +25,22 @@ public class PhoneTest {
         assertTrue(Phone.isValidPhone("91199999")); // Start with 9
         assertTrue(Phone.isValidPhone("81199999")); // Start with 8
         assertTrue(Phone.isValidPhone("61199999")); // Start with 6
+    }
+
+    @Test
+    public void emailHashCode() {
+        try {
+            Phone phone1 = new Phone("61199999");
+            Phone phone2 = new Phone("81199999");
+
+            //hashcode matches for same phone --> return true
+            assertTrue(phone1.hashCode() == phone1.hashCode());
+
+            //hashcode don't match for different phone --> return false
+            assertFalse(phone1.hashCode() == phone2.hashCode());
+
+        } catch (IllegalValueException e) {
+            assert false : "shouldn't hit this case at all";
+        }
     }
 }

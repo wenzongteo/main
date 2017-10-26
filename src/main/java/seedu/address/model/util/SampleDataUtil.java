@@ -1,5 +1,6 @@
 package seedu.address.model.util;
 
+import java.io.IOException;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -56,6 +57,8 @@ public class SampleDataUtil {
             return sampleAb;
         } catch (DuplicatePersonException e) {
             throw new AssertionError("sample data cannot contain duplicate persons", e);
+        } catch (IOException e) {
+            throw new AssertionError("default image should exist");
         }
     }
 

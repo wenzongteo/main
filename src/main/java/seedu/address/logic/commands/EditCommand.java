@@ -10,7 +10,6 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
-import java.io.File;
 import java.io.IOException;
 import java.util.HashSet;
 import java.util.List;
@@ -20,7 +19,6 @@ import java.util.Set;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.util.CollectionUtil;
-import seedu.address.commons.util.FileUtil;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthdate;
@@ -90,21 +88,8 @@ public class EditCommand extends UndoableCommand {
         ReadOnlyPerson personToEdit = lastShownList.get(index.getZeroBased());
         Person editedPerson = createEditedPerson(personToEdit, editPersonDescriptor);
 
-        try { //One is user never change photo, another choice is user got change photo.
-            originalPhoto = personToEdit.getPhoto();
-            String intendedPhotoPath = "data/images/" + editedPerson.getEmailAddress().toString() + ".jpg";
-
-            if (FileUtil.isFileExists(new File(intendedPhotoPath)) && personToEdit.getPhoto()
-                    .equals(editedPerson.getPhoto())) { //Never change photo
-
-            } else { //Got change photo
-                originalPhoto = editedPerson.getPhoto();
-            }
-
-            editedPerson.setPhoto(new Photo(intendedPhotoPath, 0));
-
-            model.updatePerson(personToEdit, editedPerson); //Image does not exist yet.
-            model.addImage(editedPerson.getEmailAddress(), originalPhoto);
+        try {
+            model.updatePerson(personToEdit, editedPerson);
         } catch (DuplicatePersonException dpe) {
             throw new CommandException(MESSAGE_DUPLICATE_PERSON);
         } catch (PersonNotFoundException pnfe) {

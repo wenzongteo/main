@@ -7,8 +7,6 @@ import static seedu.address.logic.commands.CommandTestUtil.BIRTHDATE_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.BIRTHDATE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
-import static seedu.address.logic.commands.CommandTestUtil.IMAGE_STORAGE_AMY;
-import static seedu.address.logic.commands.CommandTestUtil.IMAGE_STORAGE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_NAME_DESC;
@@ -21,7 +19,6 @@ import static seedu.address.logic.commands.CommandTestUtil.PHONE_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.PHOTO_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.PHOTO_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_FRIEND;
-import static seedu.address.logic.commands.CommandTestUtil.TAG_DESC_HUSBAND;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_ADDRESS_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_BIRTHDATE_AMY;
@@ -34,16 +31,21 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_PHONE_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIENDS;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.testutil.TypicalPersons.ALICE;
-import static seedu.address.testutil.TypicalPersons.AMY;
-import static seedu.address.testutil.TypicalPersons.BOB;
 import static seedu.address.testutil.TypicalPersons.CARL;
 import static seedu.address.testutil.TypicalPersons.HOON;
 import static seedu.address.testutil.TypicalPersons.IDA;
 import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
+import static seedu.address.testutil.TypicalPersons.LEE;
 import static seedu.address.testutil.TypicalPersons.MISSINGADDRESS;
-import static seedu.address.testutil.TypicalPersons.MISSINGNAME;
 import static seedu.address.testutil.TypicalPersons.MISSINGPHONE;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
+import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.commons.core.Messages;
@@ -66,15 +68,46 @@ import seedu.address.testutil.PersonUtil;
 
 public class AddCommandSystemTest extends AddressBookSystemTest {
 
+    @Before
+    public void setup() throws Exception {
+        String imageFilePath = "data/images/";
+        File imageFolder = new File(imageFilePath);
+
+        if (!imageFolder.exists()) {
+            imageFolder.mkdirs();
+        } else {
+
+        }
+
+        try {
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new AssertionError("Impossible");
+        }
+    }
+
     @Test
     public void add() throws Exception {
         Model model = getModel();
         /* Case: add a person without tags to a non-empty address book, command with leading spaces and trailing spaces
          * -> added
          */
-        ReadOnlyPerson toAdd = AMY;
-        String command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
+        ReadOnlyPerson toAdd = LEE;
+        String command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+                + PHOTO_DESC_BOB + BIRTHDATE_DESC_BOB + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
 
         /* Case: undo adding Amy to the list -> Amy deleted */
@@ -89,22 +122,22 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(command, model, expectedResultMessage);
 
         /* Case: add a duplicate person -> rejected */
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+                + PHOTO_DESC_BOB + BIRTHDATE_DESC_BOB + TAG_DESC_FRIEND;
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_PERSON);
 
         /* Case: add a duplicate person except with different tags -> rejected */
         // "friends" is an existing tag used in the default model, see TypicalPersons#ALICE
         // This test will fail is a new tag that is not in the model is used, see the bug documented in
         // AddressBook#addPerson(ReadOnlyPerson)
-        command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
-                + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
+        command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB + ADDRESS_DESC_BOB
+                + PHOTO_DESC_BOB + BIRTHDATE_DESC_BOB + TAG_DESC_FRIEND;
         assertCommandFailure(command, AddCommand.MESSAGE_DUPLICATE_PERSON);
 
         /* Case: add a person with all fields same as another person in the address book except name -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_AMY)
                 .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIENDS)
-                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto(IMAGE_STORAGE_AMY).build();
+                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto("default.jpeg").build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_BOB + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
@@ -112,7 +145,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a person with all fields same as another person in the address book except phone -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB)
                 .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIENDS)
-                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto(IMAGE_STORAGE_AMY).build();
+                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto("default.jpeg").build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
@@ -120,7 +153,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a person with all fields same as another person in the address book except email -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
                 .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_AMY).withTags(VALID_TAG_FRIENDS)
-                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto(IMAGE_STORAGE_BOB).build();
+                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto("default.jpeg").build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_BOB + ADDRESS_DESC_AMY
                 + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
@@ -128,7 +161,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add a person with all fields same as another person in the address book except address -> added */
         toAdd = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
                 .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_FRIENDS)
-                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto(IMAGE_STORAGE_AMY).build();
+                .withBirthdate(VALID_BIRTHDATE_AMY).withPhoto("default.jpeg").build();
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_BOB
                 + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY + TAG_DESC_FRIEND;
         assertCommandSuccess(command, toAdd);
@@ -145,9 +178,9 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(ALICE);
 
         /* Case: add a person with tags, command with parameters in random order -> added */
-        toAdd = BOB;
+        toAdd = LEE;
         command = AddCommand.COMMAND_WORD + TAG_DESC_FRIEND + BIRTHDATE_DESC_BOB + PHONE_DESC_BOB
-                + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + NAME_DESC_BOB + TAG_DESC_HUSBAND + EMAIL_DESC_BOB;
+                + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + NAME_DESC_BOB + EMAIL_DESC_BOB;
         assertCommandSuccess(command, toAdd);
 
         /* Case: selects first card in the person list, add a person -> added, card selection remains unchanged */
@@ -157,9 +190,6 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
 
         /* Case: add a person, missing tags -> added */
         assertCommandSuccess(HOON);
-
-        /* Case: missing name -> approved */
-        assertCommandSuccess(MISSINGNAME);
 
         /* Case: missing phone -> approved */
         assertCommandSuccess(MISSINGPHONE);
@@ -223,6 +253,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
             expectedModel.addPerson(toAdd);
         } catch (DuplicatePersonException dpe) {
             throw new IllegalArgumentException("toAdd already exists in the model.");
+        } catch (IOException ioe) {
+            throw new IllegalArgumentException("Image is expected to exist in the system");
         }
         String expectedResultMessage = String.format(AddCommand.MESSAGE_SUCCESS, toAdd);
 

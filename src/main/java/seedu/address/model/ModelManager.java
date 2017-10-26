@@ -93,13 +93,13 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public synchronized void deletePerson(ReadOnlyPerson target) throws PersonNotFoundException {
+    public synchronized void deletePerson(ReadOnlyPerson target) throws PersonNotFoundException, IOException {
         addressBook.removePerson(target);
         indicateAddressBookChanged();
     }
 
     @Override
-    public synchronized void addPerson(ReadOnlyPerson person) throws DuplicatePersonException {
+    public synchronized void addPerson(ReadOnlyPerson person) throws DuplicatePersonException, IOException {
         addressBook.addPerson(person);
         updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         indicateAddressBookChanged();
@@ -129,7 +129,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     @Override
     public void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException {
+            throws DuplicatePersonException, PersonNotFoundException, IOException {
         requireAllNonNull(target, editedPerson);
 
         addressBook.updatePerson(target, editedPerson);
@@ -137,7 +137,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException {
+    public void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException, IOException {
         for (int i = 0; i < addressBook.getPersonList().size(); i++) {
             ReadOnlyPerson orginalPerson = addressBook.getPersonList().get(i);
 
@@ -210,7 +210,7 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void loginEmail(String [] loginDetails) {
+    public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         email.loginEmail(loginDetails);
     }
 
