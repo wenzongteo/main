@@ -35,6 +35,5 @@ public class EmailSendTest {
         } catch (Exception e) {
             assert false : "error was hit unexpectedly";
         }
-
     }
 }

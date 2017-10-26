@@ -13,6 +13,30 @@ public class EmailManagerTest {
     private Email email = new EmailManager();
 
     @Test
+    public void getEmailDraft() {
+        MessageDraft message = new MessageDraft("message", "subject");
+        email.composeEmail(message);
+
+        //getEmailDraft should be equal
+        assertTrue(message.equals(email.getEmailDraft()));
+    }
+
+    @Test
+    public void isUserLogin() {
+        //user is not login -> returns false
+        assertFalse(email.isUserLogin());
+
+        //user is login -> returns true
+        String [] loginDetails = {"adam@gmail.com", "password"};
+        try {
+            email.loginEmail(loginDetails);
+            assertTrue(email.isUserLogin());
+        } catch (EmailLoginInvalidException e) {
+            assert false : "shouldn't hit this at all";
+        }
+    }
+
+    @Test
     public void equals() {
         try {
             //Set up expected Email

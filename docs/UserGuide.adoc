@@ -35,51 +35,83 @@ This user guide provides a overview on the features available in Augustine
 and how to use each feature.
 
 
-== Getting Started
+== Getting Started [Edited in v1.4]
 
-.  Ensure you have Java version `1.8.0_60` or later installed in your Computer.
+Ensure that you have completed following tasks before proceeding the User Guide further.
+
+.  Ensure you have Java version *`1.8.0_60 or later`* installed in your Computer.
 +
 [NOTE]
-Having any Java 8 version is not enough. +
-This app will not work with earlier versions of Java 8.
+Augustine will *not work* with any version of Java earlier than `Java 8.6`.
+
 +
-.  Download the latest `addressbook.jar` link:{repoURL}/releases[here].
-.  Copy the file to the folder you want to use as the home folder for your Address Book.
+.  Download the latest `augustine.jar` link:https://github.com/CS2103AUG2017-W14-B2/main/releases[here].
+.  Copy the jar file to the folder you want to use as the home folder for your Address Book.
 .  Double-click the file to start the app. The GUI should appear in a few seconds.
+_Figure 1.1_ below shows you how the program is supposed to look like upon start up.
+
 +
+[caption="Figure 1.1 "]
+.First start up of Augustine.
 image::Ui.png[width="790"]
 +
+
 .  Type the command in the command box and press kbd:[Enter] to execute it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
-.  Some example commands you can try:
+.  Here are some commands you can execute to try out Augustine:
 
-* *`list`* : lists all contacts
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` to the Address Book.
-* **`delete`**`3` : deletes the 3rd contact shown in the current list
-* *`exit`* : exits the app
+* *`list`* : lists all contacts within Augustine.
+* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` into Augustine.
+* **`delete`**`3` : deletes the 3rd contact *shown in the current list*.
+* *`exit`* : exits Augustine.
 
-.  Refer to the link:#features[Features] section below for details of each command.
+.  Refer to the link:#features[Features] section below to learn all of the commands and their details within Augustine.
 
-== Features
+== Features [Edited in v1.4]
+
+Before you continue reading this section, do take note of the following:
 
 ====
 *Command Format*
 
-* Words in `UPPER_CASE` are the parameters to be supplied by the user e.g. in `add n/NAME`, `NAME` is a parameter which can be used as `add n/John Doe`.
-* Items in square brackets are optional e.g `n/NAME [t/TAG]` can be used as `n/John Doe t/friend` or as `n/John Doe`.
-* Items with `…`​ after them can be used multiple times including zero times e.g. `[t/TAG]...` can be used as `{nbsp}` (i.e. 0 times), `t/friend`, `t/friend t/family` etc.
-* Parameters can be in any order e.g. if the command specifies `n/NAME p/PHONE_NUMBER`, `p/PHONE_NUMBER n/NAME` is also acceptable.
+* Words in `UPPER_CASE` are the *compulsory parameters* to be supplied by you.
+** E.g. `add n/NAME`, `NAME` is a parameter supplied by you. Such as `add n/John Doe`.
+
+* Words in `square brackets` [ ] are *optional parameters* that can be left unfilled by you.
+** E.g `n/NAME [t/TAG]`, `TAG` is an optional parameter supplied by you. Such as `n/John Doe t/friend.
+
+* Words with `…`​ after them are parameters that can be used *multiple times* including zero times
+** E.g. `[t/TAG]...` can be left unfilled, one time `t/friend` or even multiple times `t/friend t/family`.
 ====
+
+[NOTE]
+Augustine accepts parameters in any order. +
+E.g. Entering `n/NAME p/PHONE_NUMBER` or `p/PHONE_NUMBER n/NAME` are both accepted by Augustine.
 
 === Viewing help : [fuchsia]`help`
 
+The [fuchsia]`help` command will enable you to view this User Guide within Augustine.
+
 ==== Format
 
-The format of the [fuchsia]`help` comamnd is as follow:
+The format of the [fuchsia]`help` command is as follow:
 
 ====
 [fuchsia]#help#
 ====
+
+[TIP]
+You can also press kbd:[F1] on your keyboard instead of typing `help` to display the User Guide.
+
+==== Example
+
+Here is an example of what will you experience in Augustine when you execute the `help` command.
+
+_Figure 2.1.1_ below shows you an example of Augustine will appear when you execute the `help` command.
+
+[caption="Figure 2.1.1 "]
+.User Guide is shown upon the execution of help command in Augustine.
+image::helpCommand.png[width="940px"]
 
 '''
 
@@ -88,21 +120,23 @@ The format of the [fuchsia]`help` comamnd is as follow:
 The [fuchsia]`add` command will enable you to populate Augustine.
 
 ==== Format
+
 The format of the [fuchsia]`add` command is as follow:
 
 ====
-[fuchsia]#add [n/NAME] [p/PHONE_NUMBER] e/EMAIL [a/ADDRESS] [b/BIRTHDATE] [t/TAG]...#
+[fuchsia]#add n/NAME e/EMAIL [p/PHONE_NUMBER] [a/ADDRESS] [b/BIRTHDATE] [dp/DISPLAY_PICTURE] [t/TAG]...#
 ====
 ****
 * `NAME` of the Contact can only contain alphabets
 * `PHONE_NUMBER` of the Contact must contain only *8 numbers* and start with either '6','8' or '9'
+* `DISPLAY_PICTURE` of the Contact must be a valid *.jpg* image existing in the Computer.
 * `BIRTHDATE` must contain valid date entries separated by '.' '/' '-'
 ****
 
 [TIP]
 You can use the alias `a` instead of typing out `add`
 [WARNING]
-Augustine only allow one contact with the same details to reside in it
+Augustine only allow one contact with the same email address to reside in it.
 
 ==== Examples
 Here are some examples to guide you with adding contacts into Augustine:
@@ -110,46 +144,49 @@ Here are some examples to guide you with adding contacts into Augustine:
 . [red]*Adding contacts with all fields filled*
 +
 --
-You can add a new contact using the command below. Figure 4.2.2.1 illustrates the
-result after the command below is entered.
+You can add a new contact into Augustine with all fields filled using the command below.
 
 [horizontal]
 *Command:* :: [fuchsia]`add n/John Wick p/97488235 e/johnw@example.com +
 a/John street, block 123, #01-01 b/01/02/1995`
 
+_Figure 2.2.2.1_ below illustrates the result of the above command.
+
 [caption="Figure 2.2.2.1 "]
-.After executing the add command above
+.Executing the add command with all parameters filled.
 image::addAll.png[width="940px"]
 --
 
-. [red]*Adding contacts with some optional fields unfilled*
+. [red]*Adding contacts with several optional fields unfilled*
 +
 --
-You can add a new contact without entering all the fields. Figure 4.4.2.2 illustrates
-the result after the command below is entered.
-
-[NOTE]
-Note that the fields that are unfilled are represented with a - instead
+You can also add a new contact into Augustine without filling up all the fields.
 
 [horizontal]
 *Command:* :: [fuchsia]`add n/Sally Ong e/sally@example.com`
 
+_Figure 2.2.2.2_ below illustrates the result of the above command.
+
 [caption="Figure 2.4.2.2 "]
-.After executing the add command above
+.Executing the add command with several optional parameters unfilled.
 image::addSome.png[width="940px"]
+
+[NOTE]
+Note that the fields that are unfilled are represented with a - instead
 --
 
 . [red]*Adding an contact that already exists in Augustine*
 +
 --
-You cannot add a contact that already exists in Augustine. Figure 4.4.2.3 illustrates the
-error prompt when the command below is entered.
+You cannot add a new contact that has the same email address as a contact in Augustine.
 
 [horizontal]
 *Command:* :: [fuchsia]`add n/John Wick p/97488235 e/johnw@example.com a/John street, block 123, #01-01 b/01/02/1995`
 
-[caption="Figure 2.4.2.3 "]
-.After executing the add command above
+_Figure 2.2.2.3_ below illustrates the error prompted by Augustine when the command above is entered.
+
+[caption="Figure 2.2.2.3 "]
+.Executing the add command with duplicated email address.
 image::addFail.png[width="940px"]
 
 --
@@ -208,23 +245,23 @@ Here are some examples to guide you with editing contacts in Augustine:
 +
 --
 You can add or remove the tags of a particular contact using the [fuchsia]`edit` command below.
-Figure 4.4.2.1 illustrates the details of the contact "bernice" before the command is executed and
-Figure 4.4.2.2 illustrates the changes to the details of the contact "bernice" after the command
+_Figure 2.4.2.1_ below illustrates the details of the contact "bernice" before the command is executed and
+_Figure 2.4.2.2_ below illustrates the changes to the details of the contact "bernice" after the command
 is executed.
 
 [horizontal]
 *Command:* :: [fuchsia]`edit 2 t/colleagues t/friends`
 
-[caption="Figure 4.4.2.1 "]
+[caption="Figure 2.4.2.1 "]
 .Before command is run
 image::editChangeTagBefore.png[width="940px"]
 
-* In Figure 4.4.2.1 Bernice has a "colleagues" tag and the command is typed without pressing enter.
+* In _Figure 2.4.2.1_ Bernice has a "colleagues" tag and the command is typed without pressing enter.
 * As both Bernice and the command contains the "colleagues" tag, Augustine will remove the tag.
 * As the command contains a "friends" tag, but Bernice do not currently have it, the tag is added.
-* Figure 4.4.2.2 shows the result after the command is ran.
+* _Figure 2.4.2.2_ shows the result after the command is ran.
 
-[caption="Figure 4.4.2.2 "]
+[caption="Figure 2.4.2.2 "]
 .After command is run
 image::editChangeTagAfter.png[width="940px"]
 
@@ -234,22 +271,22 @@ image::editChangeTagAfter.png[width="940px"]
 +
 --
 You can change the phone number and email of a particular contact using [fuchsia]`edit` command below.
-Figure 4.4.2.3 illustrates the details of the contact "bernice" before the command is executed and
-Figure 4.4.2.4 illustrates the changes to the details of the contact "bernice" after the command
+Figure _2.4.2.3_ illustrates the details of the contact "bernice" before the command is executed and
+Figure _2.4.2.4_ illustrates the changes to the details of the contact "bernice" after the command
 is executed.
 
 [horizontal]
 *Command:* :: [fuchsia]`edit 2 p/87921929 e/bernice@example.com`
 
-[caption="Figure 4.4.2.3 "]
+[caption="Figure 2.4.2.3 "]
 .Before command is run
 image::editChangePhoneBefore.png[width="940px"]
 
-* In Figure 2.4.2.4 Bernice phone number is 99272758, and her email is berniceyu@example.com
+* In _Figure 2.4.2.4_ Bernice phone number is 99272758, and her email is berniceyu@example.com
 * The command will change the phone number to 87921929 and email to bernice@example.com
-* Figure 2.4.2.4 shows the result after the command is ran.
+* Figure _2.4.2.4_ shows the result after the command is ran.
 
-[caption="Figure 4.4.2.4 "]
+[caption="Figure 2.4.2.4 "]
 .After command is run
 image::editChangePhoneAfter.png[width="940px"]
 
@@ -286,7 +323,7 @@ The format of the [fuchsia]`find` command is as follow:
 You can use the alias `f` instead of typing out `find`
 
 [WARNING]
-You cannot find without typing any keyword.
+You cannot execute the find command without typing any keyword.
 
 ==== Example
 
@@ -295,13 +332,13 @@ Here are some examples to guide you with finding contacts in Augustine.
 . [red]*Find by Name*
 +
 --
-You can find contacts by their name. Figure 4.5.2.1 below illustrates the list of
+You can find contacts by their name. _Figure 2.5.2.1_ below illustrates the list of
 names returned after the command below is entered.
 
 [horizontal]
 *Command:* :: [fuchsia]`find n/adam janice`
 
-[caption="Figure 4.5.2.1 "]
+[caption="Figure 2.5.2.1 "]
 Result of find by name command.
 image::findByName.png[]
 
@@ -310,13 +347,13 @@ image::findByName.png[]
 . [red]*Find by Tag*
 +
 --
-You can find contacts by their tags. Figure 4.5.2.2 below illustrates the list of
+You can find contacts by their tags. _Figure 2.5.2.2_ below illustrates the list of
 names returned after the command below is entered.
 
 [horizontal]
 *Command:* :: [fuchsia]`find t/Colleague soc`
 
-[caption="Figure 4.5.2.2 "]
+[caption="Figure 2.5.2.2 "]
 .Result of find by tag command.
 image::findByTag.png[]
 --
@@ -324,13 +361,13 @@ image::findByTag.png[]
 . [red]*Find By Name and Tag*
 +
 --
-You can find contacts filtered by their names and tags. Figure 4.5.2.3 below illustrates
+You can find contacts filtered by their names and tags. _Figure 2.5.2.3_ below illustrates
 the list of names returned after the command below is entered.
 
 [horizontal]
 *Command:* :: [fuchsia]`find n/adam t/Colleague`
 
-[caption="Figure 4.5.2.3 "]
+[caption="Figure 2.5.2.3 "]
 .Result of find by name and tag command.
 image::findByNameTag.png[]
 --
@@ -338,7 +375,7 @@ image::findByNameTag.png[]
 . [red]*Find By Name with Sort option*
 +
 --
-You can sort the find results by name or tag. Figure 4.5.2.4 below illustrates
+You can sort the find results by name or tag. _Figure 2.5.2.4_ below illustrates
 the list of names sorted by tag after the command below is entered.
 
 [NOTE]
@@ -347,7 +384,7 @@ Note that the sort option "name" and "tag" are *case-sensitive*
 [horizontal]
 *Command:* :: [fuchsia]`find n/adam zachary janice s/tag`
 
-[caption="Figure 4.5.2.4 "]
+[caption="Figure 2.5.2.4 "]
 .Result of find by name with sort option command.
 image::findByNameSorted.png[]
 --
@@ -407,7 +444,8 @@ of the `find` command.
 
 === Displaying a person's timetable : [fuchsia]`select` [Edited in v1.3]
 
-Augustine is integrated with https://nusmods.com. You can use the [fuchsia]`select` command to display the timetable of a contact on the NUSmods website.
+Augustine is integrated with https://nusmods.com. You can use the [fuchsia]`select` command to display the timetable of
+a contact on the NUSmods website.
 
 ==== Format
 The format of the [fuchsia]`select` command is as follow:
@@ -431,7 +469,7 @@ Here are some example of using the [fuchsia]`select` command:
 +
 --
 You can list all the contacts in Augustine and select the contact by the contact's index.
-The command below selects the 2nd person in address book. The result is shown in Figure 4.7.2.1.
+The command below selects the 2nd person in address book. The result is shown in Figure _4.7.2.1_.
 
 [horizontal]
 *Command:* ::
@@ -567,7 +605,7 @@ Here are some examples on how you can email your contacts:
 +
 --
 You can compose an email draft in Augustine.
-Figure 4.9.2.1 illustrates the result after you execute the command below.
+_Figure 2.9.2.1_ illustrates the result after you execute the command below.
 
 [NOTE]
 Note that the email draft is stored until Augustine exits or when the email have been sent.
@@ -575,7 +613,7 @@ Note that the email draft is stored until Augustine exits or when the email have
 [horizontal]
 *Command:* :: [fuchsia]`email em/message es/subject`
 
-[caption="Figure 4.9.2.1 "]
+[caption="Figure 2.9.2.1 "]
 .Result of email command.
 image::emailStep1.png[]
 
@@ -585,7 +623,7 @@ image::emailStep1.png[]
 +
 --
 You have to login to your google email before you can send an email can compose an email.
-Figure 4.9.2.2 illustrates the result after you execute the command below.
+_Figure 2.9.2.2_ illustrates the result after you execute the command below.
 
 [NOTE]
 Note that the email you login with *must be a gmail email account*.
@@ -593,7 +631,7 @@ Note that the email you login with *must be a gmail email account*.
 [horizontal]
 *Command:* :: [fuchsia]`email el/adam@gmail.com:password`
 
-[caption="Figure 4.9.2.2 "]
+[caption="Figure 2.9.2.2 "]
 .Result of email command.
 image::emailStep2.png[]
 
@@ -604,7 +642,7 @@ image::emailStep2.png[]
 --
 After following example 1 and 2 above, you have successfully compose an email draft
 and login to your google email. To send an email, you can simply run the command below.
-Figure 4.9.2.3 illustrates illustrates the result after executing the command
+_Figure 2.9.2.3_ illustrates illustrates the result after executing the command
 below.
 
 [NOTE]
@@ -613,7 +651,7 @@ Note that you must have *at least 1 person* in your current displayed contact li
 [horizontal]
 *Command:* :: [fuchsia]`email -send`
 
-[caption="Figure 4.9.2.3 "]
+[caption="Figure 2.9.2.3 "]
 .Result of email command.
 image::emailStep3.png[]
 
@@ -623,7 +661,7 @@ image::emailStep3.png[]
 +
 --
 You can compose an email and send it to all contacts displayed in your current contact list
-in one single command. Figure 4.9.2.4 illustrates the result after executing the command
+in one single command. _Figure 2.9.2.4_ illustrates the result after executing the command
 below.
 
 [horizontal]
@@ -631,7 +669,7 @@ below.
 `list` +
 [fuchsia]`email em/message es/subject el/adam@gmail.com:password -send`
 
-[caption="Figure 4.9.2.4 "]
+[caption="Figure 2.9.2.4 "]
 .Result of email command.
 image::emailSingleCommand.png[]
 
@@ -858,12 +896,11 @@ There is no need to save manually.
 *Q*: How do I transfer my data to another Computer? +
 *A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.
 
-== Command Summary [Edited in v1.3]
-
+== Command Summary [Edited in v1.4]
 
 |===
 |Feature|Command|Alias|Example
-|*Add*|`add n/NAME p/PHONE_NUMBER e/EMAIL a/ADDRESS [t/TAG]...` +|a|`add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` +
+|*Add*|`add n/NAME e/EMAIL [p/PHONE_NUMBER] [a/ADDRESS] [dp/DISPLAY_PICTURE] [b/BIRTHDATE] [t/TAG]...` +|a|`add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` +
 |*Clear*|`clear`|c|`clear` +
 |*Delete*|`delete INDEX` +|d|`delete 3` +
 |*Edit*|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +|e|`edit 2 n/James Lee e/jameslee@example.com` +

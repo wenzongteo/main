@@ -5,6 +5,8 @@ import static org.junit.Assert.assertTrue;
 
 import org.junit.Test;
 
+import seedu.address.commons.exceptions.IllegalValueException;
+
 public class NameTest {
 
     @Test
@@ -22,5 +24,22 @@ public class NameTest {
         assertTrue(Name.isValidName("peter jack")); // alphabets only
         assertTrue(Name.isValidName("Capital Tan")); // with capital letters
         assertTrue(Name.isValidName("David Roger Jackson Ray Jr")); // long names
+    }
+
+    @Test
+    public void nameHashCode() {
+        try {
+            Name name1 = new Name("peter jack");
+            Name name2 = new Name("Capital Tan");
+
+            //hashcode matches for same name --> return true
+            assertTrue(name1.hashCode() == name1.hashCode());
+
+            //hashcode don't match for different name --> return false
+            assertFalse(name1.hashCode() == name2.hashCode());
+
+        } catch (IllegalValueException e) {
+            assert false : "shouldn't hit this case at all";
+        }
     }
 }

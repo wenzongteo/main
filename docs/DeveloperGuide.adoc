@@ -5,6 +5,7 @@
 :sectnums:
 :imagesDir: images
 :stylesDir: stylesheets
+:experimental:
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -18,91 +19,127 @@ By: `W14-B2`      Since: `Oct 2017`      Licence: `MIT`
 toc::[]
 <<<
 
-== Software Overview [Edited in v1.3]
+== Software Overview [Edited in v1.4]
 
-Augustine is a Command Line Interface (CLI) Address Book that seeks to assist Students and Tutors that are currently in University by providing them with a comprehensive software to store the contact information of either their friends or students virtually on their laptops.
+Augustine is a virtual Address Book that seeks to assist students that are currently pursuing their studies in National
+University of Singapore (NUS). As a virtual Address Book, Augustine can provide students with a comprehensive software
+to virtually store contact details of their friends in NUS.
 
-Developed in Java, Augustine is able to be executed in both Windows and Unix environment and is thus able to cater to users of the various platforms.
+Command Line Interface (CLI) is the primary mode of input in Augustine while a General User Interface is used to give
+users visual feedback of queries that are performed.
 
-== About [Edited in v1.3]
+Developed in Java, Augustine can cater to all students as it can be executed in both Windows and Unix environment.
 
-This Developer Guide seeks to assist both existing and new Developers that are interested in joining the Development team of Augustine.
+== Purpose [Edited in v1.4]
 
-== Setting up
+This Developer Guide seeks to assist both experienced and new Developers that are interested in contributing to Augustine
+or understand the underlying mechanisms of Augustine.
 
-=== Prerequisites
+== Getting Started [Edited in v1.4]
+Before proceeding further with the Developer Guide, ensure that you have achieved the following requirements:
 
-. *JDK `1.8.0_60`* or later
-+
+=== Prerequisites [Edited in v1.4]
+. *Java SE Development Kit* (JDK) `v1.8.0_60` or later is installed.
+
+You can download the latest JDK from
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here] [http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html]
+
 [NOTE]
-Having any Java 8 version is not enough. +
-This app will not work with earlier versions of Java 8.
-+
+Augustine will *not work* with any version of Java earlier than `Java 8.6`.
 
-. *IntelliJ* IDE
-+
+. *Intellij IDEA* Integrated Development Environment (IDE) is installed.
+
+You can download Intellij IDEA IDE from https://www.jetbrains.com/idea/download/[here] [https://www.jetbrains.com/idea/download]
+
 [NOTE]
-IntelliJ by default has Gradle and JavaFx plugins installed. +
-Do not disable them. If you have disabled them, go to `File` > `Settings` > `Plugins` to re-enable them.
+Either version of Intellij IDEA IDE will work.
 
+By default, Intellij IDEA IDE has Gradle and JavaFx plugins installed. Ensure that both Gradle and JavaFx plugins are enabled.
+If you have disabled them, go to `File > Settings > Plugins` to re-enable them.
 
-=== Setting up the project in your computer
+=== Setting up the project in your computer [Edited in v1.4]
 
-. Fork this repo, and clone the fork to your computer
-. Open IntelliJ (if you are not in the welcome screen, click `File` > `Close Project` to close the existing project dialog first)
-. Set up the correct JDK version for Gradle
-.. Click `Configure` > `Project Defaults` > `Project Structure`
-.. Click `New...` and find the directory of the JDK
-. Click `Import Project`
-. Locate the `build.gradle` file and select it. Click `OK`
-. Click `Open as Project`
-. Click `OK` to accept the default settings
-. Open a console and run the command `gradlew processResources` (Mac/Linux: `./gradlew processResources`). It should finish with the `BUILD SUCCESSFUL` message. +
+. *Fork* this repo to your own Github account, and *clone* the fork to your computer.
+. Open IntelliJ IDEA IDE and you should see the Welcome Screen.
+
+[NOTE]
+If you do not see the welcome screen, click `File > Close Project` to close the existing project dialog first.
+
+. Set up the correct JDK version for Gradle.
+.. Click `Configure > Project Defaults > Project Structure`.
+.. Click `New...` and find the directory of your JDK.
+. Click `Import Project`.
+. Locate the `build.gradle` file and select it. Click `OK`.
+. Click `Open as Project`.
+. Click `OK` to accept the default settings.
+. Press kbd:[Ctr; + Tab + T] *simultaneously* to open a console in Intellij IDEA IDE and execute the following command:
+- For Windows   : `gradlew processResources`
+- For Mac/Linux : `./gradlew processResources`
+
+[NOTE]
+The command should finish executing with the `BUILD SUCCESSFUL` message. +
 This will generate all resources required by the application and tests.
 
-=== Verifying the setup
+=== Verifying the setup [Edited in v1.4]
 
-. Run the `seedu.address.MainApp` and try a few commands
-. link:#testing[Run the tests] to ensure they all pass.
+. Run `src\main\java\seedu\address\MainApp.java` in Intellij IDEA IDE and try executing a few commands.
+. link:#testing[Run all tests] by right clicking on the `src/test/java` folder in Intellij IDEA IDE and choose `Run 'All Tests'`.
+*Ensure* that all test cases pass before you start coding.
 
-=== Configurations to do before writing code
+=== Configurations to do before coding [Edited in v1.4]
+Now that you have successfully imported Augustine's source code into your computer, do ensure that you have completed the following before
+you commence coding:
 
-==== Configuring the coding style
+==== Configuring the coding style [Edited in v1.4]
 
-This project follows https://github.com/oss-generic/process/blob/master/docs/CodingStandards.md[oss-generic coding standards]. IntelliJ's default style is mostly compliant with ours but it uses a different import order from ours. To rectify,
+This project follows the coding standard set forth by https://github.com/oss-generic/process/blob/master/docs/CodingStandards.md[oss-generic].
 
-. Go to `File` > `Settings...` (Windows/Linux), or `IntelliJ IDEA` > `Preferences...` (macOS)
-. Select `Editor` > `Code Style` > `Java`
+While IntelliJ IDEA IDE default style is mostly compliant with it, minor modifications to the default settings is required to fully comply
+with our coding standard.
+
+Apply the following modifications to tweak the settings to comply with our coding standard:
+
+. Go to:
+- For Windows/Linux : `File > Settings...`.
+- For macOS         : `IntelliJ IDEA > Preferences...`.
+. Select `Editor > Code Style > Java`.
 . Click on the `Imports` tab to set the order
 
-* For `Class count to use import with '\*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the import statements
-* For `Import Layout`: The order is `import static all other imports`, `import java.\*`, `import javax.*`, `import org.\*`, `import com.*`, `import all other imports`. Add a `<blank line>` between each `import`
+* For `Class count to use import with '\*'` and `Names count to use static import with '*'`: Set to `999` to prevent IntelliJ from contracting the
+import statements
+* For `Import Layout`: The order is `import static all other imports`, `import java.\*`, `import javax.*`, `import org.\*`, `import com.*`,
+`import all other imports`. Add a `<blank line>` between each `import`
 
-Optionally, you can follow the <<UsingCheckstyle#, UsingCheckstyle.adoc>> document to configure Intellij to check style-compliance as you write code.
+[TIP]
+You can also configure IntelliJ IDE to assist you in checking for style-compliance as you code. See <<UsingCheckstyle#, UsingCheckstyle.adoc>>
+to learn how to configure it.
 
 ==== Updating documentation to match your fork
 
-After forking the repo, links in the documentation will still point to the `se-edu/addressbook-level4` repo. If you plan to develop this as a separate product (i.e. instead of contributing to the `se-edu/addressbook-level4`) , you should replace the URL in the variable `repoURL` in `DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your fork.
+After forking the repo, links in the documentation will still point to the `CS2103AUG2017-W14-B2/main` repo. If you plan to develop this as a
+separate product instead of contributing to `CS2103AUG2017-W14-B2/main`, you should replace the URL in the variable `repoURL` in both
+`DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your forked repo.
 
-==== Setting up CI
+==== Setting up Continuous Integration (CI)
 
-Set up Travis to perform Continuous Integration (CI) for your fork. See <<UsingTravis#, UsingTravis.adoc>> to learn how to set it up.
+CI tools such as Travis and AppVeyor should be set up to prevent integration problems during development.
 
-Optionally, you can set up AppVeyor as a second CI (see <<UsingAppVeyor#, UsingAppVeyor.adoc>>).
+See <<UsingTravis#, UsingTravis.adoc>> and <<UsingAppVeyor#, UsingAppVeyor.adoc>>) to learn how to set them up.
 
 [NOTE]
-Having both Travis and AppVeyor ensures your App works on both Unix-based platforms and Windows-based platforms (Travis is Unix-based and AppVeyor is Windows-based)
+Having both Travis and AppVeyor ensures Augustine works on both Unix-based platforms and Windows-based platforms as
+Travis checks for Unix-based platforms while AppVeyor checks for Windows-based platforms.
 
 ==== Getting started with coding
 
 When you are ready to start coding,
 
-1. Get some sense of the overall design by reading the link:#architecture[Architecture] section.
+1. Understand the overall design by reading the link:#architecture[Architecture] section.
 2. Take a look at the section link:#suggested-programming-tasks-to-get-started[Suggested Programming Tasks to Get Started].
 
-== Software Architecture [Edited in v1.3]
+== Software Architecture
 
-This section covers how the software is design and an overview on the some of components of the software.
+This section covers how Augustine is design while also providing an overview of the components in Augustine.
 
 === Architecture Design [Edited in v1.3]
 
@@ -405,10 +442,10 @@ We are using `java.util.logging` package for logging. The `LogsCenter` class is 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
 
 // tag::optionalfields[]
-=== Optional Fields in Contact
+=== Optional Fields in Contact [Edited in v1.4]
 The ability to have unfilled fields within a Contact enables the User to add a contact into Augustine without having to know all the particulars of a Contact.
 
-The User only needs to know the name and email address of the Contact to add it into Augustine.
+The User only needs to know both *the name and email address* of the Contact to add it into Augustine.
 
 The optional fields mechanism is facilitated by `ParserUtil`, which is used by `AddCommandParser` to parse argument entered by the User into data of the
 different fields of a Contact. When the relevant methods in `ParserUtil` is being called in `AddCommandParser`, it will check if the input field is empty.
@@ -426,7 +463,7 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
      }
 ----
 
-==== Design Considerations [Edited in v1.3]
+==== Design Considerations
 
 **Aspect:** Detecting of unfilled fields. +
 **Alternative 1 (current choice):** Check if value is present, if value is not present, return a - as value instead. +
@@ -436,42 +473,68 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 **Pros:** Save space and readability of +
 **Cons:** Harder for developers to understand the inner working of the enhancement.
 
+---
 // end::optionalfields[]
 
----
-
-=== Image Storage [Edited in v1.3]
-Each contact in Augustine can be appointed with a Image so that the User can easily identify a Contact.
-
-The image appointed will be copied over to the `/data/images` folder and stored with the file name "contact's email address".jpg.
-
-The image will be affected when the user does the following to a Contact:
-
-- Edit current email
-The associated contact picture will be renamed to the new email address.
-
-- Update Image
-The new image will overwrite the existing image in the stored location.
-
-- Delete Contact
-The associated Image of the Contact will also be deleted.
+// tag::imagestorage[]
+=== Image Storage [Edited in v1.4]
+Each contact in Augustine can be appointed with a specific Image so that the User can easily identify a Contact within Augustine.
 
 [NOTE]
-A default image is given if the User did not specify an image.
+A default image will be appointed to the Contact if the User: +
+1. not specify an image for the Contact during the Contacts creation
+2. if the Contact's image is removed by the User during edit.
 
+The image appointed to a Contact will be copied over to the `data/images` folder and renamed as "contact_email_address.jpg".
+
+When the User edits a Contact in Augustine, *only one* of the 4 possible cases will occur:
+
+[IMPORTANT]
+We are only concern if whether the Contact's Display Picture and email address is updated and thus modification of other attributes are not mentioned
+in the cases below.
+
+. User updates *BOTH* email *AND* display picture. +
+.. The new display picture is copied over to the `data/images` folder and renamed as *"contact_new_email_address.jpg"*.
+.. Contact's photo reference is updated to the new display picture file path.
+.. Contact is updated in Augustine.
+.. Contact's old photo is deleted from the computer.
+
+. User updates *ONLY* display picture. +
+.. The new display picture is copied over to the `data/images` folder and renamed as *"contact_email_address.jpg"*.
+.. Contact's photo reference is updated to the new display picture file path.
+.. Contact is updated in Augustine.
+
+[NOTE]
+The new display picture for the Contact will overwrite the existing display picture for the Contact in the `/data/images` folder.
+
+[start = 3]
+. User updates *ONLY* email address. +
+.. The current display picture is copied over to the `data/images` folder and renamed as *"contact_new_email_address.jpg"*.
+.. Contact's photo reference is updated to the new display picture file path.
+.. Contact is updated in Augustine.
+.. Contact's old photo is deleted from the computer.
+
+. User *DID NOT* update email address AND display picture. +
+.. Image is not updated.
+.. Contact is updated in Augustine.
+
+If the Contact is deleted from Augustine by the User, the appointed Image for the Contact is also deleted from the computer.
 
 ---
 
 ==== Design Considerations
 **Aspect:** Storing of Contact's Display Picture. +
-**Alternative 1 (current choice):** Create a copy of the image that is in the path entered by user into a folder in Augustine. Store the file path of the copied image into AddressBook.xml and render image from there +
-**Pros:** Changing of file path or removal of the original image by user will not lead to any rendering error. +
-**Cons:** Addition storage space on the device is required.
-**Alternative 2:** Store file path that was entered by user into AddressBook.xml and try to render the image from there +
-**Pros:** Simple for developers to understand. +
-**Cons:** Changing of file path or removal of image will lead to rendering error. +
+**Alternative 1 (current choice):** Create a copy of the image that is in the path entered by user into a designated folder in Augustine.
+Store the file path of the copied image into the Contact so that future rendering of the Contact's Display Picture will be to the copied file. +
+**Pros:** Changing of file path or removal of the original image by the User will not affect the display of Contact's Display Picture in Augustine. +
+**Cons:** Addition storage space on the computer is required to create a possibly duplicated copy of an image in the computer.
+**Alternative 2:** Store the file path of the original image entered by the User into the Contact and future rendering of the Contact's Display Picture
+will be from the original Image +
+**Pros:** Additional storage space on the computer is not required.
+**Cons:** Changing of file path or removal of the image will lead to invalid display of a Contact's Display Picture. +
 
 ---
+// end::imagestorage[];
 
 === Adding and displaying of schedule [Edited in v1.3]
 The schedule will utilize https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
@@ -634,9 +697,9 @@ The `EmailSend` class sets up the connection to send email via `JavaMail` API. T
 ====
 ---
 
-== Documentation
+== Documentation [Edited in V1.4]
 
-We use asciidoc for writing documentation.
+Documentations for Augustine are done in acsiidoc.
 
 [NOTE]
 We chose asciidoc over Markdown because asciidoc, although a bit more complex than Markdown, provides more flexibility in formatting.
@@ -644,11 +707,16 @@ We chose asciidoc over Markdown because asciidoc, although a bit more complex th
 === Editing Documentation
 
 See <<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>> to learn how to render `.adoc` files locally to preview the end result of your edits.
-Alternatively, you can download the AsciiDoc plugin for IntelliJ, which allows you to preview the changes you have made to your `.adoc` files in real-time.
+Alternatively, you can download the `AsciiDoc plugin` for IntelliJ Idea IDE, which allows you to preview the changes you have made to your `.adoc`
+files in real-time.
+
+---
 
 === Publishing Documentation
 
 See <<UsingTravis#deploying-github-pages, UsingTravis.adoc>> to learn how to deploy GitHub Pages using Travis.
+
+---
 
 === Converting Documentation to PDF format
 
@@ -657,92 +725,166 @@ We use https://www.google.com/chrome/browser/desktop/[Google Chrome] for convert
 Here are the steps to convert the project documentation files to PDF format.
 
 .  Follow the instructions in <<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>> to convert the AsciiDoc files in the `docs/` directory to HTML format.
-.  Go to your generated HTML files in the `build/docs` folder, right click on them and select `Open with` -> `Google Chrome`.
+.  Go to your generated HTML files in the `build/docs` folder, right click on them and select `Open with -> Google Chrome`.
 .  Within Chrome, click on the `Print` option in Chrome's menu.
 .  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot below.
 
 image::chrome_save_as_pdf.png[width="300"]
-_Figure 5.6.1 : Saving documentation as PDF files in Chrome_
+_Figure 6.3.1 : Saving documentation as PDF files in Chrome_
 
-== Testing
+== Testing [Edited in V1.4]
+
+Tests are a vital part in the development of Augustine as it ensures that the existing features in Augustine are working as intended as well as
+ensuring that new features introduced into Augustine has no conflict with the existing features.
 
 === Running Tests
 
-There are three ways to run tests.
+There are three ways to run tests in Augustine.
 
-[TIP]
-The most reliable way to run tests is the 3rd one. The first two methods might fail some GUI tests due to platform/resolution-specific idiosyncrasies.
-
-*Method 1: Using IntelliJ JUnit test runner*
+*Method 1: Using IntelliJ IDEA IDE JUnit test runner*
 
 * To run all tests, right-click on the `src/test/java` folder and choose `Run 'All Tests'`
 * To run a subset of tests, you can right-click on a test package, test class, or a test and choose `Run 'ABC'`
 
 *Method 2: Using Gradle*
 
-* Open a console and run the command `gradlew clean allTests` (Mac/Linux: `./gradlew clean allTests`)
+Open a console and run the following command:
+
+- Windows       : `gradlew clean allTests`
+- Mac/Linux     : `./gradlew clean allTests`
 
 [NOTE]
 See <<UsingGradle#, UsingGradle.adoc>> for more info on how to run tests using Gradle.
 
 *Method 3: Using Gradle (headless)*
 
-Thanks to the https://github.com/TestFX/TestFX[TestFX] library we use, our GUI tests can be run in the _headless_ mode. In the headless mode, GUI tests do not show up on the screen. That means the developer can do other things on the Computer while the tests are running.
+Thanks to the https://github.com/TestFX/TestFX[TestFX] library that Augustine uses, our GUI tests can be run in the _headless_ mode.
+In headless mode, GUI tests do not show up on the screen, allowing the developer to continue using the Computer while the tests are running.
 
-To run tests in headless mode, open a console and run the command `gradlew clean headless allTests` (Mac/Linux: `./gradlew clean headless allTests`)
+To run tests in headless mode, open a console and run the following command:
+
+- Windows   : `gradlew clean headless allTests`
+- Mac/Linux : `./gradlew clean headless allTests`)
+
+[TIP]
+The most reliable way to run tests in Augustine is the 3rd method as the first two methods might fail some GUI tests due to platform/
+resolution-specific idiosyncrasies.
+
+---
 
 === Types of tests
 
-We have two types of tests:
+We have two types of tests available in Augustine:
 
 .  *GUI Tests* - These are tests involving the GUI. They include,
-.. _System Tests_ that test the entire App by simulating user actions on the GUI. These are in the `systemtests` package.
-.. _Unit tests_ that test the individual components. These are in `seedu.address.ui` package.
+.. _System Tests_ that test Augustine by simulating user actions on the GUI. These are in the `systemtests` package.
+.. _Unit tests_ that test the individual components within Augustine. These are in `seedu.address.ui` package.
 .  *Non-GUI Tests* - These are tests not involving the GUI. They include,
-..  _Unit tests_ targeting the lowest level methods/classes. +
+..  _Unit tests_ that test the lowest level methods/classes within Augustine. +
 e.g. `seedu.address.commons.StringUtilTest`
-..  _Integration tests_ that are checking the integration of multiple code units (those code units are assumed to be working). +
+..  _Integration tests_ that test the integration of multiple code units that are assumed to be working within Augustine. +
 e.g. `seedu.address.storage.StorageManagerTest`
-..  Hybrids of unit and integration tests. These test are checking multiple code units as well as how the are connected together. +
+..  Hybrids of unit and integration tests that tests multiple code units as well as how they are connected together within Augustine. +
 e.g. `seedu.address.logic.LogicManagerTest`
 
+---
 
-=== Troubleshooting Testing
-**Problem: Unable to execute Gradle task.**
+=== Troubleshoot Testing
+**Problem: Unable to execute gradlew commands.**
 
-* Reason: Java path is configured wrongly or more than one version of Java is detected.
-* Solution: Uninstall all Java files and reinstall the latest `Java SDK 8` available. Ensure the system environment variables (For Windows) is configured properly.
+* Reason: Java path is configured wrongly or more than one version of Java is detected within the system.
+* Solution: Uninstall all Java files and reinstall the latest `Java JDK 8` available.
+For *Windows platform*, ensure that the system environment variables are properly configured.
 
 **Problem: `HelpWindowTest` fails with a `NullPointerException`.**
 
 * Reason: One of its dependencies, `UserGuide.html` in `src/main/resources/docs` is missing.
 * Solution: Execute Gradle task `processResources`.
 
+== Development Operations [Edited in V1.4]
 
-== Dev Ops
+Usage of automation and monitoring tools are a vital part of Augustine's developmental process. These tools help to reduce hiccups in
+Augustine's development as stability of Augustine is not compromised despite the constant addition of new features.
 
 === Build Automation
 
 See <<UsingGradle#, UsingGradle.adoc>> to learn how to use Gradle for build automation.
 
-=== Continuous Integration
+---
 
-We use https://travis-ci.org/[Travis CI] and https://www.appveyor.com/[AppVeyor] to perform _Continuous Integration_ on our projects. See <<UsingTravis#, UsingTravis.adoc>> and <<UsingAppVeyor#, UsingAppVeyor.adoc>> for more details.
+=== Continuous Integration (CI)
+
+Augustine uses both Travis and AppVeyor to perform _Continuous Integration_ during it's developmental process.
+
+See <<UsingTravis#, UsingTravis.adoc>> and <<UsingAppVeyor#, UsingAppVeyor.adoc>> to learn how to use Travis and AppVeyor for CI.
+
+---
 
 === Making a Release
 
-Here are the steps to create a new release.
+We publish a new release everytime a new feature is added onto Augustine.
+
+Here are the steps to create a new release for Augustine.
 
 .  Update the version number in link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp.java`].
 .  Generate a JAR file <<UsingGradle#creating-the-jar-file, using Gradle>>.
 .  Tag the repo with the version number. e.g. `v0.1`
-.  https://help.github.com/articles/creating-releases/[Create a new release using GitHub] and upload the JAR file you created.
+.  https://help.github.com/articles/creating-releases/[Create a new release using GitHub] and upload the JAR file that you created in Step 2.
+
+---
 
 === Managing Dependencies
 
-A project often depends on third-party libraries. For example, Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing. Managing these _dependencies_ can be automated using Gradle. For example, Gradle can download the dependencies automatically, which is better than these alternatives. +
-a. Include those libraries in the repo (this bloats the repo size) +
-b. Require developers to download those libraries manually (this creates extra work for developers)
+Augustine uses Gradle to manage it's dependencies on third-party libraries. Gradle will automatically download the dependencies automatically.
+
+Other ways of managing dependencies are as follows:
+
+.  Include those libraries in the repo which bloats the repo size.
+.  Require developers to download those libraries manually which creates extra work for developers.
+
+[NOTE]
+Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing.
+
+== Future Enhancements
+
+Augustine is still under heavy development. This section lists various enhancement and features which are in consideration for future updates.
+Each improvement is phrased in a problem-solution format.
+
+=== Schedule
+
+====
+Problem::
+The schedule feature uses NUSmods heavily, as a result, it is only able to display NUS lessons and requires an active internet connection.
+
+Proposed Solution::
+We could render the timetable with JavaFX instead of relying the browser to fetch NUSmods website. This will require storing module information which contains time of lessons which can be obtain from the NUSmods API in .json format.
+::
+This will eliminate the need to have a constant connection and open up the possibility of adding non-NUS related activities to the schedule.
+
+====
+====
+Problem:
+
+
+Solution::
+When verifying if a module code is correct, check against a list of modules from either IVLE or NUSmods API instead of using a regular expression.
+====
+
+'''
+
+=== Email
+
+Being a recent addition to Augustine, the email feature is not fully fledged. The following are possible improvements which can improve the process of emailing in Augustine:
+
+====
+Problem::
+Type stuff here
+
+1 or more solutions::
+more stuff here
+====
+
+
 
 [appendix]
 == Suggested Programming Tasks to Get Started
