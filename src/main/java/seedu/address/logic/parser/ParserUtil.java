@@ -234,4 +234,13 @@ public class ParserUtil {
         requireNonNull(loginDetails);
         return loginDetails.isPresent() ? loginDetails.get() : "";
     }
+
+    /**
+     * Parses a {@code Optional<String> login} into an {@code String}
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static String parseEmailTask(Optional<String> task) throws IllegalValueException {
+        requireNonNull(task);
+        return task.isPresent() ? task.get() : "";
+    }
 }
