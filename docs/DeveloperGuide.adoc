@@ -848,7 +848,7 @@ Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson librar
 == Future Enhancements
 
 Augustine is still under heavy development. This section lists various enhancement and features which are in consideration for future updates.
-Each improvement is phrased in a problem-solution format.
+Each improvement is expressed problem to be fixed followed by possible solutions, if any.
 
 === Schedule
 
@@ -856,18 +856,27 @@ Each improvement is phrased in a problem-solution format.
 Problem::
 The schedule feature uses NUSmods heavily, as a result, it is only able to display NUS lessons and requires an active internet connection.
 
-Proposed Solution::
+Solution::
 We could render the timetable with JavaFX instead of relying the browser to fetch NUSmods website. This will require storing module information which contains time of lessons which can be obtain from the NUSmods API in .json format.
 ::
 This will eliminate the need to have a constant connection and open up the possibility of adding non-NUS related activities to the schedule.
 
 ====
 ====
-Problem:
-
+Problem::
+Users are able to enter non-existent module codes, lesson types and lesson slots as long as they fullfill the regular expression.
 
 Solution::
-When verifying if a module code is correct, check against a list of modules from either IVLE or NUSmods API instead of using a regular expression.
+Instead of using regular expression, we could check against module information obtained from NUSmods API.
+====
+
+'''
+
+=== UI
+
+====
+Problem::
+When there are no contacts to be listed, the area where the personListView is suppose to be will display a white box instead.
 ====
 
 '''
@@ -883,8 +892,6 @@ Type stuff here
 1 or more solutions::
 more stuff here
 ====
-
-
 
 [appendix]
 == Suggested Programming Tasks to Get Started
