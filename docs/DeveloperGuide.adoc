@@ -5,6 +5,7 @@
 :sectnums:
 :imagesDir: images
 :stylesDir: stylesheets
+:experimental:
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
@@ -71,7 +72,7 @@ If you do not see the welcome screen, click `File > Close Project` to close the 
 . Locate the `build.gradle` file and select it. Click `OK`.
 . Click `Open as Project`.
 . Click `OK` to accept the default settings.
-. Press `Control + Tab + T` simultaneously to open a console in Intellij IDEA IDE and execute the following command:
+. Press kbd:[Ctr; + Tab + T] *simultaneously* to open a console in Intellij IDEA IDE and execute the following command:
 - For Windows   : `gradlew processResources`
 - For Mac/Linux : `./gradlew processResources`
 
