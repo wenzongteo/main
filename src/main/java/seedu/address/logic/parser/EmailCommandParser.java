@@ -4,12 +4,13 @@ import static java.util.Objects.requireNonNull;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_LOGIN;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_MESSAGE;
-import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_SEND;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_SUBJECT;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_TASK;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.EmailCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
+import sun.net.www.ParseUtil;
 
 /**
  * Parses input arguments and creates a new EmailCommand object
@@ -25,15 +26,17 @@ public class EmailCommandParser implements Parser<EmailCommand> {
         requireNonNull(args);
         ArgumentMultimap argMultimap =
                 ArgumentTokenizer.tokenize(args, PREFIX_EMAIL_MESSAGE, PREFIX_EMAIL_SUBJECT, PREFIX_EMAIL_LOGIN,
-                        PREFIX_EMAIL_SEND);
+                        PREFIX_EMAIL_TASK);
 
         boolean send = false;
         String message = "";
         String subject = "";
         String login = "";
+        String task = "";
         String [] loginDetails = new String[0];
 
         try {
+
             if (argMultimap.getValue(PREFIX_EMAIL_MESSAGE).isPresent()) {
                 message = ParserUtil.parseEmailMessage(argMultimap.getValue(PREFIX_EMAIL_MESSAGE)).trim();
                 if (message.isEmpty()) {
@@ -53,8 +56,13 @@ public class EmailCommandParser implements Parser<EmailCommand> {
                     throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
                 }
             }
-            if (argMultimap.getValue(PREFIX_EMAIL_SEND).isPresent()) {
-                send = true;
+
+            // checks what is the email task, to send or create draft
+            if (argMultimap.getValue(PREFIX_EMAIL_TASK).isPresent()) {
+                task = ParserUtil.parseEmailTask(argMultimap.getValue(PREFIX_EMAIL_TASK)).trim();
+                if (!task.isEmpty() && task.equalsIgnoreCase("send")) {
+                    send = true;
+                }
             }
 
         } catch (IllegalValueException ive) {
