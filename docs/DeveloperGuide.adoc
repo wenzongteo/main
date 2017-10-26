@@ -845,6 +845,47 @@ Other ways of managing dependencies are as follows:
 [NOTE]
 Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing.
 
+== Future Enhancements
+
+Augustine is still under heavy development. This section lists various enhancement and features which are in consideration for future updates.
+Each improvement is phrased in a problem-solution format.
+
+=== Schedule
+
+====
+Problem::
+The schedule feature uses NUSmods heavily, as a result, it is only able to display NUS lessons and requires an active internet connection.
+
+Proposed Solution::
+We could render the timetable with JavaFX instead of relying the browser to fetch NUSmods website. This will require storing module information which contains time of lessons which can be obtain from the NUSmods API in .json format.
+::
+This will eliminate the need to have a constant connection and open up the possibility of adding non-NUS related activities to the schedule.
+
+====
+====
+Problem:
+
+
+Solution::
+When verifying if a module code is correct, check against a list of modules from either IVLE or NUSmods API instead of using a regular expression.
+====
+
+'''
+
+=== Email
+
+Being a recent addition to Augustine, the email feature is not fully fledged. The following are possible improvements which can improve the process of emailing in Augustine:
+
+====
+Problem::
+Type stuff here
+
+1 or more solutions::
+more stuff here
+====
+
+
+
 [appendix]
 == Suggested Programming Tasks to Get Started
 
