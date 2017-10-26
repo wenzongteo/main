@@ -145,11 +145,6 @@ public abstract class AddressBookSystemTest {
      */
     protected void assertApplicationDisplaysExpected(String expectedCommandInput, String expectedResultMessage,
             Model expectedModel) {
-        PersonListPanelHandle p = getPersonListPanel();
-        for (int i = 0; i < p.getListSize(); i++) {
-            System.out.println(p.getPersonCardHandle(i).getName() + " = " + expectedModel.getFilteredPersonList().get(i).getName());
-        }
-
         assertEquals(expectedCommandInput, getCommandBox().getInput());
         assertEquals(expectedResultMessage, getResultDisplay().getText());
         assertEquals(expectedModel, getModel());
