@@ -259,6 +259,8 @@ This section describes some noteworthy details on how certain features are imple
 // tag::undoredo[]
 === Undo/Redo mechanism
 
+
+==== Implementation
 The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modifies the state of the address book (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
 
 `UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead. The following diagram shows the inheritance diagram for commands:
@@ -385,6 +387,7 @@ image::UndoRedoActivityDiagram.png[width="200"]
 
 === Logging
 
+==== Implementation
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
 
 * The logging level can be controlled using the `logLevel` setting in the configuration file (See link:#configuration[Configuration])
@@ -404,7 +407,11 @@ Certain properties of the application can be controlled (e.g App name, logging l
 
 // tag::optionalfields[]
 === Optional Fields in Contact
+
 The ability to have unfilled fields within a Contact enables the User to add a contact into Augustine without having to know all the particulars of a Contact.
+
+
+==== Implementation
 
 The User only needs to know the name and email address of the Contact to add it into Augustine.
 
@@ -449,6 +456,7 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 === Adding and displaying of schedule
 The schedule will utilize https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
 
+==== Implementation
 The schedule is stored in the `NusModules` class and each `Person` will have an `Optional<NusModules>`.
 `NusModules` uses a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` to store.
 
@@ -482,23 +490,37 @@ In the xml, the data will be stored as such:
 
 ==== Design considerations
 
-**Aspect:** Displaying of schedule +
+[Big]#**Aspect:** Displaying of schedule#
+
+====
 **Alternative 1:** Use javafx to draw the schedule +
-**Pros:** Flexibility with visuals and capabilities +
-**Cons:** Much more work will need to be done. +
+
+* **Pros:** Flexibility with visuals and capabilities +
+* **Cons:** Much more work will need to be done. +
+====
+====
 **Alternative 2 (current choice):** Use browser to go to NusMods and use their system to display the schedule +
-**Pros:** Need to do less work as much of the framework is already done +
-**Cons:** Less flexibility and reliance on external servers which might be subjected to changes. Also limited to NUS modules.
+
+* **Pros:** Need to do less work as much of the framework is already done +
+* **Cons:** Less flexibility and reliance on external servers which might be subjected to changes. Also limited to NUS modules.
+====
 
 ---
 
-**Aspect:** Storing of schedule +
-**Alternative 1(current choice):** Store it as a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` +
-**Pros:** Easier to modify and extend with other features, more readable in xml +
-**Cons:** More complicated to store in xml  +
-**Alternative 2:** Store it as one long string that is similar to the query to nusmods +
-**Pros:** As it is a single string, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
-**Cons:** Need to parse when want to modify part of the string, then reformat it back into a string, which can be inefficient
+[Big]#**Aspect:** Storing of schedule#
+
+====
+**Alternative 1(current choice):** Store it as a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>
+
+* **Pros:** Easier to modify and extend with other features, more readable in xml +
+* **Cons:** More complicated to store in xml  +
+====
+====
+**Alternative 2:** Store it as one long string that is similar to the query to nusmods
+
+* **Pros:** As it is a single string, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
+* **Cons:** Need to parse when want to modify part of the string, then reformat it back into a string, which can be inefficient
+====
 
 ---
 
