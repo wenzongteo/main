@@ -34,7 +34,7 @@ public class PhotoTest {
     @Test
     public void photoHashCode() {
         try {
-            Photo photo1 = new Photo("default.jpeg", 0);
+            Photo photo1 = new Photo("default.jpeg",0);
             Photo photo2 = new Photo("data/images/alice@example.com.jpg");
 
             //hashcode matches for same email --> return true
@@ -51,7 +51,7 @@ public class PhotoTest {
     @Test
     public void compareHash() {
         try {
-            Photo photo1 = new Photo("default.jpeg", 0);
+            Photo photo1 = new Photo("default.jpeg",0);
             Photo photo2 = new Photo("docs/images/wz.jpg");
 
             //Compare hash of the same photo --> return true
