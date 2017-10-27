@@ -25,7 +25,7 @@ public class DraftList {
         messages[0] = newMessage;
     }
 
-    public MessageDraft getMessage(int i) {
+    public ReadOnlyMessageDraft getMessage(int i) {
         return messages[i];
     }
 
