@@ -24,6 +24,7 @@ import java.nio.file.StandardCopyOption;
 import javax.mail.AuthenticationFailedException;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
@@ -41,8 +42,8 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
     private static final String EMAIL_SUCCESSFULLY_DRAFTED = "drafted";
     private static final String EMAIL_COMMAND_SEND = " et/send";
 
-    @Before
-    public void setup() throws Exception {
+    @BeforeClass
+    public static void setup() throws Exception {
         String imageFilePath = "data/images/";
         File imageFolder = new File(imageFilePath);
 
@@ -66,6 +67,14 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new AssertionError("Impossible");
