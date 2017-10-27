@@ -62,16 +62,12 @@ public class UndoableCommandTest {
     @Test
     public void executeUndo() throws Exception {
         dummyCommand.execute();
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
         deleteFirstPerson(expectedModel);
         assertEquals(expectedModel, model);
 
         showFirstPersonOnly(model);
 
         // undo() should cause the model's filtered list to show all persons
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
         dummyCommand.undo();
         expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
         assertEquals(expectedModel, model);
@@ -80,16 +76,11 @@ public class UndoableCommandTest {
     @Test
     public void redo() throws Exception {
         showFirstPersonOnly(model);
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
+
         // redo() should cause the model's filtered list to show all persons
         dummyCommand.redo();
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
         deleteFirstPerson(expectedModel);
         assertEquals(expectedModel, model);
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
     }
 
     /**
