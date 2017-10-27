@@ -19,13 +19,14 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
 
     @Override
     public boolean test(ReadOnlyPerson person) {
+
         if (!namekeywords.isEmpty() && !tagkeywords.isEmpty()) {
             return namekeywords.stream()
-                    .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword)
+                    .anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword)
                             && person.containsTags(tagkeywords));
         } else if (!namekeywords.isEmpty()) {
             return namekeywords.stream()
-                    .anyMatch(keyword -> StringUtil.containsWordIgnoreCase(person.getName().fullName, keyword));
+                    .anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword));
         } else if (!tagkeywords.isEmpty()) {
             return person.containsTags(tagkeywords);
         } else {

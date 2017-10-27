@@ -24,6 +24,7 @@
       <MenuItem fx:id="shortcutMenuRedo" mnemonicParsing="false" onAction="#handleRedo" text="Redo" />
       <MenuItem fx:id="shortcutMenuScrollUp" mnemonicParsing="false" onAction="#handleScrollUp" text="Scroll Up" />
       <MenuItem fx:id="shortcutMenuScrollDown" mnemonicParsing="false" onAction="#handleScrollDown" text="Scroll Down" />
+      <MenuItem fx:id="shortcutMenuToggleTab" mnemonicParsing="false" onAction="#handleToggleTabs" text="Toggle Tabs" />
     </Menu>
     <Menu mnemonicParsing="false" text="Help">
       <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />
@@ -44,12 +45,11 @@
   </StackPane>
 
   <SplitPane id="splitPane" fx:id="splitPane" dividerPositions="0.4" VBox.vgrow="ALWAYS">
-    <VBox fx:id="personList" minWidth="450" prefWidth="450" SplitPane.resizableWithParent="false">
+    <StackPane fx:id="leftDisplayPanelPlacedholder" minWidth="450.0" prefWidth="450" SplitPane.resizableWithParent="false" VBox.vgrow="ALWAYS">
       <padding>
-        <Insets top="10" right="10" bottom="10" left="10" />
+        <Insets right="10" left="10" />
       </padding>
-      <StackPane fx:id="personListPanelPlaceholder" VBox.vgrow="ALWAYS"/>
-    </VBox>
+    </StackPane>
 
     <StackPane fx:id="browserPlaceholder" prefWidth="230" >
       <padding>

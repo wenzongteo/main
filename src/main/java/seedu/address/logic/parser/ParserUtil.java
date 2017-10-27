@@ -192,6 +192,12 @@ public class ParserUtil {
             case "tag":
                 sortOrder = 1;
                 break;
+            case "email":
+                sortOrder = 2;
+                break;
+            case "address":
+                sortOrder = 3;
+                break;
             default:
                 sortOrder = -1;
                 break;
@@ -227,5 +233,14 @@ public class ParserUtil {
     public static String parseLoginDetails(Optional<String> loginDetails) throws IllegalValueException {
         requireNonNull(loginDetails);
         return loginDetails.isPresent() ? loginDetails.get() : "";
+    }
+
+    /**
+     * Parses a {@code Optional<String> login} into an {@code String}
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+    public static String parseEmailTask(Optional<String> task) throws IllegalValueException {
+        requireNonNull(task);
+        return task.isPresent() ? task.get() : "";
     }
 }

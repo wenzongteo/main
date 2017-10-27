@@ -17,6 +17,6 @@ public class CliSyntax {
     public static final Prefix PREFIX_EMAIL_MESSAGE = new Prefix("em/");
     public static final Prefix PREFIX_EMAIL_SUBJECT = new Prefix("es/");
     public static final Prefix PREFIX_EMAIL_LOGIN = new Prefix("el/");
-    public static final Prefix PREFIX_EMAIL_SEND = new Prefix("-send");
+    public static final Prefix PREFIX_EMAIL_TASK = new Prefix("et/");
 
 }
