@@ -6,6 +6,7 @@ import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
+import seedu.address.email.message.ReadOnlyMessageDraft;
 
 /**
  * The API of Email component
@@ -22,7 +23,7 @@ public interface Email {
     void composeEmail(MessageDraft message);
 
     /* view Email Draft */
-    MessageDraft getEmailDraft();
+    ReadOnlyMessageDraft getEmailDraft();
 
     /* View Email Send Status */
     String getEmailStatus();

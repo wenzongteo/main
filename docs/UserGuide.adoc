@@ -80,6 +80,9 @@ Before you continue reading this section, do take note of the following:
 * Words in `square brackets` [ ] are *optional parameters* that can be left unfilled by you.
 ** E.g `n/NAME [t/TAG]`, `TAG` is an optional parameter supplied by you. Such as `n/John Doe t/friend.
 
+* Words seperated by a bar `|` are either this or that but not both parameters.
+** E.g. `name | tag`, means to supply either name or tag in your parameter.
+
 * Words with `…`​ after them are parameters that can be used *multiple times* including zero times
 ** E.g. `[t/TAG]...` can be left unfilled, one time `t/friend` or even multiple times `t/friend t/family`.
 ====
@@ -294,14 +297,14 @@ image::editChangePhoneAfter.png[width="940px"]
 
 '''
 
-=== Locating persons by name: [fuchsia]`find`
+=== Locating persons by name: [fuchsia]`find` [Edited in v.14]
 
 The [fuchsia]`find` command helps you find contacts in Augustine using name or tags as keywords.
 
 ==== Format
 The format of the [fuchsia]`find` command is as follow:
 ====
-[fuchsia]#find [ n/KEYWORD [MORE_KEYWORDS] ] [ t/KEYWORD [MORE_KEYWORDS] ] [ s/[name|tag] ]#
+[fuchsia]#find [ n/KEYWORD [MORE_KEYWORDS] ] [ t/KEYWORD [MORE_KEYWORDS] ] [ s/[ name | tag | email | address ] ]#
 ====
 
 ****
@@ -313,10 +316,12 @@ The format of the [fuchsia]`find` command is as follow:
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Only full words will be matched e.g. `Han` will not match `Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-* The find command results can be be *sorted by name* or *tag*
+* The find command results can be be *sorted* by *name*, *tag*, *email* or *address*.
 ** Find with *sort by tag*: [fuchsia]`find n/adam eunice s/tag`
 ** Find with *sort by name*: [fuchsia]`find n/adam eunice s/name`
-* The sort options [name|tag] are *case sensitive*
+** Find with *sort by email*: [fuchsia]`find n/adam eunice s/email`
+** Find with *sort by address*: [fuchsia]`find n/adam eunice s/address`
+* The sort options [ name | tag | email | address ] are *case sensitive*.
 ****
 
 [TIP]
@@ -379,7 +384,7 @@ You can sort the find results by name or tag. _Figure 2.5.2.4_ below illustrates
 the list of names sorted by tag after the command below is entered.
 
 [NOTE]
-Note that the sort option "name" and "tag" are *case-sensitive*
+Note that the sort option "name", "tag", "email" and "address" are *case-sensitive*
 
 [horizontal]
 *Command:* :: [fuchsia]`find n/adam zachary janice s/tag`
@@ -570,8 +575,7 @@ The following command will remove the module CS2010 from the timetable of the co
 
 '''
 
-
-=== Email contacts : [fuchsia]`email` [Edited in v1.3]
+=== Email contacts : [fuchsia]`email` [Edited in v1.3 and 1.4]
 
 The [fuchsia]`email` command emails all the contacts in the last displayed contact's list
 in Augustine.
@@ -579,22 +583,22 @@ in Augustine.
 ==== Format
 The format of the [fuchsia]`email` command is as follow:
 ====
-[fuchsia]#email [em/MESSAGE] [es/SUBJECT] [el/adam@gmail.com:password] [-send]#
+[fuchsia]#email [ em/MESSAGE ] [ es/SUBJECT ] [ el/adam@gmail.com:password ] [ et/[send|draft] ]#
 ====
 ****
 * The email command requires the *message* (em/), *subject* (es/), *google email login* (el/)
 and *at least 1 person* in the displayed contact list to send an email.
-* The login email must be a *gmail* account
-* The login gmail account must enable *"allow low less secure app to log in"* in the google
- gmail settings in order to send an email from Augustine
+* The login email must be a *gmail* account.
+* The login gmail account must enable *"allow less secure app to log in"* in the google
+ gmail settings in order to send an email from Augustine.
 * To create an email draft:
 ** Add *message* to email draft: [fuchsia]`email em/message to send`
 ** Add *subject* to email draft: [fuchsia]`email es/subject of email`
 ** *Login* to google email: [fuchsia]`email el/adam@gmail.com:password`
 * To send an email:
-** Send the current email draft: [fuchsia]`email -send`
+** Send the current email draft: [fuchsia]`email et/send`
 ** Create a new email draft and *send*: [fuchsia]`email em/message es/subject
-el/adam@gmail.com:password -send`
+el/adam@gmail.com:password et/send`
 * The composed email will be sent to all contacts currently displayed in Augustine.
 ****
 
@@ -649,7 +653,7 @@ below.
 Note that you must have *at least 1 person* in your current displayed contact list.
 
 [horizontal]
-*Command:* :: [fuchsia]`email -send`
+*Command:* :: [fuchsia]`email et/send`
 
 [caption="Figure 2.9.2.3 "]
 .Result of email command.
@@ -667,7 +671,7 @@ below.
 [horizontal]
 *Command:* ::
 `list` +
-[fuchsia]`email em/message es/subject el/adam@gmail.com:password -send`
+[fuchsia]`email em/message es/subject el/adam@gmail.com:password et/send`
 
 [caption="Figure 2.9.2.4 "]
 .Result of email command.
@@ -908,7 +912,7 @@ There is no need to save manually.
 |*List*|`list` +|l|`list` +
 |*Help*|`help` +|h|`help` +
 |*Select*|`select INDEX` +|s|`select 2` +
-|*Email*|`email em/MESSAGE es/SUBJECT el/user@gmail.com:password -send` +|em|`email em/message es/subject el/adam@gmail.com:password -send`
+|*Email*|`email em/MESSAGE es/SUBJECT el/user@gmail.com:password et/send` +|em|`email em/message es/subject el/adam@gmail.com:password -send`
 |*History*|`history`|h|`history` +
 |*Undo*|`undo`|u|`undo` +
 |*Redo*|`redo`|r|`redo` +
