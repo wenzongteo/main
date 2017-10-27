@@ -44,8 +44,8 @@ public class Photo {
                 try {
                     hashing = MessageDigest.getInstance("MD5");
                     this.hash = new String(hashing.digest(Files.readAllBytes(image.toPath())));
-                } catch (NoSuchAlgorithmException | IOException nsa) {
-                    throw new AssertionError("Algorithm should exist");
+                } catch (NoSuchAlgorithmException | IOException e) {
+                    throw new AssertionError("Impossible to reach here");
                 }
             }
         }
@@ -53,15 +53,15 @@ public class Photo {
 
     public Photo(String photo, int num) {
         this.value = photo;
-        File image = new File(photo);
         MessageDigest hashing;
         try {
+            File image = new File(photo);
             hashing = MessageDigest.getInstance("MD5");
             this.hash = new String(hashing.digest(Files.readAllBytes(image.toPath())));
         } catch (NoSuchAlgorithmException nsa) {
             throw new AssertionError("Algorithm should exist");
         } catch (IOException ioe) {
-            throw new AssertionError("Image should exist");
+            throw new AssertionError("Image should already exist");
         }
     }
 
