@@ -21,14 +21,16 @@ toc::[]
 
 == Software Overview [Edited in v1.4]
 
-Augustine is a virtual Address Book that seeks to assist students that are currently pursuing their studies in National
-University of Singapore (NUS). As a virtual Address Book, Augustine can provide students with a comprehensive software
-to virtually store contact details of their friends in NUS.
+Augustine is a virtual Address Book that seeks to assist students who are currently pursuing their studies in National
+University of Singapore (NUS). As a virtual Address Book, Augustine seeks to provide students with a comprehensive
+software to store contact details of their friends inside their laptop. This enables students to take advantage of
+technology to assist them in managing aspects of their daily life and easily query contact details of their friends at
+any time without a need to refer to a physical Address Book when requiring a friend’s contact details.
 
-Command Line Interface (CLI) is the primary mode of input in Augustine while a General User Interface is used to give
-users visual feedback of queries that are performed.
+Augustine communicates with the User primarily via Command Line Interface (CLI). Augustine also contains a General User
+Interface (GUI) component to display to the User visual feedback of queries that are performed.
 
-Developed in Java, Augustine can cater to all students as it can be executed in both Windows and Unix environment.
+Developed in Java, Augustine can cater to all students in NUS as it can be executed in both Windows and Unix environment.
 
 == Purpose [Edited in v1.4]
 
