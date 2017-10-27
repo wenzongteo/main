@@ -55,7 +55,8 @@ public class PhotoTest {
         try {
             new Photo("wrong format");
         } catch (IllegalValueException ive) {
-            assertEquals("Person's photo should be in jpeg and preferred to be of 340px x 453px dimension", ive.getMessage());
+            assertEquals("Person's photo should be in jpeg and preferred to be of 340px x 453px dimension",
+                    ive.getMessage());
         }
     }
 
