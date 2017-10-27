@@ -34,8 +34,13 @@ Developed in Java, Augustine can cater to all students in NUS as it can be execu
 
 == Purpose [Edited in v1.4]
 
-This Developer Guide seeks to assist both experienced and new Developers that are interested in contributing to Augustine
-or understand the underlying mechanisms of Augustine.
+This Developer Guide seeks to assist both experienced and new Developers that are either interested in contributing to
+the development of Augustine or wishes to know more about the underlying mechanisms of Augustine.
+
+The Developer Guide will first talk about the prerequisites required for Augustine to work before talking about the
+various components within Augustine, in-depth explanation of how certain mechanisms in Augustine work, the thought
+process behind the implementation of theses mechanisms and the documentation of what the development team underwent
+before creating Augustine to what it is today.
 
 == Getting Started [Edited in v1.4]
 Before proceeding further with the Developer Guide, ensure that you have achieved the following requirements:
