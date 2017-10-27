@@ -477,21 +477,25 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 // end::optionalfields[]
 
 // tag::imagestorage[]
-=== Image Storage [Edited in v1.4]
-Each contact in Augustine can be appointed with a specific Image so that the User can easily identify a Contact within Augustine.
+=== Image Storage Mechanism [Edited in v1.4]
+
+Each contact in Augustine can be given a Display Picture of the User's choosing so that the User can easily
+identify a contact within Augustine.
 
 [NOTE]
-A default image will be appointed to the Contact if the User: +
-1. not specify an image for the Contact during the Contacts creation
-2. if the Contact's image is removed by the User during edit.
+A default image will be given to the contact if the User: +
+1. did not specify an image for the contact during the adding of the contact into Augustine.
+2. remove the contact's Display Picture during an edit.
 
-The image appointed to a Contact will be copied over to the `data/images` folder and renamed as "contact_email_address.jpg".
+The Display Picture given to a contact will be copied over to the `data/images` folder and renamed as "contact's_email_address.jpg".
+By renaming the Display Picture as "contact's_email_address.jpg", Augustine is able to associate each image in the `/data/images` folder to a contact
+in Augustine. However, such implementation means that a contact's Display Picture may have to be renamed if the contact's email is updated.
 
 When the User edits a Contact in Augustine, *only one* of the 4 possible cases will occur:
 
 [IMPORTANT]
-We are only concern if whether the Contact's Display Picture and email address is updated and thus modification of other attributes are not mentioned
-in the cases below.
+We are only concern if whether the Contact's Display Picture and email address is updated and thus possible modification of other attributes are
+not mentioned in the cases below.
 
 . User updates *BOTH* email *AND* display picture. +
 .. The new display picture is copied over to the `data/images` folder and renamed as *"contact_new_email_address.jpg"*.
@@ -518,25 +522,39 @@ The new display picture for the Contact will overwrite the existing display pict
 .. Image is not updated.
 .. Contact is updated in Augustine.
 
-If the Contact is deleted from Augustine by the User, the appointed Image for the Contact is also deleted from the computer.
+If the Contact is deleted from Augustine by the User, the contact's Display Picture is moved to `/data/edited` folder so that the contact's previous
+Display Picture can be restored if the user executes a redo command after changing the Display Picture.
 
----
+[NOTE]
+The `/data/edited` folder will be deleted from the system when the user exits Augustine.
 
 ==== Design Considerations
-**Aspect:** Storing of Contact's Display Picture. +
-**Alternative 1 (current choice):** Create a copy of the image that is in the path entered by user into a designated folder in Augustine.
-Store the file path of the copied image into the Contact so that future rendering of the Contact's Display Picture will be to the copied file. +
-**Pros:** Changing of file path or removal of the original image by the User will not affect the display of Contact's Display Picture in Augustine. +
-**Cons:** Addition storage space on the computer is required to create a possibly duplicated copy of an image in the computer.
-**Alternative 2:** Store the file path of the original image entered by the User into the Contact and future rendering of the Contact's Display Picture
-will be from the original Image +
-**Pros:** Additional storage space on the computer is not required.
-**Cons:** Changing of file path or removal of the image will lead to invalid display of a Contact's Display Picture. +
 
----
+
+[Big]#**Aspect:** Storing of Contact's Display Picture#
+
+====
+
+**Alternative 1 current choice:** Create a local copy of the Display Picture in the data/images folder +
+
+* **Pros:** Removal of the original image will not affect the display of a contact's Display Picture. +
+* **Cons:** Additional storage space on the computer is required to store the local copy of the Display Picture. +
+====
+
+====
+**Alternative 2 (current choice):** Store the file path of the chosen Display Picture in each Contact. +
+
+* **Pros:** Additional storage space on the computer is not required. +
+* **Cons:** User is unable to move or change the Display Picture as any modification to it will prevent Augustine from
+displaying the Display Picture.
+
+====
 // end::imagestorage[];
 
+---
+
 === Adding and displaying of schedule [Edited in v1.3]
+
 The schedule will utilize https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
 
 The schedule is stored in the `NusModules` class and each `Person` will have an `Optional<NusModules>`.
@@ -572,35 +590,52 @@ In the xml, the data will be stored as such:
 
 ==== Design considerations
 
-**Aspect:** Displaying of schedule +
+[Big]#**Aspect:** Displaying of schedule#
+====
 **Alternative 1:** Use javafx to draw the schedule +
-**Pros:** Flexibility with visuals and capabilities +
-**Cons:** Much more work will need to be done. +
+* **Pros:** Flexibility with visuals and capabilities +
+* **Cons:** Much more work will need to be done. +
+====
+
+====
 **Alternative 2 (current choice):** Use browser to go to NusMods and use their system to display the schedule +
-**Pros:** Need to do less work as much of the framework is already done +
-**Cons:** Less flexibility and reliance on external servers which might be subjected to changes. Also limited to NUS modules.
+* **Pros:** Need to do less work as much of the framework is already done +
+* **Cons:** Less flexibility and reliance on external servers which might be subjected to changes. Also limited to NUS modules.
+====
 
----
-
-**Aspect:** Storing of schedule +
+[Big]# **Aspect:** Storing of schedule#
+====
 **Alternative 1(current choice):** Store it as a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` +
-**Pros:** Easier to modify and extend with other features, more readable in xml +
-**Cons:** More complicated to store in xml  +
+* **Pros:** Easier to modify and extend with other features, more readable in xml +
+* **Cons:** More complicated to store in xml  +
+====
+
+====
 **Alternative 2:** Store it as one long string that is similar to the query to nusmods +
-**Pros:** As it is a single string, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
-**Cons:** Need to parse when want to modify part of the string, then reformat it back into a string, which can be inefficient
+* **Pros:** As it is a single string, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
+* **Cons:** Need to parse when want to modify part of the string, then reformat it back into a string, which can be inefficient
+====
 
 ---
 
-**Aspect:** Command to edit schedule +
+[Big]#**Aspect:** Command to edit schedule#
+====
 **Alternative 1(current choice):** Create new command to add/edit schedule  +
-**Pros:** Codebase can be kept neater as it will be more cohesive +
-**Cons:** User will need to know more commands +
+* **Pros:** Codebase can be kept neater as it will be more cohesive +
+* **Cons:** User will need to know more commands +
+====
+
+====
 **Alternative 2:** Modify edit command to handle schedule too +
-**Pros:** User will not need to know more commands +
-**Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
+* **Pros:** User will not need to know more commands +
+* **Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
+====
+
+---
 
 === Find with filter and sort Mechanism [Edited in v1.3]
+
+---
 
 The find command is facilitated by the Model and Logic Component. It provides the user with the option to
 filter and sort the contact list.
@@ -615,24 +650,34 @@ The find results are bind to the javafx ListView. Thus any changes to the Sorted
 
 ==== Design Considerations
 
-**Aspect:** Find users using custom fields (eg. name, tag, email, etc...) +
-**Alternative 1:** finding bases on user define keywords  +
-**Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
-**Cons:** The find command might display unnecessary results. +
-**Alternative 2 (current choice):** Use prefix to define fields +
-**Pros:** There will be more flexibility and find results will be more user specific +
-**Cons:** The find command might contain too many fields and becomes confusing.
-
 ---
 
-**Aspect:** Sorting Find Result +
-**Alternative 1:** Create a Sort command +
-**Pros:** Users can sort the list at any point of time, not only during the find command +
-**Cons:** Users will have to run an extra sort command instead of a one line find command with sort options +
-**Alternative 2 (current choice):** Creating a Find Command with sort options +
-**Pros:** Users will only need to run a single line of code to find users in a sorted list. +
-**Cons:** The find command might become too complex.
+[Big]#**Aspect:** Find users using custom fields (eg. name, tag, email, etc...)#
+====
+**Alternative 1:** finding bases on user define keywords  +
+* **Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
+* **Cons:** The find command might display unnecessary results. +
+====
 
+====
+**Alternative 2 (current choice):** Use prefix to define fields +
+* **Pros:** There will be more flexibility and find results will be more user specific +
+* **Cons:** The find command might contain too many fields and becomes confusing.
+====
+---
+
+[Big]#**Aspect:** Sorting Find Result#
+====
+**Alternative 1:** Create a Sort command +
+* **Pros:** Users can sort the list at any point of time, not only during the find command +
+* **Cons:** Users will have to run an extra sort command instead of a one line find command with sort options +
+====
+
+====
+**Alternative 2 (current choice):** Creating a Find Command with sort options +
+* **Pros:** Users will only need to run a single line of code to find users in a sorted list. +
+* **Cons:** The find command might become too complex.
+====
 ---
 
 === Email Mechanism [Edited in v1.3]
