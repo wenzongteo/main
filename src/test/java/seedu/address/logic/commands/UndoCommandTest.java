@@ -29,10 +29,6 @@ public class UndoCommandTest {
     private static final CommandHistory EMPTY_COMMAND_HISTORY = new CommandHistory();
     private static final UndoRedoStack EMPTY_STACK = new UndoRedoStack();
 
-    private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
-    private final DeleteCommand deleteCommandOne = new DeleteCommand(INDEX_FIRST_PERSON);
-    private final DeleteCommand deleteCommandTwo = new DeleteCommand(INDEX_FIRST_PERSON);
-
     @Before
     public void setUp() {
         String imageFilePath = "data/images/";
@@ -65,6 +61,10 @@ public class UndoCommandTest {
         deleteCommandOne.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
         deleteCommandTwo.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
     }
+
+    private final Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
+    private final DeleteCommand deleteCommandOne = new DeleteCommand(INDEX_FIRST_PERSON);
+    private final DeleteCommand deleteCommandTwo = new DeleteCommand(INDEX_FIRST_PERSON);
 
     @Test
     public void execute() throws Exception {
