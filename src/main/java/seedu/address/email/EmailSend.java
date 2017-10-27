@@ -14,7 +14,6 @@ import javax.mail.internet.MimeMessage;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
-import seedu.address.email.message.MessageDraft;
 import seedu.address.email.message.ReadOnlyMessageDraft;
 
 /**
@@ -69,7 +68,8 @@ public class EmailSend {
     }
 
     /** Send email out using JavaMail API **/
-    private void sendingEmail(String login, String pass, ReadOnlyMessageDraft message) throws AuthenticationFailedException {
+    private void sendingEmail(String login, String pass, ReadOnlyMessageDraft message)
+            throws AuthenticationFailedException {
         final String username = login;
         final String password = pass;
 
