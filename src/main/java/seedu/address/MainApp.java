@@ -108,7 +108,7 @@ public class MainApp extends Application {
             if (!imagesFolder.exists()) {
                 imagesFolder.mkdirs();
                 logger.info("Image storage location does not exist. Will be creating 'data/images' folder");
-            } else {
+            } else { //Do nothing.
 
             }
 
