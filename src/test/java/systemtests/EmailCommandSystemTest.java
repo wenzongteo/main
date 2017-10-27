@@ -15,8 +15,15 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_SUBJECT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_JOHN_EMAILTESTER;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
+
 import javax.mail.AuthenticationFailedException;
 
+import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
