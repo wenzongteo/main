@@ -62,7 +62,6 @@ public class UndoCommandTest {
         } catch (IOException e) {
             throw new AssertionError("Impossible");
         }
-        
         deleteCommandOne.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
         deleteCommandTwo.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
     }
