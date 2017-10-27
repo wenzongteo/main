@@ -141,7 +141,7 @@ When you are ready to start coding,
 
 This section covers how Augustine is design while also providing an overview of the components in Augustine.
 
-=== Architecture Design [Edited in v1.3]
+=== Architecture Design [Edited in v1.3 and v1.4]
 
 image::Architecture.png[width="600"]
 _Figure 4.1 : Architecture Diagram_
@@ -209,14 +209,14 @@ Note how the event is propagated through the `EventsCenter` to the `Storage` and
 
 This section covers an overview of some of the components of the architecture.
 
-==== UI component
+==== UI component [Edited v1.4]
 
 image::UiClassDiagram.png[width="800"]
 _Figure 4.3.1 : Structure of the UI Component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of smaller parts; `CommandBox`, `ResultDisplay`, `LeftDisplayPanel`, `PersonListPanel`, `MessageDisplay`, `StatusBarFooter`, `BrowserPanel`. All of these parts, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -229,10 +229,10 @@ The `UI` component,
 ==== Logic component
 
 image::LogicClassDiagram.png[width="800"]
-_Figure 4.3.1a : Structure of the Logic Component_
+_Figure 4.3.2a : Structure of the Logic Component_
 
 image::LogicCommandClassDiagram.png[width="800"]
-_Figure 4.3.1b : Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
+_Figure 4.3.2b : Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
 
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
@@ -245,16 +245,16 @@ link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
 image::DeletePersonSdForLogic.png[width="800"]
-_Figure 4.3.1c : Interactions Inside the Logic Component for the `delete 1` Command_
+_Figure 4.3.2c : Interactions Inside the Logic Component for the `delete 1` Command_
 
 ==== Model component
 
 image::ModelClassDiagram.png[width="800"]
-_Figure 4.4.1 : Structure of the Model Component_
+_Figure 4.4.3 : Structure of the Model Component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
 
-The `Model`,
+The `Model` component,
 
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Address Book data.
@@ -262,18 +262,19 @@ The `Model`,
 * exposes an unmodifiable `ObservableList<ReadOnlyPerson>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
-==== Email component [Edited in v1.3]
+==== Email component [Edited in v1.3 and v1.4]
 
 image::EmailComponent.png[width="800"]
 _Figure 4.3.4 : Structure of the Model Component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/email/Email.java[`Email.java`]
 
-The `Email`,
+The `Email` component,
 
 * uses a `EmailLogin` class to store user's email login Details.
 * uses a `EmailSend` class to process and send email via JavaAPI through SMTP protocol.
 * uses a `EmailCompose` class to store the data of email message drafts.
+* Exposes an unmodifiable `MessageDraft` object which can be retrieved from `EmailCompose` class, such that the `MessageDisplay` UI can be bound to this list which automatically updates when the data in the `messageDraft` object change.
 
 ==== Storage component
 
