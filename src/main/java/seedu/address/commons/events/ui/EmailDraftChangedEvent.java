@@ -1,16 +1,16 @@
 package seedu.address.commons.events.ui;
 
 import seedu.address.commons.events.BaseEvent;
-import seedu.address.email.message.MessageDraft;
+import seedu.address.email.message.ReadOnlyMessageDraft;
 
 /**
  * Indicates when the email draft changed
  */
 public class EmailDraftChangedEvent extends BaseEvent {
 
-    public final MessageDraft message;
+    public final ReadOnlyMessageDraft message;
 
-    public EmailDraftChangedEvent(MessageDraft message) {
+    public EmailDraftChangedEvent(ReadOnlyMessageDraft message) {
         this.message = message;
     }
 

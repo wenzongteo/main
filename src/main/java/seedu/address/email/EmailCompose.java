@@ -2,6 +2,7 @@ package seedu.address.email;
 
 import seedu.address.email.message.DraftList;
 import seedu.address.email.message.MessageDraft;
+import seedu.address.email.message.ReadOnlyMessageDraft;
 
 /**
  * Holds a list of messageDraft
@@ -22,7 +23,7 @@ public class EmailCompose {
         emailDraftsList.composeEmail(message);
     }
 
-    public MessageDraft getMessage() {
+    public ReadOnlyMessageDraft getMessage() {
         return emailDraftsList.getMessage(0);
     }
 
