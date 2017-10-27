@@ -93,12 +93,17 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new AssertionError("Impossible");
         }
     }
+
     @Test
     public void edit() throws Exception {
         Model model = getModel();

@@ -100,11 +100,21 @@ public class MainApp extends Application {
         ReadOnlyAddressBook initialData;
         try {
             String imagesFolderPath = "data/images";
+            String editedPhotoPath = "data/edited";
 
             File imagesFolder = new File(imagesFolderPath);
+            File editedFolder = new File(editedPhotoPath);
 
             if (!imagesFolder.exists()) {
                 imagesFolder.mkdirs();
+                logger.info("Image storage location does not exist. Will be creating 'data/images' folder");
+            } else {
+
+            }
+
+            if (!editedFolder.exists()) {
+                editedFolder.mkdirs();
+                logger.info("Temporary image storage does not exist. Will be creating 'data/edited' folder");
             } else {
 
             }
@@ -217,6 +227,8 @@ public class MainApp extends Application {
 
     @Override
     public void stop() {
+        logger.info("Removing edited folder");
+        removeFiles();
         logger.info("============================ [ Stopping Address Book ] =============================");
         ui.stop();
         try {
@@ -226,6 +238,20 @@ public class MainApp extends Application {
         }
         Platform.exit();
         System.exit(0);
+    }
+
+    /**
+     * Deletes all existing images in data/edited folder first before deleting the folder itself.
+     */
+    private void removeFiles() {
+        File toBeDeletedFolder = new File("data/edited");
+        File[] toBeDeletedImages = toBeDeletedFolder.listFiles();
+        if (toBeDeletedImages != null) {
+            for (File f : toBeDeletedImages) {
+                f.delete();
+            }
+        }
+        toBeDeletedFolder.delete();
     }
 
     @Subscribe
