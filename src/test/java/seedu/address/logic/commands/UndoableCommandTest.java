@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import seedu.address.email.EmailManager;
@@ -29,8 +29,8 @@ public class UndoableCommandTest {
 
     private Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setup() throws Exception {
         String imageFilePath = "data/images/";
         File imageFolder = new File(imageFilePath);
 
