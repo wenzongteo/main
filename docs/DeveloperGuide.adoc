@@ -567,6 +567,13 @@ Display Picture can be restored if the user executes a redo command after changi
 [NOTE]
 The `/data/edited` folder will be deleted from the system when the user exits Augustine.
 
+Refer to the _image_ below to see the activity diagram of how the Display Picture of a contact could be modified
+and what are the actions done within Augustine.
+
+[caption="Image: "]
+.Activity Diagram of Image Storage Mechanism
+image::ActivityDiagramImageStorage.png[width="640"]
+
 ==== Design Considerations
 
 
