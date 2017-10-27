@@ -27,8 +27,6 @@ establish new connections in school. However, it will be difficult to keep track
 contacts of your newly made friends. Let Augustine help you to keep track of your friend's
 contact number, address, time table and social media account.
 
-Augustine allows you to add your friend's details...
-
 == About [Edited in v1.3]
 
 This user guide provides a overview on the features available in Augustine
@@ -482,7 +480,7 @@ The command below selects the 2nd person in address book. The result is shown in
 [fuchsia]`select 2`
 
 [caption="Figure 4.7.2.1 "]
-.Before command is run
+.After contact is selected
 image::select2After.png[width="940px"]
 
 --
@@ -548,7 +546,7 @@ The following command will overwrite the timetable of contact listed at 1 to the
 
 [horizontal]
 *Command:* ::
-`nusmods 1 t/url u/https://nusmods.com/timetable/2017-2018/sem1?cs2101[SEC]=5&CS2103T[TUT]=T5&MA1101R[LAB]=B01&MA1101R[LEC]=SL2&MA1101R[TUT]=T13&CS2010[LEC]=1&CS2010[LAB]=6&CS2010[TUT]=5&GET1020[LEC]=L1`+
+`nusmods 1 t/url u/https://nusmods.com/timetable/2017-2018/sem1?cs2101[SEC]=5&CS2103T[TUT]=T5&MA1101R[LAB]=B01&MA1101R[LEC]=SL2&MA1101R[TUT]=T13&CS2010[LEC]=1&CS2010[LAB]=6&CS2010[TUT]=5&GET1020[LEC]=L1` +
 
 --
 
@@ -919,3 +917,10 @@ There is no need to save manually.
 |===
 
 == Glossary
+
+
+NUSmods
+
+....
+A website which can create and display NUS timetables.
+....
