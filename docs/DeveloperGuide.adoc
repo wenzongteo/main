@@ -10,10 +10,12 @@
 ifdef::env-github[]
 :tip-caption: :bulb:
 :note-caption: :information_source:
+endif::[]
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 :repoURL: https://github.com/CS2103AUG2017-W14-B2/main
-endif::[]
-By: `W14-B2`      Since: `Oct 2017`      Licence: `MIT`
+
+By: `W14-B2`      Since: `Oct 2017`      Licence: `MIT` +
+Credits: `Team SE-EDU` https://github.com/se-edu/addressbook-level4
 
 <<<
 toc::[]
