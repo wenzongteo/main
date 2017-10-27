@@ -57,7 +57,6 @@ import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
-import seedu.address.testutil.Assert;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
 
@@ -68,12 +67,9 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         File imageFolder = new File(imageFilePath);
 
         if (!imageFolder.exists()) {
-            if (imageFolder.mkdirs()) {
-            } else {
-                throw new AssertionError("File should be created");
-            }
+            imageFolder.mkdirs();
         } else {
-            //throw new AssertionError("Impossible, imageFolder should already exist");
+
         }
 
         try {
@@ -91,15 +87,10 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new AssertionError("Impossible");
         }
     }
-
     @Test
     public void edit() throws Exception {
         Model model = getModel();

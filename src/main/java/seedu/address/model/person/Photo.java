@@ -58,10 +58,8 @@ public class Photo {
         try {
             hashing = MessageDigest.getInstance("MD5");
             this.hash = new String(hashing.digest(Files.readAllBytes(image.toPath())));
-        } catch (NoSuchAlgorithmException nsa) {
+        } catch (NoSuchAlgorithmException | IOException nsa) {
             throw new AssertionError("Algorithm should exist");
-        } catch (IOException ioe) {
-            throw new AssertionError("Image should exist");
         }
     }
 
