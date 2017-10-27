@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import seedu.address.email.EmailManager;
@@ -33,8 +34,8 @@ public class UndoCommandTest {
     private final DeleteCommand deleteCommandOne = new DeleteCommand(INDEX_FIRST_PERSON);
     private final DeleteCommand deleteCommandTwo = new DeleteCommand(INDEX_FIRST_PERSON);
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         String imageFilePath = "data/images/";
         File imageFolder = new File(imageFilePath);
 
@@ -62,7 +63,10 @@ public class UndoCommandTest {
         } catch (IOException e) {
             throw new AssertionError("Impossible");
         }
+    }
 
+    @Before
+    public void init() {
         deleteCommandOne.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
         deleteCommandTwo.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
     }

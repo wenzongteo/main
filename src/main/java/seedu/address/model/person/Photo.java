@@ -1,6 +1,10 @@
 package seedu.address.model.person;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
@@ -20,7 +24,7 @@ public class Photo {
     public static final String PHOTO_VALIDATION_REGEX = "([^\\s]+[\\s\\w]*(\\.(?i)(jpg|jpeg|))$)";
 
     public final String value;
-
+    private String hash;
     /**
      * Validates given photo.
      * @throws IllegalValueException if given photo string is invalid or file is not found.
@@ -36,12 +40,29 @@ public class Photo {
                 throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
             } else {
                 this.value = photo;
+                MessageDigest hashing;
+                try {
+                    hashing = MessageDigest.getInstance("MD5");
+                    this.hash = new String(hashing.digest(Files.readAllBytes(image.toPath())));
+                } catch (NoSuchAlgorithmException | IOException e) {
+                    throw new AssertionError("Impossible to reach here");
+                }
             }
         }
     }
 
     public Photo(String photo, int num) {
         this.value = photo;
+        MessageDigest hashing;
+        try {
+            File image = new File(photo);
+            hashing = MessageDigest.getInstance("MD5");
+            this.hash = new String(hashing.digest(Files.readAllBytes(image.toPath())));
+        } catch (NoSuchAlgorithmException nsa) {
+            throw new AssertionError("Algorithm should exist");
+        } catch (IOException ioe) {
+            throw new AssertionError("Image should already exist");
+        }
     }
 
     /**
@@ -49,6 +70,13 @@ public class Photo {
      */
     public static boolean isValidPhoto(String test) {
         return test.matches(PHOTO_VALIDATION_REGEX);
+    }
+
+    /**
+     * @return the hash of the current image.
+     */
+    public String getHash() {
+        return hash;
     }
 
     @Override

@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import seedu.address.email.EmailManager;
@@ -29,8 +29,8 @@ public class UndoableCommandTest {
 
     private Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
 
-    @Before
-    public void setup() throws Exception {
+    @BeforeClass
+    public static void setup() throws Exception {
         String imageFilePath = "data/images/";
         File imageFolder = new File(imageFilePath);
 
@@ -59,20 +59,15 @@ public class UndoableCommandTest {
             throw new AssertionError("Impossible");
         }
     }
-
     @Test
     public void executeUndo() throws Exception {
         dummyCommand.execute();
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
         deleteFirstPerson(expectedModel);
         assertEquals(expectedModel, model);
 
         showFirstPersonOnly(model);
 
         // undo() should cause the model's filtered list to show all persons
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
         dummyCommand.undo();
         expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
         assertEquals(expectedModel, model);
@@ -81,12 +76,9 @@ public class UndoableCommandTest {
     @Test
     public void redo() throws Exception {
         showFirstPersonOnly(model);
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
+
         // redo() should cause the model's filtered list to show all persons
         dummyCommand.redo();
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
         deleteFirstPerson(expectedModel);
         assertEquals(expectedModel, model);
     }
