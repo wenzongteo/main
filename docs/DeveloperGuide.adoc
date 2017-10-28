@@ -33,7 +33,8 @@ Augustine communicates with the User primarily via Command Line Interface (CLI).
 Interface (GUI) component to display to the User visual feedback of queries that are performed.
 
 Developed in Java, Augustine can cater to all students in NUS as it can be executed in both Windows and Unix environment.
-== Purpose [Edited in v1.4]
+
+== About [Edited in v1.4]
 
 This Developer Guide seeks to assist both experienced and new Developers that are either interested in contributing to
 the development of Augustine or wishes to know more about the underlying mechanisms of Augustine.
@@ -42,6 +43,7 @@ The Developer Guide will first talk about the prerequisites required for Augusti
 various components within Augustine, in-depth explanation of how certain mechanisms in Augustine work, the thought
 process behind the implementation of theses mechanisms and the documentation of what the development team underwent
 before creating Augustine to what it is today.
+
 == Getting Started [Edited in v1.4]
 Before proceeding further with the Developer Guide, ensure that you have achieved the following requirements:
 
@@ -148,7 +150,7 @@ When you are ready to start coding,
 
 This section covers how Augustine is design while also providing an overview of the components in Augustine.
 
-=== Architecture Design [Edited in v1.3]
+=== Architecture Design [Edited in v1.3 and v1.4]
 
 image::Architecture.png[width="600"]
 _Figure 4.1 : Architecture Diagram_
@@ -218,14 +220,14 @@ Note how the event is propagated through the `EventsCenter` to the `Storage` and
 
 This section covers an overview of some of the components of the architecture.
 
-==== UI component
+==== UI component [Edited v1.4]
 
 image::UiClassDiagram.png[width="800"]
 _Figure 4.3.1 : Structure of the UI Component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of smaller parts; `CommandBox`, `ResultDisplay`, `LeftDisplayPanel`, `PersonListPanel`, `MessageDisplay`, `StatusBarFooter`, `BrowserPanel`. All of these parts, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -238,10 +240,10 @@ The `UI` component,
 ==== Logic component
 
 image::LogicClassDiagram.png[width="800"]
-_Figure 4.3.1a : Structure of the Logic Component_
+_Figure 4.3.2a : Structure of the Logic Component_
 
 image::LogicCommandClassDiagram.png[width="800"]
-_Figure 4.3.1b : Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
+_Figure 4.3.2b : Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
 
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
@@ -254,16 +256,16 @@ link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
 image::DeletePersonSdForLogic.png[width="800"]
-_Figure 4.3.1c : Interactions Inside the Logic Component for the `delete 1` Command_
+_Figure 4.3.2c : Interactions Inside the Logic Component for the `delete 1` Command_
 
 ==== Model component
 
 image::ModelClassDiagram.png[width="800"]
-_Figure 4.4.1 : Structure of the Model Component_
+_Figure 4.4.3 : Structure of the Model Component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
 
-The `Model`,
+The `Model` component,
 
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Address Book data.
@@ -271,18 +273,19 @@ The `Model`,
 * exposes an unmodifiable `ObservableList<ReadOnlyPerson>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
-==== Email component [Edited in v1.3]
+==== Email component [Edited in v1.3 and v1.4]
 
 image::EmailComponent.png[width="800"]
 _Figure 4.3.4 : Structure of the Model Component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/email/Email.java[`Email.java`]
 
-The `Email`,
+The `Email` component,
 
 * uses a `EmailLogin` class to store user's email login Details.
 * uses a `EmailSend` class to process and send email via JavaAPI through SMTP protocol.
 * uses a `EmailCompose` class to store the data of email message drafts.
+* Exposes an unmodifiable `MessageDraft` object which can be retrieved from `EmailCompose` class, such that the `MessageDisplay` UI can be bound to this list which automatically updates when the data in the `messageDraft` object change.
 
 // tag::StorageComponent[]
 ==== Storage component
@@ -584,7 +587,6 @@ image::ActivityDiagramImageStorage.png[width="640"]
 
 ==== Design Considerations
 
-
 ====
 
 **Alternative 1 current choice:** Create a local copy of the Display Picture in the data/images folder +
@@ -704,24 +706,119 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 * **Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
 ====
 
-=== Find with filter and sort Mechanism [Edited in v1.3]
+=== Find with filter and sort Mechanism [Edited in v1.3 and v1.4]
 
 The find command is facilitated by the Model and Logic Component. It provides the user with the option to
 filter and sort the contact list.
 
-Contact list are currently wrapped in FilteredList<ReadOnlyPerson> Object. To sort the contact list, the FilterList<ReadOnlyPerson> object
-is converted to SortedList<ReadOnlyPerson> Object. When the find command with sort option is run, the programme will identify the sort type
-and change the sort comparator as shown in the codes below.
+==== Implementation Details
 
-image::sortedCode.png[]
+The contact list in Augustine UI are bound to the `SortedList<ReadOnlyPerson>` object in `ModelManager`. Any changes
+to the `SortedList<ReadOnlyPerson>` object will result in changes to the results of the contact list displayed in
+Augustine UI. The contact list can be filtered or sorted based on the find command executed as explain below.
 
-The find results are bind to the javafx ListView. Thus any changes to the SortedList<ReadOnlyPerson>, it will automatically be updated on the UI.
+===== Filtering by arguments
+
+The find command allows users to filter the contact list by either *name* or *tag* or *both.* On application start,
+the contact list's data are stored in a `FilteredList<ReadOnlyPerson>` object in `ModelManager`. The contact list are
+filtered by making use of `java.util.stream.Stream` interface which can easily filter a list by defining the predicate*.
+
+[NOTE]
+A predicate is a lambda expression to define the filtering criteria.
+
+The code snippet below shows how the `Find` command defines the predicate for filtering the contact list.
+
+[source, java]
+----
+public boolean test(ReadOnlyPerson person) {
+
+    if (!namekeywords.isEmpty() && !tagkeywords.isEmpty()) {
+        return namekeywords.stream().anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword) && person.containsTags(tagkeywords));
+    } else if (!namekeywords.isEmpty()) {
+        return namekeywords.stream().anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword));
+    } else if (!tagkeywords.isEmpty()) {
+        return person.containsTags(tagkeywords);
+    } else {
+        //should not occur at all.
+        return false;
+    }
+}
+----
+
+===== Sorting by arguments
+
+The find command allows users to sort the filtered contact list results by either *address*, *email*, *name*, *tag*.
+The contact list stored in `FilterList<ReadOnlyPerson>` object are referenced to a `SortedList<ReadOnlyPerson` object
+to implement the sorting algorithm. The `SortedList<ReadOnlyPerson>` object is bound to the Augustine UI. Any changes to
+the `SortedList<ReadOnlyPerson>` object will be reflected on the contact list displayed in Augustine UI.
+
+The code snippet below shows how the `Find` command defines the sorting algorithm for sorting the contact list.
+
+[source,java]
+----
+/**
+ * @param: int
+ * 0 = sort by name ascending
+ * 1 = sort by tags ascending
+ * 2 = sort by email ascending
+ * 3 = sort by address ascending
+ * Returns a sorted unmodifable view of the list {@code ReadOnlyPerson} backed by the internal list of
+ * {@code addressBook}
+ */
+ public void sortFilteredPersons(int sortOrder) {
+
+     //sort by name by default
+     Comparator<ReadOnlyPerson> sort = new Comparator<ReadOnlyPerson>() {
+         @Override
+         public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+            return o1.getName().fullName.toUpperCase().compareTo(o2.getName().fullName.toUpperCase());
+         }
+     };
+
+     if (sortOrder == 1) {
+         //sort by tags
+         sort = new Comparator<ReadOnlyPerson>() {
+             @Override
+             public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                 TreeSet<Tag> o1SortedTags = new TreeSet<Tag>(o1.getTags());
+                 TreeSet<Tag> o2SortedTags = new TreeSet<Tag>(o2.getTags());
+
+                 if (o1SortedTags.size() == 0) {
+                    return 1;
+                 } else if (o2SortedTags.size() == 0) {
+                    return -1;
+                 } else {
+                    return o1SortedTags.first().tagName.compareTo(o2SortedTags.first().tagName);
+                 }
+             }
+         };
+     } else if (sortOrder == 2) {
+         //sort by emails
+         sort = new Comparator<ReadOnlyPerson>() {
+             @Override
+             public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                return o1.getEmailAddress().value.toUpperCase().compareTo(o2.getEmailAddress().value.toUpperCase());
+             }
+         };
+     } else if (sortOrder == 3) {
+         //sort by address
+         sort = new Comparator<ReadOnlyPerson>() {
+             @Override
+             public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                 return o1.getAddress().value.toUpperCase().compareTo(o2.getAddress().value.toUpperCase());
+             }
+         };
+     }
+
+     sortedPersonsList.setComparator(sort);
+ }
+----
 
 ==== Design Considerations
 [Big]#**Aspect:** Find users using custom fields (eg. name, tag, email, etc...)#
 
 ====
-**Alternative 1:** finding bases on user define keywords  +
+**Alternative 1:** finding base on user define keywords  +
 
 * **Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
 * **Cons:** The find command might display unnecessary results. +
@@ -749,7 +846,7 @@ The find results are bind to the javafx ListView. Thus any changes to the Sorted
 * **Cons:** The find command might become too complex.
 ====
 
-=== Email Mechanism [Edited in v1.3]
+=== Email Mechanism [Edited in v1.3 and v1.4]
 
 The email mechanism is facilitated by the `Email component`. It allows the sending of email via using an external
 library, JavaMail. The sections below will explain how the email mechanism works and some of the design considerations.
