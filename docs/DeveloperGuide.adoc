@@ -3,6 +3,7 @@
 :toc-title: Content Page
 :toc-placement: macro
 :sectnums:
+:pagenums:
 :imagesDir: images
 :stylesDir: stylesheets
 :experimental:
@@ -13,7 +14,8 @@ endif::[]
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 :repoURL: https://github.com/CS2103AUG2017-W14-B2/main
 
-By: `W14-B2`      Since: `Oct 2017`      Licence: `MIT`
+By: `W14-B2`      Since: `Oct 2017`      Licence: `MIT` +
+Credits: `Team SE-EDU` https://github.com/se-edu/addressbook-level4
 
 <<<
 toc::[]
@@ -21,19 +23,26 @@ toc::[]
 
 == Software Overview [Edited in v1.4]
 
-Augustine is a virtual Address Book that seeks to assist students that are currently pursuing their studies in National
-University of Singapore (NUS). As a virtual Address Book, Augustine can provide students with a comprehensive software
-to virtually store contact details of their friends in NUS.
+Augustine is a virtual Address Book that seeks to assist students who are currently pursuing their studies in National
+University of Singapore (NUS). As a virtual Address Book, Augustine seeks to provide students with a comprehensive
+software to store contact details of their friends inside their laptop. This enables students to take advantage of
+technology to assist them in managing aspects of their daily life and easily query contact details of their friends at
+any time without a need to refer to a physical Address Book when requiring a friend’s contact details.
 
-Command Line Interface (CLI) is the primary mode of input in Augustine while a General User Interface is used to give
-users visual feedback of queries that are performed.
+Augustine communicates with the User primarily via Command Line Interface (CLI). Augustine also contains a General User
+Interface (GUI) component to display to the User visual feedback of queries that are performed.
 
-Developed in Java, Augustine can cater to all students as it can be executed in both Windows and Unix environment.
+Developed in Java, Augustine can cater to all students in NUS as it can be executed in both Windows and Unix environment.
 
-== Purpose [Edited in v1.4]
+== About [Edited in v1.4]
 
-This Developer Guide seeks to assist both experienced and new Developers that are interested in contributing to Augustine
-or understand the underlying mechanisms of Augustine.
+This Developer Guide seeks to assist both experienced and new Developers that are either interested in contributing to
+the development of Augustine or wishes to know more about the underlying mechanisms of Augustine.
+
+The Developer Guide will first talk about the prerequisites required for Augustine to work before talking about the
+various components within Augustine, in-depth explanation of how certain mechanisms in Augustine work, the thought
+process behind the implementation of theses mechanisms and the documentation of what the development team underwent
+before creating Augustine to what it is today.
 
 == Getting Started [Edited in v1.4]
 Before proceeding further with the Developer Guide, ensure that you have achieved the following requirements:
@@ -141,7 +150,7 @@ When you are ready to start coding,
 
 This section covers how Augustine is design while also providing an overview of the components in Augustine.
 
-=== Architecture Design [Edited in v1.3]
+=== Architecture Design [Edited in v1.3 and v1.4]
 
 image::Architecture.png[width="600"]
 _Figure 4.1 : Architecture Diagram_
@@ -205,18 +214,20 @@ _Figure 4.2.1b : Component interactions for `delete 1` command (part 2)_
 [NOTE]
 Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
 
+---
+
 === Components
 
 This section covers an overview of some of the components of the architecture.
 
-==== UI component
+==== UI component [Edited v1.4]
 
 image::UiClassDiagram.png[width="800"]
 _Figure 4.3.1 : Structure of the UI Component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of parts e.g.`CommandBox`, `ResultDisplay`, `PersonListPanel`, `StatusBarFooter`, `BrowserPanel` etc. All these, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of smaller parts; `CommandBox`, `ResultDisplay`, `LeftDisplayPanel`, `PersonListPanel`, `MessageDisplay`, `StatusBarFooter`, `BrowserPanel`. All of these parts, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -229,10 +240,10 @@ The `UI` component,
 ==== Logic component
 
 image::LogicClassDiagram.png[width="800"]
-_Figure 4.3.1a : Structure of the Logic Component_
+_Figure 4.3.2a : Structure of the Logic Component_
 
 image::LogicCommandClassDiagram.png[width="800"]
-_Figure 4.3.1b : Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
+_Figure 4.3.2b : Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
 
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
@@ -245,16 +256,16 @@ link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
 
 image::DeletePersonSdForLogic.png[width="800"]
-_Figure 4.3.1c : Interactions Inside the Logic Component for the `delete 1` Command_
+_Figure 4.3.2c : Interactions Inside the Logic Component for the `delete 1` Command_
 
 ==== Model component
 
 image::ModelClassDiagram.png[width="800"]
-_Figure 4.4.1 : Structure of the Model Component_
+_Figure 4.4.3 : Structure of the Model Component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
 
-The `Model`,
+The `Model` component,
 
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Address Book data.
@@ -262,19 +273,21 @@ The `Model`,
 * exposes an unmodifiable `ObservableList<ReadOnlyPerson>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
-==== Email component [Edited in v1.3]
+==== Email component [Edited in v1.3 and v1.4]
 
 image::EmailComponent.png[width="800"]
 _Figure 4.3.4 : Structure of the Model Component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/email/Email.java[`Email.java`]
 
-The `Email`,
+The `Email` component,
 
 * uses a `EmailLogin` class to store user's email login Details.
 * uses a `EmailSend` class to process and send email via JavaAPI through SMTP protocol.
 * uses a `EmailCompose` class to store the data of email message drafts.
+* Exposes an unmodifiable `MessageDraft` object which can be retrieved from `EmailCompose` class, such that the `MessageDisplay` UI can be bound to this list which automatically updates when the data in the `messageDraft` object change.
 
+// tag::StorageComponent[]
 ==== Storage component
 
 image::StorageClassDiagram.png[width="800"]
@@ -286,6 +299,8 @@ The `Storage` component,
 
 * can save `UserPref` objects in json format and read it back.
 * can save the Address Book data in xml format and read it back.
+
+// end::StorageComponent[]
 
 ==== Common classes
 
@@ -300,11 +315,15 @@ This section describes some noteworthy details on how certain features are imple
 
 The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modifies the state of the address book (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
 
+==== Implementation Details
+
 `UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead. The following diagram shows the inheritance diagram for commands:
+
+===== UndoableCommands
 
 image::LogicCommandClassDiagram.png[width="800"]
 
-As you can see from the diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks need to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
+As you can see from the above diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks needs to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
 
 Commands that are not undoable are implemented this way:
 [source,java]
@@ -336,6 +355,8 @@ public class DeleteCommand extends UndoableCommand {
     }
 }
 ----
+
+==== UndoRedoStack
 
 Suppose that the user has just launched the application. The `UndoRedoStack` will be empty at the beginning.
 
@@ -382,70 +403,93 @@ image::UndoRedoActivityDiagram.png[width="200"]
 
 ==== Design Considerations
 
-**Aspect:** Implementation of `UndoableCommand` +
+
+---
+[Big]#**Aspect:** Implementation of `UndoableCommand`#
+====
 **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()` +
-**Pros:** We will not lose any undone/redone functionality as it is now part of the default behaviour. Classes that deal with `Command` do not have to know that `executeUndoableCommand()` exist. +
-**Cons:** Hard for new developers to understand the template pattern. +
+
+* **Pros:** We will not lose any undone/redone functionality as it is now part of the default behaviour. Classes that deal with `Command` do not have to know that `executeUndoableCommand()` exist. +
+* **Cons:** Hard for new developers to understand the template pattern. +
+====
+====
 **Alternative 2:** Just override `execute()` +
-**Pros:** Does not involve the template pattern, easier for new developers to understand. +
-**Cons:** Classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to undo/redo.
 
+* **Pros:** Does not involve the template pattern, easier for new developers to understand. +
+* **Cons:** Classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to undo/redo.
+
+====
 ---
 
-**Aspect:** How undo & redo executes +
-**Alternative 1 (current choice):** Saves the entire address book. +
-**Pros:** Easy to implement. +
-**Cons:** May have performance issues in terms of memory usage. +
-**Alternative 2:** Individual command knows how to undo/redo by itself. +
-**Pros:** Will use less memory (e.g. for `delete`, just save the person being deleted). +
-**Cons:** We must ensure that the implementation of each individual command are correct.
+[Big]#**Aspect:** Type of commands that can be undone/redone#
 
----
-
-**Aspect:** Type of commands that can be undone/redone +
+====
 **Alternative 1 (current choice):** Only include commands that modifies the address book (`add`, `clear`, `edit`). +
-**Pros:** We only revert changes that are hard to change back (the view can easily be re-modified as no data are lost). +
-**Cons:** User might think that undo also applies when the list is modified (undoing filtering for example), only to realize that it does not do that, after executing `undo`. +
+
+* **Pros:** We only revert changes that are hard to change back (the view can easily be re-modified as no data are lost). +
+* **Cons:** User might think that undo also applies when the list is modified (undoing filtering for example), only to realize that it does not do that, after executing `undo`. +
+====
+====
 **Alternative 2:** Include all commands. +
-**Pros:** Might be more intuitive for the user. +
-**Cons:** User have no way of skipping such commands if he or she just want to reset the state of the address book and not the view. +
-**Additional Info:** See our discussion  https://github.com/se-edu/addressbook-level4/issues/390#issuecomment-298936672[here].
+
+* **Pros:** Might be more intuitive for the user. +
+* **Cons:** User have no way of skipping such commands if he or she just want to reset the state of the address book and not the view. +
+* **Additional Info:** See our discussion at https://github.com/se-edu/addressbook-level4/issues/390#issuecomment-298936672
+
+====
 
 ---
 
-**Aspect:** Data structure to support the undo/redo commands +
+[Big]#**Aspect:** Data structure to support the undo/redo commands#
+
+====
 **Alternative 1 (current choice):** Use separate stack for undo and redo +
-**Pros:** Easy to understand for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project. +
-**Cons:** Logic is duplicated twice. For example, when a new command is executed, we must remember to update both `HistoryManager` and `UndoRedoStack`. +
+
+* **Pros:** Easy to understand for new Computer Science student undergraduates to understand, who are likely to be the new incoming developers of our project. +
+* **Cons:** Logic is duplicated twice. For example, when a new command is executed, we must remember to update both `HistoryManager` and `UndoRedoStack`. +
+====
+====
 **Alternative 2:** Use `HistoryManager` for undo/redo +
-**Pros:** We do not need to maintain a separate stack, and just reuse what is already in the codebase. +
-**Cons:** Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things. +
+
+* **Pros:** We do not need to maintain a separate stack, and just reuse what is already in the codebase. +
+* **Cons:** Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things. +
+
+====
 // end::undoredo[]
 
 === Logging
 
 We are using `java.util.logging` package for logging. The `LogsCenter` class is used to manage the logging levels and logging destinations.
 
-* The logging level can be controlled using the `logLevel` setting in the configuration file (See link:#configuration[Configuration])
-* The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level
-* Currently log messages are output through: `Console` and to a `.log` file.
+Currently log messages are output through: `Console` and to a `.log` file.
+The `Logger` for a class can be obtained using `LogsCenter.getLogger(Class)` which will log messages according to the specified logging level.
 
-*Logging Levels*
+The logging level can be controlled using the `logLevel` setting in the configuration file (See link:#configuration[Configuration]).
+
+There are four different logging levels you can specify depending on the amount of verbosity you want:
 
 * `SEVERE` : Critical problem detected which may possibly cause the termination of the application
 * `WARNING` : Can continue, but with caution
 * `INFO` : Information showing the noteworthy actions by the App
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
 
+
 === Configuration
 
 Certain properties of the application can be controlled (e.g App name, logging level) through the configuration file (default: `config.json`).
+The config file and path is specified in the `Config` class.
+
+The `Config` class will be initialized by the `MainApp` and the constructed `Config` object will be kept as a protected variable.
+When initialized, the `Config` class will read and save the values of parameters in the configuration file. The `MainApp` then passes the `Config` object into classes which require it (e.g. `MainWindow`)
 
 // tag::optionalfields[]
 === Optional Fields in Contact [Edited in v1.4]
-The ability to have unfilled fields within a Contact enables the User to add a contact into Augustine without having to know all the particulars of a Contact.
+
+Optional fields is the ability to have unfilled fields within a Contact enables the User to add a contact into Augustine without having to know all the particulars of a Contact.
 
 The User only needs to know both *the name and email address* of the Contact to add it into Augustine.
+
+==== Implementation Details
 
 The optional fields mechanism is facilitated by `ParserUtil`, which is used by `AddCommandParser` to parse argument entered by the User into data of the
 different fields of a Contact. When the relevant methods in `ParserUtil` is being called in `AddCommandParser`, it will check if the input field is empty.
@@ -454,7 +498,8 @@ If there is no value, it will give a value, '-' instead to the relevant field.
 The code snippet below shows you how a method in `ParserUtil` detects whether is there a value in the `ArgumentMultiMap` of the associated field and if there is no value, it will return a '-' to AddCommandParser
 instead.
 
-[NOTE] `Field` in the snippet refers to a field in the contact.
+[NOTE]
+`Field` in the snippet refers to a field in the contact.
 
 [source,java]
 ----
@@ -465,33 +510,42 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 
 ==== Design Considerations
 
-**Aspect:** Detecting of unfilled fields. +
-**Alternative 1 (current choice):** Check if value is present, if value is not present, return a - as value instead. +
-**Pros:** Simple for developers to understand the inner working of the enhancement. +
-**Cons:** All fields are still stored in AddressBook, leading to wastage of space as fields that are not used by the User for each contact are still being stored. +
-**Alternative 2:** Detect if the field exist in AddressBook.xml, if the field does not exist for a particular contact, display the field in the PersonCard as unfilled. +
-**Pros:** Save space and readability of +
-**Cons:** Harder for developers to understand the inner working of the enhancement.
+[Big]#**Aspect:** Detecting of unfilled fields.#
 
----
+====
+**Alternative 1 (current choice):** Check if value is present, if value is not present, return a - as value instead. +
+
+* **Pros:** Simple for developers to understand the inner working of the enhancement. +
+* **Cons:** All fields are still stored in AddressBook, leading to wastage of space as fields that are not used by the User for each contact are still being stored. +
+====
+====
+**Alternative 2:** Detect if the field exist in AddressBook.xml, if the field does not exist for a particular contact, display the field in the PersonCard as unfilled. +
+
+* **Pros:** Save space and readability of +
+* **Cons:** Harder for developers to understand the inner working of the enhancement.
+====
 // end::optionalfields[]
 
 // tag::imagestorage[]
-=== Image Storage [Edited in v1.4]
-Each contact in Augustine can be appointed with a specific Image so that the User can easily identify a Contact within Augustine.
+=== Image Storage Mechanism [Edited in v1.4]
+Each contact in Augustine can be given a Display Picture of the User's choosing so that the User can easily
+identify a contact within Augustine.
 
 [NOTE]
-A default image will be appointed to the Contact if the User: +
-1. not specify an image for the Contact during the Contacts creation
-2. if the Contact's image is removed by the User during edit.
+A default image will be given to the contact if the User: +
+1. did not specify an image for the contact during the adding of the contact into Augustine. +
+2. remove the contact's Display Picture during an edit.
 
-The image appointed to a Contact will be copied over to the `data/images` folder and renamed as "contact_email_address.jpg".
+==== Implementation Details
+The Display Picture given to a contact will be copied over to the `data/images` folder and renamed as "contact's_email_address.jpg".
+By renaming the Display Picture as "contact's_email_address.jpg", Augustine is able to associate each image in the `/data/images` folder to a contact
+in Augustine. However, such implementation means that a contact's Display Picture may have to be renamed if the contact's email is updated.
 
 When the User edits a Contact in Augustine, *only one* of the 4 possible cases will occur:
 
 [IMPORTANT]
-We are only concern if whether the Contact's Display Picture and email address is updated and thus modification of other attributes are not mentioned
-in the cases below.
+We are only concern if whether the Contact's Display Picture and email address is updated and thus possible modification of other attributes are
+not mentioned in the cases below.
 
 . User updates *BOTH* email *AND* display picture. +
 .. The new display picture is copied over to the `data/images` folder and renamed as *"contact_new_email_address.jpg"*.
@@ -518,43 +572,66 @@ The new display picture for the Contact will overwrite the existing display pict
 .. Image is not updated.
 .. Contact is updated in Augustine.
 
-If the Contact is deleted from Augustine by the User, the appointed Image for the Contact is also deleted from the computer.
+If the Contact is deleted from Augustine by the User, the contact's Display Picture is moved to `/data/edited` folder so that the contact's previous
+Display Picture can be restored if the user executes a redo command after changing the Display Picture.
 
----
+[NOTE]
+The `/data/edited` folder will be deleted from the system when the user exits Augustine.
+
+Refer to the _image_ below to see the activity diagram of how the Display Picture of a contact could be modified
+and what are the actions done within Augustine.
+
+[caption="Image: "]
+.Activity Diagram of Image Storage Mechanism
+image::ActivityDiagramImageStorage.png[width="640"]
 
 ==== Design Considerations
-**Aspect:** Storing of Contact's Display Picture. +
-**Alternative 1 (current choice):** Create a copy of the image that is in the path entered by user into a designated folder in Augustine.
-Store the file path of the copied image into the Contact so that future rendering of the Contact's Display Picture will be to the copied file. +
-**Pros:** Changing of file path or removal of the original image by the User will not affect the display of Contact's Display Picture in Augustine. +
-**Cons:** Addition storage space on the computer is required to create a possibly duplicated copy of an image in the computer.
-**Alternative 2:** Store the file path of the original image entered by the User into the Contact and future rendering of the Contact's Display Picture
-will be from the original Image +
-**Pros:** Additional storage space on the computer is not required.
-**Cons:** Changing of file path or removal of the image will lead to invalid display of a Contact's Display Picture. +
 
----
+====
+
+**Alternative 1 current choice:** Create a local copy of the Display Picture in the data/images folder +
+
+* **Pros:** Removal of the original image will not affect the display of a contact's Display Picture. +
+* **Cons:** Additional storage space on the computer is required to store the local copy of the Display Picture. +
+====
+
+====
+**Alternative 2 (current choice):** Store the file path of the chosen Display Picture in each Contact. +
+
+* **Pros:** Additional storage space on the computer is not required. +
+* **Cons:** User is unable to move or change the Display Picture as any modification to it will prevent Augustine from
+displaying the Display Picture.
+====
 // end::imagestorage[];
 
-=== Adding and displaying of schedule [Edited in v1.3]
-The schedule will utilize https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
+=== NUSmods integration [Edited in v1.3]
+Each contact in Augustine can be contain a `NUSmodules` which stores all their modules and lesson slots.
+Augustine utilizes https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
 
-The schedule is stored in the `NusModules` class and each `Person` will have an `Optional<NusModules>`.
-`NusModules` uses a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` to store.
+==== Implementation details
+Timetables are stored in `NusModules` class and each `Person` will have a `NusModules` if they have a timetable.
+`NusModules` uses a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` to store the modules.
 
+===== nusmod Command
 Modules are added, edited and deleted using the `nusmod` command.
 The command will be phase by `NusmodCommandParser` and executed in `NusmodCommand`.
-A flag will be used to tell if the user wants to add/edit or delete the module.
 As `NusmodCommand` changes the AddressBook.xml, it will inherit from `UndoableCommands`.
+A flag will be used to tell if the user wants to parse a url, add or delete a module.
 
 The command `nusmod 2 t/add m/CS1231 sec/2 tut/9` will modify the schedule of the second person in the list
 by adding a module with the `moduleCode` CS1231 with the `lessonType` "sec" and "tut", with `lessonSlot` 2 and 9 respectively.
 
-When adding new module, it will be check against a list of modules (from nusmods api) to see if it is a valid module code.
+To edit, the same command is use, new `lessonType` and `lessonSlot` will overwrite previous data. To delete, `nusmod 2 t/delete m/CS1231` can be used.
 
-To edit, the same command is use, new `lessonType` and `lessonSlot` will overwrite previous data.
+The diagram below shows how the command handles different flags.
 
-To delete, `nusmod 2 t/delete m/CS1231` can be used.
+[caption="Figure 3.6.1: "]
+.Activity Diagram of NusmodsCommands
+image::NusmodsCommandActivityDiagram.png[width="500"]
+
+===== Storing NUSmodules in the AddressBook.xml
+
+To store in the AddressBook.xml, `NusModules` needs to be able to converted into XML format and back. See link:#StorageComponent[Storage component] for diagram.
 
 In the xml, the data will be stored as such:
 [source,xml]
@@ -570,72 +647,206 @@ In the xml, the data will be stored as such:
 </nusModule>
 ----
 
+Process converting from AddressBook.xml to `NUSModule`: ::
+. In `XMLAdaptedPerson`, a ArrayList is created and each <nusModule> from AddressBook.xml file will an `XMLAdaptedNusModule` in it.
+. Each `XMLAdaptedNusModule` will read the moduleCode and get the corresponding list of lessons by calling `XMLAdaptedModuleLessons`
+. `XMLAdaptedModuleLessons` will read the lessonType and respective lesson slot and return those values.
+
+Converting from `NUSModule` back to AddressBook.xml is simply a similar process in reverse.
+Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for converting to and fro.
+
 ==== Design considerations
+---
 
-**Aspect:** Displaying of schedule +
+[Big]#**Aspect:** Displaying of schedule#
+
+====
 **Alternative 1:** Use javafx to draw the schedule +
-**Pros:** Flexibility with visuals and capabilities +
-**Cons:** Much more work will need to be done. +
+
+* **Pros:** Flexibility with visuals and capabilities +
+* **Cons:** Much more work will need to be done. +
+====
+====
 **Alternative 2 (current choice):** Use browser to go to NusMods and use their system to display the schedule +
-**Pros:** Need to do less work as much of the framework is already done +
-**Cons:** Less flexibility and reliance on external servers which might be subjected to changes. Also limited to NUS modules.
 
+* **Pros:** Need to do less work as much of the framework is already done +
+* **Cons:** Less flexibility and reliance on external servers which might be subjected to changes. Also limited to NUS modules.
+====
 ---
 
-**Aspect:** Storing of schedule +
+[Big]#**Aspect:** Storing of schedule#
+
+====
 **Alternative 1(current choice):** Store it as a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` +
-**Pros:** Easier to modify and extend with other features, more readable in xml +
-**Cons:** More complicated to store in xml  +
+
+* **Pros:** Easier to modify and extend with other features, more readable in xml +
+* **Cons:** More complicated to store in xml  +
+====
+====
 **Alternative 2:** Store it as one long string that is similar to the query to nusmods +
-**Pros:** As it is a single string, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
-**Cons:** Need to parse when want to modify part of the string, then reformat it back into a string, which can be inefficient
+
+* **Pros:** As it is a single string, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
+* **Cons:** Need to parse when want to modify part of the string, then reformat it back into a string, which can be inefficient
+====
 
 ---
 
-**Aspect:** Command to edit schedule +
-**Alternative 1(current choice):** Create new command to add/edit schedule  +
-**Pros:** Codebase can be kept neater as it will be more cohesive +
-**Cons:** User will need to know more commands +
-**Alternative 2:** Modify edit command to handle schedule too +
-**Pros:** User will not need to know more commands +
-**Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
+[Big]#**Aspect:** Command to edit timetables#
 
-=== Find with filter and sort Mechanism [Edited in v1.3]
+====
+**Alternative 1(current choice):** Create new command to add/edit timetables  +
+
+* **Pros:** Codebase can be kept neater as it will be more cohesive +
+* **Cons:** User will need to know more commands +
+====
+====
+**Alternative 2:** Modify currently existing Edit command to handle timetables too +
+
+* **Pros:** User will not need to know more commands +
+* **Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
+====
+
+=== Find with filter and sort Mechanism [Edited in v1.3 and v1.4]
 
 The find command is facilitated by the Model and Logic Component. It provides the user with the option to
 filter and sort the contact list.
 
-Contact list are currently wrapped in FilteredList<ReadOnlyPerson> Object. To sort the contact list, the FilterList<ReadOnlyPerson> object
-is converted to SortedList<ReadOnlyPerson> Object. When the find command with sort option is run, the programme will identify the sort type
-and change the sort comparator as shown in the codes below.
+==== Implementation Details
 
-image::sortedCode.png[]
+The contact list in Augustine UI are bound to the `SortedList<ReadOnlyPerson>` object in `ModelManager`. Any changes
+to the `SortedList<ReadOnlyPerson>` object will result in changes to the results of the contact list displayed in
+Augustine UI. The contact list can be filtered or sorted based on the find command executed as explain below.
 
-The find results are bind to the javafx ListView. Thus any changes to the SortedList<ReadOnlyPerson>, it will automatically be updated on the UI.
+===== Filtering by arguments
+
+The find command allows users to filter the contact list by either *name* or *tag* or *both.* On application start,
+the contact list's data are stored in a `FilteredList<ReadOnlyPerson>` object in `ModelManager`. The contact list are
+filtered by making use of `java.util.stream.Stream` interface which can easily filter a list by defining the predicate*.
+
+[NOTE]
+A predicate is a lambda expression to define the filtering criteria.
+
+The code snippet below shows how the `Find` command defines the predicate for filtering the contact list.
+
+[source, java]
+----
+public boolean test(ReadOnlyPerson person) {
+
+    if (!namekeywords.isEmpty() && !tagkeywords.isEmpty()) {
+        return namekeywords.stream().anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword) && person.containsTags(tagkeywords));
+    } else if (!namekeywords.isEmpty()) {
+        return namekeywords.stream().anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword));
+    } else if (!tagkeywords.isEmpty()) {
+        return person.containsTags(tagkeywords);
+    } else {
+        //should not occur at all.
+        return false;
+    }
+}
+----
+
+===== Sorting by arguments
+
+The find command allows users to sort the filtered contact list results by either *address*, *email*, *name*, *tag*.
+The contact list stored in `FilterList<ReadOnlyPerson>` object are referenced to a `SortedList<ReadOnlyPerson` object
+to implement the sorting algorithm. The `SortedList<ReadOnlyPerson>` object is bound to the Augustine UI. Any changes to
+the `SortedList<ReadOnlyPerson>` object will be reflected on the contact list displayed in Augustine UI.
+
+The code snippet below shows how the `Find` command defines the sorting algorithm for sorting the contact list.
+
+[source,java]
+----
+/**
+ * @param: int
+ * 0 = sort by name ascending
+ * 1 = sort by tags ascending
+ * 2 = sort by email ascending
+ * 3 = sort by address ascending
+ * Returns a sorted unmodifable view of the list {@code ReadOnlyPerson} backed by the internal list of
+ * {@code addressBook}
+ */
+ public void sortFilteredPersons(int sortOrder) {
+
+     //sort by name by default
+     Comparator<ReadOnlyPerson> sort = new Comparator<ReadOnlyPerson>() {
+         @Override
+         public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+            return o1.getName().fullName.toUpperCase().compareTo(o2.getName().fullName.toUpperCase());
+         }
+     };
+
+     if (sortOrder == 1) {
+         //sort by tags
+         sort = new Comparator<ReadOnlyPerson>() {
+             @Override
+             public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                 TreeSet<Tag> o1SortedTags = new TreeSet<Tag>(o1.getTags());
+                 TreeSet<Tag> o2SortedTags = new TreeSet<Tag>(o2.getTags());
+
+                 if (o1SortedTags.size() == 0) {
+                    return 1;
+                 } else if (o2SortedTags.size() == 0) {
+                    return -1;
+                 } else {
+                    return o1SortedTags.first().tagName.compareTo(o2SortedTags.first().tagName);
+                 }
+             }
+         };
+     } else if (sortOrder == 2) {
+         //sort by emails
+         sort = new Comparator<ReadOnlyPerson>() {
+             @Override
+             public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                return o1.getEmailAddress().value.toUpperCase().compareTo(o2.getEmailAddress().value.toUpperCase());
+             }
+         };
+     } else if (sortOrder == 3) {
+         //sort by address
+         sort = new Comparator<ReadOnlyPerson>() {
+             @Override
+             public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                 return o1.getAddress().value.toUpperCase().compareTo(o2.getAddress().value.toUpperCase());
+             }
+         };
+     }
+
+     sortedPersonsList.setComparator(sort);
+ }
+----
 
 ==== Design Considerations
+[Big]#**Aspect:** Find users using custom fields (eg. name, tag, email, etc...)#
 
-**Aspect:** Find users using custom fields (eg. name, tag, email, etc...) +
-**Alternative 1:** finding bases on user define keywords  +
-**Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
-**Cons:** The find command might display unnecessary results. +
+====
+**Alternative 1:** finding base on user define keywords  +
+
+* **Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
+* **Cons:** The find command might display unnecessary results. +
+====
+====
 **Alternative 2 (current choice):** Use prefix to define fields +
-**Pros:** There will be more flexibility and find results will be more user specific +
-**Cons:** The find command might contain too many fields and becomes confusing.
+
+* **Pros:** There will be more flexibility and find results will be more user specific +
+* **Cons:** The find command might contain too many fields and becomes confusing.
+====
 
 ---
+[Big]#**Aspect:** Sorting Find Result#
 
-**Aspect:** Sorting Find Result +
+====
 **Alternative 1:** Create a Sort command +
-**Pros:** Users can sort the list at any point of time, not only during the find command +
-**Cons:** Users will have to run an extra sort command instead of a one line find command with sort options +
+
+* **Pros:** Users can sort the list at any point of time, not only during the find command +
+* **Cons:** Users will have to run an extra sort command instead of a one line find command with sort options +
+====
+====
 **Alternative 2 (current choice):** Creating a Find Command with sort options +
-**Pros:** Users will only need to run a single line of code to find users in a sorted list. +
-**Cons:** The find command might become too complex.
 
----
+* **Pros:** Users will only need to run a single line of code to find users in a sorted list. +
+* **Cons:** The find command might become too complex.
+====
 
-=== Email Mechanism [Edited in v1.3]
+=== Email Mechanism [Edited in v1.3 and v1.4]
 
 The email mechanism is facilitated by the `Email component`. It allows the sending of email via using an external
 library, JavaMail. The sections below will explain how the email mechanism works and some of the design considerations.
@@ -848,7 +1059,7 @@ Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson librar
 == Future Enhancements
 
 Augustine is still under heavy development. This section lists various enhancement and features which are in consideration for future updates.
-Each improvement is phrased in a problem-solution format.
+Each improvement is expressed problem to be fixed followed by possible solutions, if any.
 
 === Schedule
 
@@ -856,280 +1067,29 @@ Each improvement is phrased in a problem-solution format.
 Problem::
 The schedule feature uses NUSmods heavily, as a result, it is only able to display NUS lessons and requires an active internet connection.
 
-Proposed Solution::
+Solution::
 We could render the timetable with JavaFX instead of relying the browser to fetch NUSmods website. This will require storing module information which contains time of lessons which can be obtain from the NUSmods API in .json format.
 ::
 This will eliminate the need to have a constant connection and open up the possibility of adding non-NUS related activities to the schedule.
 
 ====
 ====
-Problem:
-
+Problem::
+Users are able to enter non-existent module codes, lesson types and lesson slots as long as they fullfill the regular expression.
 
 Solution::
-When verifying if a module code is correct, check against a list of modules from either IVLE or NUSmods API instead of using a regular expression.
+Instead of using regular expression, we could check against module information obtained from NUSmods API.
 ====
 
 '''
 
-=== Email
-
-Being a recent addition to Augustine, the email feature is not fully fledged. The following are possible improvements which can improve the process of emailing in Augustine:
+=== UI
 
 ====
 Problem::
-Type stuff here
-
-1 or more solutions::
-more stuff here
+When there are no contacts to be listed, the area where the personListView is suppose to be will display a white box instead.
 ====
 
-
-
-[appendix]
-== Suggested Programming Tasks to Get Started
-
-Suggested path for new programmers:
-
-1. First, add small local-impact (i.e. the impact of the change does not go beyond the component) enhancements to one component at a time. Some suggestions are given in this section link:#improving-each-component[Improving a Component].
-
-2. Next, add a feature that touches multiple components to learn how to implement an end-to-end feature across all components. The section link:#creating-a-new-command-code-remark-code[Creating a new command: `remark`] explains how to go about adding such a feature.
-
-=== Improving each component
-
-Each individual exercise in this section is component-based (i.e. you would not need to modify the other components to get it to work).
-
-[discrete]
-==== `Logic` component
-
-[TIP]
-Do take a look at the link:#logic-component[Design: Logic Component] section before attempting to modify the `Logic` component.
-
-. Add a shorthand equivalent alias for each of the individual commands. For example, besides typing `clear`, the user can also type `c` to remove all persons in the list.
-+
-****
-* Hints
-** Just like we store each individual command word constant `COMMAND_WORD` inside `*Command.java` (e.g.  link:{repoURL}/src/main/java/seedu/address/logic/commands/FindCommand.java[`FindCommand#COMMAND_WORD`], link:{repoURL}/src/main/java/seedu/address/logic/commands/DeleteCommand.java[`DeleteCommand#COMMAND_WORD`]), you need a new constant for aliases as well (e.g. `FindCommand#COMMAND_ALIAS`).
-** link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] is responsible for analyzing command words.
-* Solution
-** Modify the switch statement in link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser#parseCommand(String)`] such that both the proper command word and alias can be used to execute the same intended command.
-** See this https://github.com/se-edu/addressbook-level4/pull/590/files[PR] for the full solution.
-****
-
-[discrete]
-==== `Model` component
-
-[TIP]
-Do take a look at the link:#model-component[Design: Model Component] section before attempting to modify the `Model` component.
-
-. Add a `removeTag(Tag)` method. The specified tag will be removed from everyone in the address book.
-+
-****
-* Hints
-** The link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model`] API needs to be updated.
-**  Find out which of the existing API methods in  link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] and link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] classes can be used to implement the tag removal logic. link:{repoURL}/src/main/java/seedu/address/model/AddressBook.java[`AddressBook`] allows you to update a person, and link:{repoURL}/src/main/java/seedu/address/model/person/Person.java[`Person`] allows you to update the tags.
-* Solution
-** Add the implementation of `deleteTag(Tag)` method in link:{repoURL}/src/main/java/seedu/address/model/ModelManager.java[`ModelManager`]. Loop through each person, and remove the `tag` from each person.
-** See this https://github.com/se-edu/addressbook-level4/pull/591/files[PR] for the full solution.
-****
-
-[discrete]
-==== `Ui` component
-
-[TIP]
-Do take a look at the link:#ui-component[Design: UI Component] section before attempting to modify the `UI` component.
-
-. Use different colors for different tags inside person cards. For example, `friends` tags can be all in grey, and `colleagues` tags can be all in red.
-+
-**Before**
-+
-image::getting-started-ui-tag-before.png[width="300"]
-+
-**After**
-+
-image::getting-started-ui-tag-after.png[width="300"]
-+
-****
-* Hints
-** The tag labels are created inside link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard#initTags(ReadOnlyPerson)`] (`new Label(tag.tagName)`). https://docs.oracle.com/javase/8/javafx/api/javafx/scene/control/Label.html[JavaFX's `Label` class] allows you to modify the style of each Label, such as changing its color.
-** Use the .css attribute `-fx-background-color` to add a color.
-* Solution
-** See this https://github.com/se-edu/addressbook-level4/pull/592/files[PR] for the full solution.
-****
-
-. Modify link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] such that link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay`] can show a different style on error (currently it shows the same regardless of errors).
-+
-**Before**
-+
-image::getting-started-ui-result-before.png[width="200"]
-+
-**After**
-+
-image::getting-started-ui-result-after.png[width="200"]
-+
-****
-* Hints
-** link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] is raised by link:{repoURL}/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox`] which also knows whether the result is a success or failure, and is caught by link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay`] which is where we want to change the style to.
-** Refer to link:{repoURL}/src/main/java/seedu/address/ui/CommandBox.java[`CommandBox`] for an example on how to display an error.
-* Solution
-** Modify link:{repoURL}/src/main/java/seedu/address/commons/events/ui/NewResultAvailableEvent.java[`NewResultAvailableEvent`] 's constructor so that users of the event can indicate whether an error has occurred.
-** Modify link:{repoURL}/src/main/java/seedu/address/ui/ResultDisplay.java[`ResultDisplay#handleNewResultAvailableEvent(event)`] to react to this event appropriately.
-** See this https://github.com/se-edu/addressbook-level4/pull/593/files[PR] for the full solution.
-****
-
-. Modify the link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to show the total number of people in the address book.
-+
-**Before**
-+
-image::getting-started-ui-status-before.png[width="500"]
-+
-**After**
-+
-image::getting-started-ui-status-after.png[width="500"]
-+
-****
-* Hints
-** link:{repoURL}/src/main/resources/view/StatusBarFooter.fxml[`StatusBarFooter.fxml`] will need a new `StatusBar`. Be sure to set the `GridPane.columnIndex` properly for each `StatusBar` to avoid misalignment!
-** link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] needs to initialize the status bar on application start, and to update it accordingly whenever the address book is updated.
-* Solution
-** Modify the constructor of link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter`] to take in the number of persons when the application just started.
-** Use link:{repoURL}/src/main/java/seedu/address/ui/StatusBarFooter.java[`StatusBarFooter#handleAddressBookChangedEvent(AddressBookChangedEvent)`] to update the number of persons whenever there are new changes to the addressbook.
-** See this https://github.com/se-edu/addressbook-level4/pull/596/files[PR] for the full solution.
-****
-
-[discrete]
-==== `Storage` component
-
-[TIP]
-Do take a look at the link:#storage-component[Design: Storage Component] section before attempting to modify the `Storage` component.
-
-. Add a new method `backupAddressBook(ReadOnlyAddressBook)`, so that the address book can be saved in a fixed temporary location.
-+
-****
-* Hint
-** Add the API method in link:{repoURL}/src/main/java/seedu/address/storage/AddressBookStorage.java[`AddressBookStorage`] interface.
-** Implement the logic in link:{repoURL}/src/main/java/seedu/address/storage/StorageManager.java[`StorageManager`] class.
-* Solution
-** See this https://github.com/se-edu/addressbook-level4/pull/594/files[PR] for the full solution.
-****
-
-=== Creating a new command: `remark`
-
-By creating this command, you will get a chance to learn how to implement a feature end-to-end, touching all major components of the app.
-
-==== Description
-Edits the remark for a person specified in the `INDEX`. +
-Format: `remark INDEX r/[REMARK]`
-
-Examples:
-
-* `remark 1 r/Likes to drink coffee.` +
-Edits the remark for the first person to `Likes to drink coffee.`
-* `remark 1 r/` +
-Removes the remark for the first person.
-
-==== Step-by-step Instructions
-
-===== [Step 1] Logic: Teach the app to accept 'remark' which does nothing
-Let's start by teaching the application how to parse a `remark` command. We will add the logic of `remark` later.
-
-**Main:**
-
-. Add a `RemarkCommand` that extends link:{repoURL}/src/main/java/seedu/address/logic/commands/UndoableCommand.java[`UndoableCommand`]. Upon execution, it should just throw an `Exception`.
-. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to accept a `RemarkCommand`.
-
-**Tests:**
-
-. Add `RemarkCommandTest` that tests that `executeUndoableCommand()` throws an Exception.
-. Add new test method to link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`], which tests that typing "remark" returns an instance of `RemarkCommand`.
-
-===== [Step 2] Logic: Teach the app to accept 'remark' arguments
-Let's teach the application to parse arguments that our `remark` command will accept. E.g. `1 r/Likes to drink coffee.`
-
-**Main:**
-
-. Modify `RemarkCommand` to take in an `Index` and `String` and print those two parameters as the error message.
-. Add `RemarkCommandParser` that knows how to parse two arguments, one index and one with prefix 'r/'.
-. Modify link:{repoURL}/src/main/java/seedu/address/logic/parser/AddressBookParser.java[`AddressBookParser`] to use the newly implemented `RemarkCommandParser`.
-
-**Tests:**
-
-. Modify `RemarkCommandTest` to test the `RemarkCommand#equals()` method.
-. Add `RemarkCommandParserTest` that tests different boundary values
-for `RemarkCommandParser`.
-. Modify link:{repoURL}/src/test/java/seedu/address/logic/parser/AddressBookParserTest.java[`AddressBookParserTest`] to test that the correct command is generated according to the user input.
-
-===== [Step 3] Ui: Add a placeholder for remark in `PersonCard`
-Let's add a placeholder on all our link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] s to display a remark for each person later.
-
-**Main:**
-
-. Add a `Label` with any random text inside link:{repoURL}/src/main/resources/view/PersonListCard.fxml[`PersonListCard.fxml`].
-. Add FXML annotation in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] to tie the variable to the actual label.
-
-**Tests:**
-
-. Modify link:{repoURL}/src/test/java/guitests/guihandles/PersonCardHandle.java[`PersonCardHandle`] so that future tests can read the contents of the remark label.
-
-===== [Step 4] Model: Add `Remark` class
-We have to properly encapsulate the remark in our link:{repoURL}/src/main/java/seedu/address/model/person/ReadOnlyPerson.java[`ReadOnlyPerson`] class. Instead of just using a `String`, let's follow the conventional class structure that the codebase already uses by adding a `Remark` class.
-
-**Main:**
-
-. Add `Remark` to model component (you can copy from link:{repoURL}/src/main/java/seedu/address/model/person/Address.java[`Address`], remove the regex and change the names accordingly).
-. Modify `RemarkCommand` to now take in a `Remark` instead of a `String`.
-
-**Tests:**
-
-. Add test for `Remark`, to test the `Remark#equals()` method.
-
-===== [Step 5] Model: Modify `ReadOnlyPerson` to support a `Remark` field
-Now we have the `Remark` class, we need to actually use it inside link:{repoURL}/src/main/java/seedu/address/model/person/ReadOnlyPerson.java[`ReadOnlyPerson`].
-
-**Main:**
-
-. Add three methods `setRemark(Remark)`, `getRemark()` and `remarkProperty()`. Be sure to implement these newly created methods in link:{repoURL}/src/main/java/seedu/address/model/person/ReadOnlyPerson.java[`Person`], which implements the link:{repoURL}/src/main/java/seedu/address/model/person/ReadOnlyPerson.java[`ReadOnlyPerson`] interface.
-. You may assume that the user will not be able to use the `add` and `edit` commands to modify the remarks field (i.e. the person will be created without a remark).
-. Modify link:{repoURL}/src/main/java/seedu/address/model/util/SampleDataUtil.java/[`SampleDataUtil`] to add remarks for the sample data (delete your `addressBook.xml` so that the application will load the sample data when you launch it.)
-
-===== [Step 6] Storage: Add `Remark` field to `XmlAdaptedPerson` class
-We now have `Remark` s for `Person` s, but they will be gone when we exit the application. Let's modify link:{repoURL}/src/main/java/seedu/address/storage/XmlAdaptedPerson.java[`XmlAdaptedPerson`] to include a `Remark` field so that it will be saved.
-
-**Main:**
-
-. Add a new Xml field for `Remark`.
-. Be sure to modify the logic of the constructor and `toModelType()`, which handles the conversion to/from  link:{repoURL}/src/main/java/seedu/address/model/person/ReadOnlyPerson.java[`ReadOnlyPerson`].
-
-**Tests:**
-
-. Fix `validAddressBook.xml` such that the XML tests will not fail due to a missing `<remark>` element.
-
-===== [Step 7] Ui: Connect `Remark` field to `PersonCard`
-Our remark label in link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`] is still a placeholder. Let's bring it to life by binding it with the actual `remark` field.
-
-**Main:**
-
-. Modify link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard#bindListeners()`] to add the binding for `remark`.
-
-**Tests:**
-
-. Modify link:{repoURL}/src/test/java/seedu/address/ui/testutil/GuiTestAssert.java[`GuiTestAssert#assertCardDisplaysPerson(...)`] so that it will compare the remark label.
-. In link:{repoURL}/src/test/java/seedu/address/ui/PersonCardTest.java[`PersonCardTest`], call `personWithTags.setRemark(ALICE.getRemark())` to test that changes in the link:{repoURL}/src/main/java/seedu/address/model/person/ReadOnlyPerson.java[`Person`] 's remark correctly updates the corresponding link:{repoURL}/src/main/java/seedu/address/ui/PersonCard.java[`PersonCard`].
-
-===== [Step 8] Logic: Implement `RemarkCommand#execute()` logic
-We now have everything set up... but we still can't modify the remarks. Let's finish it up by adding in actual logic for our `remark` command.
-
-**Main:**
-
-. Replace the logic in `RemarkCommand#execute()` (that currently just throws an `Exception`), with the actual logic to modify the remarks of a person.
-
-**Tests:**
-
-. Update `RemarkCommandTest` to test that the `execute()` logic works.
-
-==== Full Solution
-
-See this https://github.com/se-edu/addressbook-level4/pull/599[PR] for the step-by-step solution.
 
 [appendix]
 == User Stories
@@ -1395,6 +1355,12 @@ Private contact detail
 
 ....
 A contact detail that is not meant to be shared with others
+....
+
+NUSmods
+
+....
+A website which can create and display NUS timetables.
 ....
 
 [appendix]
