@@ -587,7 +587,6 @@ image::ActivityDiagramImageStorage.png[width="640"]
 
 ==== Design Considerations
 
-
 ====
 
 **Alternative 1 current choice:** Create a local copy of the Display Picture in the data/images folder +
@@ -707,7 +706,7 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 * **Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
 ====
 
-=== Find with filter and sort Mechanism [Edited in v1.3]
+=== Find with filter and sort Mechanism [Edited in v1.3 and v1.4]
 
 The find command is facilitated by the Model and Logic Component. It provides the user with the option to
 filter and sort the contact list.
@@ -731,20 +730,19 @@ The code snippet below shows how the `Find` command defines the predicate for fi
 
 [source, java]
 ----
-@Override
-    public boolean test(ReadOnlyPerson person) {
+public boolean test(ReadOnlyPerson person) {
 
-        if (!namekeywords.isEmpty() && !tagkeywords.isEmpty()) {
-            return namekeywords.stream().anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword) && person.containsTags(tagkeywords));
-        } else if (!namekeywords.isEmpty()) {
-            return namekeywords.stream().anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword));
-        } else if (!tagkeywords.isEmpty()) {
-            return person.containsTags(tagkeywords);
-        } else {
-            //should not occur at all.
-            return false;
-        }
+    if (!namekeywords.isEmpty() && !tagkeywords.isEmpty()) {
+        return namekeywords.stream().anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword) && person.containsTags(tagkeywords));
+    } else if (!namekeywords.isEmpty()) {
+        return namekeywords.stream().anyMatch(keyword -> StringUtil.containsNonFullWordIgnoreCase(person.getName().fullName, keyword));
+    } else if (!tagkeywords.isEmpty()) {
+        return person.containsTags(tagkeywords);
+    } else {
+        //should not occur at all.
+        return false;
     }
+}
 ----
 
 ===== Sorting by arguments
@@ -848,7 +846,7 @@ The code snippet below shows how the `Find` command defines the sorting algorith
 * **Cons:** The find command might become too complex.
 ====
 
-=== Email Mechanism [Edited in v1.3]
+=== Email Mechanism [Edited in v1.3 and v1.4]
 
 The email mechanism is facilitated by the `Email component`. It allows the sending of email via using an external
 library, JavaMail. The sections below will explain how the email mechanism works and some of the design considerations.
