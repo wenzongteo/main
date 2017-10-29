@@ -1,22 +1,16 @@
 package seedu.address.logic.parser;
 
+import static java.util.Objects.requireNonNull;
+import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
+
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.NusmodsCommand;
 import seedu.address.logic.commands.NusmodsCommand.NusmodsDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.tag.Tag;
-
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Optional;
-import java.util.Set;
-
-import static java.util.Objects.requireNonNull;
-import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT;
 
 /**
- * Parses input arguments and creates a new EditCommand object
+ * Parses input arguments and creates a new NusmodsCommand object
  */
 public class NusmodsCommandParser implements Parser<NusmodsCommand> {
     public static final Prefix PREFIX_TYPE = new Prefix("t/");
@@ -34,8 +28,8 @@ public class NusmodsCommandParser implements Parser<NusmodsCommand> {
     public static final Prefix PREFIX_TUTORIAL3 = new Prefix("tut3/");
 
     /**
-     * Parses the given {@code String} of arguments in the context of the EditCommand
-     * and returns an EditCommand object for execution.
+     * Parses the given {@code String} of arguments in the context of the NusmodsCommand
+     * and returns an NusmodsCommand object for execution.
      * @throws ParseException if the user input does not conform the expected format
      */
     public NusmodsCommand parse(String args) throws ParseException {
@@ -55,23 +49,19 @@ public class NusmodsCommandParser implements Parser<NusmodsCommand> {
         }
 
         NusmodsDescriptor nusmodsDescriptor = new NusmodsDescriptor();
-        try {
-            argMultimap.getValue(PREFIX_TYPE).ifPresent(nusmodsDescriptor::setType);
-            argMultimap.getValue(PREFIX_MODULE_CODE).ifPresent(nusmodsDescriptor::setModuleCode);
-            argMultimap.getValue(PREFIX_DESIGN_LECTURE).ifPresent(nusmodsDescriptor::setDesignLecture);
-            argMultimap.getValue(PREFIX_LABORATORY).ifPresent(nusmodsDescriptor::setLaboratory);
-            argMultimap.getValue(PREFIX_LECTURE).ifPresent(nusmodsDescriptor::setLecture);
-            argMultimap.getValue(PREFIX_PACKAGED_LECTURE).ifPresent(nusmodsDescriptor::setPackagedLecture);
-            argMultimap.getValue(PREFIX_PACKAGED_TUTORIAL).ifPresent(nusmodsDescriptor::setPackagedTutorial);
-            argMultimap.getValue(PREFIX_RECITATION).ifPresent(nusmodsDescriptor::setRecitation);
-            argMultimap.getValue(PREFIX_SECTIONAL_TEACHING).ifPresent(nusmodsDescriptor::setSectionalTeaching);
-            argMultimap.getValue(PREFIX_SEMINAR).ifPresent(nusmodsDescriptor::setSeminar);
-            argMultimap.getValue(PREFIX_TUTORIAL).ifPresent(nusmodsDescriptor::setTutorial);
-            argMultimap.getValue(PREFIX_TUTORIAL2).ifPresent(nusmodsDescriptor::setTutorial2);
-            argMultimap.getValue(PREFIX_TUTORIAL3).ifPresent(nusmodsDescriptor::setTutorial3);
-        } catch (IllegalValueException ive) {
-            throw new ParseException(ive.getMessage(), ive);
-        }
+        argMultimap.getValue(PREFIX_TYPE).ifPresent(nusmodsDescriptor::setType);
+        argMultimap.getValue(PREFIX_MODULE_CODE).ifPresent(nusmodsDescriptor::setModuleCode);
+        argMultimap.getValue(PREFIX_DESIGN_LECTURE).ifPresent(nusmodsDescriptor::setDesignLecture);
+        argMultimap.getValue(PREFIX_LABORATORY).ifPresent(nusmodsDescriptor::setLaboratory);
+        argMultimap.getValue(PREFIX_LECTURE).ifPresent(nusmodsDescriptor::setLecture);
+        argMultimap.getValue(PREFIX_PACKAGED_LECTURE).ifPresent(nusmodsDescriptor::setPackagedLecture);
+        argMultimap.getValue(PREFIX_PACKAGED_TUTORIAL).ifPresent(nusmodsDescriptor::setPackagedTutorial);
+        argMultimap.getValue(PREFIX_RECITATION).ifPresent(nusmodsDescriptor::setRecitation);
+        argMultimap.getValue(PREFIX_SECTIONAL_TEACHING).ifPresent(nusmodsDescriptor::setSectionalTeaching);
+        argMultimap.getValue(PREFIX_SEMINAR).ifPresent(nusmodsDescriptor::setSeminar);
+        argMultimap.getValue(PREFIX_TUTORIAL).ifPresent(nusmodsDescriptor::setTutorial);
+        argMultimap.getValue(PREFIX_TUTORIAL2).ifPresent(nusmodsDescriptor::setTutorial2);
+        argMultimap.getValue(PREFIX_TUTORIAL3).ifPresent(nusmodsDescriptor::setTutorial3);
 
         if (!nusmodsDescriptor.isValidType()) {
             throw new ParseException(NusmodsCommand.MESSAGE_INVALID_TYPE);
