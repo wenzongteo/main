@@ -1,6 +1,5 @@
 package seedu.address.storage;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -98,7 +97,7 @@ public class XmlAdaptedPerson {
 
     //@@author ritchielq
     /**
-     * Processes ArrayList<XmlAdaptedNusModule> nusModules and returns NusModule object
+     * Processes ArrayList<XmlAdaptedNusModule/> nusModules and returns NusModule object
      *
      * @return personNusModules
      * @throws IllegalValueException
@@ -116,7 +115,7 @@ public class XmlAdaptedPerson {
     }
 
     /**
-     * Processes person's NusModule and return it in ArrayList<XmlAdaptedNusModule> format
+     * Processes person's NusModule and return it in ArrayList<XmlAdaptedNusModule/> format
      *
      * @param source
      * @return xmlAdaptedNusModulesArrayList
