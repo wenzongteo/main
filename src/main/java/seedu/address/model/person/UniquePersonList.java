@@ -2,10 +2,13 @@ package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
@@ -57,10 +60,9 @@ public class UniquePersonList implements Iterable<Person> {
 
         Photo originalPhoto = toAdd.getPhoto();
         String intendedPhotoPath = "data/images/" + toAdd.getEmailAddress().toString() + ".jpg";
-        person.setPhoto(new Photo(intendedPhotoPath, 0));
-
         Files.copy(Paths.get(originalPhoto.toString()), Paths.get(intendedPhotoPath),
                 StandardCopyOption.REPLACE_EXISTING);
+        person.setPhoto(new Photo(intendedPhotoPath, 0));
 
         internalList.add(new Person(person));
         sortInternalList();
@@ -94,19 +96,29 @@ public class UniquePersonList implements Iterable<Person> {
 
         if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
                 && !target.getPhoto().equals(editedPerson.getPhoto())) { //Only Photo changed.
+
             person.setPhoto(new Photo(intendedPhotoPath, 0));
+            Files.copy(Paths.get(intendedPhotoPath), Paths.get("data/edited/"
+                    + editedPerson.getEmailAddress().toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
                     StandardCopyOption.REPLACE_EXISTING);
 
         } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
                 && target.getPhoto().equals(editedPerson.getPhoto())) { //only email changed.
             person.setPhoto(new Photo(intendedPhotoPath, 0));
+
+            Files.copy(Paths.get(originalPhoto.toString()), Paths.get("data/edited/"
+                    + target.getEmailAddress().toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
+
             Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
                     StandardCopyOption.REPLACE_EXISTING);
             deleteFile = true;
 
         } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
                 && !target.getPhoto().equals(editedPerson.getPhoto())) { //Both changed.
+
+            Files.copy(Paths.get(originalPhoto.toString()), Paths.get("data/edited/"
+                    + target.getEmailAddress().toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
             person.setPhoto(new Photo(intendedPhotoPath, 0));
             Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
                     StandardCopyOption.REPLACE_EXISTING);
@@ -137,6 +149,8 @@ public class UniquePersonList implements Iterable<Person> {
         if (!personFoundAndDeleted) {
             throw new PersonNotFoundException();
         }
+        Files.copy(Paths.get(toRemove.getPhoto().toString()), Paths.get("data/edited/"
+                + toRemove.getEmailAddress().toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
         Files.delete(Paths.get(toRemove.getPhoto().toString()));
         return personFoundAndDeleted;
     }
@@ -149,6 +163,32 @@ public class UniquePersonList implements Iterable<Person> {
     public void setPersons(List<? extends ReadOnlyPerson> persons) throws DuplicatePersonException, IOException {
         final UniquePersonList replacement = new UniquePersonList();
         for (final ReadOnlyPerson person : persons) {
+            File image = new File(person.getPhoto().toString());
+            if (!image.exists()) {
+                File toBeCopied = new File("data/edited/" + person.getEmailAddress().toString() + ".jpg");
+                if (!toBeCopied.exists()) {
+                    throw new AssertionError("image should exist!");
+                } else {
+                    Files.copy(toBeCopied.toPath(), image.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                }
+            } else {
+                //Compare Hash.
+                MessageDigest hashing;
+                try {
+                    hashing = MessageDigest.getInstance("MD5");
+                } catch (NoSuchAlgorithmException nsa) {
+                    throw new AssertionError("Impossible, algorithm should exist");
+                }
+
+                File existingImage = new File(person.getPhoto().toString());
+                String hashValue = new String(hashing.digest(Files.readAllBytes(existingImage.toPath())));
+;
+                if (!hashValue.equals(person.getPhoto().getHash())) { //Not equal, go take the old image.
+                    File toBeCopied = new File("data/edited/" + person.getEmailAddress().toString() + ".jpg");
+                    Files.copy(toBeCopied.toPath(), existingImage.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                } else { //Equal, do nothing.
+                }
+            }
             replacement.add(new Person(person));
         }
         setPersons(replacement);

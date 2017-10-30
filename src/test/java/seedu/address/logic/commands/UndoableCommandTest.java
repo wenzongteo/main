@@ -12,7 +12,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 
-import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import seedu.address.email.EmailManager;
@@ -29,13 +29,22 @@ public class UndoableCommandTest {
 
     private Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
 
-    @Before
-    public void setup() throws Exception {
+    @BeforeClass
+    public static void setup() throws Exception {
         String imageFilePath = "data/images/";
+        String editedFilePath = "data/edited";
+
         File imageFolder = new File(imageFilePath);
+        File editedFolder = new File(editedFilePath);
 
         if (!imageFolder.exists()) {
             imageFolder.mkdirs();
+        } else {
+
+        }
+
+        if (!editedFolder.exists()) {
+            editedFolder.mkdirs();
         } else {
 
         }
@@ -55,11 +64,18 @@ public class UndoableCommandTest {
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new AssertionError("Impossible");
         }
     }
-
     @Test
     public void executeUndo() throws Exception {
         dummyCommand.execute();
@@ -71,8 +87,6 @@ public class UndoableCommandTest {
         showFirstPersonOnly(model);
 
         // undo() should cause the model's filtered list to show all persons
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
         dummyCommand.undo();
         expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
         assertEquals(expectedModel, model);
@@ -81,8 +95,7 @@ public class UndoableCommandTest {
     @Test
     public void redo() throws Exception {
         showFirstPersonOnly(model);
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
+
         // redo() should cause the model's filtered list to show all persons
         dummyCommand.redo();
         Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),

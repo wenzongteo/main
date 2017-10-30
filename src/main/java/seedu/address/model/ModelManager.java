@@ -60,7 +60,6 @@ public class ModelManager extends ComponentManager implements Model {
         requireAllNonNull(addressBook, userPrefs);
 
         logger.fine("Initializing with address book: " + addressBook + " and user prefs " + userPrefs);
-
         this.addressBook = new AddressBook(addressBook);
         this.email = email;
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());

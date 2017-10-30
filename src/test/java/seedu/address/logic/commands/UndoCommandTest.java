@@ -16,6 +16,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import org.junit.Before;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import seedu.address.email.EmailManager;
@@ -33,13 +34,22 @@ public class UndoCommandTest {
     private final DeleteCommand deleteCommandOne = new DeleteCommand(INDEX_FIRST_PERSON);
     private final DeleteCommand deleteCommandTwo = new DeleteCommand(INDEX_FIRST_PERSON);
 
-    @Before
-    public void setUp() {
+    @BeforeClass
+    public static void setUp() {
         String imageFilePath = "data/images/";
+        String editedFilePath = "data/edited";
+
         File imageFolder = new File(imageFilePath);
+        File editedFolder = new File(editedFilePath);
 
         if (!imageFolder.exists()) {
             imageFolder.mkdirs();
+        } else {
+
+        }
+
+        if (!editedFolder.exists()) {
+            editedFolder.mkdirs();
         } else {
 
         }
@@ -59,10 +69,21 @@ public class UndoCommandTest {
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new AssertionError("Impossible");
         }
+    }
 
+    @Before
+    public void init() {
         deleteCommandOne.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
         deleteCommandTwo.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
     }
