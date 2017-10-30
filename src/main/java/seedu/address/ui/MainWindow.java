@@ -108,6 +108,7 @@ public class MainWindow extends UiPart<Region> {
         return primaryStage;
     }
 
+    //@@author ritchielq
     private void setAccelerators() {
         setAccelerator(helpMenuItem, KeyCombination.valueOf("F1"));
         setAccelerator(shortcutMenuUndo, KeyCombination.valueOf("Ctrl+z"));
@@ -117,6 +118,7 @@ public class MainWindow extends UiPart<Region> {
         setAccelerator(shortcutMenuToggleTab, KeyCombination.valueOf("Ctrl+t"));
     }
 
+    //@@author
     /**
      * Sets the accelerator of a MenuItem.
      * @param keyCombination the KeyCombination value of the accelerator
@@ -209,6 +211,7 @@ public class MainWindow extends UiPart<Region> {
                 (int) primaryStage.getX(), (int) primaryStage.getY());
     }
 
+    //@@author ritchielq
     /**
      * Calls PersonListPanel to scrolls up personListView
      */
@@ -225,6 +228,7 @@ public class MainWindow extends UiPart<Region> {
         leftDisplayPanel.scrollUp();
     }
 
+    //@@author awarenessxz
     /**
      * Calls UI to toggle Tabs
      */
@@ -233,6 +237,7 @@ public class MainWindow extends UiPart<Region> {
         leftDisplayPanel.toggleTabs();
     }
 
+    //@@author ritchielq
     /**
      * Calls Logic to execute "redo"
      */
@@ -265,6 +270,7 @@ public class MainWindow extends UiPart<Region> {
         }
     }
 
+    //@@author
     /**
      * Opens the help window.
      */

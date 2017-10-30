@@ -9,6 +9,7 @@ import seedu.address.logic.commands.NusmodsCommand;
 import seedu.address.logic.commands.NusmodsCommand.NusmodsDescriptor;
 import seedu.address.logic.parser.exceptions.ParseException;
 
+//@@author ritchielq
 /**
  * Parses input arguments and creates a new NusmodsCommand object
  */
