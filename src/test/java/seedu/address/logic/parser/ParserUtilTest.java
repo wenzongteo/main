@@ -203,6 +203,7 @@ public class ParserUtilTest {
         assertEquals(expectedTagSet, actualTagSet);
     }
 
+    //@@author awarenessxz
     @Test
     public void parseEmailDraft_null_throwsNullPointerException() throws Exception {
         thrown.expect(NullPointerException.class);
@@ -211,6 +212,7 @@ public class ParserUtilTest {
         ParserUtil.parseLoginDetails(null);
     }
 
+    //@@author awarenessxz
     @Test
     public void parseEmailDraft_emptyString_returnsEmptyString() throws Exception {
         assertTrue(ParserUtil.parseEmailMessage(Optional.of(EMPTY_STRING)).trim().isEmpty());
@@ -218,6 +220,7 @@ public class ParserUtilTest {
         assertTrue(ParserUtil.parseLoginDetails(Optional.of(EMPTY_STRING)).trim().isEmpty());
     }
 
+    //@@author awarenessxz
     @Test
     public void parseEmailDraft_validArgs_returnsMessage() throws Exception {
         //Expected Email Message
@@ -238,6 +241,7 @@ public class ParserUtilTest {
         assertEquals(expectedLoginDetails, loginDetails);
     }
 
+    //@@author awarenessxz
     @Test
     public void parseSortOrder() {
         int result;

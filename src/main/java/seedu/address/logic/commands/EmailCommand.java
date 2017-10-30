@@ -15,6 +15,7 @@ import seedu.address.email.message.MessageDraft;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.ReadOnlyPerson;
 
+//@@author awarenessxz
 /**
  * Compose an email draft or send the draft out using gmail account
  **/

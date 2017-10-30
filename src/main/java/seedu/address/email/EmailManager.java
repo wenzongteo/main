@@ -12,6 +12,7 @@ import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
 import seedu.address.email.message.ReadOnlyMessageDraft;
 
+//@@author awarenessxz
 /**
  * Handles how email are sent out of the application.
  **/

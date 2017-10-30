@@ -202,7 +202,7 @@ public class UniquePersonList implements Iterable<Person> {
         return FXCollections.unmodifiableObservableList(mappedList);
     }
 
-
+    //@@author awarenessxz
     /**
      * Sort the list in lexicographically name order.
      */
