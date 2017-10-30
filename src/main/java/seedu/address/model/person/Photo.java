@@ -9,6 +9,7 @@ import java.security.NoSuchAlgorithmException;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 
+//@@author wenzongteo
 /**
  * Represents a Person's display picture in the address book
  * Guarantees: immutable; is valid as declared in (@Link #isValidImage(String))

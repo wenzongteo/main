@@ -58,11 +58,10 @@ public class UniquePersonList implements Iterable<Person> {
 
         Person person = new Person(toAdd);
 
-        Photo originalPhoto = toAdd.getPhoto();
         String intendedPhotoPath = "data/images/" + toAdd.getEmailAddress().toString() + ".jpg";
-        Files.copy(Paths.get(originalPhoto.toString()), Paths.get(intendedPhotoPath),
-                StandardCopyOption.REPLACE_EXISTING);
-        person.setPhoto(new Photo(intendedPhotoPath, 0));
+
+        createCurrentPhoto(toAdd.getPhoto().toString(), toAdd.getEmailAddress().toString());
+        person = updatePhoto(person, intendedPhotoPath);
 
         internalList.add(new Person(person));
         sortInternalList();
@@ -88,40 +87,32 @@ public class UniquePersonList implements Iterable<Person> {
         }
 
         Person person = new Person(editedPerson);
-
-        Photo originalPhoto = target.getPhoto();
-        Photo newPhoto = editedPerson.getPhoto();
         String intendedPhotoPath = "data/images/" + editedPerson.getEmailAddress().toString() + ".jpg";
         boolean deleteFile = false;
 
         if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
                 && !target.getPhoto().equals(editedPerson.getPhoto())) { //Only Photo changed.
 
-            person.setPhoto(new Photo(intendedPhotoPath, 0));
-            Files.copy(Paths.get(intendedPhotoPath), Paths.get("data/edited/"
-                    + editedPerson.getEmailAddress().toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
-                    StandardCopyOption.REPLACE_EXISTING);
+            createBackUpPhoto(intendedPhotoPath, editedPerson.getEmailAddress().toString());
+            createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
+
+            person = updatePhoto(person, intendedPhotoPath);
 
         } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
                 && target.getPhoto().equals(editedPerson.getPhoto())) { //only email changed.
-            person.setPhoto(new Photo(intendedPhotoPath, 0));
+            createBackUpPhoto(target.getPhoto().toString(), target.getEmailAddress().toString());
+            createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
 
-            Files.copy(Paths.get(originalPhoto.toString()), Paths.get("data/edited/"
-                    + target.getEmailAddress().toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
-
-            Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
-                    StandardCopyOption.REPLACE_EXISTING);
+            person = updatePhoto(person, intendedPhotoPath);
             deleteFile = true;
 
         } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
                 && !target.getPhoto().equals(editedPerson.getPhoto())) { //Both changed.
 
-            Files.copy(Paths.get(originalPhoto.toString()), Paths.get("data/edited/"
-                    + target.getEmailAddress().toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
-            person.setPhoto(new Photo(intendedPhotoPath, 0));
-            Files.copy(Paths.get(newPhoto.toString()), Paths.get(intendedPhotoPath),
-                    StandardCopyOption.REPLACE_EXISTING);
+            createBackUpPhoto(target.getPhoto().toString(), target.getEmailAddress().toString());
+            createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
+
+            person = updatePhoto(person, intendedPhotoPath);
             deleteFile = true;
 
         } else if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
@@ -132,8 +123,9 @@ public class UniquePersonList implements Iterable<Person> {
 
         internalList.set(index, new Person(person));
         sortInternalList();
+
         if (deleteFile == true) {
-            Files.delete(Paths.get(originalPhoto.toString()));
+            deleteExistingPhoto(target.getPhoto().toString());
         }
     }
 
@@ -149,9 +141,9 @@ public class UniquePersonList implements Iterable<Person> {
         if (!personFoundAndDeleted) {
             throw new PersonNotFoundException();
         }
-        Files.copy(Paths.get(toRemove.getPhoto().toString()), Paths.get("data/edited/"
-                + toRemove.getEmailAddress().toString() + ".jpg"), StandardCopyOption.REPLACE_EXISTING);
-        Files.delete(Paths.get(toRemove.getPhoto().toString()));
+
+        createBackUpPhoto(toRemove.getPhoto().toString(), toRemove.getEmailAddress().toString());
+        deleteExistingPhoto(toRemove.getPhoto().toString());
         return personFoundAndDeleted;
     }
 
@@ -169,7 +161,7 @@ public class UniquePersonList implements Iterable<Person> {
                 if (!toBeCopied.exists()) {
                     throw new AssertionError("image should exist!");
                 } else {
-                    Files.copy(toBeCopied.toPath(), image.toPath(), StandardCopyOption.REPLACE_EXISTING);
+                    undoPhoto(toBeCopied.toString(), person.getPhoto().toString());
                 }
             } else {
                 //Compare Hash.
@@ -200,6 +192,52 @@ public class UniquePersonList implements Iterable<Person> {
     public ObservableList<ReadOnlyPerson> asObservableList() {
         sortInternalList();
         return FXCollections.unmodifiableObservableList(mappedList);
+    }
+
+    //@@author wenzongteo
+    /** Copies the backup copy of the person's display picture in {@code srcPath} to {@code destPath}.
+     *
+     * @throws IOException if the srcPath cannot be found in the system.
+     */
+    public void undoPhoto(String srcPath, String destPath) throws IOException {
+        Files.copy(Paths.get(srcPath), Paths.get(destPath), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    /**
+     * Creates a backup copy of the person's display picture in {@code srcPath} to {@code destPath}.
+     *
+     * @throws IOException if the srcPath cannot be found in the system.
+     */
+    public void createBackUpPhoto(String srcPath, String emailAddr) throws IOException {
+        String destPath = "data/edited/" + emailAddr + ".jpg";
+        Files.copy(Paths.get(srcPath), Paths.get(destPath), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    /**
+     * Creates a local copy of the person's display picture in {@code srcPath} to {@code destPath}.
+     *
+     * @throws IOException if the srcPath cannot be found in the system.
+     */
+    public void createCurrentPhoto(String srcPath, String emailAddr) throws IOException {
+        String destPath = "data/images/" + emailAddr + ".jpg";
+        Files.copy(Paths.get(srcPath), Paths.get(destPath), StandardCopyOption.REPLACE_EXISTING);
+    }
+
+    /**
+     * Deletes the existing copy of the person's display picture in {@code srcPath}.
+     *
+     * @throws IOException if the srcPath cannot be found in the system.
+     */
+    public void deleteExistingPhoto(String srcPath) throws IOException {
+        Files.delete(Paths.get(srcPath));
+    }
+
+    /**
+     * Update the photo of the person in (@code person) to reflect the new address of local file.
+     */
+    public Person updatePhoto(Person person, String srcPath) {
+        person.setPhoto(new Photo(srcPath, 0));
+        return person;
     }
 
     //@@author awarenessxz
