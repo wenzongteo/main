@@ -43,6 +43,8 @@ public class PersonListPanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
+
+
     /**
      * Scrolls one page down
      */

@@ -12,7 +12,7 @@ import seedu.address.commons.core.LogsCenter;
 import seedu.address.model.person.ReadOnlyPerson;
 
 /**
- * Tab Panel containing personListPanel and EmailDraftPanel
+ * Tab Panel containing personListPanel, EmailDraftPanel, and BirthdateTab
  */
 public class LeftDisplayPanel extends UiPart<Region> {
     private static final String FXML = "LeftDisplayPanel.fxml";
@@ -20,9 +20,10 @@ public class LeftDisplayPanel extends UiPart<Region> {
 
     //Independent UI parts residing in this UI container
     private PersonListPanel personListPanel;
+    private PersonListPanel birthdayListPanel;
     private MessageDisplay messageDisplay;
-
     private boolean toggle;
+    private boolean toggle2;
 
     @FXML
     private TabPane leftDisplayPanel;
@@ -34,33 +35,51 @@ public class LeftDisplayPanel extends UiPart<Region> {
     private Tab emailDraftTab;
 
     @FXML
+    private Tab birthdateTab;
+
+    @FXML
     private StackPane personListPanelPlaceholder;
 
     @FXML
     private StackPane messageDraftPanelPlaceholder;
 
-    public LeftDisplayPanel(ObservableList<ReadOnlyPerson> personList) {
+    @FXML
+    private StackPane birthdatePanelPlaceholder;
+
+    public LeftDisplayPanel(ObservableList<ReadOnlyPerson> personList,
+                            ObservableList<ReadOnlyPerson> personListBirthdate) {
         super(FXML);
 
         personListPanel = new PersonListPanel(personList);
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
+        birthdayListPanel = new PersonListPanel(personListBirthdate);
+        birthdatePanelPlaceholder.getChildren().add(birthdayListPanel.getRoot());
+
         messageDisplay = new MessageDisplay();
         messageDraftPanelPlaceholder.getChildren().add(messageDisplay.getRoot());
 
         toggle = true;
+        toggle2 = true;
     }
 
     /**
      * Toggle Tabs
      */
     public void toggleTabs() {
-        if  (toggle) {
+        if  (toggle && toggle2) {
             leftDisplayPanel.getSelectionModel().select(emailDraftTab);
-        } else {
-            leftDisplayPanel.getSelectionModel().select(personListTab);
+            toggle2 = !toggle2;
         }
-        toggle = !toggle;
+        else if (toggle && !toggle2) {
+            leftDisplayPanel.getSelectionModel().select(birthdateTab);
+            toggle2 = !toggle2;
+            toggle = false;
+        }
+        else {
+            leftDisplayPanel.getSelectionModel().select(personListTab);
+            toggle = true;
+        }
     }
 
     /**
