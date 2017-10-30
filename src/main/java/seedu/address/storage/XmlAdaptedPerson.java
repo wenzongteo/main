@@ -124,7 +124,7 @@ public class XmlAdaptedPerson {
         ArrayList<XmlAdaptedNusModule> xmlAdaptedNusModulesArrayList = new ArrayList<>();
         if (source.getNusModules() != null) {
             for (Map.Entry<String, HashMap<String, String>> module : source.getNusModules().value.entrySet()) {
-                nusModules.add(new XmlAdaptedNusModule(module));
+                xmlAdaptedNusModulesArrayList.add(new XmlAdaptedNusModule(module));
             }
         }
         return xmlAdaptedNusModulesArrayList;
