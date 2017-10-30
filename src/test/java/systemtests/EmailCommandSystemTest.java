@@ -80,6 +80,7 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         }
     }
 
+    //@@author awarenessxz
     @Test
     public void sendEmail() throws Exception {
         String command = "";
@@ -176,6 +177,7 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailureEmptyList(command, EmailCommand.MESSAGE_RECIPIENT_INVALID);
     }
 
+    //@@author awarenessxz
     private void setupModel(Model expectedModel) throws Exception {
         /**
          *  Set up Model such the list is empty
@@ -187,6 +189,7 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         executeCommand(findCommand);
     }
 
+    //@@author awarenessxz
     /**
      * Executes the {@code EmailCommand} that sends or draft an email {@code message} and verifies the command box
      * displays the email status results of executing the {@code EmailCommand} and the model related components equal
@@ -220,6 +223,7 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
     }
 
+    //@@author awarenessxz
     /**
      * Performs the same verification as {@code assertCommandSuccess(String, Message, String [], boolean)} except
      * that the result display box displays {@code expectedResultMessage} and the model related components equal to
@@ -234,6 +238,7 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         assertCommandBoxShowsDefaultStyle();
     }
 
+    //@@author awarenessxz
     /**
      * Executes {@code command} and verifies that the command box displays {@code command}, the result display
      * box displays {@code expectedResultMessage} and the model related components equal to the current model.
@@ -253,6 +258,7 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         assertStatusBarUnchanged();
     }
 
+    //@@author awarenessxz
     /**
      * Performs the same verification as {@code assertCommandSuccess(String, String)} except
      * that the displayed person list is empty.

@@ -7,6 +7,7 @@ import javax.mail.internet.InternetAddress;
 
 import org.junit.Test;
 
+//@@author awarenessxz
 public class MessageDraftTest {
 
     private MessageDraft message;

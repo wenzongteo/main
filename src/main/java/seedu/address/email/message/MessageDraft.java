@@ -2,6 +2,7 @@ package seedu.address.email.message;
 
 import javax.mail.internet.InternetAddress;
 
+//@@author awarenessxz
 /**
  * Email Message Object for storing Email Drafts Contents
  **/

@@ -8,6 +8,7 @@ import org.junit.Test;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.message.MessageDraft;
 
+//@@author awarenessxz
 public class EmailManagerTest {
 
     private Email email = new EmailManager();

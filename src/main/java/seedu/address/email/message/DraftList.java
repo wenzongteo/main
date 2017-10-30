@@ -1,5 +1,6 @@
 package seedu.address.email.message;
 
+//@@author awarenessxz
 /**
  * Contains a list of Email Message Drafts
  */

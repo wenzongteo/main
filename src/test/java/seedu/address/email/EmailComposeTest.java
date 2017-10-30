@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import seedu.address.email.message.MessageDraft;
 
+//@@author awarenessxz
 public class EmailComposeTest {
     private EmailCompose emailCompose = new EmailCompose();
 

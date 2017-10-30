@@ -3,6 +3,7 @@ package seedu.address.commons.events.ui;
 import seedu.address.commons.events.BaseEvent;
 import seedu.address.email.message.ReadOnlyMessageDraft;
 
+//@@author awarenessxz
 /**
  * Indicates when the email draft changed
  */

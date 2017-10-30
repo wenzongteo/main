@@ -82,6 +82,7 @@ public class ModelManager extends ComponentManager implements Model {
         return addressBook;
     }
 
+    //@@author awarenessxz
     @Override
     public Email getEmailManager() {
         return email;
@@ -164,6 +165,7 @@ public class ModelManager extends ComponentManager implements Model {
         return FXCollections.unmodifiableObservableList(sortedPersonsList);
     }
 
+    //@@author awarenessxz
     /**
      * @param: int
      * 0 = sort by name ascending
@@ -227,11 +229,13 @@ public class ModelManager extends ComponentManager implements Model {
         filteredPersons.setPredicate(predicate);
     }
 
+    //@@author awarenessxz
     @Override
     public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         email.loginEmail(loginDetails);
     }
 
+    //@@author awarenessxz
     @Override
     public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
             EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
@@ -243,6 +247,7 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new EmailDraftChangedEvent(email.getEmailDraft()));
     }
 
+    //@@author awarenessxz
     @Override
     public String getEmailStatus() {
         return email.getEmailStatus();
