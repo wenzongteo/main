@@ -20,11 +20,14 @@
       <MenuItem mnemonicParsing="false" onAction="#handleExit" text="Exit" />
     </Menu>
     <Menu mnemonicParsing="false" text="Shortcuts">
+      <!-- @@author ritchielq -->
       <MenuItem fx:id="shortcutMenuUndo" mnemonicParsing="false" onAction="#handleUndo" text="Undo" />
       <MenuItem fx:id="shortcutMenuRedo" mnemonicParsing="false" onAction="#handleRedo" text="Redo" />
       <MenuItem fx:id="shortcutMenuScrollUp" mnemonicParsing="false" onAction="#handleScrollUp" text="Scroll Up" />
       <MenuItem fx:id="shortcutMenuScrollDown" mnemonicParsing="false" onAction="#handleScrollDown" text="Scroll Down" />
+      <!-- @@author awarenessxz -->
       <MenuItem fx:id="shortcutMenuToggleTab" mnemonicParsing="false" onAction="#handleToggleTabs" text="Toggle Tabs" />
+      <!-- @@author -->
     </Menu>
     <Menu mnemonicParsing="false" text="Help">
       <MenuItem fx:id="helpMenuItem" mnemonicParsing="false" onAction="#handleHelp" text="Help" />

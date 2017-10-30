@@ -161,6 +161,7 @@ public class Person implements ReadOnlyPerson {
         return photo.get();
     }
 
+    //@@author ritchielq
     @Override
     public ObjectProperty<NusModules> nusModulesProperty() {
         return nusModules;
@@ -182,6 +183,7 @@ public class Person implements ReadOnlyPerson {
         }
     }
 
+    //@@author
     /**
      * Returns an immutable tag set, which throws {@code UnsupportedOperationException}
      * if modification is attempted.

@@ -43,6 +43,7 @@ public class PersonListPanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
+    //@@author ritchielq
     /**
      * Scrolls one page down
      */
@@ -81,6 +82,7 @@ public class PersonListPanel extends UiPart<Region> {
         });
     }
 
+    //@@author
     /**
      * Initializes personListViewScrollBar and assigns personListView's scrollbar to it
      */

@@ -8,6 +8,7 @@ import javax.xml.bind.annotation.XmlValue;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 
+//@@author ritchielq
 /**
  * JAXB-friendly adapted version of the NusModule.value Map.Entry
  */

@@ -101,6 +101,7 @@ public class EditCommand extends UndoableCommand {
         return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
     }
 
+    //@@author ritchielq
     /**
      * Creates new list of tags by taking tags in personToEdit,
      * removing duplicated tags in editPersonDescriptor,
@@ -133,6 +134,7 @@ public class EditCommand extends UndoableCommand {
 
     }
 
+    //@@author
     /**
      * Creates and returns a {@code Person} with the details of {@code personToEdit}
      * edited with {@code editPersonDescriptor}.
@@ -148,9 +150,6 @@ public class EditCommand extends UndoableCommand {
         Photo updatedPhoto = editPersonDescriptor.getPhoto().orElse(personToEdit.getPhoto());
         Set<Tag> updatedTags = processTags(personToEdit, editPersonDescriptor);
         Birthdate updatedBirthdate = editPersonDescriptor.getBirthdate().orElse(personToEdit.getBirthdate());
-
-
-
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPhoto, updatedTags,
                 updatedBirthdate);
