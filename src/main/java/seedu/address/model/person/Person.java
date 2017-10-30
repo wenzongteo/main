@@ -169,7 +169,7 @@ public class Person implements ReadOnlyPerson {
     @Override
     public NusModules getNusModules() {
         if (nusModules == null) {
-            return null;
+            return new NusModules();
         }
         return nusModules.get();
     }

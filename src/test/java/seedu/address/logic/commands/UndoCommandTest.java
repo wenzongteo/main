@@ -37,10 +37,19 @@ public class UndoCommandTest {
     @BeforeClass
     public static void setUp() {
         String imageFilePath = "data/images/";
+        String editedFilePath = "data/edited";
+
         File imageFolder = new File(imageFilePath);
+        File editedFolder = new File(editedFilePath);
 
         if (!imageFolder.exists()) {
             imageFolder.mkdirs();
+        } else {
+
+        }
+
+        if (!editedFolder.exists()) {
+            editedFolder.mkdirs();
         } else {
 
         }
@@ -59,6 +68,14 @@ public class UndoCommandTest {
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException e) {
             throw new AssertionError("Impossible");
