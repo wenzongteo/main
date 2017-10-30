@@ -4,6 +4,7 @@ import seedu.address.email.message.DraftList;
 import seedu.address.email.message.MessageDraft;
 import seedu.address.email.message.ReadOnlyMessageDraft;
 
+//@@author awarenessxz
 /**
  * Holds a list of messageDraft
  * Handles how messageDraft are created and edited

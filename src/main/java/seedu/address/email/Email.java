@@ -8,6 +8,7 @@ import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
 import seedu.address.email.message.ReadOnlyMessageDraft;
 
+//@@author awarenessxz
 /**
  * The API of Email component
  */

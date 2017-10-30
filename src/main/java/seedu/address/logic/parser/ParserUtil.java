@@ -177,6 +177,7 @@ public class ParserUtil {
         return keywords.isPresent() ? Optional.of(keywords.get()) : Optional.empty();
     }
 
+    //@@author awarenessxz
     /**
      * Parses {@code String sort} into an {@code int} and returns it.
      * @throws IllegalValueException if the specified sort is invalid
@@ -208,6 +209,7 @@ public class ParserUtil {
         return sortOrder;
     }
 
+    //@@author awarenessxz
     /**
      * Parses a {@code Optional<String> message} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
@@ -217,6 +219,7 @@ public class ParserUtil {
         return message.isPresent() ? message.get() : "";
     }
 
+    //@@author awarenessxz
     /**
      * Parses a {@code Optional<String> subject} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
@@ -226,6 +229,7 @@ public class ParserUtil {
         return subject.isPresent() ? subject.get() : "";
     }
 
+    //@@author awarenessxz
     /**
      * Parses a {@code Optional<String> login} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
@@ -235,6 +239,7 @@ public class ParserUtil {
         return loginDetails.isPresent() ? loginDetails.get() : "";
     }
 
+    //@@author awarenessxz
     /**
      * Parses a {@code Optional<String> login} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.

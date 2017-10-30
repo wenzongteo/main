@@ -13,6 +13,7 @@ import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.EmailDraftChangedEvent;
 
+//@@author awarenessxz
 /**
  * A ui for the display of the current email draft
  */
