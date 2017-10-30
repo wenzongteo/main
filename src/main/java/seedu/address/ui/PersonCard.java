@@ -100,6 +100,7 @@ public class PersonCard extends UiPart<Region> {
         });
     }
 
+    //@@author ritchielq
     private static String getColorForTag(String tagName) {
         if (!tagColors.containsKey(tagName)) {
             tagColors.put(tagName, getRandomDarkColor());
@@ -126,6 +127,7 @@ public class PersonCard extends UiPart<Region> {
         return "rgb(" + red + "," + green + "," + blue + ")";
     }
 
+    //@@author
     @Override
     public boolean equals(Object other) {
         // short circuit if same object
