@@ -56,6 +56,8 @@ public class BrowserPanel extends UiPart<Region> {
         if (person.getNusModules() != null && !person.getNusModules().value.isEmpty()) {
             loadPage(NUSMODS_SEARCH_URL_PREFIX + academicYear + "/sem" + semester + "?"
                     + person.getNusModules().toString());
+        } else {
+            loadDefaultPage();
         }
     }
 

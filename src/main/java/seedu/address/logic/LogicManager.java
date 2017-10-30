@@ -41,7 +41,6 @@ public class LogicManager extends ComponentManager implements Logic {
             command.setData(model, history, undoRedoStack);
             CommandResult result = command.execute();
             undoRedoStack.push(command);
-            model.sortFilteredPersons(0); //resets sort Order to default
             return result;
         } finally {
             history.add(commandText);
