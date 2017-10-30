@@ -513,7 +513,7 @@ The config file can be found in the same folder as Augustine.
 ==== Format
 The format of the [fuchsia]`nusmods` command is as follow:
 ====
-[fuchsia]#nusmods INDEX t/[add/delete/url] [u/URL] [m/MODULE_CODE] [LESSON_TYPE/LESSON_SLOT]...#
+[fuchsia]#nusmods INDEX t/[add/delete/url] [m/MODULE_CODE/URL] [LESSON_TYPE/LESSON_SLOT]...#
 ====
 ****
 * Changes the modules of the person at the specified `INDEX`.
@@ -525,7 +525,7 @@ The format of the [fuchsia]`nusmods` command is as follow:
 *** `LESSON_SLOT` is to indicate which slot the contact is allocated to. For example, "tut/5" means that he belongs in tutorial group 5.
 *** You can use "t/add" to update lesson slots too.
 ** "t/delete" will require `m/MODULE_CODE` only.
-** "t/url" will require `u/URL`.
+** "t/url" will require `m/URL`.
 *** `URL` is a NUSmods URL which already have all the modules. This will make it easy to share timetables as you do not need to manually modules one by one.
 *** This will overwrite all existing modules the contact had.
 ****
@@ -547,7 +547,7 @@ The following command will overwrite the timetable of contact listed at 1 to the
 
 [horizontal]
 *Command:* ::
-`nusmods 1 t/url u/https://nusmods.com/timetable/2017-2018/sem1?cs2101[SEC]=5&CS2103T[TUT]=T5&MA1101R[LAB]=B01&MA1101R[LEC]=SL2&MA1101R[TUT]=T13&CS2010[LEC]=1&CS2010[LAB]=6&CS2010[TUT]=5&GET1020[LEC]=L1` +
+`nusmods 1 t/url m/https://nusmods.com/timetable/2017-2018/sem1?cs2101[SEC]=5&CS2103T[TUT]=T5&MA1101R[LAB]=B01&MA1101R[LEC]=SL2&MA1101R[TUT]=T13&CS2010[LEC]=1&CS2010[LAB]=6&CS2010[TUT]=5&GET1020[LEC]=L1` +
 
 --
 

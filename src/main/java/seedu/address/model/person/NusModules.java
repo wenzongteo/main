@@ -18,7 +18,7 @@ public class NusModules {
                     + "It may be followed by a uppercase alphabet";
 
     public static final String MESSAGE_LESSON_TYPE_CONSTRAINTS =
-            "Lesson type must be three letters";
+            "Lesson type must be 4 characters";
 
     /*
      * The first two or three characters must be uppercase alphabets, the following four characters must be digits.
@@ -27,9 +27,9 @@ public class NusModules {
     public static final String NUS_MODULE_VALIDATION_REGEX = "[A-Z]{2,3}[0-9]{4}[A-Z]?";
 
     /*
-     * Lesson type must be 3 uppercase alphabets.
+     * Lesson type must be 3 uppercase alphabets. Followed by a number of alphabet
      */
-    public static final String LESSON_TYPE_VALIDATION_REGEX = "[A-Z]{3}";
+    public static final String LESSON_TYPE_VALIDATION_REGEX = "[A-Z]{3}[A-Z0-9]?";
 
     public final HashMap<String, HashMap<String, String>> value;
 
@@ -134,6 +134,9 @@ public class NusModules {
                 String lessonSlot = lessons.getValue();
 
                 nusModuleString += moduleCode + "[" + lessonType + "]=" + lessonSlot + "&";
+            }
+            if (module.getValue().isEmpty()) {
+                nusModuleString += moduleCode + "&";
             }
         }
         return nusModuleString;

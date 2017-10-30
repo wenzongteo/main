@@ -612,7 +612,7 @@ Augustine utilizes https://nusmods.com to display through the browser. The curre
 Timetables are stored in `NusModules` class and each `Person` will have a `NusModules` if they have a timetable.
 `NusModules` uses a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` to store the modules.
 
-===== nusmod Command
+===== nusmods Command
 Modules are added, edited and deleted using the `nusmod` command.
 The command will be phase by `NusmodCommandParser` and executed in `NusmodCommand`.
 As `NusmodCommand` changes the AddressBook.xml, it will inherit from `UndoableCommands`.
