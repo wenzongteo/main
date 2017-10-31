@@ -2,6 +2,9 @@ package seedu.address;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.function.Supplier;
 
 import javafx.stage.Screen;
@@ -44,6 +47,7 @@ public class TestApp extends MainApp {
         this.initialDataSupplier = initialDataSupplier;
         this.saveFileLocation = saveFileLocation;
 
+        initImages();
         // If some initial local data has been provided, write those to the file
         if (initialDataSupplier.get() != null) {
             createDataFileWithData(new XmlSerializableAddressBook(this.initialDataSupplier.get()),
@@ -118,6 +122,44 @@ public class TestApp extends MainApp {
             XmlUtil.saveDataToFile(saveFileForTesting, data);
         } catch (Exception e) {
             throw new RuntimeException(e);
+        }
+    }
+
+    private void initImages() {
+        String imageFilePath = "data/images/";
+        File imageFolder = new File(imageFilePath);
+
+        if (!imageFolder.exists()) {
+            imageFolder.mkdirs();
+        } else {
+
+        }
+
+        try {
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new AssertionError("Impossible");
         }
     }
 }
