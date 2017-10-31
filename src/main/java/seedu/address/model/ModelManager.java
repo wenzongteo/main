@@ -257,12 +257,14 @@ public class ModelManager extends ComponentManager implements Model {
                     date1 = LocalDate.parse(birthdate1, format).withYear(today.getYear());
 
                 } catch (DateTimeParseException e) {
+                    throw new DateTimeParseException();
                 }
 
                 try {
                     date2 = LocalDate.parse(birthdate2, format).withYear(today.getYear());
 
                 } catch (DateTimeParseException e) {
+                    throw new DateTimeParseException();
                 }
 
                 if (date1.isBefore(today)) {

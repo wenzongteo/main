@@ -95,7 +95,7 @@ public class PersonCard extends UiPart<Region> {
     }
 
     //@@author hengyu95
-	private void setColor(ReadOnlyPerson person) {
+    private void setColor(ReadOnlyPerson person) {
 
         LocalDate date1 = LocalDate.of(9999, 12, 30);
         LocalDate now = LocalDate.now();
@@ -104,13 +104,13 @@ public class PersonCard extends UiPart<Region> {
         try {
             date1 = LocalDate.parse(person.getBirthdate().value, format).withYear(now.getYear());
         } catch (DateTimeParseException e) {
-
+            throw new DateTimeParseException();
         }
 
-        if (date1.equals(now)){
+        if (date1.equals(now)) {
             cardPane.setStyle("-fx-background-color: #336699;");
         }
-	}
+    }
 
     /**
      * Initializes all the Tags for a given person
