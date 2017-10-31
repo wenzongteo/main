@@ -75,9 +75,9 @@ public class PersonCard extends UiPart<Region> {
         address.textProperty().bind(Bindings.convert(person.addressProperty()));
         emailAddress.textProperty().bind(Bindings.convert(person.emailAddressProperty()));
         birthdate.textProperty().bind(Bindings.convert(person.birthdateProperty()));
-		
-		setColor(person);
-        
+
+        setColor(person);
+
         try {
             StringExpression filePath = Bindings.convert(person.photoProperty());
             FileInputStream imageInputStream = new FileInputStream(filePath.getValue());
@@ -93,8 +93,8 @@ public class PersonCard extends UiPart<Region> {
             initTags(person);
         });
     }
-	
-	//@@author hengyu95
+
+    //@@author hengyu95
 	private void setColor(ReadOnlyPerson person) {
 		
 		LocalDate date1 = LocalDate.of(9999, 12, 30);
@@ -110,7 +110,6 @@ public class PersonCard extends UiPart<Region> {
         if (date1.equals(now)){
             cardPane.setStyle("-fx-background-color: #336699;");
         }
-	
 	}
 
     /**
