@@ -250,21 +250,19 @@ public class ModelManager extends ComponentManager implements Model {
                 DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
                 LocalDate today = LocalDate.now();
-                LocalDate date1 = LocalDate.of(9999, 12, 30);
-                LocalDate date2 = LocalDate.of(9999, 12, 30);
+                LocalDate date1;
+                LocalDate date2;
 
                 try {
                     date1 = LocalDate.parse(birthdate1, format).withYear(today.getYear());
-
                 } catch (DateTimeParseException e) {
-                    throw new DateTimeParseException();
+                    date1 = LocalDate.of(9999, 12, 30);
                 }
 
                 try {
                     date2 = LocalDate.parse(birthdate2, format).withYear(today.getYear());
-
                 } catch (DateTimeParseException e) {
-                    throw new DateTimeParseException();
+                    date2 = = LocalDate.of(9999, 12, 30)
                 }
 
                 if (date1.isBefore(today)) {
