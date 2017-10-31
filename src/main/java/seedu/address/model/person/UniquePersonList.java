@@ -19,6 +19,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
 import seedu.address.commons.util.CollectionUtil;
+import seedu.address.commons.util.FileUtil;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 
@@ -156,29 +157,25 @@ public class UniquePersonList implements Iterable<Person> {
         final UniquePersonList replacement = new UniquePersonList();
         for (final ReadOnlyPerson person : persons) {
             File image = new File(person.getPhoto().toString());
-            if (!image.exists()) {
-                File toBeCopied = new File("data/edited/" + person.getEmailAddress().toString() + ".jpg");
-                if (!toBeCopied.exists()) {
+            File toBeCopied = new File("data/edited/" + person.getEmailAddress().toString() + ".jpg");
+
+            if (!FileUtil.isFileExists(image)) {
+                if (!FileUtil.isFileExists(toBeCopied)) {
                     throw new AssertionError("image should exist!");
                 } else {
-                    undoPhoto(toBeCopied.toString(), person.getPhoto().toString());
+                    createCurrentPhoto(toBeCopied.toString(), person.getPhoto().toString());
                 }
             } else {
                 //Compare Hash.
-                MessageDigest hashing;
                 try {
-                    hashing = MessageDigest.getInstance("MD5");
+                    String hashValue = calculateHash(person.getPhoto().toString());
+                    if (!hashValue.equals(person.getPhoto().getHash())) { //Not equal, go take the old image
+                        createCurrentPhoto(toBeCopied.toString(), person.getPhoto().toString());
+                    } else {
+                        //Equal, do nothing.
+                    }
                 } catch (NoSuchAlgorithmException nsa) {
                     throw new AssertionError("Impossible, algorithm should exist");
-                }
-
-                File existingImage = new File(person.getPhoto().toString());
-                String hashValue = new String(hashing.digest(Files.readAllBytes(existingImage.toPath())));
-;
-                if (!hashValue.equals(person.getPhoto().getHash())) { //Not equal, go take the old image.
-                    File toBeCopied = new File("data/edited/" + person.getEmailAddress().toString() + ".jpg");
-                    Files.copy(toBeCopied.toPath(), existingImage.toPath(), StandardCopyOption.REPLACE_EXISTING);
-                } else { //Equal, do nothing.
                 }
             }
             replacement.add(new Person(person));
@@ -195,12 +192,21 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     //@@author wenzongteo
-    /** Copies the backup copy of the person's display picture in {@code srcPath} to {@code destPath}.
+    /**
+     * Calculates the MD5 hash value of the person's display picture in {@code srcPath}.
+     * returns the calculated hash in {@code hashValue}.
      *
      * @throws IOException if the srcPath cannot be found in the system.
+     * @throws NoSuchAlgorithmException if the algorithm used for hashing is invalid.
      */
-    public void undoPhoto(String srcPath, String destPath) throws IOException {
-        Files.copy(Paths.get(srcPath), Paths.get(destPath), StandardCopyOption.REPLACE_EXISTING);
+    public String calculateHash(String srcPath) throws IOException, NoSuchAlgorithmException {
+        MessageDigest hashing;
+        hashing = MessageDigest.getInstance("MD5");
+
+        File existingImage = new File(srcPath);
+        String hashValue = new String(hashing.digest(Files.readAllBytes(existingImage.toPath())));
+
+        return hashValue;
     }
 
     /**

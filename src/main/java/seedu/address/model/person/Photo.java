@@ -8,6 +8,7 @@ import java.security.NoSuchAlgorithmException;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
+import sun.plugin2.message.Message;
 
 //@@author wenzongteo
 /**
@@ -41,10 +42,8 @@ public class Photo {
                 throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
             } else {
                 this.value = photo;
-                MessageDigest hashing;
                 try {
-                    hashing = MessageDigest.getInstance("MD5");
-                    this.hash = new String(hashing.digest(Files.readAllBytes(image.toPath())));
+                    this.hash = generateHash(image);
                 } catch (NoSuchAlgorithmException | IOException e) {
                     throw new AssertionError("Impossible to reach here");
                 }
@@ -57,8 +56,7 @@ public class Photo {
         MessageDigest hashing;
         try {
             File image = new File(photo);
-            hashing = MessageDigest.getInstance("MD5");
-            this.hash = new String(hashing.digest(Files.readAllBytes(image.toPath())));
+            this.hash = generateHash(image);
         } catch (NoSuchAlgorithmException nsa) {
             throw new AssertionError("Algorithm should exist");
         } catch (IOException ioe) {
@@ -67,7 +65,17 @@ public class Photo {
     }
 
     /**
-     * Returns true if a given string is a valid person photo.
+     *  @return the generated hash of the image.
+     *  @throws IOException if the file does not exist.
+     *  @throws NoSuchAlgorithmException if the algorithm does not exist.
+     */
+    public String generateHash(File photo) throws IOException, NoSuchAlgorithmException {
+        MessageDigest hashing = MessageDigest.getInstance("MD5");
+        return new String(hashing.digest(Files.readAllBytes(photo.toPath())));
+    }
+
+    /**
+     * @return true if a given string is a valid person photo.
      */
     public static boolean isValidPhoto(String test) {
         return test.matches(PHOTO_VALIDATION_REGEX);
