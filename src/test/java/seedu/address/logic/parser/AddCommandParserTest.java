@@ -85,7 +85,7 @@ public class AddCommandParserTest {
         }
     }
     @Test
-    public void parse_allFieldsPresent_success() {
+    public void parseCommand_allFieldsPresent_success() {
         Person expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
                 .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_FRIENDS)
                 .withBirthdate(VALID_BIRTHDATE_BOB).withPhoto(IMAGE_STORAGE_BOB).build();
@@ -146,7 +146,7 @@ public class AddCommandParserTest {
     }
 
     @Test
-    public void parse_optionalFieldsMissing_success_command() {
+    public void parseCommand_optionalFieldsMissing_success() {
         // zero tags - using command word
         Person expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
                 .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(IMAGE_STORAGE_AMY)
@@ -192,7 +192,43 @@ public class AddCommandParserTest {
 
     //@@author wenzongteo
     @Test
-    public void parse_optionalFieldsMissing_success_alias() {
+    public void parseAlias_allFieldsPresent_success() {
+        Person expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
+                .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withTags(VALID_TAG_FRIENDS)
+                .withBirthdate(VALID_BIRTHDATE_BOB).withPhoto(IMAGE_STORAGE_BOB).build();
+
+        // multiple names - last name accepted - using command alias
+        assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_AMY + NAME_DESC_BOB + PHONE_DESC_BOB
+                        + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + TAG_DESC_FRIEND + BIRTHDATE_DESC_BOB,
+                new AddCommand(expectedPerson));
+
+        // multiple phones - last phone accepted - using command alias
+        assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_BOB + PHONE_DESC_AMY + PHONE_DESC_BOB
+                        + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + TAG_DESC_FRIEND + BIRTHDATE_DESC_BOB,
+                new AddCommand(expectedPerson));
+
+        // multiple emails - last email accepted - using command alias
+        assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_AMY
+                        + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + TAG_DESC_FRIEND + BIRTHDATE_DESC_BOB,
+                new AddCommand(expectedPerson));
+
+        // multiple addresses - last address accepted - using command alias
+        assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_BOB + PHONE_DESC_BOB + EMAIL_DESC_BOB
+                        + ADDRESS_DESC_AMY + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + TAG_DESC_FRIEND + BIRTHDATE_DESC_BOB,
+                new AddCommand(expectedPerson));
+
+        // multiple tags - all accepted - using command alias
+        Person expectedPersonMultipleTags = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
+                .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withBirthdate(VALID_BIRTHDATE_BOB)
+                .withPhoto(IMAGE_STORAGE_BOB).withTags(VALID_TAG_FRIENDS, VALID_TAG_HUSBAND).build();
+
+        assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_BOB + PHONE_DESC_BOB
+                + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND
+                + BIRTHDATE_DESC_BOB, new AddCommand(expectedPersonMultipleTags));
+    }
+
+    @Test
+    public void parseAlias_optionalFieldsMissing_success() {
         // zero tags
         Person expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
                 .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(IMAGE_STORAGE_AMY)
@@ -237,7 +273,7 @@ public class AddCommandParserTest {
     }
 
     @Test
-    public void parse_compulsoryFieldMissing_failure_alias() {
+    public void parseAlias_compulsoryFieldMissing_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
 
         // missing email prefix - using command alias
@@ -258,7 +294,7 @@ public class AddCommandParserTest {
     }
 
     @Test
-    public void parse_invalidValue_failure_alias() {
+    public void parseAlias_invalidValue_failure() {
         // invalid name - using command alias
         assertParseFailure(parser, AddCommand.COMMAND_ALIAS + INVALID_NAME_DESC + PHONE_DESC_BOB
                         + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
@@ -297,7 +333,7 @@ public class AddCommandParserTest {
 
     //@@author
     @Test
-    public void parse_compulsoryFieldMissing_failure_command() {
+    public void parseCommand_compulsoryFieldMissing_failure() {
         String expectedMessage = String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE);
 
         // missing email prefix - using command word
@@ -318,7 +354,7 @@ public class AddCommandParserTest {
     }
 
     @Test
-    public void parse_invalidValue_failure_command() {
+    public void parseCommand_invalidValue_failure() {
         // invalid name - using command word
         assertParseFailure(parser, AddCommand.COMMAND_WORD + INVALID_NAME_DESC + PHONE_DESC_BOB
                 + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
