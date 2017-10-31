@@ -59,7 +59,7 @@ public class AddressBookParserTest {
             } else {
 
             }
-            
+
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
