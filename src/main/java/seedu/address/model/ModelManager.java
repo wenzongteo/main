@@ -262,7 +262,7 @@ public class ModelManager extends ComponentManager implements Model {
                 try {
                     date2 = LocalDate.parse(birthdate2, format).withYear(today.getYear());
                 } catch (DateTimeParseException e) {
-                    date2 = = LocalDate.of(9999, 12, 30)
+                    date2 = LocalDate.of(9999, 12, 30);
                 }
 
                 if (date1.isBefore(today)) {
