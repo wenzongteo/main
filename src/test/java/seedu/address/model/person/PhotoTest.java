@@ -10,7 +10,7 @@ import org.junit.rules.ExpectedException;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 
-//@author wenzongteo
+//@@author wenzongteo
 public class PhotoTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();

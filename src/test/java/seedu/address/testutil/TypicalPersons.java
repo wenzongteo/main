@@ -101,7 +101,6 @@ public class TypicalPersons {
      */
     public static AddressBook getTypicalAddressBook() {
         AddressBook ab = new AddressBook();
-        initializePictures();
         for (ReadOnlyPerson person : getTypicalPersons()) {
             try {
                 ab.addPerson(person);
@@ -112,44 +111,6 @@ public class TypicalPersons {
             }
         }
         return ab;
-    }
-
-    /**
-     *  Initialize all photos to ensure the photo is available.
-     */
-    public static void initializePictures() {
-        try {
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            System.out.println("Preprocess failed");
-        }
     }
 
     public static List<ReadOnlyPerson> getTypicalPersons() {
