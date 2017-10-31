@@ -7,6 +7,7 @@ import static seedu.address.commons.core.Messages.MESSAGE_INVALID_COMMAND_FORMAT
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 
+import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -50,6 +51,15 @@ public class AddressBookParserTest {
     @BeforeClass
     public void setup() {
         try {
+            String imageFilePath = "data/images/";
+            File imageFolder = new File(imageFilePath);
+
+            if (!imageFolder.exists()) {
+                imageFolder.mkdirs();
+            } else {
+
+            }
+            
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
