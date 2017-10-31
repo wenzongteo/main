@@ -153,24 +153,24 @@ public class UniquePersonList implements Iterable<Person> {
         sortInternalList();
     }
 
+
     public void setPersons(List<? extends ReadOnlyPerson> persons) throws DuplicatePersonException, IOException {
         final UniquePersonList replacement = new UniquePersonList();
         for (final ReadOnlyPerson person : persons) {
             File image = new File(person.getPhoto().toString());
             File toBeCopied = new File("data/edited/" + person.getEmailAddress().toString() + ".jpg");
-
             if (!FileUtil.isFileExists(image)) {
                 if (!FileUtil.isFileExists(toBeCopied)) {
                     throw new AssertionError("image should exist!");
                 } else {
-                    createCurrentPhoto(toBeCopied.toString(), person.getPhoto().toString());
+                    createCurrentPhoto(toBeCopied.toString(), person.getEmailAddress().toString());
                 }
             } else {
                 //Compare Hash.
                 try {
                     String hashValue = calculateHash(person.getPhoto().toString());
                     if (!hashValue.equals(person.getPhoto().getHash())) { //Not equal, go take the old image
-                        createCurrentPhoto(toBeCopied.toString(), person.getPhoto().toString());
+                        createCurrentPhoto(toBeCopied.toString(), person.getEmailAddress().toString());
                     } else {
                         //Equal, do nothing.
                     }
