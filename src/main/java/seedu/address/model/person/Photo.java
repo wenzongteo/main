@@ -8,7 +8,6 @@ import java.security.NoSuchAlgorithmException;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
-import sun.plugin2.message.Message;
 
 //@@author wenzongteo
 /**
@@ -51,6 +50,11 @@ public class Photo {
         }
     }
 
+    /**
+     * Photo entered by the app that does not require validation as Image should already exist.
+     * @param photo path to the image stored.
+     * @param num used for overloading constructor.
+     */
     public Photo(String photo, int num) {
         this.value = photo;
         MessageDigest hashing;
