@@ -118,8 +118,9 @@ public class TypicalPersons {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
     }
 
+    //@@author wenzongteo
     /**
-     *  Initialize all photos to ensure the photo is available.
+     *  Initialize all photos to ensure the photo is available before certain tests.
      */
     public static void initializePictures() {
         try {
