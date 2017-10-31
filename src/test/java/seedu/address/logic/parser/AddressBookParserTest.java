@@ -48,6 +48,7 @@ public class AddressBookParserTest {
 
     private final AddressBookParser parser = new AddressBookParser();
 
+    /*
     @BeforeClass
     public void setup() {
         try {
@@ -68,7 +69,7 @@ public class AddressBookParserTest {
             throw new AssertionError("Impossible, no other exceptions should be thrown!!");
         }
     }
-
+*/
     @Test
     public void parseCommand_add() throws Exception {
         //Using add command
