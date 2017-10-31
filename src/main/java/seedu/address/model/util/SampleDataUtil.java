@@ -38,7 +38,7 @@ public class SampleDataUtil {
                     getTagSet("family"), new Birthdate("01/01/1995")),
                 new Person(new Name("Irfan Ibrahim"), new Phone("92492021"), new EmailAddress("irfan@example.com"),
                     new Address("Blk 47 Tampines Street 20, #17-35"), new Photo("data/images/default.jpeg"),
-                    getTagSet("classmates"), new Birthdate("01/01")),
+                    getTagSet("classmates"), new Birthdate("01/01/1990")),
                 new Person(new Name("Roy Balakrishnan"), new Phone("92624417"), new EmailAddress("royb@example.com"),
                     new Address("Blk 45 Aljunied Street 85, #11-31"), new Photo("data/images/default.jpeg"),
                     getTagSet("colleagues"), new Birthdate("01/02/1995")),

@@ -198,6 +198,12 @@ public class EmailCommandTest {
         }
 
         @Override
+        public ObservableList<ReadOnlyPerson> getFilteredPersonListBirthdate() {
+            fail("This method should not be called.");
+            return null;
+        }
+
+        @Override
         public void sortFilteredPersons(int sortOrder) {
             fail("This method should not be called.");
         }

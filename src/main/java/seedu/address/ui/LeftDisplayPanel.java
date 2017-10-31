@@ -20,7 +20,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
 
     //Independent UI parts residing in this UI container
     private PersonListPanel personListPanel;
-    private PersonListPanel birthdayListPanel;
+    private PersonListBirthdatePanel birthdayListPanel;
     private MessageDisplay messageDisplay;
     private boolean toggle;
     private boolean toggle2;
@@ -53,7 +53,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
         personListPanel = new PersonListPanel(personList);
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
-        birthdayListPanel = new PersonListPanel(personListBirthdate);
+        birthdayListPanel = new PersonListBirthdatePanel(personListBirthdate);
         birthdatePanelPlaceholder.getChildren().add(birthdayListPanel.getRoot());
 
         messageDisplay = new MessageDisplay();

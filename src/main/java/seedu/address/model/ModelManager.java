@@ -70,6 +70,7 @@ public class ModelManager extends ComponentManager implements Model {
         sortedPersonsList = new SortedList<ReadOnlyPerson>(filteredPersons);
         sortedPersonsListBirthdate = new SortedList<ReadOnlyPerson>(filteredPersons);
         sortFilteredPersons(0);
+        sortBirthdate();
 
     }
 
@@ -230,8 +231,11 @@ public class ModelManager extends ComponentManager implements Model {
         }
 
         sortedPersonsList.setComparator(sort);
+    }
 
-        Comparator<ReadOnlyPerson> sort2 = new Comparator<ReadOnlyPerson>() {
+    public void sortBirthdate() {
+
+        Comparator<ReadOnlyPerson> sort = new Comparator<ReadOnlyPerson>() {
 
             public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
                 String birthdate1 = o1.getBirthdate().value;
@@ -267,7 +271,7 @@ public class ModelManager extends ComponentManager implements Model {
             }
         };
 
-        sortedPersonsListBirthdate.setComparator(sort2);
+        sortedPersonsListBirthdate.setComparator(sort);
     }
 
     @Override
