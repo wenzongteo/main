@@ -49,7 +49,7 @@ public class AddressBookParserTest {
     private final AddressBookParser parser = new AddressBookParser();
 
     @BeforeClass
-    public void setup() {
+    public static void setup() {
         String imageFilePath = "data/images/";
         File imageFolder = new File(imageFilePath);
 
