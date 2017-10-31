@@ -240,6 +240,8 @@ public class UniquePersonList implements Iterable<Person> {
 
     /**
      * Update the photo of the person in (@code person) to reflect the new address of local file.
+     *
+     * @return the updated person
      */
     public Person updatePhoto(Person person, String srcPath) {
         person.setPhoto(new Photo(srcPath, 0));
