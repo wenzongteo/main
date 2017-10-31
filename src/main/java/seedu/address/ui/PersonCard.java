@@ -75,20 +75,9 @@ public class PersonCard extends UiPart<Region> {
         address.textProperty().bind(Bindings.convert(person.addressProperty()));
         emailAddress.textProperty().bind(Bindings.convert(person.emailAddressProperty()));
         birthdate.textProperty().bind(Bindings.convert(person.birthdateProperty()));
-        LocalDate date1 = LocalDate.of(9999, 12, 30);
-        LocalDate now = LocalDate.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        try {
-            date1 = LocalDate.parse(person.getBirthdate().value, format).withYear(now.getYear());
-        } catch (DateTimeParseException e) {
-
-        }
-
-        if (date1.equals(now)){
-            cardPane.setStyle("-fx-background-color: #336699;");
-        }
-
+		
+		setColor(person);
+        
         try {
             StringExpression filePath = Bindings.convert(person.photoProperty());
             FileInputStream imageInputStream = new FileInputStream(filePath.getValue());
@@ -104,6 +93,25 @@ public class PersonCard extends UiPart<Region> {
             initTags(person);
         });
     }
+	
+	//@@author hengyu95
+	private void setColor(ReadOnlyPerson person) {
+		
+		LocalDate date1 = LocalDate.of(9999, 12, 30);
+        LocalDate now = LocalDate.now();
+        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+        try {
+            date1 = LocalDate.parse(person.getBirthdate().value, format).withYear(now.getYear());
+        } catch (DateTimeParseException e) {
+
+        }
+
+        if (date1.equals(now)){
+            cardPane.setStyle("-fx-background-color: #336699;");
+        }
+	
+	}
 
     /**
      * Initializes all the Tags for a given person
@@ -117,6 +125,7 @@ public class PersonCard extends UiPart<Region> {
         });
     }
 
+    //@@author ritchielq
     private static String getColorForTag(String tagName) {
         if (!tagColors.containsKey(tagName)) {
             tagColors.put(tagName, getRandomDarkColor());
@@ -143,6 +152,7 @@ public class PersonCard extends UiPart<Region> {
         return "rgb(" + red + "," + green + "," + blue + ")";
     }
 
+    //@@author
     @Override
     public boolean equals(Object other) {
         // short circuit if same object

@@ -55,6 +55,7 @@ public class Tag implements Comparable<Tag> {
         return '[' + tagName + ']';
     }
 
+    //@@author awarenessxz
     @Override
     public int compareTo(Tag o) {
         return this.tagName.compareTo(o.tagName);

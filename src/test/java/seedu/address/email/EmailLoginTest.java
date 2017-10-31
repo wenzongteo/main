@@ -8,6 +8,7 @@ import org.junit.Test;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 
+//@@author awarenessxz
 public class EmailLoginTest {
     private EmailLogin emailLogin = new EmailLogin();
 

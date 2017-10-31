@@ -7,6 +7,7 @@ import java.util.Map;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 
+//@@author ritchielq
 /**
  * Represents a Person's NusModules in the address book.
  * Guarantees: immutable; is valid as declared in isValidNusModules

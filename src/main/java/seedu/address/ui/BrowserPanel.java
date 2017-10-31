@@ -46,6 +46,7 @@ public class BrowserPanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
+    //@@author ritchielq
     /**
      * Loads nusmods website base on person object
      * @param person
@@ -55,6 +56,8 @@ public class BrowserPanel extends UiPart<Region> {
         if (person.getNusModules() != null && !person.getNusModules().value.isEmpty()) {
             loadPage(NUSMODS_SEARCH_URL_PREFIX + academicYear + "/sem" + semester + "?"
                     + person.getNusModules().toString());
+        } else {
+            loadDefaultPage();
         }
     }
 
@@ -66,15 +69,18 @@ public class BrowserPanel extends UiPart<Region> {
         return academicYear;
     }
 
+    //@@author
     public void loadPage(String url) {
         Platform.runLater(() -> browser.getEngine().load(url));
     }
 
+    //@@author ritchielq
     private void setAcademicYearSemester(Config config) {
         academicYear = config.getAcademicYear();
         semester = config.getSemester();
     }
 
+    //@@author
     /**
      * Loads a default HTML file with a background that matches the general theme.
      */

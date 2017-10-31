@@ -5,6 +5,7 @@ import java.util.regex.Pattern;
 
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 
+//@@author awarenessxz
 /**
  * Handles how user logs into email
  */

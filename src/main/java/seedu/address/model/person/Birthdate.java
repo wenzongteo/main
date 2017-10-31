@@ -1,8 +1,11 @@
+//@@author hengyu95
+
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+
 
 /**
  * Represents a Person's phone number in the address book.
@@ -29,6 +32,7 @@ public class Birthdate {
     public Birthdate(String birthdate) throws IllegalValueException {
         requireNonNull(birthdate);
         String trimmedBirthdate = birthdate.trim();
+
         if (!trimmedBirthdate.equals("-")) {
             if (!isValidBirthdate(trimmedBirthdate)) {
                 throw new IllegalValueException(MESSAGE_BIRTHDATE_CONSTRAINTS);
@@ -41,6 +45,7 @@ public class Birthdate {
     /**
      * Returns true if a given string is a valid person phone number.
      */
+
     public static boolean isValidBirthdate(String test) {
         return test.matches(BIRTHDATE_VALIDATION_REGEX);
     }

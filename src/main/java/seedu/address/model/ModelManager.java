@@ -89,6 +89,7 @@ public class ModelManager extends ComponentManager implements Model {
         return addressBook;
     }
 
+    //@@author awarenessxz
     @Override
     public Email getEmailManager() {
         return email;
@@ -171,10 +172,15 @@ public class ModelManager extends ComponentManager implements Model {
         return FXCollections.unmodifiableObservableList(sortedPersonsList);
     }
 
+    //@@author hengyu95
     @Override
     public ObservableList<ReadOnlyPerson> getFilteredPersonListBirthdate() {
         return FXCollections.unmodifiableObservableList(sortedPersonsListBirthdate);
     }
+    //@@author
+
+
+    //@@author awarenessxz
 
     /**
      * @param: int
@@ -232,7 +238,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         sortedPersonsList.setComparator(sort);
     }
-
+    //@@author hengyu95
     public void sortBirthdate() {
 
         Comparator<ReadOnlyPerson> sort = new Comparator<ReadOnlyPerson>() {
@@ -274,17 +280,20 @@ public class ModelManager extends ComponentManager implements Model {
         sortedPersonsListBirthdate.setComparator(sort);
     }
 
+    //@@author
     @Override
     public void updateFilteredPersonList(Predicate<ReadOnlyPerson> predicate) {
         requireNonNull(predicate);
         filteredPersons.setPredicate(predicate);
     }
 
+    //@@author awarenessxz
     @Override
     public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         email.loginEmail(loginDetails);
     }
 
+    //@@author awarenessxz
     @Override
     public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
             EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
@@ -296,6 +305,7 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new EmailDraftChangedEvent(email.getEmailDraft()));
     }
 
+    //@@author awarenessxz
     @Override
     public String getEmailStatus() {
         return email.getEmailStatus();

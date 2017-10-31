@@ -41,6 +41,7 @@ public class StringUtil {
         return false;
     }
 
+    //@@author awarenessxz
     /**
      * Returns true if the {@code sentence} contains the {@code word}.
      *   Ignores case, and a full word match is not required.

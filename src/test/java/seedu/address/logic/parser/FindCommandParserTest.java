@@ -21,6 +21,7 @@ public class FindCommandParserTest {
         assertParseFailure(parser, "     ", String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
     }
 
+    //@@author awarenessxz
     @Test
     public void parse_validArgs_returnsFindCommand() {
         List<String> nameList = (List<String>) Arrays.asList("Alice", "Bob");

@@ -16,6 +16,7 @@ import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.ReadOnlyMessageDraft;
 
+//@@author awarenessxz
 /**
  * Handles how email is send via JavaAPI
  */

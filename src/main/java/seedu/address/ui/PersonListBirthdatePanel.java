@@ -1,3 +1,4 @@
+//@@author hengyu95
 package seedu.address.ui;
 
 import java.util.Set;
@@ -54,10 +55,6 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
                 setPersonListViewScrollBar();
             }
 
-            /*
-             * Changing unit increment with setUnitIncrement() does not effect amount scrolled with increment()
-             * Using loop as a workaround.
-             */
             for (int i = 0; i < SCROLL_INCREMENT; i++) {
                 personListViewScrollBar.increment();
             }
@@ -73,10 +70,6 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
                 setPersonListViewScrollBar();
             }
 
-            /*
-             * Changing unit increment with setUnitIncrement() does not effect amount scrolled with increment()
-             * Using loop as a workaround.
-             */
             for (int i = 0; i < SCROLL_INCREMENT; i++) {
                 personListViewScrollBar.decrement();
             }
@@ -147,5 +140,4 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
             }
         }
     }
-
 }

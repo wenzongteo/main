@@ -49,7 +49,8 @@ public class XmlAdaptedPerson {
      * Constructs an XmlAdaptedPerson.
      * This is the no-arg constructor that is required by JAXB.
      */
-    public XmlAdaptedPerson() {}
+    public XmlAdaptedPerson() {
+    }
 
 
     /**
@@ -68,12 +69,7 @@ public class XmlAdaptedPerson {
             tagged.add(new XmlAdaptedTag(tag));
         }
         birthdate = source.getBirthdate().value;
-        nusModules = new ArrayList<>();
-        if (source.getNusModules() != null) {
-            for (Map.Entry<String, HashMap<String, String>> module : source.getNusModules().value.entrySet()) {
-                nusModules.add(new XmlAdaptedNusModule(module));
-            }
-        }
+        nusModules = getArrayListOfXmlAdaptedNusModule(source);
     }
 
     /**
@@ -93,7 +89,20 @@ public class XmlAdaptedPerson {
         final Photo photo = new Photo(this.photo, 0);
         final Set<Tag> tags = new HashSet<>(personTags);
         final Birthdate birthdate = new Birthdate(this.birthdate);
+        final NusModules personNusModules = getPersonNusModules();
 
+        return new Person(name, phone, email, address, photo, tags, birthdate, personNusModules);
+
+    }
+
+    //@@author ritchielq
+    /**
+     * Processes ArrayList<XmlAdaptedNusModule/> nusModules and returns NusModule object
+     *
+     * @return personNusModules
+     * @throws IllegalValueException
+     */
+    private NusModules getPersonNusModules() throws IllegalValueException {
         NusModules personNusModules = new NusModules();
         if (!nusModules.isEmpty()) {
             for (XmlAdaptedNusModule nusModule : nusModules) {
@@ -102,10 +111,22 @@ public class XmlAdaptedPerson {
                 }
             }
         }
+        return personNusModules;
+    }
 
-        return new Person(name, phone, email, address, photo, tags, birthdate, personNusModules);
-
-
-
+    /**
+     * Processes person's NusModule and return it in ArrayList<XmlAdaptedNusModule/> format
+     *
+     * @param source
+     * @return xmlAdaptedNusModulesArrayList
+     */
+    private ArrayList<XmlAdaptedNusModule> getArrayListOfXmlAdaptedNusModule(ReadOnlyPerson source) {
+        ArrayList<XmlAdaptedNusModule> xmlAdaptedNusModulesArrayList = new ArrayList<>();
+        if (source.getNusModules() != null) {
+            for (Map.Entry<String, HashMap<String, String>> module : source.getNusModules().value.entrySet()) {
+                xmlAdaptedNusModulesArrayList.add(new XmlAdaptedNusModule(module));
+            }
+        }
+        return xmlAdaptedNusModulesArrayList;
     }
 }

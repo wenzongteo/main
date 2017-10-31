@@ -6,6 +6,7 @@ import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.message.MessageDraft;
 
+//@@author awarenessxz
 public class EmailSendTest {
     private EmailSend emailSend = new EmailSend();
 
