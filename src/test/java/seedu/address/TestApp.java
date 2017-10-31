@@ -125,6 +125,9 @@ public class TestApp extends MainApp {
         }
     }
 
+    /**
+     * Check if the necessary folder and images to ensure the test is successful exist.
+     */
     private void initImages() {
         String imageFilePath = "data/images/";
         File imageFolder = new File(imageFilePath);
