@@ -239,6 +239,11 @@ public class ModelManager extends ComponentManager implements Model {
         sortedPersonsList.setComparator(sort);
     }
     //@@author hengyu95
+
+    /**
+     * Returns a sorted unmodifiable view of the list {@code ReadOnlyPerson} backed by the internal list of
+     * {@code addressBook} sorted by upcoming birthdays
+     */
     public void sortBirthdate() {
 
         Comparator<ReadOnlyPerson> sort = new Comparator<ReadOnlyPerson>() {
