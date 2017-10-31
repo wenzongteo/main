@@ -97,14 +97,14 @@ public class PersonCard extends UiPart<Region> {
     //@@author hengyu95
     private void setColor(ReadOnlyPerson person) {
 
-        LocalDate date1 = LocalDate.of(9999, 12, 30);
+        LocalDate date1;
         LocalDate now = LocalDate.now();
         DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
 
         try {
             date1 = LocalDate.parse(person.getBirthdate().value, format).withYear(now.getYear());
         } catch (DateTimeParseException e) {
-            throw new DateTimeParseException();
+            date1 = LocalDate.of(9999, 12, 30);
         }
 
         if (date1.equals(now)) {
