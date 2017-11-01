@@ -48,6 +48,7 @@ public class AddressBookParserTest {
 
     private final AddressBookParser parser = new AddressBookParser();
 
+    //@@author wenzongteo
     @BeforeClass
     public static void setup() {
         String imageFilePath = "data/images/";
@@ -71,6 +72,7 @@ public class AddressBookParserTest {
         }
     }
 
+    //@@author
     @Test
     public void parseCommand_add() throws Exception {
         //Using add command

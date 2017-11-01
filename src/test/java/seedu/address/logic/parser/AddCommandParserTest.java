@@ -190,7 +190,7 @@ public class AddCommandParserTest {
                 + BIRTHDATE_DESC_AMY, new AddCommand(expectedPerson));
     }
 
-    //@@author wenzongteo
+    //@@author wenzongteo-reused
     @Test
     public void parseAlias_allFieldsPresent_success() {
         Person expectedPerson = new PersonBuilder().withName(VALID_NAME_BOB).withPhone(VALID_PHONE_BOB)
@@ -255,14 +255,6 @@ public class AddCommandParserTest {
         assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
                 + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY, new AddCommand(expectedPerson));
 
-        // missing birthdate
-        expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
-                .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_AMY).withPhoto(IMAGE_STORAGE_AMY)
-                .withBirthdate(NOT_FILLED).withTags().build();
-
-        assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY
-                + ADDRESS_DESC_AMY + PHOTO_DESC_AMY, new AddCommand(expectedPerson));
-
         // missing 2 fields (phone and address)
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NOT_FILLED)
                 .withEmailAddress(VALID_EMAIL_AMY).withAddress(NOT_FILLED).withPhoto(IMAGE_STORAGE_AMY)
@@ -304,12 +296,6 @@ public class AddCommandParserTest {
         assertParseFailure(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_BOB + INVALID_PHONE_DESC
                         + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Phone.MESSAGE_PHONE_CONSTRAINTS);
-
-        // invalid birthdate - using command alias
-        assertParseFailure(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_BOB + PHONE_DESC_BOB
-                        + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + INVALID_BIRTHDATE_DESC
-                        + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
-                Birthdate.MESSAGE_BIRTHDATE_CONSTRAINTS);
 
         // invalid email - using command alias
         assertParseFailure(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_BOB + PHONE_DESC_BOB
