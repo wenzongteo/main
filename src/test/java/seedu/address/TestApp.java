@@ -125,6 +125,7 @@ public class TestApp extends MainApp {
         }
     }
 
+    //@@author wenzongteo
     /**
      * Check if the necessary folder and images to ensure the test is successful exist.
      */
