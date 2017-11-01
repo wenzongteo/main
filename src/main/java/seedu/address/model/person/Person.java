@@ -219,6 +219,7 @@ public class Person implements ReadOnlyPerson {
         }
         return false;
     }
+    //@@author
 
     @Override
     public boolean equals(Object other) {

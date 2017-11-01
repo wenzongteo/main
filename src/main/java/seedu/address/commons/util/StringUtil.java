@@ -71,6 +71,7 @@ public class StringUtil {
         }
         return false;
     }
+    //@@author
 
     /**
      * Returns a detailed message of the t, including the stack trace.

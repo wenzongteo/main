@@ -94,6 +94,7 @@ public class ModelManager extends ComponentManager implements Model {
     public Email getEmailManager() {
         return email;
     }
+    //@@author
 
     /** Raises an event to indicate the model has changed */
     private void indicateAddressBookChanged() {
@@ -113,6 +114,7 @@ public class ModelManager extends ComponentManager implements Model {
         indicateAddressBookChanged();
     }
 
+    //@@author wenzongteo
     @Override
     public synchronized String addImage(EmailAddress email, Photo photo) throws IOException {
         String folder = "data/images/";
@@ -134,6 +136,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         return folder + email.toString() + fileExt;
     }
+    //@@author
 
     @Override
     public void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedPerson)
@@ -163,6 +166,7 @@ public class ModelManager extends ComponentManager implements Model {
 
     //=========== Filtered Person List Accessors =============================================================
 
+    //@@author awarenessxz
     /**
      * Returns an unmodifiable view of the list of {@code ReadOnlyPerson} backed by the internal list of
      * {@code addressBook}
@@ -171,6 +175,7 @@ public class ModelManager extends ComponentManager implements Model {
     public ObservableList<ReadOnlyPerson> getFilteredPersonList() {
         return FXCollections.unmodifiableObservableList(sortedPersonsList);
     }
+    //@@author
 
     //@@author hengyu95
     @Override
@@ -181,7 +186,6 @@ public class ModelManager extends ComponentManager implements Model {
 
 
     //@@author awarenessxz
-
     /**
      * @param: int
      * 0 = sort by name ascending
@@ -238,8 +242,8 @@ public class ModelManager extends ComponentManager implements Model {
 
         sortedPersonsList.setComparator(sort);
     }
-    //@@author hengyu95
 
+    //@@author hengyu95
     /**
      * Returns a sorted unmodifiable view of the list {@code ReadOnlyPerson} backed by the internal list of
      * {@code addressBook} sorted by upcoming birthdays
@@ -284,8 +288,8 @@ public class ModelManager extends ComponentManager implements Model {
 
         sortedPersonsListBirthdate.setComparator(sort);
     }
-
     //@@author
+
     @Override
     public void updateFilteredPersonList(Predicate<ReadOnlyPerson> predicate) {
         requireNonNull(predicate);
@@ -298,7 +302,6 @@ public class ModelManager extends ComponentManager implements Model {
         email.loginEmail(loginDetails);
     }
 
-    //@@author awarenessxz
     @Override
     public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
             EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
@@ -310,11 +313,11 @@ public class ModelManager extends ComponentManager implements Model {
         raise(new EmailDraftChangedEvent(email.getEmailDraft()));
     }
 
-    //@@author awarenessxz
     @Override
     public String getEmailStatus() {
         return email.getEmailStatus();
     }
+    //@@author
 
     @Override
     public boolean equals(Object obj) {
