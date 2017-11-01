@@ -99,33 +99,8 @@ public class MainApp extends Application {
         Optional<ReadOnlyAddressBook> addressBookOptional;
         ReadOnlyAddressBook initialData;
         try {
-            String imagesFolderPath = "data/images";
-            String editedPhotoPath = "data/edited";
-
-            File imagesFolder = new File(imagesFolderPath);
-            File editedFolder = new File(editedPhotoPath);
-
-            if (!imagesFolder.exists()) {
-                imagesFolder.mkdirs();
-                logger.info("Image storage location does not exist. Will be creating 'data/images' folder");
-            } else {
-
-            }
-
-            if (!editedFolder.exists()) {
-                editedFolder.mkdirs();
-                logger.info("Temporary image storage does not exist. Will be creating 'data/edited' folder");
-            } else {
-
-            }
-
-            InputStream is = this.getClass().getResourceAsStream("/images/default.jpeg");
-            byte[] buffer = new byte[is.available()];
-            is.read(buffer);
-
-            File targetFile = new File("data/images/default.jpeg");
-            OutputStream outStream = new FileOutputStream(targetFile);
-            outStream.write(buffer);
+            checkIfFilesExist();
+            checkDefaultImage();
 
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {
@@ -240,6 +215,42 @@ public class MainApp extends Application {
         System.exit(0);
     }
 
+    @Subscribe
+    public void handleExitAppRequestEvent(ExitAppRequestEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        this.stop();
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }
+
+    //@@author wenzongteo
+    /**
+     * Check if data/images and data/edited folders exist. If they do not exist, create them.
+     */
+    private void checkIfFilesExist() {
+        String imagesFolderPath = "data/images";
+        String editedPhotoPath = "data/edited";
+
+        File imagesFolder = new File(imagesFolderPath);
+        File editedFolder = new File(editedPhotoPath);
+
+        if (!imagesFolder.exists()) {
+            imagesFolder.mkdirs();
+            logger.info("Image storage location does not exist. Will be creating 'data/images' folder");
+        } else {
+
+        }
+
+        if (!editedFolder.exists()) {
+            editedFolder.mkdirs();
+            logger.info("Temporary image storage does not exist. Will be creating 'data/edited' folder");
+        } else {
+
+        }
+    }
+
     /**
      * Deletes all existing images in data/edited folder first before deleting the folder itself.
      */
@@ -254,13 +265,23 @@ public class MainApp extends Application {
         toBeDeletedFolder.delete();
     }
 
-    @Subscribe
-    public void handleExitAppRequestEvent(ExitAppRequestEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        this.stop();
-    }
+    /**
+     * Copy the default.jpeg, which is used for the default image, into the /data/images/ folder.
+     */
+    private void checkDefaultImage() {
+        try {
+            InputStream is = this.getClass().getResourceAsStream("/images/default.jpeg");
+            byte[] buffer = new byte[is.available()];
+            is.read(buffer);
 
-    public static void main(String[] args) {
-        launch(args);
+            File targetFile = new File("data/images/default.jpeg");
+            OutputStream outStream = new FileOutputStream(targetFile);
+            outStream.write(buffer);
+
+        } catch (IOException ioe) {
+            throw new AssertionError("Impossible");
+        } catch (Exception e) {
+            throw new AssertionError("No other exceptions possible");
+        }
     }
 }

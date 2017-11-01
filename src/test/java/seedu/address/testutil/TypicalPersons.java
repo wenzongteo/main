@@ -100,8 +100,8 @@ public class TypicalPersons {
      * Returns an {@code AddressBook} with all the typical persons.
      */
     public static AddressBook getTypicalAddressBook() {
-        AddressBook ab = new AddressBook();
         initializePictures();
+        AddressBook ab = new AddressBook();
         for (ReadOnlyPerson person : getTypicalPersons()) {
             try {
                 ab.addPerson(person);
@@ -114,8 +114,13 @@ public class TypicalPersons {
         return ab;
     }
 
+    public static List<ReadOnlyPerson> getTypicalPersons() {
+        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
+    }
+
+    //@@author wenzongteo
     /**
-     *  Initialize all photos to ensure the photo is available.
+     *  Initialize all photos to ensure the photo is available before certain tests.
      */
     public static void initializePictures() {
         try {
@@ -150,9 +155,5 @@ public class TypicalPersons {
         } catch (IOException e) {
             System.out.println("Preprocess failed");
         }
-    }
-
-    public static List<ReadOnlyPerson> getTypicalPersons() {
-        return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
     }
 }
