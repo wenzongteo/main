@@ -247,6 +247,7 @@ public class UniquePersonList implements Iterable<Person> {
         person.setPhoto(new Photo(srcPath, 0));
         return person;
     }
+    //@@author
 
     //@@author awarenessxz
     /**
@@ -261,6 +262,7 @@ public class UniquePersonList implements Iterable<Person> {
         };
         sortedInternalList.setComparator(sort);
     }
+    //@@author
 
     @Override
     public Iterator<Person> iterator() {
