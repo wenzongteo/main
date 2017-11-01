@@ -10,6 +10,7 @@ import org.junit.rules.ExpectedException;
 
 import seedu.address.commons.exceptions.IllegalValueException;
 
+//@@author wenzongteo
 public class PhotoTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
@@ -22,17 +23,17 @@ public class PhotoTest {
         assertFalse(Photo.isValidPhoto("91")); // digits only
         assertFalse(Photo.isValidPhoto("Photo")); // alphabet only
         assertFalse(Photo.isValidPhoto("9011p041")); // alphabets within digits
-        assertFalse(Photo.isValidPhoto("9312 1534")); // spaces within digits
-        assertFalse(Photo.isValidPhoto("124293842033123")); // long Photo numbers
-        assertFalse(Photo.isValidPhoto("12429384")); // Exactly 8 numbers but does not start with 6,8 or 9
+        assertFalse(Photo.isValidPhoto("9312 1534")); // spaces between digits
+        assertFalse(Photo.isValidPhoto("abc abc")); // spaces between words
         assertFalse(Photo.isValidPhoto("data/default")); //No file type.
         assertFalse(Photo.isValidPhoto("data/default.mp3")); //Invalid file type
         assertFalse(Photo.isValidPhoto(".jpeg")); //No file name
 
         // valid Photo
         assertTrue(Photo.isValidPhoto("docs/images/default.jpeg")); // end with .jpeg file extension
-        assertTrue(Photo.isValidPhoto("docs/images/yl_coder.jpg")); // end with .jpg file extension
+        assertTrue(Photo.isValidPhoto("docs/images/ritchie.jpg")); // end with .jpg file extension
         assertTrue(Photo.isValidPhoto("docs/images/yl_coder.jpg")); // file name with special character _
+        assertTrue(Photo.isValidPhoto("docs/images/m133225.jpg")); // file name with digits
         assertTrue(Photo.isValidPhoto("docs/images/prof damith.jpg")); //file name with space in between
     }
 

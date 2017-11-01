@@ -16,7 +16,6 @@ import java.util.stream.Stream;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
-import seedu.address.model.Model;
 import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthdate;
 import seedu.address.model.person.EmailAddress;
@@ -40,7 +39,6 @@ public class AddCommandParser implements Parser<AddCommand> {
     public AddCommand parse(String args) throws ParseException, IOException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL_ADDRESS,
                 PREFIX_ADDRESS, PREFIX_PHOTO, PREFIX_BIRTHDATE, PREFIX_TAG);
-        Model model;
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_EMAIL_ADDRESS)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
