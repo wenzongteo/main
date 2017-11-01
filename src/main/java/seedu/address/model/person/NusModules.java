@@ -65,14 +65,12 @@ public class NusModules {
     public static int isValidNusModules(HashMap<String, HashMap<String, String>> test) {
         for (Map.Entry<String, HashMap<String, String>> module : test.entrySet()) {
             String moduleCode = module.getKey();
+            // If fail either, return 1 and 2 respectively
+            if (!moduleCode.matches(NUS_MODULE_VALIDATION_REGEX)) {
+                return 1;
+            }
             for (Map.Entry<String, String> lessons : module.getValue().entrySet()) {
                 String lessonType = lessons.getKey();
-
-                // If fail either, return 1 and 2 respectively
-                if (!moduleCode.matches(NUS_MODULE_VALIDATION_REGEX)) {
-                    return 1;
-                }
-
                 if (!lessonType.matches(LESSON_TYPE_VALIDATION_REGEX)) {
                     return 2;
                 }
