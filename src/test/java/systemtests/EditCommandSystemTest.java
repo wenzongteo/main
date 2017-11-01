@@ -61,6 +61,8 @@ import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
 
 public class EditCommandSystemTest extends AddressBookSystemTest {
+
+    //@@author wenzongteo
     @BeforeClass
     public static void setup() throws Exception {
         String imageFilePath = "data/images/";
@@ -104,6 +106,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         }
     }
 
+    //@@author
     @Test
     public void edit() throws Exception {
         Model model = getModel();

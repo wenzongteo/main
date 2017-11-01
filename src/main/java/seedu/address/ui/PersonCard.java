@@ -88,6 +88,9 @@ public class PersonCard extends UiPart<Region> {
             System.out.println(e);
         }
 
+        getPhoto();
+
+
         person.tagProperty().addListener((observable, oldValue, newValue) -> {
             tags.getChildren().clear();
             initTags(person);
@@ -168,5 +171,21 @@ public class PersonCard extends UiPart<Region> {
         PersonCard card = (PersonCard) other;
         return id.getText().equals(card.id.getText())
                 && person.equals(card.person);
+    }
+
+    //@@author wenzongteo
+    /**
+     * Bind the path of a contact's display picture into an Image and set the image into the ImageView photo.
+     */
+    public void getPhoto() {
+        try {
+            StringExpression filePath = Bindings.convert(person.photoProperty());
+            FileInputStream imageInputStream = new FileInputStream(filePath.getValue());
+            Image image = new Image(imageInputStream, 100, 200, true, true);
+            photo.setImage(image);
+            imageInputStream.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
     }
 }
