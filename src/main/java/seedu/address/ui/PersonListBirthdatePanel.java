@@ -1,4 +1,3 @@
-//@@author hengyu95
 package seedu.address.ui;
 
 import java.util.Set;
@@ -22,6 +21,7 @@ import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.ReadOnlyPerson;
 
+//@@author hengyu95
 /**
  * Panel containing the list of persons.
  */

@@ -136,7 +136,6 @@ public class PersonCard extends UiPart<Region> {
         return tagColors.get(tagName);
     }
 
-
     private static String getRandomDarkColor() {
         Random random = new Random();
 
