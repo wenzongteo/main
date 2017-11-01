@@ -156,8 +156,10 @@ public class MainWindow extends UiPart<Region> {
         browserPanel = new BrowserPanel(config);
         browserPlaceholder.getChildren().add(browserPanel.getRoot());
 
-        leftDisplayPanel = new LeftDisplayPanel(logic.getFilteredPersonList());
+        //@@author hengyu95
+        leftDisplayPanel = new LeftDisplayPanel(logic.getFilteredPersonList(), logic.getFilteredPersonListBirthdate());
         leftDisplayPanelPlacedholder.getChildren().add(leftDisplayPanel.getRoot());
+        //@@author
 
         ResultDisplay resultDisplay = new ResultDisplay();
         resultDisplayPlaceholder.getChildren().add(resultDisplay.getRoot());

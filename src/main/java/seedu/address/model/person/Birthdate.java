@@ -1,8 +1,11 @@
+//@@author hengyu95
+
 package seedu.address.model.person;
 
 import static java.util.Objects.requireNonNull;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+
 
 /**
  * Represents a Person's phone number in the address book.
@@ -12,12 +15,12 @@ public class Birthdate {
 
 
     public static final String MESSAGE_BIRTHDATE_CONSTRAINTS =
-            "Birthdate should contain valid date entries separated by . - /";
-    public static final String BIRTHDATE_VALIDATION_REGEX = "([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([0]?[1-9]|[1]"
-            + "[0-2])[./-]([0-9]{4}|[0-9]{2})";        // dd/mm/yyyy or d/m/yy or d.m.yyyy with separators: . - /
+            "A valid date entry is in the form of dd/mm/yyyy";
 
-    public static final String BIRTHDATE_VALIDATION_REGEX2 = "([0]?[1-9]|[1|2][0-9]|[3][0|1])[./-]([1][0-2]|[0]?[1-9])";
-    // dd/mm or d/m or d.m with separators: . - /
+    public static final String BIRTHDATE_VALIDATION_REGEX = "(((0[1-9]|[12]\\d|3[01])\\/(0[13578]|1[02])\\/((1[6-9]|"
+            + "[2-9]\\d)\\d{2}))|((0[1-9]|[12]\\d|30)\\/(0[13456789]|1[012])\\/((1[6-9]|[2-9]\\d)\\d{2}))"
+            + "|((0[1-9]|1\\d|2[0-8])\\/02\\/((1[6-9]|[2-9]\\d)\\d{2}))|(29\\/02\\/((1[6-9]|[2-9]\\d)"
+            + "(0[48]|[2468][048]|[13579][26])|((16|[2468][048]|[3579][26])00))))";
 
     public final String value;
 
@@ -29,6 +32,7 @@ public class Birthdate {
     public Birthdate(String birthdate) throws IllegalValueException {
         requireNonNull(birthdate);
         String trimmedBirthdate = birthdate.trim();
+
         if (!trimmedBirthdate.equals("-")) {
             if (!isValidBirthdate(trimmedBirthdate)) {
                 throw new IllegalValueException(MESSAGE_BIRTHDATE_CONSTRAINTS);
@@ -41,8 +45,9 @@ public class Birthdate {
     /**
      * Returns true if a given string is a valid person phone number.
      */
+
     public static boolean isValidBirthdate(String test) {
-        return test.matches(BIRTHDATE_VALIDATION_REGEX) || test.matches(BIRTHDATE_VALIDATION_REGEX2);
+        return test.matches(BIRTHDATE_VALIDATION_REGEX);
     }
 
     @Override

@@ -9,6 +9,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
+import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
@@ -51,6 +54,7 @@ public class ModelManager extends ComponentManager implements Model {
     private final AddressBook addressBook;
     private final FilteredList<ReadOnlyPerson> filteredPersons;
     private final SortedList<ReadOnlyPerson> sortedPersonsList;
+    private final SortedList<ReadOnlyPerson> sortedPersonsListBirthdate;
 
     /**
      * Initializes a ModelManager with the given addressBook and userPrefs.
@@ -64,7 +68,10 @@ public class ModelManager extends ComponentManager implements Model {
         this.email = email;
         filteredPersons = new FilteredList<>(this.addressBook.getPersonList());
         sortedPersonsList = new SortedList<ReadOnlyPerson>(filteredPersons);
+        sortedPersonsListBirthdate = new SortedList<ReadOnlyPerson>(filteredPersons);
         sortFilteredPersons(0);
+        sortBirthdate();
+
     }
 
     public ModelManager() {
@@ -165,7 +172,16 @@ public class ModelManager extends ComponentManager implements Model {
         return FXCollections.unmodifiableObservableList(sortedPersonsList);
     }
 
+    //@@author hengyu95
+    @Override
+    public ObservableList<ReadOnlyPerson> getFilteredPersonListBirthdate() {
+        return FXCollections.unmodifiableObservableList(sortedPersonsListBirthdate);
+    }
+    //@@author
+
+
     //@@author awarenessxz
+
     /**
      * @param: int
      * 0 = sort by name ascending
@@ -222,7 +238,54 @@ public class ModelManager extends ComponentManager implements Model {
 
         sortedPersonsList.setComparator(sort);
     }
+    //@@author hengyu95
 
+    /**
+     * Returns a sorted unmodifiable view of the list {@code ReadOnlyPerson} backed by the internal list of
+     * {@code addressBook} sorted by upcoming birthdays
+     */
+    public void sortBirthdate() {
+
+        Comparator<ReadOnlyPerson> sort = new Comparator<ReadOnlyPerson>() {
+
+            public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+                String birthdate1 = o1.getBirthdate().value;
+
+                String birthdate2 = o2.getBirthdate().value;
+                DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+                LocalDate today = LocalDate.now();
+                LocalDate date1;
+                LocalDate date2;
+
+                try {
+                    date1 = LocalDate.parse(birthdate1, format).withYear(today.getYear());
+                } catch (DateTimeParseException e) {
+                    date1 = LocalDate.of(9999, 12, 30);
+                }
+
+                try {
+                    date2 = LocalDate.parse(birthdate2, format).withYear(today.getYear());
+                } catch (DateTimeParseException e) {
+                    date2 = LocalDate.of(9999, 12, 30);
+                }
+
+                if (date1.isBefore(today)) {
+                    date1 = date1.withYear(date1.getYear() + 1);
+                }
+
+                if (date2.isBefore(today)) {
+                    date2 = date2.withYear(date2.getYear() + 1);
+                }
+
+                return date1.compareTo(date2);
+            }
+        };
+
+        sortedPersonsListBirthdate.setComparator(sort);
+    }
+
+    //@@author
     @Override
     public void updateFilteredPersonList(Predicate<ReadOnlyPerson> predicate) {
         requireNonNull(predicate);

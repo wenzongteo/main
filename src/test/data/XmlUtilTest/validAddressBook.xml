@@ -6,7 +6,7 @@
         <emailAddress isPrivate="false">hans@example.com</emailAddress>
         <address isPrivate="false">4th street</address>
 		<photo>default.jpeg</photo>
-		<birthdate>02/03</birthdate>
+		<birthdate>02/03/1995</birthdate>
     </persons>
     <persons>
         <name>Ruth Mueller</name>
@@ -14,7 +14,7 @@
         <emailAddress isPrivate="false">ruth@example.com</emailAddress>
         <address isPrivate="false">81th street</address>
 		<photo>default.jpeg</photo>
-		<birthdate>02/04</birthdate>
+		<birthdate>02/04/1993</birthdate>
     </persons>
     <persons>
         <name>Heinz Kurz</name>
@@ -22,7 +22,7 @@
         <emailAddress isPrivate="false">heinz@example.com</emailAddress>
         <address isPrivate="false">wall street</address>
 		<photo>default.jpeg</photo>
-		<birthdate>02/05</birthdate>
+		<birthdate>02/05/1980</birthdate>
     </persons>
     <persons>
         <name>Cornelia Meier</name>
@@ -30,7 +30,7 @@
         <emailAddress isPrivate="false">cornelia@example.com</emailAddress>
         <address isPrivate="false">10th street</address>
 		<photo>default.jpeg</photo>
-		<birthdate>02/03</birthdate>
+		<birthdate>02/03/1980</birthdate>
     </persons>
     <persons>
         <name>Werner Meyer</name>
@@ -70,6 +70,6 @@
         <emailAddress isPrivate="false">hans@example.com</emailAddress>
         <address isPrivate="false">chicago ave</address>
 		<photo>default.jpeg</photo>
-		<birthdate>2/3</birthdate>
+		<birthdate>02/03/1999</birthdate>
     </persons>
 </addressbook>

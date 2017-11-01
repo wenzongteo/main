@@ -23,5 +23,14 @@
             <StackPane fx:id="messageDraftPanelPlaceholder" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
          </content>
     </Tab>
+      <Tab fx:id="birthdateTab" text="Birthdays">
+          <content>
+              <VBox fx:id="personList" minWidth="450" prefWidth="450">
+                  <children>
+                      <StackPane fx:id="birthdatePanelPlaceholder" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  </children>
+              </VBox>
+          </content>
+      </Tab>
   </tabs>
 </TabPane>
