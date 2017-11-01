@@ -1,3 +1,5 @@
+//@@author hengyu95
+
 package seedu.address.logic.commands;
 
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT;
@@ -26,7 +28,6 @@ public class ListCommand extends Command {
         new ListCommand(0);
     }
 
-    //@@author hengyu95
     public ListCommand(int sortOrder) {
         this.sortOrder = sortOrder;
     }
