@@ -172,7 +172,7 @@ public class AddCommandParserTest {
 
         assertParseSuccess(parser, AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + PHOTO_DESC_AMY + BIRTHDATE_DESC_AMY, new AddCommand(expectedPerson));
-      
+
         //@@author hengyu95
         // missing birthdate - using command word
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
@@ -185,7 +185,6 @@ public class AddCommandParserTest {
         // missing birthdate - using command alias
         assertParseSuccess(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_AMY + PHONE_DESC_AMY
                 + EMAIL_DESC_AMY + ADDRESS_DESC_AMY + PHOTO_DESC_AMY, new AddCommand(expectedPerson));
-      
         //@@author
         // missing 2 fields (phone and address) - using command word
         expectedPerson = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(NOT_FILLED)
@@ -363,7 +362,6 @@ public class AddCommandParserTest {
                 + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + INVALID_BIRTHDATE_DESC
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Birthdate.MESSAGE_BIRTHDATE_CONSTRAINTS);
-      
         // invalid birthdate - using command alias
         assertParseFailure(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_BOB + PHONE_DESC_BOB
                         + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + INVALID_BIRTHDATE_DESC
