@@ -45,7 +45,6 @@ public class PersonListPanel extends UiPart<Region> {
     }
 
     //@@author ritchielq
-
     /**
      * Scrolls one page down
      */
@@ -133,6 +132,7 @@ public class PersonListPanel extends UiPart<Region> {
         scrollTo(event.targetIndex);
     }
 
+    //@@author ritchielq
     @Subscribe
     private void handleReselectEvent(ReselectEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
@@ -141,6 +141,7 @@ public class PersonListPanel extends UiPart<Region> {
         scrollTo(index);
     }
 
+    //@@author
     /**
      * Custom {@code ListCell} that displays the graphics of a {@code PersonCard}.
      */
