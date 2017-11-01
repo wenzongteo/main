@@ -78,6 +78,7 @@ public class PersonCard extends UiPart<Region> {
 
         setColor(person);
 
+
         try {
             StringExpression filePath = Bindings.convert(person.photoProperty());
             FileInputStream imageInputStream = new FileInputStream(filePath.getValue());
@@ -89,7 +90,6 @@ public class PersonCard extends UiPart<Region> {
         }
 
         getPhoto();
-
 
         person.tagProperty().addListener((observable, oldValue, newValue) -> {
             tags.getChildren().clear();
@@ -114,7 +114,7 @@ public class PersonCard extends UiPart<Region> {
             cardPane.setStyle("-fx-background-color: #336699;");
         }
     }
-
+    //@@author
     /**
      * Initializes all the Tags for a given person
      * @param person
