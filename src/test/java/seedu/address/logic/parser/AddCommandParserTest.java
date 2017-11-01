@@ -379,7 +379,7 @@ public class AddCommandParserTest {
                 + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + INVALID_BIRTHDATE_DESC
                 + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Birthdate.MESSAGE_BIRTHDATE_CONSTRAINTS);
-				
+
         // invalid birthdate - using command alias
         assertParseFailure(parser, AddCommand.COMMAND_ALIAS + NAME_DESC_BOB + PHONE_DESC_BOB
                         + EMAIL_DESC_BOB + ADDRESS_DESC_BOB + PHOTO_DESC_BOB + INVALID_BIRTHDATE_DESC
