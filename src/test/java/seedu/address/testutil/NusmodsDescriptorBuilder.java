@@ -6,10 +6,6 @@ import seedu.address.logic.parser.ParserUtil;
 import seedu.address.model.person.NusModules;
 import seedu.address.model.person.ReadOnlyPerson;
 
-import java.util.Arrays;
-import java.util.HashSet;
-import java.util.Optional;
-
 /**
  * A utility class to help with building EditPersonDescriptor objects.
  */
@@ -21,8 +17,8 @@ public class NusmodsDescriptorBuilder {
         descriptor = new NusmodsDescriptor();
     }
 
-    public NusmodsDescriptorBuilder(NusmodsDescriptor descriptor) {
-        this.descriptor = new NusmodsDescriptor(descriptor);
+    public NusmodsDescriptorBuilder(String descriptorString) {
+        descriptorString;
     }
 
     /**
@@ -31,7 +27,7 @@ public class NusmodsDescriptorBuilder {
     public NusmodsDescriptorBuilder(ReadOnlyPerson person) {
         descriptor = new NusmodsDescriptor();
         NusModules personNusModules = person.getNusModules();
-        descriptor.ssetName(person.getName())
+        descriptor.setName(person.getName())
     }
 
     /**

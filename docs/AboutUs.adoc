@@ -27,7 +27,7 @@ image::ritchie.jpg[width="150", align="left"]
 {empty}[http://github.com/ritchielq[github]] [<<ritchie#, portfolio>>]
 
 Role: Developer +
-Responsibilities: Edit
+Responsibilities: UI
 
 '''
 
