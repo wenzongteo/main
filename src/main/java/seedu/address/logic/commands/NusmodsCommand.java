@@ -23,8 +23,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import seedu.address.commons.core.EventsCenter;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
@@ -81,6 +83,8 @@ public class NusmodsCommand extends UndoableCommand {
             + " or 'delete'. m/ needs to be filled";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
     public static final String MESSAGE_INVALID_MODULE_DETAILS = "Module details invalid";
+
+    private static final Logger logger = LogsCenter.getLogger(NusmodsCommand.class);
 
     private final Index index;
     private final NusmodsDescriptor nusmodsDescriptor;
@@ -153,7 +157,7 @@ public class NusmodsCommand extends UndoableCommand {
                 || nusmodsDescriptor.getType().toUpperCase().equals("U")) {
             updatedNusModules = processNusmodsDescriptorForUrl(nusmodsDescriptor);
         }
-
+        logger.info("Change person Nusmodules object to: " + updatedNusModules.toString());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPhoto, updatedTags,
                 updatedBirthdate, updatedNusModules);
