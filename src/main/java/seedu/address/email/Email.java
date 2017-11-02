@@ -29,6 +29,9 @@ public interface Email {
     /* View Email Send Status */
     String getEmailStatus();
 
+    /* Clear Email Draft content */
+    void clearEmailDraft();
+
     /* send Email Draft to all users */
     void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException,
             EmailRecipientsEmptyException, AuthenticationFailedException;

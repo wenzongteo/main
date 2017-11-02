@@ -68,11 +68,17 @@ public class EmailManager extends ComponentManager implements Email {
 
     /**
      * Checks if the email manager holds the username and password of user
-     *
-     * @return boolean
      **/
+    @Override
     public boolean isUserLogin() {
         return emailLogin.isUserLogin();
+    }
+
+
+    @Override
+    public void clearEmailDraft() {
+        resetData();
+        this.emailStatus = "cleared";
     }
 
     /** reset Email Draft Data **/

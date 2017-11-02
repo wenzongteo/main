@@ -8,6 +8,7 @@ import javax.mail.AuthenticationFailedException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+import seedu.address.email.EmailTask;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
@@ -52,11 +53,11 @@ public class EmailCommand extends Command {
 
     private final MessageDraft message;
     private final String [] loginDetails;
-    private final boolean send;
+    private final EmailTask task;
 
-    public EmailCommand(String message, String subject, String [] loginDetails, boolean send) {
+    public EmailCommand(String message, String subject, String [] loginDetails, EmailTask task) {
         this.message = new MessageDraft(message, subject);
-        this.send = send;
+        this.task = task;
         this.loginDetails = loginDetails;
     }
 
@@ -78,6 +79,24 @@ public class EmailCommand extends Command {
         return recipientsEmail;
     }
 
+    /**
+     * Identify the Email Command Execution Task purpose
+     */
+    private void identifyEmailTask() throws EmailLoginInvalidException, EmailMessageEmptyException,
+            EmailRecipientsEmptyException, AuthenticationFailedException {
+        switch (task.getTask()) {
+        case "send":
+            model.sendEmail(message);
+            break;
+        case "clear":
+            model.clearEmailDraft();
+            break;
+        default:
+            model.draftEmail(message);
+            break;
+        }
+    }
+
     @Override
     public CommandResult execute() throws CommandException {
         requireNonNull(model);
@@ -94,7 +113,7 @@ public class EmailCommand extends Command {
         try {
             //Set up Email Details
             model.loginEmail(loginDetails);
-            model.sendEmail(message, send);
+            identifyEmailTask();
             return new CommandResult(String.format(MESSAGE_SUCCESS, model.getEmailStatus()));
         } catch (EmailLoginInvalidException e) {
             throw new CommandException(MESSAGE_LOGIN_INVALID);
@@ -116,7 +135,7 @@ public class EmailCommand extends Command {
                 || (other instanceof EmailCommand // instanceof handles nulls
                 && ((EmailCommand) other).message.equals(this.message)
                 && ((EmailCommand) other).loginDetailsEquals(this.loginDetails)
-                && ((EmailCommand) other).send == this.send);
+                && ((EmailCommand) other).task == this.task);
     }
 
     /**

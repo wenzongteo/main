@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_SUBJECT;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_TASK;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.email.EmailTask;
 import seedu.address.logic.commands.EmailCommand;
 import seedu.address.logic.parser.exceptions.ParseException;
 
@@ -28,11 +29,10 @@ public class EmailCommandParser implements Parser<EmailCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_EMAIL_MESSAGE, PREFIX_EMAIL_SUBJECT, PREFIX_EMAIL_LOGIN,
                         PREFIX_EMAIL_TASK);
 
-        boolean send = false;
+        EmailTask task = new EmailTask();
         String message = "";
         String subject = "";
         String login = "";
-        String task = "";
         String [] loginDetails = new String[0];
 
         try {
@@ -59,9 +59,9 @@ public class EmailCommandParser implements Parser<EmailCommand> {
 
             // checks what is the email task, to send or create draft
             if (argMultimap.getValue(PREFIX_EMAIL_TASK).isPresent()) {
-                task = ParserUtil.parseEmailTask(argMultimap.getValue(PREFIX_EMAIL_TASK)).trim();
-                if (!task.isEmpty() && task.equalsIgnoreCase("send")) {
-                    send = true;
+                task.setTask(ParserUtil.parseEmailTask(argMultimap.getValue(PREFIX_EMAIL_TASK)).trim());
+                if (!task.isValid()) {
+                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
                 }
             }
 
@@ -69,6 +69,6 @@ public class EmailCommandParser implements Parser<EmailCommand> {
             throw new ParseException(ive.getMessage(), ive);
         }
 
-        return new EmailCommand(message, subject, loginDetails, send);
+        return new EmailCommand(message, subject, loginDetails, task);
     }
 }
