@@ -21,33 +21,33 @@ Credits: `Team SE-EDU` https://github.com/se-edu/addressbook-level4
 toc::[]
 <<<
 
-== Product Overview [Edited in v1.3]
+== Product Overview
 
 Every year, a new chapter of your school life begins in August. You will meet new friends and
 establish new connections in school. However, it will be difficult to keep track of all the
-contacts of your newly made friends. Let Augustine help you to keep track of your friend's
+contacts of your newly made friends. Let Augustine help you to keep track of your friends'
 contact number, address, time table and social media account.
 
-== About [Edited in v1.3]
+== About
 
-This user guide provides a overview on the features available in Augustine
-and how to use each feature.
+This user guide provides an overview of the features available in Augustine
+and how to use them.
 
 
-== Getting Started [Edited in v1.4]
+== Getting Started
 
 Ensure that you have completed following tasks before proceeding the User Guide further.
 
 .  Ensure you have Java version *`1.8.0_60 or later`* installed in your Computer.
 +
 [NOTE]
-Augustine will *not work* with any version of Java earlier than `Java 8.6`.
+Augustine will *not work* with any earlier version of java.
 
 +
 .  Download the latest `augustine.jar` link:https://github.com/CS2103AUG2017-W14-B2/main/releases[here].
 .  Copy the jar file to the folder you want to use as the home folder for your Address Book.
-.  Double-click the file to start the app. The GUI should appear in a few seconds.
-_Figure 1.1_ below shows you how the program is supposed to look like upon start up.
+.  Double-click the file to start the app. The application should appear in a few seconds.
+_Figure 1.1_ below shows you what the application is supposed to look like upon start up.
 
 +
 [caption="Figure 1.1 "]
@@ -55,20 +55,20 @@ _Figure 1.1_ below shows you how the program is supposed to look like upon start
 image::Ui.png[width="790"]
 +
 
-.  Type the command in the command box and press kbd:[Enter] to execute it. +
+.  Augustine works by typing commands into the command box and pressing kbd:[Enter] to run it. +
 e.g. typing *`help`* and pressing kbd:[Enter] will open the help window.
-.  Here are some commands you can execute to try out Augustine:
+.  Here are some commands you can try out:
 
 * *`list`* : lists all contacts within Augustine.
 * **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe` into Augustine.
 * **`delete`**`3` : deletes the 3rd contact *shown in the current list*.
 * *`exit`* : exits Augustine.
 
-.  Refer to the link:#features[Features] section below to learn all of the commands and their details within Augustine.
+.  Refer to the link:#features[Features] section below to learn all Augustine's commands and their details.
 
-== Features [Edited in v1.4]
+== Features
 
-Before you continue reading this section, do take note of the following:
+Before you continue with this section, do take note of the following:
 
 ====
 *Command Format*
@@ -96,7 +96,7 @@ The [fuchsia]`help` command will enable you to view this User Guide within Augus
 
 ==== Format
 
-The format of the [fuchsia]`help` command is as follow:
+The format of the [fuchsia]`help` command is as follows:
 
 ====
 [fuchsia]#help#
@@ -107,9 +107,9 @@ You can also press kbd:[F1] on your keyboard instead of typing `help` to display
 
 ==== Example
 
-Here is an example of what will you experience in Augustine when you execute the `help` command.
+Here is an example of what you will experience in Augustine when you run the `help` command.
 
-_Figure 2.1.1_ below shows you an example of Augustine will appear when you execute the `help` command.
+_Figure 2.1.1_ below shows you an example of Augustine will appear when you run the `help` command.
 
 [caption="Figure 2.1.1 "]
 .User Guide is shown upon the execution of help command in Augustine.
@@ -123,7 +123,7 @@ The [fuchsia]`add` command will enable you to populate Augustine.
 
 ==== Format
 
-The format of the [fuchsia]`add` command is as follow:
+The format of the [fuchsia]`add` command is as follows:
 
 ====
 [fuchsia]#add n/NAME e/EMAIL [p/PHONE_NUMBER] [a/ADDRESS] [b/BIRTHDATE] [dp/DISPLAY_PICTURE] [t/TAG]...#
@@ -138,7 +138,7 @@ The format of the [fuchsia]`add` command is as follow:
 [TIP]
 You can use the alias `a` instead of typing out `add`
 [WARNING]
-Augustine only allow one contact with the same email address to reside in it.
+Augustine only allows one contact with the same email address.
 
 ==== Examples
 Here are some examples to guide you with adding contacts into Augustine:
@@ -296,7 +296,7 @@ image::editChangePhoneAfter.png[width="940px"]
 
 '''
 
-=== Locating persons by name: [fuchsia]`find` [Edited in v.14]
+=== Locating persons by name: [fuchsia]`find`
 
 The [fuchsia]`find` command helps you find contacts in Augustine using name or tags as keywords.
 
@@ -327,7 +327,7 @@ The format of the [fuchsia]`find` command is as follow:
 You can use the alias `f` instead of typing out `find`
 
 [WARNING]
-You cannot execute the find command without typing any keyword.
+You cannot run the find command without typing any keyword.
 
 ==== Example
 
@@ -401,7 +401,7 @@ The [fuchsia]`delete` command helps you delete specified person
 from Augustine.
 
 ==== Format
-The format of the [fuchsia]`delete` command is as follow:
+The format of the [fuchsia]`delete` command is as follows:
 ====
 [fuchsia]#delete INDEX#
 ====
@@ -446,13 +446,13 @@ of the `find` command.
 
 '''
 
-=== Displaying a person's timetable : [fuchsia]`select` [Edited in v1.3]
+=== Displaying a person's timetable : [fuchsia]`select`
 
 Augustine is integrated with https://nusmods.com. You can use the [fuchsia]`select` command to display the timetable of
 a contact on the NUSmods website.
 
 ==== Format
-The format of the [fuchsia]`select` command is as follow:
+The format of the [fuchsia]`select` command is as follows:
 ====
 [fuchsia]#select INDEX#
 ====
@@ -501,7 +501,7 @@ of the `find` command.
 
 '''
 
-=== Using NUS timetable: [fuchsia]`nusmods` [Edited in v1.3]
+=== Using NUS timetable: [fuchsia]`nusmods`
 
 Augustine is integrated with https://nusmods.com.
 You can use the [fuchsia]`nusmods` command to add, edit or delete modules from a contact.
@@ -511,7 +511,7 @@ Before adding modules to contacts, you will need to open `config.json` and enter
 The config file can be found in the same folder as Augustine.
 
 ==== Format
-The format of the [fuchsia]`nusmods` command is as follow:
+The format of the [fuchsia]`nusmods` command is as follows:
 ====
 [fuchsia]#nusmods INDEX t/[add/delete/url] [m/MODULE_CODE/URL] [LESSON_TYPE/LESSON_SLOT]...#
 ====
@@ -574,13 +574,13 @@ The following command will remove the module CS2010 from the timetable of the co
 
 '''
 
-=== Email contacts : [fuchsia]`email` [Edited in v1.3 and 1.4]
+=== Email contacts : [fuchsia]`email`
 
 The [fuchsia]`email` command emails all the contacts in the last displayed contact's list
 in Augustine.
 
 ==== Format
-The format of the [fuchsia]`email` command is as follow:
+The format of the [fuchsia]`email` command is as follows:
 ====
 [fuchsia]#email [ em/MESSAGE ] [ es/SUBJECT ] [ el/adam@gmail.com:password ] [ et/[send|draft] ]#
 ====
@@ -608,7 +608,7 @@ Here are some examples on how you can email your contacts:
 +
 --
 You can compose an email draft in Augustine.
-_Figure 2.9.2.1_ illustrates the result after you execute the command below.
+_Figure 2.9.2.1_ illustrates the result after you run the command below.
 
 [NOTE]
 Note that the email draft is stored until Augustine exits or when the email have been sent.
@@ -626,7 +626,7 @@ image::emailStep1.png[]
 +
 --
 You have to login to your google email before you can send an email can compose an email.
-_Figure 2.9.2.2_ illustrates the result after you execute the command below.
+_Figure 2.9.2.2_ illustrates the result after you run the command below.
 
 [NOTE]
 Note that the email you login with *must be a gmail email account*.
@@ -686,7 +686,7 @@ The [fuchsia]`history` command lists all the commands that you have entered in
 reverse chronological order.
 
 ==== Format
-The format of the [fuchsia]`history` command is as follow:
+The format of the [fuchsia]`history` command is as follows:
 ====
 [fuchsia]#history#
 ====
@@ -704,7 +704,7 @@ Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and 
 The [fuchsia]`undo` command restores the address book to the state before the previous _undoable_ command was executed.
 
 ==== Format
-The format of the [fuchsia]`undo` command is as follow:
+The format of the [fuchsia]`undo` command is as follows:
 ====
 [fuchsia]#undo#
 ====
@@ -769,7 +769,7 @@ You can use the [fuchsia]`undo` command to undo more than 1 command.
 The [fuchsia]`redo` command reverses the most recent `undo` command.
 
 ==== Format
-The format of the [fuchsia]`redo` command is as follow:
+The format of the [fuchsia]`redo` command is as follows:
 ====
 [fuchsia]#redo#
 ====
@@ -827,7 +827,7 @@ You can use the [fuchsia]`redo` command to reverse multiple `undo` command.
 The [fuchsia]`clear` command clears all entries from Augustine.
 
 ==== Format
-The format of the [fuchsia]`clear` command is as follow:
+The format of the [fuchsia]`clear` command is as follows:
 ====
 [fuchsia]#clear#
 ====
@@ -837,7 +837,7 @@ The format of the [fuchsia]`clear` command is as follow:
 The [fuchsia]`exit` command exits Augustine.
 
 ==== Format
-The format of the [fuchsia]`exit` command is as follow:
+The format of the [fuchsia]`exit` command is as follows:
 ====
 [fuchsia]#exit#
 ====
@@ -847,7 +847,7 @@ The format of the [fuchsia]`exit` command is as follow:
 The [fuchsia]`filter` command Filters the displayed list to only include entries that fulfill certain conditions.
 
 ==== Format
-The format of the [fuchsia]`filter` command is as follow:
+The format of the [fuchsia]`filter` command is as follows:
 ====
 [fuchsia]#filter [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]#
 ====
@@ -899,7 +899,7 @@ There is no need to save manually.
 *Q*: How do I transfer my data to another Computer? +
 *A*: Install the app in the other computer and overwrite the empty data file it creates with the file that contains the data of your previous Address Book folder.
 
-== Command Summary [Edited in v1.4]
+== Command Summary
 
 |===
 |Feature|Command|Alias|Example

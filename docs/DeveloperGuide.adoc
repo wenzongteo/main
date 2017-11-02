@@ -21,44 +21,41 @@ Credits: `Team SE-EDU` https://github.com/se-edu/addressbook-level4
 toc::[]
 <<<
 
-== Software Overview [Edited in v1.4]
+== Software Overview
 
 Augustine is a virtual Address Book that seeks to assist students who are currently pursuing their studies in National
-University of Singapore (NUS). As a virtual Address Book, Augustine seeks to provide students with a comprehensive
-software to store contact details of their friends inside their laptop. This enables students to take advantage of
+University of Singapore (NUS). As a virtual Address Book, Augustine is a comprehensive
+software to store contact details of their friends. This enables students to take advantage of
 technology to assist them in managing aspects of their daily life and easily query contact details of their friends at
-any time without a need to refer to a physical Address Book when requiring a friend’s contact details.
+any time without a need to refer to a physical Address Book (which might get lost) when they require a friend’s contact details.
 
-Augustine communicates with the User primarily via Command Line Interface (CLI). Augustine also contains a General User
-Interface (GUI) component to display to the User visual feedback of queries that are performed.
+In Augustine, users primarily communicate with the software via Command Line Interface (CLI). Augustine also contains a Graphical User
+Interface (GUI) component to provide visual feedback to commands that are performed.
 
-Developed in Java, Augustine can cater to all students in NUS as it can be executed in both Windows and Unix environment.
+Developed in Java, Augustine can cater to all students in NUS as it runs in both Windows and Unix environment.
 
-== About [Edited in v1.4]
+== About
 
-This Developer Guide seeks to assist both experienced and new Developers that are either interested in contributing to
-the development of Augustine or wishes to know more about the underlying mechanisms of Augustine.
+This Developer Guide seeks to assist both experienced and new developers that are either interested in contributing to
+the development of Augustine or wishes to know more about its underlying mechanisms.
 
-The Developer Guide will first talk about the prerequisites required for Augustine to work before talking about the
-various components within Augustine, in-depth explanation of how certain mechanisms in Augustine work, the thought
-process behind the implementation of theses mechanisms and the documentation of what the development team underwent
-before creating Augustine to what it is today.
+The Developer Guide will first cover the prerequisites for Augustine before covering on
+various components in Augustine, in-depth explanation on the implementation of certain mechanisms in Augustine and design considerations
+behind those implementations and the documentation of what the development team underwent
+to make Augustine to what it is today.
 
-== Getting Started [Edited in v1.4]
+== Getting Started
 Before proceeding further with the Developer Guide, ensure that you have achieved the following requirements:
 
-=== Prerequisites [Edited in v1.4]
-. *Java SE Development Kit* (JDK) `v1.8.0_60` or later is installed.
-
+=== Prerequisites
+. *Java SE Development Kit* (JDK) `v1.8.0_60` or later is installed. +
 You can download the latest JDK from
-http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here] [http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html]
-
+http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here]
 [NOTE]
 Augustine will *not work* with any version of Java earlier than `Java 8.6`.
-
 . *Intellij IDEA* Integrated Development Environment (IDE) is installed.
 
-You can download Intellij IDEA IDE from https://www.jetbrains.com/idea/download/[here] [https://www.jetbrains.com/idea/download]
+You can download Intellij IDEA IDE from https://www.jetbrains.com/idea/download/[here]
 
 [NOTE]
 Either version of Intellij IDEA IDE will work.
@@ -66,7 +63,7 @@ Either version of Intellij IDEA IDE will work.
 By default, Intellij IDEA IDE has Gradle and JavaFx plugins installed. Ensure that both Gradle and JavaFx plugins are enabled.
 If you have disabled them, go to `File > Settings > Plugins` to re-enable them.
 
-=== Setting up the project in your computer [Edited in v1.4]
+=== Setting up the project in your computer
 
 . *Fork* this repo to your own Github account, and *clone* the fork to your computer.
 . Open IntelliJ IDEA IDE and you should see the Welcome Screen.
@@ -89,17 +86,17 @@ If you do not see the welcome screen, click `File > Close Project` to close the 
 The command should finish executing with the `BUILD SUCCESSFUL` message. +
 This will generate all resources required by the application and tests.
 
-=== Verifying the setup [Edited in v1.4]
+=== Verifying the setup
 
 . Run `src\main\java\seedu\address\MainApp.java` in Intellij IDEA IDE and try executing a few commands.
 . link:#testing[Run all tests] by right clicking on the `src/test/java` folder in Intellij IDEA IDE and choose `Run 'All Tests'`.
 *Ensure* that all test cases pass before you start coding.
 
-=== Configurations to do before coding [Edited in v1.4]
+=== Configurations to do before coding
 Now that you have successfully imported Augustine's source code into your computer, do ensure that you have completed the following before
 you commence coding:
 
-==== Configuring the coding style [Edited in v1.4]
+==== Configuring the coding style
 
 This project follows the coding standard set forth by https://github.com/oss-generic/process/blob/master/docs/CodingStandards.md[oss-generic].
 
@@ -150,7 +147,7 @@ When you are ready to start coding,
 
 This section covers how Augustine is design while also providing an overview of the components in Augustine.
 
-=== Architecture Design [Edited in v1.3 and v1.4]
+=== Architecture Design
 
 image::Architecture.png[width="600"]
 _Figure 4.1 : Architecture Diagram_
@@ -273,7 +270,7 @@ The `Model` component,
 * exposes an unmodifiable `ObservableList<ReadOnlyPerson>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
-==== Email component [Edited in v1.3 and v1.4]
+==== Email component
 
 image::EmailComponent.png[width="800"]
 _Figure 4.3.4 : Structure of the Model Component_
@@ -483,7 +480,7 @@ The `Config` class will be initialized by the `MainApp` and the constructed `Con
 When initialized, the `Config` class will read and save the values of parameters in the configuration file. The `MainApp` then passes the `Config` object into classes which require it (e.g. `MainWindow`)
 
 // tag::optionalfields[]
-=== Optional Fields in Contact [Edited in v1.4]
+=== Optional Fields in Contact
 
 Optional fields is the ability to have unfilled fields within a Contact enables the User to add a contact into Augustine without having to know all the particulars of a Contact.
 
@@ -527,7 +524,7 @@ public static Optional<Address> parseField(Optional<String> field) throws Illega
 // end::optionalfields[]
 
 // tag::imagestorage[]
-=== Image Storage Mechanism [Edited in v1.4]
+=== Image Storage Mechanism
 Each contact in Augustine can be given a Display Picture of the User's choosing so that the User can easily
 identify a contact within Augustine.
 
@@ -604,7 +601,7 @@ displaying the Display Picture.
 ====
 // end::imagestorage[];
 
-=== NUSmods integration [Edited in v1.3]
+=== NUSmods integration
 Each contact in Augustine can be contain a `NUSmodules` which stores all their modules and lesson slots.
 Augustine utilizes https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
 
@@ -706,7 +703,7 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 * **Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
 ====
 
-=== Find with filter and sort Mechanism [Edited in v1.3 and v1.4]
+=== Find with filter and sort Mechanism
 
 The find command is facilitated by the Model and Logic Component. It provides the user with the option to
 filter and sort the contact list.
@@ -846,7 +843,7 @@ The code snippet below shows how the `Find` command defines the sorting algorith
 * **Cons:** The find command might become too complex.
 ====
 
-=== Email Mechanism [Edited in v1.3 and v1.4]
+=== Email Mechanism
 
 The email mechanism is facilitated by the `Email component`. It allows the sending of email via using an external
 library, JavaMail. The sections below will explain how the email mechanism works and some of the design considerations.
@@ -908,7 +905,7 @@ The `EmailSend` class sets up the connection to send email via `JavaMail` API. T
 ====
 ---
 
-== Documentation [Edited in V1.4]
+== Documentation
 
 Documentations for Augustine are done in acsiidoc.
 
@@ -943,7 +940,7 @@ Here are the steps to convert the project documentation files to PDF format.
 image::chrome_save_as_pdf.png[width="300"]
 _Figure 6.3.1 : Saving documentation as PDF files in Chrome_
 
-== Testing [Edited in V1.4]
+== Testing
 
 Tests are a vital part in the development of Augustine as it ensures that the existing features in Augustine are working as intended as well as
 ensuring that new features introduced into Augustine has no conflict with the existing features.
@@ -1012,7 +1009,7 @@ For *Windows platform*, ensure that the system environment variables are properl
 * Reason: One of its dependencies, `UserGuide.html` in `src/main/resources/docs` is missing.
 * Solution: Execute Gradle task `processResources`.
 
-== Development Operations [Edited in V1.4]
+== Development Operations
 
 Usage of automation and monitoring tools are a vital part of Augustine's developmental process. These tools help to reduce hiccups in
 Augustine's development as stability of Augustine is not compromised despite the constant addition of new features.
