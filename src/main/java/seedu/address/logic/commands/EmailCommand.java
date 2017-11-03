@@ -27,7 +27,7 @@ public class EmailCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Emails all contacts in the last displayed list\n"
             + "Parameters:\n"
-            + "email et/[send|draft|compose|clear] em/MESSAGE es/SUBJECT el/user@gmail.com:password\n"
+            + "email et/[send|clear] [ em/MESSAGE ] [ es/SUBJECT ]  [ el/user@gmail.com:password ]\n"
             + "Examples:\n"
             + "1) email em/what is your message?\n"
             + "2) email es/new subject\n"
@@ -86,10 +86,10 @@ public class EmailCommand extends Command {
     private void identifyEmailTask() throws EmailLoginInvalidException, EmailMessageEmptyException,
             EmailRecipientsEmptyException, AuthenticationFailedException {
         switch (task.getTask()) {
-        case "send":
+        case EmailTask.TASKSEND:
             model.sendEmail(message);
             break;
-        case "clear":
+        case EmailTask.TASKCLEAR:
             model.clearEmailDraft();
             break;
         default:

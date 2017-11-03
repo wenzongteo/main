@@ -5,6 +5,9 @@ package seedu.address.email;
  * Keeps track of Current Email Command Task
  */
 public class EmailTask {
+    public static final String TASKSEND = "send";
+    public static final String TASKCLEAR = "clear";
+
     private String task;
 
     public EmailTask() {
@@ -33,13 +36,9 @@ public class EmailTask {
      */
     public boolean isValid() {
         switch (this.task) {
-        case "compose":
+        case TASKCLEAR:
             return true;
-        case "clear":
-            return true;
-        case "draft":
-            return true;
-        case "send":
+        case TASKSEND:
             return true;
         default:
             return false;

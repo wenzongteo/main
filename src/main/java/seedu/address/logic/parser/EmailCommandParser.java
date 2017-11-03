@@ -65,7 +65,7 @@ public class EmailCommandParser implements Parser<EmailCommand> {
                 }
             }
 
-            /** checks if only email command is run **/
+            /** checks if only "email" command is run **/
             if (message.isEmpty() && subject.isEmpty() && login.isEmpty() && !task.isValid()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
             }
