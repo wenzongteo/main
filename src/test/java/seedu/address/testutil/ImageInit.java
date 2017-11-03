@@ -66,6 +66,8 @@ public class ImageInit {
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/default.jpeg"),
+                    StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
             throw new AssertionError("Initialization of images failed!");
         } catch (Exception e) {
