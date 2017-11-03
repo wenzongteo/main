@@ -5,6 +5,8 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.email.EmailManager;
@@ -13,9 +15,21 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.testutil.ImageInit;
 
 
 public class ClearCommandTest {
+    @Before
+    public void setUp() {
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
+    }
+
+    @After
+    public void recovery() {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
+    }
 
     @Test
     public void execute_emptyAddressBook_success() throws IOException {
