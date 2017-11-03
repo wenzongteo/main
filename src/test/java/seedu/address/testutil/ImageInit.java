@@ -67,7 +67,7 @@ public class ImageInit {
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
-           throw new AssertionError("Initialization of images failed!");
+            throw new AssertionError("Initialization of images failed!");
         } catch (Exception e) {
             throw new AssertionError("No such error possible");
         }
@@ -79,6 +79,20 @@ public class ImageInit {
     public static void initAlice() {
         try {
             Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ioe) {
+            throw new AssertionError("Initialization of Alice's image failed");
+        } catch (Exception e) {
+            throw new AssertionError("No such error possible");
+        }
+    }
+
+    /**
+     * Initialize alice's photo during the test.
+     */
+    public static void initJohn() {
+        try {
+            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
             throw new AssertionError("Initialization of Alice's image failed");
