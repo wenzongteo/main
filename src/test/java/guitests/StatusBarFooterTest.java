@@ -14,7 +14,6 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import org.junit.After;
-import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -31,11 +30,6 @@ public class StatusBarFooterTest extends AddressBookGuiTest {
     private Clock originalClock;
     private Clock injectedClock;
 
-    @AfterClass
-    public static void recovery() {
-        ImageInit.deleteFiles();
-    }
-
     @Before
     public void injectFixedClock() {
         originalClock = StatusBarFooter.getClock();
@@ -46,6 +40,8 @@ public class StatusBarFooterTest extends AddressBookGuiTest {
     @After
     public void restoreOriginalClock() {
         StatusBarFooter.setClock(originalClock);
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
     }
 
     @Test

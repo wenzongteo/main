@@ -9,6 +9,10 @@ import java.nio.file.StandardCopyOption;
 import seedu.address.commons.util.FileUtil;
 
 //@@author wenzongteo
+
+/**
+ * Class that provides methods to be executed before or after tests to ensure a smooth execution of the tests.
+ */
 public class ImageInit {
     ImageInit() {
     }
@@ -86,8 +90,22 @@ public class ImageInit {
     /**
      * Delete all files inside data/edited folder before deleting the data/edited folder.
      */
-    public static void deleteFiles() {
+    public static void deleteEditedFiles() {
         File toBeDeletedFolder = new File("data/edited");
+        File[] toBeDeletedImages = toBeDeletedFolder.listFiles();
+        if (toBeDeletedImages != null) {
+            for (File f : toBeDeletedImages) {
+                f.delete();
+            }
+        }
+        toBeDeletedFolder.delete();
+    }
+
+    /**
+     * Delete all files inside data/images folder before deleting the data/images folder.
+     */
+    public static void deleteImagesFiles() {
+        File toBeDeletedFolder = new File("data/images");
         File[] toBeDeletedImages = toBeDeletedFolder.listFiles();
         if (toBeDeletedImages != null) {
             for (File f : toBeDeletedImages) {

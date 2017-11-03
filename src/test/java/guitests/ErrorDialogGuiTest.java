@@ -8,6 +8,7 @@ import static seedu.address.ui.UiManager.FILE_OPS_ERROR_DIALOG_STAGE_TITLE;
 
 import java.io.IOException;
 
+import org.junit.After;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
@@ -23,6 +24,12 @@ public class ErrorDialogGuiTest extends AddressBookGuiTest {
     public static void init() {
         ImageInit.checkDirectories();
         ImageInit.initPictures();
+    }
+
+    @After
+    public void recovery() {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
     }
 
     @Test

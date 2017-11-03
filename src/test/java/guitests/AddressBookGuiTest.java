@@ -1,11 +1,5 @@
 package guitests;
 
-import java.awt.*;
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.concurrent.TimeoutException;
 
 import org.junit.After;
@@ -69,6 +63,12 @@ public abstract class AddressBookGuiTest {
         mainWindowHandle.focus();
     }
 
+    @After
+    public void recovery() throws Exception {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
+    }
+
     /**
      * Override this in child classes to set the initial local data.
      * Return null to use the data in the file specified in {@link #getDataFileLocation()}
@@ -121,5 +121,4 @@ public abstract class AddressBookGuiTest {
         EventsCenter.clearSubscribers();
         FxToolkit.cleanupStages();
     }
-
 }

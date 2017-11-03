@@ -19,8 +19,8 @@ import seedu.address.model.ReadOnlyAddressBook;
 import seedu.address.model.UserPrefs;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlSerializableAddressBook;
-import seedu.address.testutil.TestUtil;
 import seedu.address.testutil.ImageInit;
+import seedu.address.testutil.TestUtil;
 import systemtests.ModelHelper;
 
 /**
@@ -107,8 +107,10 @@ public class TestApp extends MainApp {
         ui.start(primaryStage);
     }
 
+    @Override
     public void stop() {
-        ImageInit.deleteFiles();;
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
         ui.stop();
         Platform.exit();
         System.exit(0);
