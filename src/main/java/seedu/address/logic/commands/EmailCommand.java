@@ -27,7 +27,7 @@ public class EmailCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Emails all contacts in the last displayed list\n"
             + "Parameters:\n"
-            + "email et/[send|clear] [ em/MESSAGE ] [ es/SUBJECT ]  [ el/user@gmail.com:password ]\n"
+            + "email [ et/<send|clear> ] [ em/MESSAGE ] [ es/SUBJECT ]  [ el/user@gmail.com:password ]\n"
             + "Examples:\n"
             + "1) email em/what is your message?\n"
             + "2) email es/new subject\n"
@@ -36,7 +36,7 @@ public class EmailCommand extends Command {
             + "5) email em/message es/subject el/adam@gamil.com:password et/send\n"
             + "6) email et/clear";
 
-    public static final String MESSAGE_SUCCESS = "Email have been  %1$s";
+    public static final String MESSAGE_SUCCESS = "Email have been %1$s";
     public static final String MESSAGE_LOGIN_INVALID = "You must log in with a gmail email account before you can send "
             + "an email.\n"
             + "Command: email el/<username@gmail.com>:<password>";
