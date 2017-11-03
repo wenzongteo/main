@@ -14,10 +14,12 @@ import java.time.ZoneId;
 import java.util.Date;
 
 import org.junit.After;
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.logic.commands.ListCommand;
+import seedu.address.testutil.ImageInit;
 import seedu.address.testutil.PersonUtil;
 import seedu.address.ui.StatusBarFooter;
 
@@ -28,6 +30,11 @@ public class StatusBarFooterTest extends AddressBookGuiTest {
 
     private Clock originalClock;
     private Clock injectedClock;
+
+    @AfterClass
+    public static void recovery() {
+        ImageInit.deleteFiles();
+    }
 
     @Before
     public void injectFixedClock() {

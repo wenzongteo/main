@@ -2,11 +2,9 @@ package seedu.address;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.function.Supplier;
 
+import javafx.application.Platform;
 import javafx.stage.Screen;
 import javafx.stage.Stage;
 import seedu.address.commons.core.Config;
@@ -22,6 +20,7 @@ import seedu.address.model.UserPrefs;
 import seedu.address.storage.UserPrefsStorage;
 import seedu.address.storage.XmlSerializableAddressBook;
 import seedu.address.testutil.TestUtil;
+import seedu.address.testutil.ImageInit;
 import systemtests.ModelHelper;
 
 /**
@@ -46,8 +45,8 @@ public class TestApp extends MainApp {
         super();
         this.initialDataSupplier = initialDataSupplier;
         this.saveFileLocation = saveFileLocation;
-
-        initImages();
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
         // If some initial local data has been provided, write those to the file
         if (initialDataSupplier.get() != null) {
             createDataFileWithData(new XmlSerializableAddressBook(this.initialDataSupplier.get()),
@@ -108,6 +107,13 @@ public class TestApp extends MainApp {
         ui.start(primaryStage);
     }
 
+    public void stop() {
+        ImageInit.deleteFiles();;
+        ui.stop();
+        Platform.exit();
+        System.exit(0);
+    }
+
     public static void main(String[] args) {
         launch(args);
     }
@@ -122,48 +128,6 @@ public class TestApp extends MainApp {
             XmlUtil.saveDataToFile(saveFileForTesting, data);
         } catch (Exception e) {
             throw new RuntimeException(e);
-        }
-    }
-
-    //@@author wenzongteo
-    /**
-     * Check if the necessary folder and images to ensure the test is successful exist.
-     */
-    private void initImages() {
-        String imageFilePath = "data/images/";
-        File imageFolder = new File(imageFilePath);
-
-        if (!imageFolder.exists()) {
-            imageFolder.mkdirs();
-        } else {
-
-        }
-
-        try {
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new AssertionError("Impossible");
         }
     }
 }
