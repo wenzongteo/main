@@ -154,6 +154,7 @@ public class EmailCommand extends Command {
             }
             return true;
         }
+        assert false; //should never reach this part of return statement
         return false;
     }
 }
