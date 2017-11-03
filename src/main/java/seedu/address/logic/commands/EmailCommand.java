@@ -136,7 +136,7 @@ public class EmailCommand extends Command {
                 || (other instanceof EmailCommand // instanceof handles nulls
                 && ((EmailCommand) other).message.equals(this.message)
                 && ((EmailCommand) other).loginDetailsEquals(this.loginDetails)
-                && ((EmailCommand) other).task == this.task);
+                && ((EmailCommand) other).task.equals(this.task));
     }
 
     /**

@@ -8,10 +8,14 @@ public class EmailTask {
     public static final String TASKSEND = "send";
     public static final String TASKCLEAR = "clear";
 
-    private String task;
+    public String task;
 
     public EmailTask() {
         this.task = "";
+    }
+
+    public EmailTask(String task) {
+        this.task = task;
     }
 
     /**

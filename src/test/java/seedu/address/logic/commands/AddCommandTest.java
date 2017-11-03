@@ -191,7 +191,7 @@ public class AddCommandTest {
         }
 
         @Override
-        public void sendEmail(MessageDraft message, boolean send) {
+        public void sendEmail(MessageDraft message) {
             fail("This method sould not be called.");
         }
 
@@ -199,6 +199,16 @@ public class AddCommandTest {
         public String getEmailStatus() {
             fail("This method sould not be called.");
             return "";
+        }
+
+        @Override
+        public void clearEmailDraft() {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void draftEmail(MessageDraft message) {
+            fail("This method should not be called.");
         }
     }
 
