@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.UndoRedoStackUtil.prepareStack;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -7,14 +9,10 @@ import static seedu.address.logic.commands.CommandTestUtil.deleteFirstPerson;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Arrays;
 import java.util.Collections;
 
+import org.junit.AfterClass;
 import org.junit.Before;
 import org.junit.BeforeClass;
 import org.junit.Test;
@@ -25,6 +23,7 @@ import seedu.address.logic.UndoRedoStack;
 import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
+import seedu.address.testutil.ImageInit;
 
 public class UndoCommandTest {
     private static final CommandHistory EMPTY_COMMAND_HISTORY = new CommandHistory();
@@ -36,50 +35,8 @@ public class UndoCommandTest {
 
     @BeforeClass
     public static void setUp() {
-        String imageFilePath = "data/images/";
-        String editedFilePath = "data/edited";
-
-        File imageFolder = new File(imageFilePath);
-        File editedFolder = new File(editedFilePath);
-
-        if (!imageFolder.exists()) {
-            imageFolder.mkdirs();
-        } else {
-
-        }
-
-        if (!editedFolder.exists()) {
-            editedFolder.mkdirs();
-        } else {
-
-        }
-
-        try {
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new AssertionError("Impossible");
-        }
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
     }
 
     @Before
@@ -88,21 +45,41 @@ public class UndoCommandTest {
         deleteCommandTwo.setData(model, EMPTY_COMMAND_HISTORY, EMPTY_STACK);
     }
 
+    @AfterClass
+    public static void recovery() {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
+    }
+
     @Test
     public void execute() throws Exception {
         UndoRedoStack undoRedoStack = prepareStack(
                 Arrays.asList(deleteCommandOne, deleteCommandTwo), Collections.emptyList());
         UndoCommand undoCommand = new UndoCommand();
         undoCommand.setData(model, EMPTY_COMMAND_HISTORY, undoRedoStack);
-        deleteCommandOne.execute();
-        deleteCommandTwo.execute();
+        deleteCommandOne.execute(); //Delete Alice
+        deleteCommandTwo.execute(); //Delete John
+
+        //Check if Alice and Bob's photo are deleted.
+        assertFalse(ImageInit.checkAlicePhoto());
+        assertFalse(ImageInit.checkJohnPhoto());
 
         // multiple commands in undoStack
+        ImageInit.initAlice();
+        ImageInit.initJohn();
+
+        //Check if Alice and Bob's photo are recovered.
+        assertTrue(ImageInit.checkAlicePhoto());
+        assertTrue(ImageInit.checkJohnPhoto());
+
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
         deleteFirstPerson(expectedModel);
+
+        assertFalse(ImageInit.checkAlicePhoto()); //Check if Alice's photo is deleted again.
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         // single command in undoStack
+        ImageInit.initAlice();
         expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 

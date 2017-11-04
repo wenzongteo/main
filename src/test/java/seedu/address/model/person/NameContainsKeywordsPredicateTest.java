@@ -7,12 +7,25 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Test;
 
+import seedu.address.testutil.ImageInit;
 import seedu.address.testutil.PersonBuilder;
 
 public class NameContainsKeywordsPredicateTest {
+    @BeforeClass
+    public static void setup() throws Exception {
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
+    }
 
+    @AfterClass
+    public static void recovery() throws Exception {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
+    }
     @Test
     public void equals() {
         List<String> firstPredicateKeywordNameList = Collections.singletonList("first");

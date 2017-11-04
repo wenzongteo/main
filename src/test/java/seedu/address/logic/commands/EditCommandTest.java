@@ -17,6 +17,8 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.commons.core.Messages;
@@ -32,6 +34,7 @@ import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.testutil.EditPersonDescriptorBuilder;
+import seedu.address.testutil.ImageInit;
 import seedu.address.testutil.PersonBuilder;
 
 
@@ -41,7 +44,20 @@ import seedu.address.testutil.PersonBuilder;
  */
 public class EditCommandTest {
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
+    private Model model;
+
+    @Before
+    public void setUp() {
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
+    }
+
+    @After
+    public void recovery() {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
+    }
 
     @Test
     public void execute_allFieldsSpecifiedUnfilteredList_success() throws Exception {

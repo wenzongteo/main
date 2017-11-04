@@ -16,9 +16,6 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_FRIENDS;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_TAG_HUSBAND;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -100,7 +97,6 @@ public class TypicalPersons {
      * Returns an {@code AddressBook} with all the typical persons.
      */
     public static AddressBook getTypicalAddressBook() {
-        initializePictures();
         AddressBook ab = new AddressBook();
         for (ReadOnlyPerson person : getTypicalPersons()) {
             try {
@@ -116,44 +112,5 @@ public class TypicalPersons {
 
     public static List<ReadOnlyPerson> getTypicalPersons() {
         return new ArrayList<>(Arrays.asList(ALICE, BENSON, CARL, DANIEL, ELLE, FIONA, GEORGE));
-    }
-
-    //@@author wenzongteo
-    /**
-     *  Initialize all photos to ensure the photo is available before certain tests.
-     */
-    public static void initializePictures() {
-        try {
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            System.out.println("Preprocess failed");
-        }
     }
 }

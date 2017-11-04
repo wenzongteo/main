@@ -6,6 +6,7 @@ import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -16,6 +17,7 @@ import seedu.address.model.Model;
 import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.Person;
+import seedu.address.testutil.ImageInit;
 import seedu.address.testutil.PersonBuilder;
 
 
@@ -28,7 +30,15 @@ public class AddCommandIntegrationTest {
 
     @Before
     public void setUp() {
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
         model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
+    }
+
+    @After
+    public void recovery() {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
     }
 
     @Test

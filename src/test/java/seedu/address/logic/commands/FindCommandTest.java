@@ -17,6 +17,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import seedu.address.email.EmailManager;
@@ -28,12 +30,26 @@ import seedu.address.model.ModelManager;
 import seedu.address.model.UserPrefs;
 import seedu.address.model.person.NameContainsKeywordsPredicate;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.testutil.ImageInit;
 
 /**
  * Contains integration tests (interaction with the Model) for {@code FindCommand}.
  */
 public class FindCommandTest {
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
+    private Model model;
+
+    @Before
+    public void setUp() {
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
+    }
+
+    @After
+    public void recovery() {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
+    }
 
     @Test
     public void equals() {
