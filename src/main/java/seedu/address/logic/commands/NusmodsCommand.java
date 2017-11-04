@@ -50,7 +50,7 @@ public class NusmodsCommand extends UndoableCommand {
             + PREFIX_TYPE + " and " + PREFIX_MODULE_CODE + " must be filled."
             + "It is then followed any number of lessonType/lessonSlot\n"
             + "Format: " + COMMAND_WORD + " INDEX "
-            + "[" + PREFIX_TYPE + "ADD/DELETE/URL] "
+            + "[" + PREFIX_TYPE + "<ADD|DELETE|URL>] "
             + "[" + PREFIX_MODULE_CODE + "MODULE_CODE/URL] "
             + "[LESSONTYPE/LESSONSLOT]..\n"
             + "Example: " + COMMAND_WORD + " 1 "

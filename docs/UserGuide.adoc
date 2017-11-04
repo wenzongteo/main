@@ -52,7 +52,7 @@ _Figure 1.1_ below shows you what the application is supposed to look like upon 
 +
 [caption="Figure 1.1 "]
 .First start up of Augustine.
-image::Ui.png[width="790"]
+image::startUp.png[width="790"]
 +
 
 .  Augustine works by typing commands into the command box and pressing kbd:[Enter] to run it. +
@@ -222,6 +222,7 @@ The format of the [fuchsia]`edit` command is as follows:
 ====
 [fuchsia]#edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [b/BIRTHDATE] [t/TAG]...#
 ====
+Here are more details explaining the format of the command:
 ****
 * Edits the person at the specified `INDEX`.
 * `INDEX` refers to the index number shown in the the list of contacts.
@@ -513,7 +514,7 @@ The config file can be found in the same folder as Augustine.
 ==== Format
 The format of the [fuchsia]`nusmods` command is as follows:
 ====
-[fuchsia]#nusmods INDEX t/[add/delete/url] [m/MODULE_CODE/URL] [LESSON_TYPE/LESSON_SLOT]...#
+[fuchsia]#nusmods INDEX t/<add|delete|url> m/<MODULE_CODE|URL> [LESSON_TYPE/LESSON_SLOT]...#
 ====
 Here are more details explaining the format of the command:
 ****
