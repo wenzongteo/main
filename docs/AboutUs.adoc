@@ -27,7 +27,7 @@ image::ritchie.jpg[width="150", align="left"]
 {empty}[http://github.com/ritchielq[github]] [<<ritchie#, portfolio>>]
 
 Role: Developer +
-Responsibilities: UI
+Responsibilities: UI, Team Leader, Testing, Code Quality and Product Demonstration
 
 '''
 
@@ -36,7 +36,7 @@ image::wz.jpg[width="150", align="left"]
 {empty}[https://github.com/wenzongteo[github]] [<<wenzong#, portfolio>>]
 
 Role: Developer +
-Responsibilities: Add
+Responsibilities: Logic, Documentation, Deliverables and Deadlines, Integration
 
 '''
 
@@ -45,7 +45,7 @@ image::bryan.jpg[width="150", align="left"]
 {empty}[http://github.com/awarenessxz[github]] [<<bryan#, portfolio>>]
 
 Role: Developer +
-Responsibilities: Find
+Responsibilities: Model, Deliverables and Deadlines, Management of Milestones and Issues
 
 '''
 
@@ -54,6 +54,6 @@ image::hengyu.jpg[width="150", align="left"]
 {empty}[https://github.com/hengyu95[github]] [<<hengyu#, portfolio>>]
 
 Role: Developer +
-Responsibilities: Filter
+Responsibilities: Storage, Scheduling and Tracking, Documentation.
 
 '''
