@@ -27,7 +27,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_STORED_PHOTO = "data/images/alice@example.com.jpg";
     public static final String DEFAULT_TAGS = "friends";
-    public static final String DEFAULT_BIRTHDATE = "31/12/1995";
+    public static final String DEFAULT_BIRTHDATE = "12/12/1995";
 
     private Person person;
 
@@ -134,6 +134,7 @@ public class PersonBuilder {
         return this;
     }
 
+    //@@author ritchielq
     /**
      * Sets the {@code NusModules} of the {@code Person} that we are building.
      */
@@ -162,7 +163,7 @@ public class PersonBuilder {
         return this;
     }
 
-
+    //@@author
     public Person build() {
         return this.person;
     }

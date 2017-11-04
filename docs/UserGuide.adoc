@@ -515,13 +515,25 @@ The format of the [fuchsia]`nusmods` command is as follows:
 ====
 [fuchsia]#nusmods INDEX t/[add/delete/url] [m/MODULE_CODE/URL] [LESSON_TYPE/LESSON_SLOT]...#
 ====
+Here are more details explaining the format of the command:
 ****
 * Changes the modules of the person at the specified `INDEX`.
 * `INDEX` refers to the index number shown in the the list of contacts.
 * The index must be a whole number 1, 2, 3, ...
 * t/ is followed by either "add", "delete" or "url".
 ** "t/add" will require `m/MODULE_CODE` and one or more `LESSON_TYPE/LESSON_SLOT`
-*** `LESSON_TYPE` is a 3 letter combination. For example, lec and tut for lectures and tutorials respectively. You can visit the NUSmods website if you are unsure what is the 3 letter combination of a lesson type or which lesson types a module.
+*** `LESSON_TYPE` is a the type of lesson. This is a list of lesson types:
+**** Dlec
+**** Lec
+**** Lab
+**** Plec
+**** Ptut
+**** Rec
+**** Sec
+**** Sem
+**** Tut
+**** Tut2
+**** Tut3
 *** `LESSON_SLOT` is to indicate which slot the contact is allocated to. For example, "tut/5" means that he belongs in tutorial group 5.
 *** You can use "t/add" to update lesson slots too.
 ** "t/delete" will require `m/MODULE_CODE` only.
