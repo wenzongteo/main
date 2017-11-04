@@ -12,6 +12,9 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_MODULE_CODE;
+import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_TUTORIAL;
+import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_TYPE;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -52,6 +55,11 @@ public class CommandTestUtil {
     public static final String VALID_EMAIL_LOGIN = "bernicefortesting@gmail.com:password1234H";
     public static final String VALID_NAME_JOHN_EMAILTESTER = "JohnEmailTester";
     public static final String VALID_EMAIL_JOHN_EMAILTESTER = "johnfortesting@hotmail.com";
+    public static final String VALID_TYPE_ADD = "add";
+    public static final String VALID_TYPE_DELETE = "delete";
+    public static final String VALID_TYPE_URL = "url";
+    public static final String VALID_LESSONSLOT_T5 = "T5";
+    public static final String VALID_MODULE_CS2103T = "CS2103T";
 
     public static final String NAME_DESC_AMY = " " + PREFIX_NAME + VALID_NAME_AMY;
     public static final String NAME_DESC_BOB = " " + PREFIX_NAME + VALID_NAME_BOB;
@@ -67,6 +75,13 @@ public class CommandTestUtil {
     public static final String BIRTHDATE_DESC_BOB = " " + PREFIX_BIRTHDATE + VALID_BIRTHDATE_BOB;
     public static final String TAG_DESC_FRIEND = " " + PREFIX_TAG + VALID_TAG_FRIENDS;
     public static final String TAG_DESC_HUSBAND = " " + PREFIX_TAG + VALID_TAG_HUSBAND;
+    public static final String NAME_DESC_JOHN_EMAILTESTER = " " + PREFIX_NAME + VALID_NAME_JOHN_EMAILTESTER;
+    public static final String EMAIL_DESC_JOHN_EMAILTESTER = " " + PREFIX_EMAIL_ADDRESS + VALID_EMAIL_JOHN_EMAILTESTER;
+    public static final String TYPE_DESC_ADD = " " + PREFIX_TYPE + VALID_TYPE_ADD;
+    public static final String TYPE_DESC_DELETE = " " + PREFIX_TYPE + VALID_TYPE_DELETE;
+    public static final String TYPE_DESC_URL = " " + PREFIX_TYPE + VALID_TYPE_URL;
+    public static final String MODULE_DESC_CS2103T = " " + PREFIX_MODULE_CODE + VALID_MODULE_CS2103T;
+    public static final String LESSON_DESC_CS2103T = " " + PREFIX_TUTORIAL + "T5";
 
     public static final String INVALID_NAME_DESC = " " + PREFIX_NAME + "James&"; // '&' not allowed in names
     public static final String INVALID_PHONE_DESC = " " + PREFIX_PHONE + "911a"; // 'a' not allowed in phones
@@ -76,6 +91,8 @@ public class CommandTestUtil {
     public static final String INVALID_BIRTHDATE_DESC = " " + PREFIX_BIRTHDATE + "35/12/1995"; // no date contains 35
     public static final String INVALID_EMAIL_LOGIN_INPUT = "bernicefortesting@gmail.com:key:key";
     public static final String INVALID_EMAIL_LOGIN_USERNAME = "bernicefortesting@yahoo.com:password";
+    public static final String INVALID_TYPE_DESC = " " + PREFIX_TYPE + "asdf"; // Only allowed add, delete and url
+    public static final String INVALID_MODULE_DESC_CS2103T = " " + PREFIX_MODULE_CODE + "CSS123456"; // Too Maybe digit
 
     public static final String NOT_FILLED = "-";
     public static final String IMAGE_STORAGE_BOB = "data/images/bob@example.com.jpg";

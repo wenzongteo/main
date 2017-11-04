@@ -62,7 +62,7 @@ public class TypicalPersons {
             .withAddress("chicago ave").withBirthdate("12/12/1995").build();
     public static final ReadOnlyPerson ALICE_WITH_NUSMODULE = new PersonBuilder().withName("Alice Pauline")
             .withAddress("123, Jurong West Ave 6, #08-111").withEmailAddress("alice@example.com")
-            .withNusModules("CS1231").withPhoto("data/images/alice@example.com.jpg").build();
+            .withNusModules("CS1231[SEC]=1").withPhoto("data/images/alice@example.com.jpg").build();
 
     // Manually added - Person's details found in {@code CommandTestUtil}
     public static final ReadOnlyPerson AMY = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_AMY)
