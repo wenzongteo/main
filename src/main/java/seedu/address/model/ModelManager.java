@@ -303,13 +303,11 @@ public class ModelManager extends ComponentManager implements Model {
     }
 
     @Override
-    public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
-            EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
+    public void sendEmail(MessageDraft message) throws EmailLoginInvalidException, EmailMessageEmptyException,
+            EmailRecipientsEmptyException, AuthenticationFailedException {
         email.composeEmail(message);
+        email.sendEmail();
 
-        if (send) {
-            email.sendEmail();
-        }
         raise(new EmailDraftChangedEvent(email.getEmailDraft()));
     }
 
@@ -318,6 +316,20 @@ public class ModelManager extends ComponentManager implements Model {
         return email.getEmailStatus();
     }
     //@@author
+
+    @Override
+    public void clearEmailDraft() {
+        email.clearEmailDraft();
+
+        raise(new EmailDraftChangedEvent(email.getEmailDraft()));
+    }
+
+    @Override
+    public void draftEmail(MessageDraft message) {
+        email.composeEmail(message);
+
+        raise(new EmailDraftChangedEvent(email.getEmailDraft()));
+    }
 
     @Override
     public boolean equals(Object obj) {

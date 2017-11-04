@@ -20,7 +20,7 @@ public class FindCommand extends Command {
             + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
             + "Parameters: "
             + "[ " + PREFIX_NAME + "KEYWORD [MORE_KEYWORDS]... ] [ " + PREFIX_TAG + "KEYWORD [MORE_KEYWORDS]... ] "
-            + "[ " + PREFIX_SORT + "[name|tag] ]\n"
+            + "[ " + PREFIX_SORT + "<name|tag|email|address> ]\n"
             + "Examples:\n"
             + "1) " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob charlie\n"
             + "2) " + COMMAND_WORD + " " + PREFIX_TAG + "tag1 tag2 tag3\n"

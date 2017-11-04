@@ -8,6 +8,7 @@ import javax.mail.AuthenticationFailedException;
 import javax.mail.internet.AddressException;
 import javax.mail.internet.InternetAddress;
 
+import seedu.address.email.EmailTask;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
@@ -26,15 +27,16 @@ public class EmailCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Emails all contacts in the last displayed list\n"
             + "Parameters:\n"
-            + "email et/[send|draft|compose] em/MESSAGE es/SUBJECT el/user@gmail.com:password\n"
+            + "email [ et/<send|clear> ] [ em/MESSAGE ] [ es/SUBJECT ]  [ el/user@gmail.com:password ]\n"
             + "Examples:\n"
             + "1) email em/what is your message?\n"
             + "2) email es/new subject\n"
             + "3) email el/adam@gmail.com:password\n"
             + "4) email et/send\n"
-            + "5) email em/message es/subject el/adam@gamil.com:password et/send";
+            + "5) email em/message es/subject el/adam@gamil.com:password et/send\n"
+            + "6) email et/clear";
 
-    public static final String MESSAGE_SUCCESS = "Email have been  %1$s";
+    public static final String MESSAGE_SUCCESS = "Email have been %1$s";
     public static final String MESSAGE_LOGIN_INVALID = "You must log in with a gmail email account before you can send "
             + "an email.\n"
             + "Command: email el/<username@gmail.com>:<password>";
@@ -52,11 +54,11 @@ public class EmailCommand extends Command {
 
     private final MessageDraft message;
     private final String [] loginDetails;
-    private final boolean send;
+    private final EmailTask task;
 
-    public EmailCommand(String message, String subject, String [] loginDetails, boolean send) {
+    public EmailCommand(String message, String subject, String [] loginDetails, EmailTask task) {
         this.message = new MessageDraft(message, subject);
-        this.send = send;
+        this.task = task;
         this.loginDetails = loginDetails;
     }
 
@@ -78,6 +80,24 @@ public class EmailCommand extends Command {
         return recipientsEmail;
     }
 
+    /**
+     * Identify the Email Command Execution Task purpose
+     */
+    private void identifyEmailTask() throws EmailLoginInvalidException, EmailMessageEmptyException,
+            EmailRecipientsEmptyException, AuthenticationFailedException {
+        switch (task.getTask()) {
+        case EmailTask.TASKSEND:
+            model.sendEmail(message);
+            break;
+        case EmailTask.TASKCLEAR:
+            model.clearEmailDraft();
+            break;
+        default:
+            model.draftEmail(message);
+            break;
+        }
+    }
+
     @Override
     public CommandResult execute() throws CommandException {
         requireNonNull(model);
@@ -94,7 +114,7 @@ public class EmailCommand extends Command {
         try {
             //Set up Email Details
             model.loginEmail(loginDetails);
-            model.sendEmail(message, send);
+            identifyEmailTask();
             return new CommandResult(String.format(MESSAGE_SUCCESS, model.getEmailStatus()));
         } catch (EmailLoginInvalidException e) {
             throw new CommandException(MESSAGE_LOGIN_INVALID);
@@ -116,7 +136,7 @@ public class EmailCommand extends Command {
                 || (other instanceof EmailCommand // instanceof handles nulls
                 && ((EmailCommand) other).message.equals(this.message)
                 && ((EmailCommand) other).loginDetailsEquals(this.loginDetails)
-                && ((EmailCommand) other).send == this.send);
+                && ((EmailCommand) other).task.equals(this.task));
     }
 
     /**
