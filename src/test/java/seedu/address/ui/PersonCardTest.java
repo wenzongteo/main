@@ -6,14 +6,29 @@ import static org.junit.Assert.assertTrue;
 import static seedu.address.testutil.TypicalPersons.ALICE;
 import static seedu.address.ui.testutil.GuiTestAssert.assertCardDisplaysPerson;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
 import guitests.guihandles.PersonCardHandle;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.testutil.ImageInit;
 import seedu.address.testutil.PersonBuilder;
 
 public class PersonCardTest extends GuiUnitTest {
+
+    @Before
+    public void setup() throws Exception {
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
+    }
+
+    @After
+    public void recovery() throws Exception {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
+    }
 
     @Test
     public void display() {

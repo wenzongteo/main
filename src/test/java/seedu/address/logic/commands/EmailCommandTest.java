@@ -10,6 +10,8 @@ import java.io.IOException;
 import java.util.function.Predicate;
 import javax.mail.AuthenticationFailedException;
 
+import org.junit.After;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -36,6 +38,7 @@ import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+import seedu.address.testutil.ImageInit;
 
 //@@author awarenessxz
 /**
@@ -45,8 +48,21 @@ public class EmailCommandTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    private Model model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
+    private Model model;
     private Predicate<ReadOnlyPerson> predicateShowNoPerson = unused -> false;
+
+    @Before
+    public void setUp() {
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
+        model = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
+    }
+
+    @After
+    public void recovery() {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
+    }
 
     @Test
     public void email_sendingFail_emailMessageEmptyException() throws Exception {

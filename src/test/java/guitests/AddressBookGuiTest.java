@@ -1,10 +1,5 @@
 package guitests;
 
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.concurrent.TimeoutException;
 
 import org.junit.After;
@@ -26,6 +21,7 @@ import javafx.stage.Stage;
 import seedu.address.TestApp;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.model.AddressBook;
+import seedu.address.testutil.ImageInit;
 import seedu.address.testutil.TypicalPersons;
 
 /**
@@ -55,49 +51,8 @@ public abstract class AddressBookGuiTest {
 
     @Before
     public void setup() throws Exception {
-        String imageFilePath = "data/images/";
-        File imageFolder = new File(imageFilePath);
-
-        if (!imageFolder.exists()) {
-            imageFolder.mkdirs();
-        } else {
-
-        }
-
-        try {
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new AssertionError("Impossible");
-        }
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
 
         FxToolkit.setupStage((stage) -> {
             this.stage = stage;
@@ -107,6 +62,12 @@ public abstract class AddressBookGuiTest {
 
         mainWindowHandle = new MainWindowHandle(stage);
         mainWindowHandle.focus();
+    }
+
+    @After
+    public void recovery() throws Exception {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
     }
 
     /**
@@ -165,5 +126,4 @@ public abstract class AddressBookGuiTest {
         EventsCenter.clearSubscribers();
         FxToolkit.cleanupStages();
     }
-
 }

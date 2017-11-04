@@ -4,16 +4,31 @@ import static junit.framework.TestCase.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import seedu.address.commons.exceptions.IllegalValueException;
+import seedu.address.testutil.ImageInit;
 
 //@@author wenzongteo
 public class PhotoTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
+
+    @BeforeClass
+    public static void setUp() {
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
+    }
+
+    @AfterClass
+    public static void recovery() {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
+    }
 
     @Test
     public void isValidPhoto() {
@@ -81,7 +96,7 @@ public class PhotoTest {
     @Test
     public void compareHash() {
         try {
-            Photo photo1 = new Photo("data/images/default.jpeg");
+            Photo photo1 = new Photo("default.jpeg");
             Photo photo2 = new Photo("docs/images/wz.jpg", 0);
 
             //Compare hash of the same photo --> return true
@@ -98,7 +113,7 @@ public class PhotoTest {
     @Test
     public void compareString() {
         try {
-            Photo photo1 = new Photo("data/images/default.jpeg");
+            Photo photo1 = new Photo("default.jpeg");
             Photo photo2 = new Photo("docs/images/wz.jpg", 0);
 
             //Compare String value of the same photo --> return true
@@ -114,7 +129,7 @@ public class PhotoTest {
     @Test
     public void equals() {
         try {
-            Photo photo1 = new Photo("data/images/default.jpeg");
+            Photo photo1 = new Photo("default.jpeg");
             Photo photo2 = new Photo("docs/images/wz.jpg", 0);
 
             //Compare String value of the same photo --> return true
