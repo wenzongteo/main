@@ -17,7 +17,6 @@ public class ImageInit {
     private static final String EDITED_FOLDER_PATH = "data/edited";
     private static final String IMAGES_FOLDER_PATH = "data/images";
     private static final String DEFAULT_ORIGINAL_PATH = "default.jpeg";
-    private static final String DEFAULT_PHOTO_PATH = "data/images/default.jpeg";
     private static final String ALICE_PHOTO_PATH = "data/images/alice@example.com.jpg";
     private static final String JOHN_PHOTO_PATH = "data/images/johnd@example.com.jpg";
     private static final String HEINZ_PHOTO_PATH = "data/images/heinz@example.com.jpg";
@@ -171,15 +170,15 @@ public class ImageInit {
      * Check if Photo for Heinz exists.
      */
     public static boolean checkHeinzPhoto() {
-        File HeinzPhoto = new File(HEINZ_PHOTO_PATH);
-        return FileUtil.isFileExists(HeinzPhoto);
+        File heinzPhoto = new File(HEINZ_PHOTO_PATH);
+        return FileUtil.isFileExists(heinzPhoto);
     }
 
     /**
      * Check if Photo for Lydia exists.
      */
     public static boolean checkLydiaPhoto() {
-        File LydiaPhoto = new File(LYDIA_PHOTO_PATH);
-        return FileUtil.isFileExists(LydiaPhoto);
+        File lydiaPhoto = new File(LYDIA_PHOTO_PATH);
+        return FileUtil.isFileExists(lydiaPhoto);
     }
 }
