@@ -80,8 +80,6 @@ public class ImageInit {
                     StandardCopyOption.REPLACE_EXISTING);
             Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(BOB_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(DEFAULT_PHOTO_PATH),
-                    StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
             throw new AssertionError("Initialization of images failed!");
         } catch (Exception e) {
