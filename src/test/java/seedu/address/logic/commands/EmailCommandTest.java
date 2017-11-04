@@ -3,6 +3,7 @@ package seedu.address.logic.commands;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
 import static seedu.address.testutil.TypicalPersons.getTypicalAddressBook;
 
 import java.io.IOException;
@@ -17,6 +18,7 @@ import javafx.collections.ObservableList;
 
 import seedu.address.email.Email;
 import seedu.address.email.EmailManager;
+import seedu.address.email.EmailTask;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
@@ -54,7 +56,8 @@ public class EmailCommandTest {
         thrown.expectMessage(EmailCommand.MESSAGE_EMPTY_INVALID);
 
         String [] loginDetails = {"adam@gmail.com", "password"};
-        getEmailCommand("", "", loginDetails, true, modelStub).execute();
+        EmailTask task = new EmailTask("send");
+        getEmailCommand("", "", loginDetails, task, modelStub).execute();
     }
 
     @Test
@@ -64,13 +67,19 @@ public class EmailCommandTest {
         thrown.expect(CommandException.class);
         thrown.expectMessage(EmailCommand.MESSAGE_LOGIN_INVALID);
 
+        EmailTask task = new EmailTask("send");
+
         //Non Gmail Login --> Throws exception
         String [] loginDetail1 = {"adam@yahoo.com", "password"};
-        getEmailCommand("", "", loginDetail1, true, modelStub).execute();
+        getEmailCommand("", "", loginDetail1, task, modelStub).execute();
 
         //Invalid Login Details Only accepts 2 fields --> Throws exception
         String [] loginDetail2 = {"adam@yahoo.com", "password", "hello"};
-        getEmailCommand("", "", loginDetail2, true, modelStub).execute();
+        getEmailCommand("", "", loginDetail2, task, modelStub).execute();
+
+        //Invalid Login Details --> Throws exception
+        String [] loginDetail3 = {"password", "adam@gmail.com"};
+        getEmailCommand("", "", loginDetail3, task, modelStub).execute();
     }
 
     @Test
@@ -81,15 +90,58 @@ public class EmailCommandTest {
         thrown.expectMessage(EmailCommand.MESSAGE_RECIPIENT_INVALID);
 
         String [] loginDetails = {"adam@gmail.com", "password"};
-        getEmailCommand("", "", loginDetails, true, modelStub).execute();
+        EmailTask task = new EmailTask("send");
+        getEmailCommand("", "", loginDetails, task, modelStub).execute();
     }
+
+    @Test
+    public void email_sendingFail_authenticationFailedException() throws Exception {
+        ModelStub modelStub = new ModelStubThrowingAuthenticationFailedException();
+
+        thrown.expect(CommandException.class);
+        thrown.expectMessage(EmailCommand.MESSAGE_AUTHENTICATION_FAIL);
+
+        String [] loginDetails = {"adam@gmail.com", "password"};
+        EmailTask task = new EmailTask("send");
+        getEmailCommand("", "", loginDetails, task, modelStub).execute();
+    }
+
+    @Test
+    public void execute_emailClear_success() throws Exception {
+        String [] loginDetails = {"adam@gmail.com", "password"};
+        EmailTask task = new EmailTask("clear");
+        EmailCommand emailCommand = getEmailCommand("message", "subject", loginDetails, task, model);
+
+        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS, "cleared");
+
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), model.getEmailManager());
+        expectedModel.clearEmailDraft();
+
+        assertCommandSuccess(emailCommand, model, expectedMessage, expectedModel);
+    }
+
+    @Test
+    public void execute_emailDraft_success() throws Exception {
+        String [] loginDetails = {"adam@gmail.com", "password"};
+        EmailTask task = new EmailTask();
+        EmailCommand emailCommand = getEmailCommand("message", "subject", loginDetails, task, model);
+
+        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS, "drafted");
+
+        ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), model.getEmailManager());
+        expectedModel.draftEmail(new MessageDraft("message", "subject"));
+
+        assertCommandSuccess(emailCommand, model, expectedMessage, expectedModel);
+    }
+
+    /** =========== Model Stub that always throws exceptions ============================ */
 
     /**
      * A Model stub that always throw a EmailMessageEmptyException when trying to send email.
      */
     private class ModelStubThrowingEmailMessageEmptyException extends ModelStub {
         @Override
-        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
+        public void sendEmail(MessageDraft message) throws EmailLoginInvalidException,
                 EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
             throw new EmailMessageEmptyException();
         }
@@ -110,7 +162,7 @@ public class EmailCommandTest {
      */
     private class ModelStubThrowingEmailLoginInvalidException extends ModelStub {
         @Override
-        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
+        public void sendEmail(MessageDraft message) throws EmailLoginInvalidException,
                 EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
             throw new EmailLoginInvalidException();
         }
@@ -131,9 +183,31 @@ public class EmailCommandTest {
      */
     private class ModelStubThrowingEmailRecipientsEmptyException extends ModelStub {
         @Override
-        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
+        public void sendEmail(MessageDraft message) throws EmailLoginInvalidException,
                 EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
             throw new EmailRecipientsEmptyException();
+        }
+
+        @Override
+        public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
+            model.loginEmail(loginDetails);
+        }
+
+        @Override
+        public ObservableList<ReadOnlyPerson> getFilteredPersonList() {
+            model.updateFilteredPersonList(predicateShowNoPerson);
+            return model.getFilteredPersonList();
+        }
+    }
+
+    /**
+     * A Model stub that always throw a AuthenticationFailedException when trying to send email.
+     */
+    private class ModelStubThrowingAuthenticationFailedException extends ModelStub {
+        @Override
+        public void sendEmail(MessageDraft message) throws EmailLoginInvalidException,
+                EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
+            throw new AuthenticationFailedException();
         }
 
         @Override
@@ -220,29 +294,41 @@ public class EmailCommandTest {
 
         @Override
         public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
-            fail("This method sould not be called.");
+            fail("This method should not be called.");
         }
 
         @Override
-        public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
+        public void sendEmail(MessageDraft message) throws EmailLoginInvalidException,
                 EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
-            fail("This method sould not be called.");
+            fail("This method should not be called.");
         }
 
         @Override
         public String getEmailStatus() {
-            fail("This method sould not be called.");
+            fail("This method should not be called.");
             return "";
         }
 
+        @Override
+        public void clearEmailDraft() {
+            fail("This method should not be called.");
+        }
+
+        @Override
+        public void draftEmail(MessageDraft message) {
+            fail("This method should not be called.");
+        }
+
     }
+
+    /** ================== End of Model Stub ========================================= */
 
     /**
      * Generates a new EmailCommand with the details of the given message.
      */
     private EmailCommand getEmailCommand(String message, String subject,
-                                         String [] loginDetails, boolean send, Model model) {
-        EmailCommand command = new EmailCommand(message, subject, loginDetails, send);
+                                         String [] loginDetails, EmailTask task, Model model) {
+        EmailCommand command = new EmailCommand(message, subject, loginDetails, task);
         command.setData(model, new CommandHistory(), new UndoRedoStack());
         return command;
     }
@@ -250,13 +336,17 @@ public class EmailCommandTest {
     @Test
     public void equals() {
         String [] loginDetails = {"adam@gmail.com:password"};
-        EmailCommand emailFirstCommand = new EmailCommand("Hello", "subject", loginDetails, true);
+        EmailTask task = new EmailTask("send");
+
+        EmailCommand emailFirstCommand = new EmailCommand("Hello", "subject",
+                loginDetails, task);
 
         // same object -> returns true
         assertTrue(emailFirstCommand.equals(emailFirstCommand));
 
         // same values -> returns true
-        EmailCommand emailFirstCommandcopy = new EmailCommand("Hello", "subject", loginDetails, true);
+        EmailCommand emailFirstCommandcopy = new EmailCommand("Hello", "subject",
+                loginDetails, task);
         assertTrue(emailFirstCommand.equals(emailFirstCommandcopy));
 
         // different types -> returns false
@@ -267,7 +357,8 @@ public class EmailCommandTest {
 
         // different person -> returns false
         String [] loginDetails2 = {"bernice@gmail.com:word123"};
-        EmailCommand emailSecondCommand = new EmailCommand("ello", "ubject", loginDetails2, false);
+        EmailCommand emailSecondCommand = new EmailCommand("ello", "ubject",
+                loginDetails2, new EmailTask());
         assertFalse(emailFirstCommand.equals(emailSecondCommand));
     }
 
