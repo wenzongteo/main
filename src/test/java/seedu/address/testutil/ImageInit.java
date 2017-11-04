@@ -29,7 +29,6 @@ public class ImageInit {
     private static final String LYDIA_PHOTO_PATH = "data/images/lydia@example.com.jpg";
     private static final String BOB_PHOTO_PATH = "data/images/bob@example.com.jpg";
 
-
     ImageInit() {
     }
 
