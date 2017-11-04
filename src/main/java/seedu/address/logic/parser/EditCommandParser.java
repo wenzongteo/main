@@ -48,14 +48,14 @@ public class EditCommandParser implements Parser<EditCommand> {
 
         EditPersonDescriptor editPersonDescriptor = new EditPersonDescriptor();
         try {
-            ParserUtil.parseNameForEdit(argMultimap.getValue(PREFIX_NAME)).ifPresent(editPersonDescriptor::setName);
-            ParserUtil.parsePhoneForEdit(argMultimap.getValue(PREFIX_PHONE)).ifPresent(editPersonDescriptor::setPhone);
-            ParserUtil.parseEmailForEdit(argMultimap.getValue(PREFIX_EMAIL_ADDRESS))
+            ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).ifPresent(editPersonDescriptor::setName);
+            ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).ifPresent(editPersonDescriptor::setPhone);
+            ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL_ADDRESS))
                     .ifPresent(editPersonDescriptor::setEmailAddress);
-            ParserUtil.parseAddressForEdit(argMultimap.getValue(PREFIX_ADDRESS))
+            ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS))
                     .ifPresent(editPersonDescriptor::setAddress);
-            ParserUtil.parsePhotoForEdit(argMultimap.getValue(PREFIX_PHOTO)).ifPresent(editPersonDescriptor::setPhoto);
-            ParserUtil.parseBirthdateForEdit(argMultimap.getValue(PREFIX_BIRTHDATE))
+            ParserUtil.parsePhoto(argMultimap.getValue(PREFIX_PHOTO)).ifPresent(editPersonDescriptor::setPhoto);
+            ParserUtil.parseBirthdate(argMultimap.getValue(PREFIX_BIRTHDATE))
                     .ifPresent(editPersonDescriptor::setBirthdate);
             parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
         } catch (IllegalValueException ive) {

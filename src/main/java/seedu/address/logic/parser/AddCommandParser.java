@@ -10,6 +10,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
 
 import java.io.IOException;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Stream;
 
@@ -45,13 +46,14 @@ public class AddCommandParser implements Parser<AddCommand> {
         }
 
         try {
-            Name name = ParserUtil.parseName(argMultimap.getValue(PREFIX_NAME)).get();
-            Phone phone = ParserUtil.parsePhone(argMultimap.getValue(PREFIX_PHONE)).get();
-            EmailAddress emailAddress = ParserUtil.parseEmail(argMultimap.getValue(PREFIX_EMAIL_ADDRESS)).get();
-            Address address = ParserUtil.parseAddress(argMultimap.getValue(PREFIX_ADDRESS)).get();
-            Photo photo = ParserUtil.parsePhoto(argMultimap.getValue(PREFIX_PHOTO)).get();
+            Name name = ParserUtil.parseName(checkInput(argMultimap.getValue(PREFIX_NAME))).get();
+            Phone phone = ParserUtil.parsePhone(checkInput(argMultimap.getValue(PREFIX_PHONE))).get();
+            EmailAddress emailAddress = ParserUtil.parseEmail(checkInput(argMultimap.getValue(PREFIX_EMAIL_ADDRESS)))
+                    .get();
+            Address address = ParserUtil.parseAddress(checkInput(argMultimap.getValue(PREFIX_ADDRESS))).get();
+            Photo photo = ParserUtil.parsePhoto(checkInput(argMultimap.getValue(PREFIX_PHOTO))).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
-            Birthdate birthdate = ParserUtil.parseBirthdate(argMultimap.getValue(PREFIX_BIRTHDATE)).get();
+            Birthdate birthdate = ParserUtil.parseBirthdate(checkInput(argMultimap.getValue(PREFIX_BIRTHDATE))).get();
 
             ReadOnlyPerson person = new Person(name, phone, emailAddress, address, photo, tagList, birthdate);
 
@@ -69,4 +71,14 @@ public class AddCommandParser implements Parser<AddCommand> {
         return Stream.of(prefixes).allMatch(prefix -> argumentMultimap.getValue(prefix).isPresent());
     }
 
+    //@@author wenzongteo
+    /**
+     * Check if the user has input any value for this variable before sending the input for further parsing.
+     *
+     * @param userInput Input entered by the user that is parsed by argMultimap.
+     * @return the value of the input entered by the user or '-' if no input was entered.
+     */
+    private static Optional<String> checkInput(Optional<String> userInput) {
+        return Optional.of(userInput.orElse("-"));
+    }
 }

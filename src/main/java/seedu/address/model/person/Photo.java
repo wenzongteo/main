@@ -33,6 +33,10 @@ public class Photo {
     public Photo(String photo) throws IllegalValueException {
         photo = photo.trim();
 
+        if (photo.equals("-")) {
+            photo = "data/images/default.jpeg";
+        }
+
         if (!isValidPhoto(photo)) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         } else {
