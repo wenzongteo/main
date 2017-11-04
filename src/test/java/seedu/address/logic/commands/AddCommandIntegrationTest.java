@@ -43,7 +43,7 @@ public class AddCommandIntegrationTest {
 
     @Test
     public void execute_newPerson_success() throws Exception {
-        Person validPerson = new PersonBuilder().build();
+        Person validPerson = new PersonBuilder().withBirthdate("31/12/1995").build();
 
         Model expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), new EmailManager());
         expectedModel.addPerson(validPerson);

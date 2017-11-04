@@ -7,6 +7,25 @@
         <address isPrivate="false">4th street</address>
 		<photo>default.jpeg</photo>
 		<birthdate>02/03/1995</birthdate>
+        <nusModule moduleCode="CS2010">
+            <lesson lessonType="TUT">5</lesson>
+            <lesson lessonType="LEC">1</lesson>
+            <lesson lessonType="LAB">6</lesson>
+        </nusModule>
+        <nusModule moduleCode="CS2103T">
+            <lesson lessonType="TUT">T5</lesson>
+        </nusModule>
+        <nusModule moduleCode="MA1101R">
+            <lesson lessonType="TUT">T13</lesson>
+            <lesson lessonType="LEC">SL2</lesson>
+            <lesson lessonType="LAB">B01</lesson>
+        </nusModule>
+        <nusModule moduleCode="GET1020">
+            <lesson lessonType="LEC">L1</lesson>
+        </nusModule>
+        <nusModule moduleCode="CS2101">
+            <lesson lessonType="SEC">5</lesson>
+        </nusModule>
     </persons>
     <persons>
         <name>Ruth Mueller</name>

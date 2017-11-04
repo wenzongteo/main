@@ -27,7 +27,7 @@ public class PersonBuilder {
     public static final String DEFAULT_ADDRESS = "123, Jurong West Ave 6, #08-111";
     public static final String DEFAULT_STORED_PHOTO = "data/images/alice@example.com.jpg";
     public static final String DEFAULT_TAGS = "friends";
-    public static final String DEFAULT_BIRTHDATE = "31/12/1995";
+    public static final String DEFAULT_BIRTHDATE = "12/12/1995";
 
     private Person person;
 
@@ -134,20 +134,36 @@ public class PersonBuilder {
         return this;
     }
 
+    //@@author ritchielq
     /**
      * Sets the {@code NusModules} of the {@code Person} that we are building.
      */
     public PersonBuilder withNusModules(String nusModule) {
-        HashMap<String, HashMap<String, String>> testNusModule = new HashMap<>();
-        testNusModule.put(nusModule, new HashMap<>());
-        try {
-            this.person.setNusModules(new NusModules(testNusModule));
-        } catch (IllegalValueException ive) {
-            throw new IllegalArgumentException("nusModule is wrong format.");
+        NusModules newNusModules = new NusModules();
+
+        String[] lessons = nusModule.split("&");
+        for (String lesson : lessons) {
+            int index1 = lesson.indexOf("[");
+            int index2 = lesson.indexOf("]");
+            int index3 = lesson.indexOf("=");
+            String moduleCode = lesson.substring(0, index1);
+            String lessonType = lesson.substring(index1 + 1, index2);
+            String lessonSlot = lesson.substring(index3 + 1);
+
+            HashMap<String, String> lessonHm = new HashMap<>();
+            lessonHm.put(lessonType, lessonSlot);
+            try {
+                newNusModules = newNusModules.addModule(moduleCode, lessonHm);
+            } catch (IllegalValueException e) {
+                throw new IllegalArgumentException("nusModule is wrong format.");
+            }
         }
+        this.person.setNusModules(newNusModules);
+
         return this;
     }
 
+    //@@author
     public Person build() {
         return this.person;
     }
