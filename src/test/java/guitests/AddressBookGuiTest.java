@@ -7,7 +7,6 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.TimeoutException;
 
-import guitests.guihandles.LeftDisplayPanelHandle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -17,6 +16,7 @@ import org.testfx.api.FxToolkit;
 
 import guitests.guihandles.BrowserPanelHandle;
 import guitests.guihandles.CommandBoxHandle;
+import guitests.guihandles.LeftDisplayPanelHandle;
 import guitests.guihandles.MainMenuHandle;
 import guitests.guihandles.MainWindowHandle;
 import guitests.guihandles.PersonListPanelHandle;
