@@ -10,6 +10,7 @@ import static seedu.address.ui.UiPart.FXML_FILE_FOLDER;
 
 import java.net.URL;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -17,6 +18,7 @@ import guitests.guihandles.BrowserPanelHandle;
 import seedu.address.MainApp;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
+import seedu.address.testutil.ImageInit;
 
 public class BrowserPanelTest extends GuiUnitTest {
     private PersonPanelSelectionChangedEvent selectionChangedEventStub;
@@ -26,6 +28,8 @@ public class BrowserPanelTest extends GuiUnitTest {
 
     @Before
     public void setUp() {
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
         selectionChangedEventStub = new PersonPanelSelectionChangedEvent(
                 new PersonCard(ALICE_WITH_NUSMODULE, 0));
 
@@ -34,6 +38,12 @@ public class BrowserPanelTest extends GuiUnitTest {
         uiPartRule.setUiPart(browserPanel);
 
         browserPanelHandle = new BrowserPanelHandle(browserPanel.getRoot());
+    }
+
+    @After
+    public void recovery() {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
     }
 
     @Test

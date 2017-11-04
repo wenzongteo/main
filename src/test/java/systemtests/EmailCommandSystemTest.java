@@ -13,19 +13,16 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_LOGIN;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_MESSAGE;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_EMAIL_SUBJECT;
 import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_JOHN_EMAILTESTER;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_TASK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
-
-import java.io.File;
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 
 import javax.mail.AuthenticationFailedException;
 
+import org.junit.AfterClass;
 import org.junit.BeforeClass;
 import org.junit.Test;
 
+import seedu.address.email.EmailTask;
 import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
@@ -34,50 +31,26 @@ import seedu.address.logic.commands.EmailCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.Model;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.testutil.ImageInit;
 import seedu.address.testutil.PersonBuilder;
 
 public class EmailCommandSystemTest extends AddressBookSystemTest {
 
     private static final String EMAIL_SUCCESSFULLY_DRAFTED = "drafted";
-    private static final String EMAIL_COMMAND_SEND = " et/send";
+    private static final String EMAIL_SUCCESSFULLY_CLEARED = "cleared";
+    private static final String EMAIL_COMMAND_SEND = " " + PREFIX_EMAIL_TASK + "send";
+    private static final String EMAIL_COMMAND_CLEAR = " " + PREFIX_EMAIL_TASK + "clear";
 
     @BeforeClass
     public static void setup() throws Exception {
-        String imageFilePath = "data/images/";
-        File imageFolder = new File(imageFilePath);
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
+    }
 
-        if (!imageFolder.exists()) {
-            imageFolder.mkdirs();
-        } else {
-
-        }
-
-        try {
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
-                    StandardCopyOption.REPLACE_EXISTING);
-        } catch (IOException e) {
-            throw new AssertionError("Impossible");
-        }
+    @AfterClass
+    public static void recovery() throws Exception {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
     }
 
     //@@author awarenessxz
@@ -86,6 +59,13 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         String command = "";
         MessageDraft message = new MessageDraft();
         String [] loginDetails = new String[0];
+        EmailTask task = new EmailTask();
+
+        /**
+         * Case: Email Command without any arguments --> invalid
+         */
+        command = EmailCommand.COMMAND_WORD;
+        assertCommandFailure(command, String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
 
         /**
          * Case: Email Command to send email with invalid message --> invalid
@@ -118,17 +98,11 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         assertCommandFailure(command, EmailCommand.MESSAGE_LOGIN_INVALID);
 
         /**
-         * Case: Email Commmand to draft email without any parameters --> success
-         **/
-        command = EmailCommand.COMMAND_WORD;
-        assertCommandSucess(command, message, loginDetails, false, EMAIL_SUCCESSFULLY_DRAFTED);
-
-        /**
          * Case: Email Commmand to draft email with only message parameter --> success
          **/
         command = EmailCommand.COMMAND_WORD + EMAIL_MESSAGE;
         message = new MessageDraft(VALID_EMAIL_MESSAGE, "");
-        assertCommandSucess(command, message, loginDetails, false, EMAIL_SUCCESSFULLY_DRAFTED);
+        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED);
 
         /**
          * Case: Email Commmand to draft email with empty message parameter --> invalid
@@ -141,7 +115,7 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
          **/
         command = EmailCommand.COMMAND_WORD + EMAIL_SUBJECT;
         message = new MessageDraft("", VALID_EMAIL_SUBJECT);
-        assertCommandSucess(command, message, loginDetails, false, EMAIL_SUCCESSFULLY_DRAFTED);
+        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED);
 
         /**
          * Case: Email Commmand to draft email with empty subject parameter --> invalid
@@ -156,7 +130,7 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         command = EmailCommand.COMMAND_WORD + EMAIL_LOGIN;
         message = new MessageDraft();
         loginDetails = VALID_EMAIL_LOGIN.split(":");
-        assertCommandSucess(command, message, loginDetails, false, EMAIL_SUCCESSFULLY_DRAFTED);
+        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED);
 
         /**
          * Case: Email Commmand to draft email with invalid login parameter --> invalid
@@ -175,6 +149,15 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
          **/
         command = EmailCommand.COMMAND_WORD + EMAIL_MESSAGE + EMAIL_SUBJECT + EMAIL_LOGIN + EMAIL_COMMAND_SEND;
         assertCommandFailureEmptyList(command, EmailCommand.MESSAGE_RECIPIENT_INVALID);
+
+        /**
+         * Case: Email Command to clear current draft --> success
+         */
+        command = EmailCommand.COMMAND_WORD + EMAIL_COMMAND_CLEAR;
+        message = new MessageDraft();
+        loginDetails = VALID_EMAIL_LOGIN.split(":");
+        task.setTask("clear");
+        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_CLEARED);
     }
 
     //@@author awarenessxz
@@ -196,17 +179,27 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
      * to the current model with the send command composed with email message {@code message}. These verifications are
      * done by {@code AddressBookSystemTest#assertApplicationDisplaysExpected(String,String,Model)}.<br>
      * Also verifies that the command box has the default style class, the status bar's sync status changes, the
-     * browser url and selected card remains unchanged.
+            * browser url and selected card remains unchanged.
      * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model).
-     */
+            */
     private void assertCommandSucess(String command, MessageDraft message, String [] loginDetails,
-                                     boolean send, String status) throws Exception {
+                                     EmailTask task, String status) throws Exception {
         Model expectedModel = getModel();
 
         try {
             //Set up Email Details
             expectedModel.loginEmail(loginDetails);
-            expectedModel.sendEmail(message, send);
+            switch(task.getTask()) {
+            case "send":
+                expectedModel.sendEmail(message);
+                break;
+            case "clear":
+                expectedModel.clearEmailDraft();
+                break;
+            default:
+                expectedModel.draftEmail(message);
+                break;
+            }
         } catch (EmailLoginInvalidException e) {
             throw new IllegalArgumentException(EmailCommand.MESSAGE_LOGIN_INVALID);
         } catch (EmailMessageEmptyException e) {

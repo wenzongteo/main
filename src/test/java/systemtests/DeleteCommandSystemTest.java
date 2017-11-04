@@ -1,5 +1,6 @@
 package systemtests;
 
+import static junit.framework.TestCase.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.commons.core.Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX;
 import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
@@ -25,6 +26,7 @@ import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
+import seedu.address.testutil.ImageInit;
 
 public class DeleteCommandSystemTest extends AddressBookSystemTest {
 
@@ -39,13 +41,9 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
         Model expectedModel = getModel();
         String command = DeleteCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased();
         ReadOnlyPerson deletedPerson = removePerson(expectedModel, INDEX_FIRST_PERSON);
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
         String expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPerson);
         assertCommandSuccess(command, expectedModel, expectedResultMessage);
-
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
+        assertFalse(ImageInit.checkAlicePhoto()); //Check if alice photo is deleted.
 
         /* Case: delete the last person in the list -> deleted */
         Model modelBeforeDeletingLast = getModel();
@@ -53,27 +51,22 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
         assertCommandSuccess(lastPersonIndex);
 
         /* Case: undo deleting the last person in the list -> last person restored */
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
         command = UndoCommand.COMMAND_WORD;
         expectedResultMessage = UndoCommand.MESSAGE_SUCCESS;
         assertCommandSuccess(command, modelBeforeDeletingLast, expectedResultMessage);
-
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
+        assertTrue(ImageInit.checkAnnaPhoto()); //Anna photo should be restored.
 
         /* Case: redo deleting the last person in the list -> last person deleted again */
         command = RedoCommand.COMMAND_WORD;
         removePerson(modelBeforeDeletingLast, lastPersonIndex);
         expectedResultMessage = RedoCommand.MESSAGE_SUCCESS;
         assertCommandSuccess(command, modelBeforeDeletingLast, expectedResultMessage);
-
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
+        assertFalse(ImageInit.checkAnnaPhoto()); //Anna photo should deleted again.
 
         /* Case: delete the middle person in the list -> deleted */
         Index middlePersonIndex = getMidIndex(getModel());
         assertCommandSuccess(middlePersonIndex);
+        assertFalse(ImageInit.checkHeinzPhoto()); // Heinz photo should be deleted.
 
         /* ------------------ Performing delete operation while a filtered list is being shown ---------------------- */
 
@@ -82,6 +75,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
         Index index = INDEX_FIRST_PERSON;
         assertTrue(index.getZeroBased() < getModel().getFilteredPersonList().size());
         assertCommandSuccess(index);
+        assertFalse(ImageInit.checkJohnPhoto()); //John photo should be deleted.
 
         /* Case: filtered person list, delete index within bounds of address book but out of bounds of person list
          * -> rejected
@@ -103,6 +97,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
         deletedPerson = removePerson(expectedModel, selectedIndex);
         expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPerson);
         assertCommandSuccess(command, expectedModel, expectedResultMessage, expectedIndex);
+        assertFalse(ImageInit.checkLydiaPhoto()); //Lydia photo should be deleted.
 
         /* --------------------------------- Performing invalid delete operation ------------------------------------ */
 
