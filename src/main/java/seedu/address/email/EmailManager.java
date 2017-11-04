@@ -26,7 +26,7 @@ public class EmailManager extends ComponentManager implements Email {
     private String emailStatus;
 
     public EmailManager() {
-        logger.fine("Initializing Email Component");
+        logger.fine("Initializing Default Email component");
 
         this.emailLogin = new EmailLogin();
         this.emailCompose = new EmailCompose();
@@ -36,6 +36,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     @Override
     public void composeEmail(MessageDraft message) {
+
         emailCompose.composeEmail(message);
         this.emailStatus = "drafted";
     }
@@ -53,6 +54,7 @@ public class EmailManager extends ComponentManager implements Email {
     @Override
     public void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException,
             EmailRecipientsEmptyException, AuthenticationFailedException {
+        logger.info("-------------------[Sending Email] ");
 
         emailSend.sendEmail(emailCompose, emailLogin);
 
