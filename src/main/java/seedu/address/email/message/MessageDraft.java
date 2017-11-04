@@ -90,7 +90,6 @@ public class MessageDraft implements ReadOnlyMessageDraft {
             }
             return true;
         }
-        assert false; //should never reach this part of return statement
         return false;
     }
 
