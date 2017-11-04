@@ -48,13 +48,16 @@ to make Augustine to what it is today.
 Before proceeding further with the Developer Guide, ensure that you have achieved the following requirements:
 
 === Prerequisites
-. *Java SE Development Kit* (JDK) `v1.8.0_60` or later is installed. +
+Please install the following:
+
+. *Java SE Development Kit* (JDK) `v1.8.0_60` or later. +
 You can download the latest JDK from
 http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.html[here]
+
 [NOTE]
 Augustine will *not work* with any version of Java earlier than `Java 8.6`.
-. *Intellij IDEA* Integrated Development Environment (IDE) is installed.
 
+. *Intellij IDEA* Integrated Development Environment (IDE). +
 You can download Intellij IDEA IDE from https://www.jetbrains.com/idea/download/[here]
 
 [NOTE]
@@ -145,41 +148,42 @@ When you are ready to start coding,
 
 == Software Architecture
 
-This section covers how Augustine is design while also providing an overview of the components in Augustine.
+This section covers how Augustine is designed while also providing an overview of the components in Augustine.
 
 === Architecture Design
 
 image::Architecture.png[width="600"]
 _Figure 4.1 : Architecture Diagram_
 
-The *_Architecture Diagram_* given above explains the high-level design of the App. Given below is a quick overview of each component.
+The *_Architecture Diagram_* given above explains the high-level design of Augustine. Given below is a quick overview of each component.
 
 [TIP]
 The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
 
-==== Overview
+===== Overview
 
 * `Main` has only one class called link:{repoURL}/src/main/java/seedu/address/MainApp.java[`MainApp`]. It is responsible for,
 
-** At app launch: Initializes the components in the correct sequence, and connects them up with each other.
+** At Augustine's launch: Initializes the components in the correct sequence, and connects them up with each other.
 ** At shut down: Shuts down the components and invokes cleanup method where necessary.
 
-* link:#common-classes[*`Commons`*] represents a collection of classes used by multiple other components. Two of those classes play important roles at the architecture level.
+* link:#common-classes[*`Commons`*] represents a collection of classes used by multiple other components. Two of those classes play an important role at the architecture level:
 
 ** `EventsCenter` : This class (written using https://github.com/google/guava/wiki/EventBusExplained[Google's Event Bus library]) is used by components to communicate with other components using events (i.e. a form of _Event Driven_ design)
-** `LogsCenter` : Used by many classes to write log messages to the App's log file.
+** `LogsCenter` : This class is used by many classes to write log messages to Augustine's log file.
 
-* link:#ui-component[*`UI`*] : The UI of the App.
-* link:#logic-component[*`Logic`*] : The command executor.
-* link:#model-component[*`Model`*] : Holds the data of the App in-memory.
+* link:#ui-component[*`UI`*] : Interacts with user through the user interface (UI) of Augustine.
+* link:#logic-component[*`Logic`*] : Executes commands specified by user.
+* link:#model-component[*`Model`*] : Holds the data of Augustine in-memory.
 * link:#email-component[*`Email`*] : Sends email via JavaMail API.
 * link:#storage-component[*`Storage`*] : Reads data from, and writes data to, the hard disk.
 
 ====
+*Structure of `UI`, `Logic`, `Model`, `Storage` and `Email` component*
 
-Each of the five components (UI, Login, Model, Storage, Email)
+Each of the five components (UI, Logic, Model, Storage and Email)
 
-* Defines its _API_ in an `interface` with the same name as the Component.
+* Defines its _API_ in an `interface` with the same name as the component.
 * Exposes its functionality using a `{Component Name}Manager` class.
 
 For example, the `Logic` component (see the class diagram given below) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
@@ -191,40 +195,40 @@ _Figure 4.1.1 : Class Diagram of the Logic Component_
 
 === Architecture Style
 
-The software implements an Event-drive architecture style as explained below.
+Augustine implements an Event-drive architecture style as explained below.
 
-==== Events-Driven nature of the design
+===== Events-Driven nature of the design
 
 The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
 
 image::SDforDeletePerson.png[width="800"]
-_Figure 4.2.1a : Component interactions for `delete 1` command (part 1)_
+_Figure 1 : Component interactions for `delete 1` command (part 1)_
 
 [NOTE]
-Note how the `Model` simply raises a `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
+The `Model` simply raises an `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
 image::SDforDeletePersonEventHandling.png[width="800"]
-_Figure 4.2.1b : Component interactions for `delete 1` command (part 2)_
+_Figure 2 : Component interactions for `delete 1` command (part 2)_
 
 [NOTE]
-Note how the event is propagated through the `EventsCenter` to the `Storage` and `UI` without `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
+The event is propagated through the `EventsCenter` to the `Storage` and `UI` without the `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
 
 ---
 
 === Components
 
-This section covers an overview of some of the components of the architecture.
+This section covers an overview of some of the components in the architecture.
 
-==== UI component [Edited v1.4]
+==== UI component
 
 image::UiClassDiagram.png[width="800"]
-_Figure 4.3.1 : Structure of the UI Component_
+_Figure 4.3.1 : Structure of the UI component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
-The UI consists of a `MainWindow` that is made up of smaller parts; `CommandBox`, `ResultDisplay`, `LeftDisplayPanel`, `PersonListPanel`, `MessageDisplay`, `StatusBarFooter`, `BrowserPanel`. All of these parts, including the `MainWindow`, inherit from the abstract `UiPart` class.
+The UI consists of a `MainWindow` that is made up of smaller parts: `CommandBox`, `ResultDisplay`, `LeftDisplayPanel`, `PersonListPanel`, `MessageDisplay`, `StatusBarFooter` and `BrowserPanel`. All of these parts, including the `MainWindow`, inherit from the abstract `UiPart` class.
 
 The `UI` component uses JavaFx UI framework. The layout of these UI parts are defined in matching `.fxml` files that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`]
 
@@ -237,13 +241,14 @@ The `UI` component,
 ==== Logic component
 
 image::LogicClassDiagram.png[width="800"]
-_Figure 4.3.2a : Structure of the Logic Component_
+_Figure 4.3.2a : Structure of the Logic component_
 
 image::LogicCommandClassDiagram.png[width="800"]
-_Figure 4.3.2b : Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
+_Figure 4.3.2b : Structure of Commands in the Logic component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
 
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
+
 
 .  `Logic` uses the `AddressBookParser` class to parse the user command.
 .  This results in a `Command` object which is executed by the `LogicManager`.
@@ -258,7 +263,7 @@ _Figure 4.3.2c : Interactions Inside the Logic Component for the `delete 1` Comm
 ==== Model component
 
 image::ModelClassDiagram.png[width="800"]
-_Figure 4.4.3 : Structure of the Model Component_
+_Figure 4.4.3 : Structure of the Model component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
 
@@ -266,21 +271,21 @@ The `Model` component,
 
 * stores a `UserPref` object that represents the user's preferences.
 * stores the Address Book data.
-* stores a Email Component which handle sending email via JavaMail API
+* stores an `Email` component which handle sending email via JavaMail API
 * exposes an unmodifiable `ObservableList<ReadOnlyPerson>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
 ==== Email component
 
 image::EmailComponent.png[width="800"]
-_Figure 4.3.4 : Structure of the Model Component_
+_Figure 4.3.4 : Structure of the Email component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/email/Email.java[`Email.java`]
 
 The `Email` component,
 
 * uses a `EmailLogin` class to store user's email login Details.
-* uses a `EmailSend` class to process and send email via JavaAPI through SMTP protocol.
+* uses a `EmailSend` class to process and send email via JavaMail API through SMTP protocol.
 * uses a `EmailCompose` class to store the data of email message drafts.
 * Exposes an unmodifiable `MessageDraft` object which can be retrieved from `EmailCompose` class, such that the `MessageDisplay` UI can be bound to this list which automatically updates when the data in the `messageDraft` object change.
 
@@ -288,7 +293,7 @@ The `Email` component,
 ==== Storage component
 
 image::StorageClassDiagram.png[width="800"]
-_Figure 4.3.5 : Structure of the Storage Component_
+_Figure 4.3.5 : Structure of the Storage component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
 
@@ -1346,6 +1351,8 @@ Mainstream OS
 ....
 Windows, Linux, Unix, OS-X
 ....
+
+API, UI, SMTP
 
 [[private-contact-detail]]
 Private contact detail
