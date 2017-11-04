@@ -48,7 +48,8 @@ public class AddCommandParser implements Parser<AddCommand> {
         try {
             Name name = ParserUtil.parseName(checkInput(argMultimap.getValue(PREFIX_NAME))).get();
             Phone phone = ParserUtil.parsePhone(checkInput(argMultimap.getValue(PREFIX_PHONE))).get();
-            EmailAddress emailAddress = ParserUtil.parseEmail(checkInput(argMultimap.getValue(PREFIX_EMAIL_ADDRESS))).get();
+            EmailAddress emailAddress = ParserUtil.parseEmail(checkInput(argMultimap.getValue(PREFIX_EMAIL_ADDRESS)))
+                    .get();
             Address address = ParserUtil.parseAddress(checkInput(argMultimap.getValue(PREFIX_ADDRESS))).get();
             Photo photo = ParserUtil.parsePhoto(checkInput(argMultimap.getValue(PREFIX_PHOTO))).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
