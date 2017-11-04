@@ -142,4 +142,44 @@ public class ImageInit {
         }
         toBeDeletedFolder.delete();
     }
+
+    /**
+     * Check if Photo for Alice exists.
+     */
+    public static boolean checkAlicePhoto() {
+        File alicePhoto = new File(ALICE_PHOTO_PATH);
+        return FileUtil.isFileExists(alicePhoto);
+    }
+
+    /**
+     * Check if Photo for John exists.
+     */
+    public static boolean checkJohnPhoto() {
+        File johnPhoto = new File(JOHN_PHOTO_PATH);
+        return FileUtil.isFileExists(johnPhoto);
+    }
+
+    /**
+     * Check if Photo for Anna exists.
+     */
+    public static boolean checkAnnaPhoto() {
+        File annaPhoto = new File(ANNA_PHOTO_PATH);
+        return FileUtil.isFileExists(annaPhoto);
+    }
+
+    /**
+     * Check if Photo for Heinz exists.
+     */
+    public static boolean checkHeinzPhoto() {
+        File HeinzPhoto = new File(HEINZ_PHOTO_PATH);
+        return FileUtil.isFileExists(HeinzPhoto);
+    }
+
+    /**
+     * Check if Photo for Lydia exists.
+     */
+    public static boolean checkLydiaPhoto() {
+        File LydiaPhoto = new File(LYDIA_PHOTO_PATH);
+        return FileUtil.isFileExists(LydiaPhoto);
+    }
 }

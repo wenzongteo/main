@@ -1,6 +1,8 @@
 package seedu.address.logic.commands;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 import static seedu.address.logic.commands.CommandTestUtil.deleteFirstPerson;
 import static seedu.address.logic.commands.CommandTestUtil.showFirstPersonOnly;
@@ -44,6 +46,7 @@ public class UndoableCommandTest {
         dummyCommand.execute();
         ImageInit.initAlice();
         deleteFirstPerson(expectedModel);
+        assertFalse(ImageInit.checkAlicePhoto()); //Check if Alice's photo is deleted.
         assertEquals(expectedModel, model);
 
         showFirstPersonOnly(model);
@@ -52,6 +55,7 @@ public class UndoableCommandTest {
         dummyCommand.undo();
         expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
         assertEquals(expectedModel, model);
+        assertTrue(ImageInit.checkAlicePhoto()); //Check if alice's photo is back.
     }
 
     @Test
@@ -62,6 +66,7 @@ public class UndoableCommandTest {
         ImageInit.initAlice();
         deleteFirstPerson(expectedModel);
         assertEquals(expectedModel, model);
+        assertFalse(ImageInit.checkAlicePhoto()); //Check if alice's photo is deleted
     }
 
     /**

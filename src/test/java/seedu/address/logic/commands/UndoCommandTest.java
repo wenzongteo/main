@@ -1,5 +1,7 @@
 package seedu.address.logic.commands;
 
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.UndoRedoStackUtil.prepareStack;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandFailure;
 import static seedu.address.logic.commands.CommandTestUtil.assertCommandSuccess;
@@ -55,14 +57,25 @@ public class UndoCommandTest {
                 Arrays.asList(deleteCommandOne, deleteCommandTwo), Collections.emptyList());
         UndoCommand undoCommand = new UndoCommand();
         undoCommand.setData(model, EMPTY_COMMAND_HISTORY, undoRedoStack);
-        deleteCommandOne.execute();
-        deleteCommandTwo.execute();
+        deleteCommandOne.execute(); //Delete Alice
+        deleteCommandTwo.execute(); //Delete John
+
+        //Check if Alice and Bob's photo are deleted.
+        assertFalse(ImageInit.checkAlicePhoto());
+        assertFalse(ImageInit.checkJohnPhoto());
 
         // multiple commands in undoStack
         ImageInit.initAlice();
         ImageInit.initJohn();
+
+        //Check if Alice and Bob's photo are recovered.
+        assertTrue(ImageInit.checkAlicePhoto());
+        assertTrue(ImageInit.checkJohnPhoto());
+
         Model expectedModel = new ModelManager(getTypicalAddressBook(), new UserPrefs(), new EmailManager());
         deleteFirstPerson(expectedModel);
+
+        assertFalse(ImageInit.checkAlicePhoto()); //Check if Alice's photo is deleted again.
         assertCommandSuccess(undoCommand, model, UndoCommand.MESSAGE_SUCCESS, expectedModel);
 
         // single command in undoStack

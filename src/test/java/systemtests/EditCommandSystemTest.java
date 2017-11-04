@@ -94,10 +94,6 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                 .withTags(VALID_TAG_HUSBAND, VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_BOB).build();
 
         assertCommandSuccess(command, index, editedPerson);
-
-        Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
-                StandardCopyOption.REPLACE_EXISTING);
-
         /* Case: undo editing the last person in the list -> last person restored */
         command = UndoCommand.COMMAND_WORD;
         String expectedResultMessage = UndoCommand.MESSAGE_SUCCESS;
