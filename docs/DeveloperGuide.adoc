@@ -1,6 +1,6 @@
 ﻿= Augustine - Developer Guide
 :toc:
-:toc-title: Content Page
+:toc-title: Contents Page
 :toc-placement: macro
 :sectnums:
 :pagenums:
@@ -235,25 +235,48 @@ The `UI` component,
 * Responds to events raised from various parts of the App and updates the UI accordingly.
 
 ==== Logic component
+The Logic Component is where the user input is being parsed and the corresponding commands
+are being called from. The newly created command is then executed and depending on the
+command executed, the Model component may be accessed.
+
+_Figure X_ below shows an Overview of the process within Logic Component.
 
 image::LogicClassDiagram.png[width="800"]
-_Figure 4.3.2a : Structure of the Logic Component_
+_Figure X : Class Diagram of the Logic Component_
+
+_Figure X_ below shows the detailed process of how the Command class in the Logic Component works
 
 image::LogicCommandClassDiagram.png[width="800"]
-_Figure 4.3.2b : Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
+_Figure X : Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
 
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
 
-.  `Logic` uses the `AddressBookParser` class to parse the user command.
-.  This results in a `Command` object which is executed by the `LogicManager`.
-.  The command execution can affect the `Model` (e.g. adding a person) and/or raise events.
-.  The result of the command execution is encapsulated as a `CommandResult` object which is passed back to the `Ui`.
+The process of the Logic Component is as follow:
 
-Given below is the Sequence Diagram for interactions within the `Logic` component for the `execute("delete 1")` API call.
+. LogicManager is called by `handleCommandInputChange` method in the UI Component and User Input is passed into LogicManager.
+. LogicManager calls AddressBookParser to parse User Input into two Strings, commandWord and arguments.
+. AddressBookParser calls the relevant CommandParser, if it exists and parse the arguments into a fixed format.
+If there is no relevant CommandParser, AddressBookParser will call the Command instead.
+
+  [TIP]
+  The Clear, List, History, Exit, Help, Undo, Redo commands do not have it's own CommandParser
+
+. Relevant CommandParser then calls the actual Command to execute the user command.
+. Command executes the user command.
+. Model component may then be updated depending on the Command Type.
+
+  [TIP]
+  Model Component will be updated by Add, Delete, Clear, Edit, Find, List, Redo and Undo command.
+
+. the result of the Command which is stored in CommandResult will then be returned to LogicManager
+. The CommandResult is then returned to `handleCommandInputChange` method in the UI Component for display to the user.
+
+_Figure X_ below shows the sequence diagram of the process within the Component when the command
+`Delete 1` is entered by the user.
 
 image::DeletePersonSdForLogic.png[width="800"]
-_Figure 4.3.2c : Interactions Inside the Logic Component for the `delete 1` Command_
+_Figure X : Interactions Inside the Logic Component for the `delete 1` Command_
 
 ==== Model component
 
