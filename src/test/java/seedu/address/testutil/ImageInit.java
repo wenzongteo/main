@@ -14,6 +14,23 @@ import seedu.address.commons.util.FileUtil;
  * Class that provides methods to be executed before or after tests to ensure a smooth execution of the tests.
  */
 public class ImageInit {
+    private static final String EDITED_FOLDER_PATH = "data/edited";
+    private static final String IMAGES_FOLDER_PATH = "data/images";
+    private static final String DEFAULT_ORIGINAL_PATH = "default.jpeg";
+    private static final String DEFAULT_PHOTO_PATH = "data/images/default.jpeg";
+    private static final String ALICE_PHOTO_PATH = "data/images/alice@example.com.jpg";
+    private static final String JOHN_PHOTO_PATH = "data/images/johnd@example.com.jpg";
+    private static final String HEINZ_PHOTO_PATH = "data/images/heinz@example.com.jpg";
+    private static final String ANNA_PHOTO_PATH = "data/images/anna@example.com.jpg";
+    private static final String STEFAN_PHOTO_PATH = "data/images/stefan@example.com.jpg";
+    private static final String HANS_PHOTO_PATH = "data/images/hans@example.com.jpg";
+    private static final String AMY_PHOTO_PATH = "data/images/amy@example.com.jpg";
+    private static final String CORNELIA_PHOTO_PATH = "data/images/cornelia@example.com.jpg";
+    private static final String WERNER_PHOTO_PATH = "data/images/werner@example.com.jpg";
+    private static final String LYDIA_PHOTO_PATH = "data/images/lydia@example.com.jpg";
+    private static final String BOB_PHOTO_PATH = "data/images/bob@example.com.jpg";
+
+
     ImageInit() {
     }
 
@@ -24,11 +41,8 @@ public class ImageInit {
      */
     public static void checkDirectories() {
         try {
-            String editedFolder = "data/edited";
-            String imagesFolder = "data/images";
-
-            FileUtil.createDirs(new File(editedFolder));
-            FileUtil.createDirs(new File(imagesFolder));
+            FileUtil.createDirs(new File(EDITED_FOLDER_PATH));
+            FileUtil.createDirs(new File(IMAGES_FOLDER_PATH));
         } catch (IOException ioe) {
             throw new AssertionError("Error Creating File!");
         } catch (Exception e) {
@@ -44,29 +58,29 @@ public class ImageInit {
      */
     public static void initPictures() {
         try {
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(ALICE_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(JOHN_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/heinz@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(HEINZ_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/anna@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(ANNA_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/stefan@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(STEFAN_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/hans@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(HANS_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/amy@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(AMY_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/cornelia@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(CORNELIA_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/werner@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(WERNER_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/lydia@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(LYDIA_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/bob@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(BOB_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/default.jpeg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(DEFAULT_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
             throw new AssertionError("Initialization of images failed!");
@@ -80,7 +94,7 @@ public class ImageInit {
      */
     public static void initAlice() {
         try {
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/alice@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(ALICE_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
             throw new AssertionError("Initialization of Alice's image failed");
@@ -94,7 +108,7 @@ public class ImageInit {
      */
     public static void initJohn() {
         try {
-            Files.copy(Paths.get("default.jpeg"), Paths.get("data/images/johnd@example.com.jpg"),
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(JOHN_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
             throw new AssertionError("Initialization of Alice's image failed");
