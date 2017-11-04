@@ -7,6 +7,7 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.concurrent.TimeoutException;
 
+import guitests.guihandles.LeftDisplayPanelHandle;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.BeforeClass;
@@ -138,6 +139,10 @@ public abstract class AddressBookGuiTest {
 
     protected ResultDisplayHandle getResultDisplay() {
         return mainWindowHandle.getResultDisplay();
+    }
+
+    protected LeftDisplayPanelHandle getLeftDisplayPanel() {
+        return mainWindowHandle.getLeftDisplayPanel();
     }
 
     /**
