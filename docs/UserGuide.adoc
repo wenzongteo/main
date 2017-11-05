@@ -218,7 +218,7 @@ The format of the [fuchsia]`edit` command is as follows:
 ****
 *Things to take note:* +
 
-* The command edits the person of the specified `INDEX`.
+* The command edits the person at the specified `INDEX`.
 ** `INDEX` refers to the index number shown in the list of contacts.
 ** The index must be a whole number (1, 2, 3, ...)
 * At least one of the optional fields must be filled.
@@ -581,7 +581,7 @@ The [fuchsia]`email` command sends an email to all contacts from the last displa
 ===== Format
 The format of the [fuchsia]`email` command is as follows:
 ====
-[fuchsia]#email em/MESSAGE es/SUBJECT el/adam@gmail.com:password et/<send|clear>#
+[fuchsia]#email [ em/MESSAGE ] [ es/SUBJECT ] [ el/adam@gmail.com:password ] [et/<send|clear> ]#
 ====
 ****
 *Things to take note:* +
@@ -949,7 +949,7 @@ There is no need to save manually.
 |*List*|`list` +|l|`list` +
 |*Help*|`help` +|h|`help` +
 |*Select*|`select INDEX` +|s|`select 2` +
-|*Email*|`email em/MESSAGE es/SUBJECT el/user@gmail.com:password [et/<send\|clear>]` +|em|`email em/message es/subject el/adam@gmail.com:password et/send`
+|*Email*|`email [em/MESSAGE] [es/SUBJECT] [el/user@gmail.com:password] [et/<send\|clear>]` +|em|`email em/message es/subject el/adam@gmail.com:password et/send`
 |*History*|`history`|h|`history` +
 |*Undo*|`undo`|u|`undo` +
 |*Redo*|`redo`|r|`redo` +
