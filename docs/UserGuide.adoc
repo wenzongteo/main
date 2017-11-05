@@ -248,41 +248,34 @@ You can add or remove the tags of a particular contact using the [fuchsia]`edit`
 
 [horizontal]
 *Command:* :: [fuchsia]`edit 2 t/colleagues t/friends`
+[]
+
+* Since Bernice was already tagged under "colleagues", this command removes the tag from Bernice.
+* Since Bernice was not already tagged under "friends", this command adds the "friends" tag to Bernice.
 
 [caption="Figure 6. "]
-.Before command is run
-image::editChangeTagBefore.png[width="940px"]
+.Before and after command is ran
+image::editChangeTag.png[width="940px"]
 
-* In _Figure 6_, Bernice had a "colleagues" tag before the command was run.
-* Since Bernice was already tagged under "colleagues", this command removes this tag from Bernice.
-* Since Bernice was not already tagged under "friends", this command adds the "friends" tag to Bernice.
-* _Figure 7_ shows the result after the command is run.
 
-[caption="Figure 7. "]
-.After the command is run
-image::editChangeTagAfter.png[width="940px"]
 
 --
 
 . [red]*Changing phone number and email*
 +
 --
-You can change the phone number and email of a particular contact using [fuchsia]`edit` command below (see Figure 8 and 9).
+You can change the phone number and email of a particular contact using [fuchsia]`edit` command below (see Figure 7).
 
 [horizontal]
 *Command:* :: [fuchsia]`edit 2 p/87921929 e/bernice@example.com`
+[]
 
-[caption="Figure 8. "]
-.Before command is run
-image::editChangePhoneBefore.png[width="940px"]
-
-* In _Figure 8_, Bernice's phone number is 99272758, and her email is berniceyu@example.com
 * The command will change the phone number to 87921929 and email to bernice@example.com
-* _Figure 9_ shows the result after the command is ran.
 
-[caption="Figure 9. "]
-.After the command is run
-image::editChangePhoneAfter.png[width="940px"]
+[caption="Figure 7. "]
+.Before and After command is ran
+image::editChangePhone.png[width="940px"]
+
 
 --
 
@@ -436,66 +429,10 @@ the `find` command.
 
 '''
 
-=== Displaying a person's timetable : [fuchsia]`select`
-
-Augustine is integrated with https://nusmods.com. You can use the [fuchsia]`select` command to display the timetable of
-a contact on the NUSmods website.
-
-===== Format
-The format of the [fuchsia]`select` command is as follows:
-====
-[fuchsia]#select INDEX#
-====
-****
-*Things to take note:* +
-
-* This command selects the person specified at `INDEX` and loads the NUSmods webpage with the timetable belonging to the contact.
-* `INDEX` refers to the index number shown in the the list of contacts.
-* The index must be a whole number (1, 2, 3, ...)
-****
-
-[TIP]
-You can use the alias `s` instead of typing out `select`
-
-===== Example
-
-Here are some example of using the [fuchsia]`select` command:
-
-. [red]*Select contact from list results*
-+
---
-You can list all the contacts in Augustine and select the contact by the contact's index (see Figure 14).
-
-[horizontal]
-*Command:* ::
-. `list` +
-. [fuchsia]`select 2`
-
-[caption="Figure 14. "]
-.After contact is selected
-image::select2After.png[width="940px"]
-
---
-
-. [red]*Select contact from find results*
-+
---
-You can first use the `find` command to get a list of filtered contacts and then select the
-contact by the contact's index. The command below selects the first person on the results displayed after the `find` command.
-
-[horizontal]
-*Command:* ::
-. `find Betsy` +
-. [fuchsia]`select 1`
---
-
-'''
-
 === Using NUSmods: [fuchsia]`nusmods`
 
 Augustine is integrated with https://nusmods.com.
 You can use the [fuchsia]`nusmods` command to add, edit or delete modules from a contact's timetable.
-Remember than you can use [fuchsia]`select` to display a contact's timetable.
 
 Before adding modules to contacts, you will need to open `config.json` and enter the current academic year.
 The config file can be found in the same folder as Augustine.
@@ -547,6 +484,7 @@ Here are some example of using the [fuchsia]`nusmods` command:
 +
 --
 The following command will overwrite the timetable of the contact listed at index 1 with the timetable given in the URL.
+You can copy the link from your friend and paste it into Augustine.
 
 [horizontal]
 *Command:* ::
@@ -572,6 +510,61 @@ The following command will remove the module CS2010 from the timetable of the co
 *Command:* ::
 `nusmods 2 t/remove m/CS2010` +
 
+--
+
+'''
+
+=== Displaying a person's timetable : [fuchsia]`select`
+
+After you have set a timetable to a contact with the [fuchsia]`nusmods` command, you can
+use the [fuchsia]`select` command to display the timetable of a contact through the NUSmods website.
+
+===== Format
+The format of the [fuchsia]`select` command is as follows:
+====
+[fuchsia]#select INDEX#
+====
+****
+*Things to take note:* +
+
+* This command selects the person specified at `INDEX` and loads the NUSmods webpage with the timetable belonging to the contact.
+* `INDEX` refers to the index number shown in the the list of contacts.
+* The index must be a whole number (1, 2, 3, ...)
+****
+
+[TIP]
+You can use the alias `s` instead of typing out `select`
+
+===== Example
+
+Here are some example of using the [fuchsia]`select` command:
+
+. [red]*Select contact from list results*
++
+--
+You can list all the contacts in Augustine and select the contact by the contact's index (see Figure 14).
+
+[horizontal]
+*Command:* ::
+. `list` +
+. [fuchsia]`select 2`
+
+[caption="Figure 14. "]
+.After contact is selected
+image::select2After.png[width="940px"]
+
+--
+
+. [red]*Select contact from find results*
++
+--
+You can first use the `find` command to get a list of filtered contacts and then select the
+contact by the contact's index. The command below selects the first person on the results displayed after the `find` command.
+
+[horizontal]
+*Command:* ::
+. `find Betsy` +
+. [fuchsia]`select 1`
 --
 
 '''

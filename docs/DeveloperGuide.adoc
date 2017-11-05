@@ -337,7 +337,7 @@ This section describes some noteworthy details on how certain features are imple
 // tag::undoredo[]
 === Undo/Redo mechanism
 
-The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modifies the state of the address book (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
+The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modify the state of the address book (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
 
 ===== Implementation Details
 
@@ -347,7 +347,7 @@ The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides insi
 
 image::LogicCommandClassDiagram.png[width="800"]
 
-As you can see from the above diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks needs to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while the child classes implements the details of how to execute the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
+As you can see from the above diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks needs to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while its child classes implements the details of the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
 
 Commands that are not undoable are implemented this way:
 [source,java]
@@ -432,12 +432,12 @@ image::UndoRedoActivityDiagram.png[width="200"]
 **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()` +
 
 * **Pros:** We will not lose any undone/redone functionality as it is now part of the default behaviour. Classes that deal with `Command` do not have to know that `executeUndoableCommand()` exist. +
-* **Cons:** Hard for new developers to understand the template pattern. +
+* **Cons:** It will be hard for new developers to understand the template pattern. +
 ====
 ====
 **Alternative 2:** Just override `execute()` +
 
-* **Pros:** Does not involve the template pattern, easier for new developers to understand. +
+* **Pros:** It does not involve the template pattern, easier for new developers to understand. +
 * **Cons:** Classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to undo/redo.
 ====
 ---
@@ -486,8 +486,8 @@ The logging level can be controlled using the `logLevel` setting in the configur
 
 There are four different logging levels you can specify depending on the amount of verbosity you want:
 
-* `SEVERE` : Critical problem detected which may possibly cause the termination of the application
-* `WARNING` : Can continue, but with caution
+* `SEVERE` : Critical errors detected which may possibly cause the termination of the application
+* `WARNING` : Errors which are not crucial
 * `INFO` : Information showing the noteworthy actions by the App
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
 
@@ -530,18 +530,19 @@ the user input method into the different objects required for the `Person` class
 
 ===== Design Considerations
 
-[Big]#**Aspect:** Detect unfilled fields in user input#
+[Big]#**Aspect:** Detecting unfilled fields in user input#
+
 ====
 **Alternative 1 (current choice):** Check if value is present, if value is not present, return a '-' as the value instead. +
 
-* **Pros:** Simple for developers to understand the inner working of the enhancement. +
+* **Pros:** It will be simple for developers to understand the inner working of the enhancement. +
 * **Cons:** All fields are still stored in AddressBook, leading to wastage of space as fields that are not used by the User for each contact are still being stored. +
 ====
 ====
-**Alternative 2:** Detect if the field exist in AddressBook.xml, if the field does not exist for a contact, display the field in the PersonCard as unfilled. +
+**Alternative 2:** Detecting if the field exist in AddressBook.xml, if the field does not exist for a contact, display the field in the PersonCard as unfilled. +
 
-* **Pros:** Save data space in the computer as unfilled fields are not stored in the data file. +
-* **Cons:** Harder for developers to understand the inner working of the enhancement.
+* **Pros:** It will save data space in the computer as unfilled fields are not stored in the data file. +
+* **Cons:** It will be harder for developers to understand the inner working of the enhancement.
 ====
 ---
 // end::optionalfields[]
@@ -667,10 +668,44 @@ In the xml, the data will be stored as such:
 </nusModule>
 ----
 
-Process converting from AddressBook.xml to `NUSModule`: ::
+Process converting from AddressBook.xml to `NUSModule` (see code snippets below): ::
 . In `XMLAdaptedPerson`, a ArrayList is created and each <nusModule> from AddressBook.xml file will an `XMLAdaptedNusModule` in it.
 . Each `XMLAdaptedNusModule` will read the moduleCode and get the corresponding list of lessons by calling `XMLAdaptedModuleLessons`
 . `XMLAdaptedModuleLessons` will read the lessonType and respective lesson slot and return those values.
+
+[source,java]
+----
+public class XmlAdaptedPerson {
+    ...
+    @XmlElement(name = "nusModule")
+    private List<XmlAdaptedNusModule> nusModules = new ArrayList<>();
+    ...
+}
+----
+
+[source,java]
+----
+public class XmlAdaptedNusModule {
+    @XmlAttribute
+    private String moduleCode;
+    @XmlElement(name = "lesson")
+    private List<XmlAdaptedModuleLessons> nusLessons = new ArrayList<>();
+    ...
+}
+----
+[source,java]
+----
+public class XmlAdaptedModuleLessons {
+
+    @XmlAttribute
+    private String lessonType;
+    @XmlValue
+    private String lessonSlot;
+    ...
+}
+----
+
+
 
 Converting from `NUSModule` back to AddressBook.xml is simply a similar process in reverse.
 Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for converting to and fro.
