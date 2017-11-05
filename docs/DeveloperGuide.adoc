@@ -339,7 +339,7 @@ This section describes some noteworthy details on how certain features are imple
 
 The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides inside `LogicManager`. It supports undoing and redoing of commands that modifies the state of the address book (e.g. `add`, `edit`). Such commands will inherit from `UndoableCommand`.
 
-==== Implementation Details
+===== Implementation Details
 
 `UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from `Command` instead. The following diagram shows the inheritance diagram for commands:
 
@@ -425,7 +425,7 @@ The following activity diagram summarize what happens inside the `UndoRedoStack`
 
 image::UndoRedoActivityDiagram.png[width="200"]
 
-==== Design Considerations
+===== Design Considerations
 
 
 ---
@@ -511,7 +511,7 @@ When initialized, the `Config` class will read and save the values of parameters
 
 Contacts in Augustine are required to have *both their name and email address* filled. The other fields of a contact can be left out.
 
-==== Implementation Details
+===== Implementation Details
 
 When adding a contact into Augustine, the `AddCommandParser` is used to parse the input entered by the user into the different fields for a contact.
 
@@ -534,7 +534,7 @@ private static Optional<String> checkInput(Optional<String> userInput) {
 After assigning values to the different fields of a contact, Augustine will then proceed to call the `parseField` method in `ParserUtil` to parse
 the user input method into the different objects required for the `Person` class before adding the contact into Augustine.
 
-==== Design Considerations
+===== Design Considerations
 
 [Big]#**Aspect:** Detect unfilled fields in user input#
 
@@ -562,7 +562,7 @@ A default image will be given to the contact if the User: +
 1. did not specify an image for the contact during the adding of the contact into Augustine. +
 2. remove the contact's Display Picture during an edit.
 
-==== Implementation Details
+===== Implementation Details
 The Display Picture given to a contact will be copied over to the `data/images` folder and renamed as "contact's_email_address.jpg".
 By renaming the Display Picture as "contact's_email_address.jpg", Augustine is able to associate each image in the `/data/images` folder to a contact
 in Augustine. However, such implementation means that a contact's Display Picture may have to be renamed if the contact's email is updated.
@@ -611,7 +611,7 @@ and what are the actions done within Augustine.
 .Activity Diagram of Image Storage Mechanism
 image::ActivityDiagramImageStorage.png[width="640"]
 
-==== Design Considerations
+===== Design Considerations
 
 ====
 
@@ -634,7 +634,7 @@ displaying the Display Picture.
 Each contact in Augustine can be contain a `NUSmodules` which stores all their modules and lesson slots.
 Augustine utilizes https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
 
-==== Implementation details
+===== Implementation details
 Timetables are stored in `NusModules` class and each `Person` will have a `NusModules` if they have a timetable.
 `NusModules` uses a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` to store the modules.
 
@@ -681,7 +681,8 @@ Process converting from AddressBook.xml to `NUSModule`: ::
 Converting from `NUSModule` back to AddressBook.xml is simply a similar process in reverse.
 Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for converting to and fro.
 
-==== Design considerations
+===== Design considerations
+
 ---
 
 [Big]#**Aspect:** Displaying of schedule#
@@ -737,7 +738,7 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 The find command is facilitated by the Model and Logic Component. It provides the user with the option to
 filter and sort the contact list.
 
-==== Implementation Details
+===== Implementation Details
 
 The contact list in Augustine UI are bound to the `SortedList<ReadOnlyPerson>` object in `ModelManager`. Any changes
 to the `SortedList<ReadOnlyPerson>` object will result in changes to the results of the contact list displayed in
@@ -840,7 +841,7 @@ The code snippet below shows how the `Find` command defines the sorting algorith
  }
 ----
 
-==== Design Considerations
+===== Design Considerations
 [Big]#**Aspect:** Find users using custom fields (eg. name, tag, email, etc...)#
 
 ====
@@ -877,7 +878,7 @@ The code snippet below shows how the `Find` command defines the sorting algorith
 The email mechanism is facilitated by the `Email component`. It allows the sending of email via using an external
 library, JavaMail. The sections below will explain how the email mechanism works and some of the design considerations.
 
-==== Implementation Details
+===== Implementation Details
 
 There are 3 classes, `EmailLogin`, `EmailSend`, `EmailCompose`, in the EmailManager that facilitates the email process.
 Before the user is able to send an email, the user have to login and compose the email. The section below covers how
@@ -898,7 +899,7 @@ expression.
 The `EmailSend` class sets up the connection to send email via `JavaMail` API. The email is rejected if the
 `MessageDraft` object in `EmailCompose` is empty or the login details in `EmailLogin` is invalid.
 
-==== Design considerations
+===== Design considerations
 
 ---
 [Big]#**Aspect:** Method for sending Email#
@@ -939,7 +940,7 @@ The birthday tab is facilitated by the `Model`, `Logic`, and `UI` components. It
 contact list sorted by birth dates. A contact whose birthday is closest to the current system time will be displayed
 first. If a contact should be celebrating his birthday today, then his contact card will be highlighted in blue.
 
-==== Implementation Details
+===== Implementation Details
 
 There are several components that are key to the implementation this functionality:
 
@@ -1026,7 +1027,7 @@ date1 = LocalDate.parse(person.getBirthdate().value, format).withYear(now.getYea
 we can easily compare that date with today's date. If they are equal, the contact's birthday is today, and through
 the `SetStyle` method from the Java API we can easily update the colour to highlight this.
 
-==== Design considerations
+===== Design considerations
 
 ---
 [Big]#**Aspect:** Method for displaying the sorted birthday list#
