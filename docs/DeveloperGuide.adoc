@@ -263,7 +263,7 @@ The process of the Logic Component is as follow:
 . AddressBookParser calls the relevant CommandParser, if it exists and parse the arguments into a fixed format.
 If there is no relevant CommandParser, AddressBookParser will call the Command instead.
 
-  [TIP]
+  [NOTE]
   The Clear, List, History, Exit, Help, Undo, Redo commands do not have it's own CommandParser
 
 . Relevant CommandParser then calls the actual Command to execute the user command.
@@ -271,7 +271,7 @@ If there is no relevant CommandParser, AddressBookParser will call the Command i
 . Model component may then be updated depending on the Command Type.
 
   [TIP]
-  Model Component will be updated by Add, Delete, Clear, Edit, Find, List, Redo and Undo command.
+  Model Component will be called by Add, Delete, Clear, Edit, Find, List, Redo and Undo command.
 
 . the result of the Command which is stored in CommandResult will then be returned to LogicManager
 . The CommandResult is then returned to `handleCommandInputChange` method in the UI Component for display to the user.
@@ -280,7 +280,7 @@ _Figure X_ below shows the sequence diagram of the process within the Component 
 `Delete 1` is entered by the user.
 
 image::DeletePersonSdForLogic.png[width="800"]
-_Figure X : Interactions Inside the Logic Component for the `delete 1` Command_
+_Figure X : Sequence Diagram within the Logic Component for the `delete 1` Command_
 
 ==== Model component
 
@@ -507,19 +507,19 @@ The `Config` class will be initialized by the `MainApp` and the constructed `Con
 When initialized, the `Config` class will read and save the values of parameters in the configuration file. The `MainApp` then passes the `Config` object into classes which require it (e.g. `MainWindow`)
 
 // tag::optionalfields[]
-=== Optional Fields in Contact
+=== Optional Fields in a Contact
 
-Optional fields is the ability to have unfilled fields within a Contact enables the User to add a contact into Augustine without having to know all the particulars of a Contact.
-
-The User only needs to know both *the name and email address* of the Contact to add it into Augustine.
+Contacts in Augustine are required to have *both their name and email address* filled. The other attributes of a contact can be left
+unfilled.
 
 ==== Implementation Details
 
-The optional fields mechanism is facilitated by `ParserUtil`, which is used by `AddCommandParser` to parse argument entered by the User into data of the
-different fields of a Contact. When the relevant methods in `ParserUtil` is being called in `AddCommandParser`, it will check if the input field is empty.
-If there is no value, it will give a value, '-' instead to the relevant field.
+The optional fields mechanism is facilitated by `ParserUtil`, which is used by `AddCommandParser` to parse argument entered by the user
+into data of the different fields of a Contact. When the relevant methods in `ParserUtil` is being called in `AddCommandParser`,
+it will check if the input field is empty. If there is no value, it will give the value, '-' instead to the relevant field.
 
-The code snippet below shows you how a method in `ParserUtil` detects whether is there a value in the `ArgumentMultiMap` of the associated field and if there is no value, it will return a '-' to AddCommandParser
+The code snippet below shows you how a method in `AddCommandParser` detects whether is there a value in the user input of the associated field
+and if there is no value, it will return a '-' to AddCommandParser
 instead.
 
 [NOTE]
