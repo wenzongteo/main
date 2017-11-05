@@ -717,9 +717,9 @@ The contact whose birthday is today (according to system time) will be highlight
 .Birthdays tab with highlighted contact
 image::happyBirthdayJohnCena.png[width="440px"]
 --
+--
 
 '''
-
 === Listing entered commands : [fuchsia]`history`
 
 The [fuchsia]`history` command lists all the commands that you have entered in
