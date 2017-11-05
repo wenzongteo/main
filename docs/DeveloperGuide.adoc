@@ -509,43 +509,45 @@ When initialized, the `Config` class will read and save the values of parameters
 // tag::optionalfields[]
 === Optional Fields in a Contact
 
-Contacts in Augustine are required to have *both their name and email address* filled. The other attributes of a contact can be left
-unfilled.
+Contacts in Augustine are required to have *both their name and email address* filled. The other fields of a contact can be left out.
 
 ==== Implementation Details
 
-The optional fields mechanism is facilitated by `ParserUtil`, which is used by `AddCommandParser` to parse argument entered by the user
-into data of the different fields of a Contact. When the relevant methods in `ParserUtil` is being called in `AddCommandParser`,
-it will check if the input field is empty. If there is no value, it will give the value, '-' instead to the relevant field.
+When adding a contact into Augustine, the `AddCommandParser` is used to parse the input entered by the user into the different fields for a contact.
 
-The code snippet below shows you how a method in `AddCommandParser` detects whether is there a value in the user input of the associated field
-and if there is no value, it will return a '-' to AddCommandParser
-instead.
+In `AddCommandParser`, Augustine will first check if the two compulsory prefixes, which are used for the name and email fields is present.
+If the two compulsory prefixes are not present, Augustine will throw an error message stating Augustine requires both the name and email fields to be
+filled.
 
-[NOTE]
-`Field` in the snippet refers to a field in the contact.
+Next, Augustine will execute the `checkInput` method in `AddCommandParser` to determine if a field is filled by the user. If the field is not filled,
+the method will give the value '-' to the field instead to denote that the field is not filled.
+
+The code snippet below shows how the `checkInput` method checks if a field is filled by the user.
 
 [source,java]
 ----
-public static Optional<Address> parseField(Optional<String> field) throws IllegalValueException {
-         return field.isPresent() ? Optional.of(new Field(field.get())) : Optional.of(new Field("-"));
-     }
+private static Optional<String> checkInput(Optional<String> userInput) {
+        return Optional.of(userInput.orElse("-"));
+    }
 ----
+
+After assigning values to the different fields of a contact, Augustine will then proceed to call the `parseField` method in `ParserUtil` to parse
+the user input method into the different objects required for the `Person` class before adding the contact into Augustine.
 
 ==== Design Considerations
 
-[Big]#**Aspect:** Detecting of unfilled fields.#
+[Big]#**Aspect:** Detect unfilled fields in user input#
 
 ====
-**Alternative 1 (current choice):** Check if value is present, if value is not present, return a - as value instead. +
+**Alternative 1 (current choice):** Check if value is present, if value is not present, return a '-' as the value instead. +
 
 * **Pros:** Simple for developers to understand the inner working of the enhancement. +
 * **Cons:** All fields are still stored in AddressBook, leading to wastage of space as fields that are not used by the User for each contact are still being stored. +
 ====
 ====
-**Alternative 2:** Detect if the field exist in AddressBook.xml, if the field does not exist for a particular contact, display the field in the PersonCard as unfilled. +
+**Alternative 2:** Detect if the field exist in AddressBook.xml, if the field does not exist for a contact, display the field in the PersonCard as unfilled. +
 
-* **Pros:** Save space and readability of +
+* **Pros:** Save data space in the computer as unfilled fields are not stored in the data file. +
 * **Cons:** Harder for developers to understand the inner working of the enhancement.
 ====
 // end::optionalfields[]
