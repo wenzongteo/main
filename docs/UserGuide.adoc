@@ -70,7 +70,7 @@ Before you continue with this section, do take note of the following:
 *Command Format*
 
 * Words in `UPPER_CASE` are *compulsory parameters* that requires your input.
-** For example, if you see `add n/NAME`, `NAME` is a compulsory parameter supplied by you.
+** For example, if you see `add n/NAME`, `NAME` is a compulsory parameter you have to include in the command.
 ** E.g.  `add n/John Doe`
 
 * Words in `square brackets` [ ] are *optional parameters* that can be left unfilled by you.
