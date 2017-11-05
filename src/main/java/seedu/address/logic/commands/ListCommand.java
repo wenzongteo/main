@@ -35,7 +35,6 @@ public class ListCommand extends Command {
     public CommandResult execute() {
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         model.sortFilteredPersons(sortOrder);
-        model.getFilteredPersonList();
         return new CommandResult(MESSAGE_SUCCESS);
     }
 }
