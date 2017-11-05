@@ -302,8 +302,8 @@ The format of the [fuchsia]`find` command is as follow:
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 * The find command results can be be *sorted* by *name*, *tag*, *email* or *address*.
-** Find with *sort by tag*: [fuchsia]`find n/adam eunice s/tag`
 ** Find with *sort by name*: [fuchsia]`find n/adam eunice s/name`
+** Find with *sort by tag*: [fuchsia]`find n/adam eunice s/tag`
 ** Find with *sort by email*: [fuchsia]`find n/adam eunice s/email`
 ** Find with *sort by address*: [fuchsia]`find n/adam eunice s/address`
 * The sort options < name | tag | email | address > are *case sensitive*.
@@ -362,7 +362,8 @@ image::findByNameTag.png[]
 . [red]*Find By Name with Sort option*
 +
 --
-You can find contacts and sort the contact list displayed either by name, tag, email or address (see Figure 13).
+You can find contacts and sort the contact list displayed either by name, tag, email or address. Type the command below to
+find user by their names and sort the contact list displayed by tag order (see Figure 13).
 
 [NOTE]
 Note that the sort option "name", "tag", "email" and "address" are *case-sensitive*
