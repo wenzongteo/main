@@ -23,7 +23,9 @@ toc::[]
 
 == Product Overview
 
-Every year, a new chapter of your school life begins in August. You will meet new friends and establish new connections in school. However, it will be difficult to keep track of all the contacts of your newly made friends. Let Augustine help you to keep track of your friends’ contact numbers, addresses, timetables and social media accounts.
+Every year, a new chapter of your school life begins in August. You will meet new friends and establish new connections in school.
+However, it will be difficult to keep track of all the contacts of your newly made friends.
+Let Augustine help you keep track of your friends’ contact numbers, addresses, timetables and birthdays.
 
 == About
 
