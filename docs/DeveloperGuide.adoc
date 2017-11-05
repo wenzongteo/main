@@ -722,27 +722,34 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 ====
 ---
 
-=== Find with filter and sort Mechanism
+=== Filter and Sort Mechanism for find command
 
 The find command is facilitated by the Model and Logic Component. It provides the user with the option to
 filter and sort the contact list.
 
 ===== Implementation Details
 
-The contact list in Augustine UI are bound to the `SortedList<ReadOnlyPerson>` object in `ModelManager`. Any changes
-to the `SortedList<ReadOnlyPerson>` object will result in changes to the results of the contact list displayed in
-Augustine UI. The contact list can be filtered or sorted based on the find command executed as explain below.
+When Augustine starts, the contact list data are extracted from data\addressbook.xml and stored in a
+`FilteredList<ReadOnlyPerson>` object in `ModelManager`. This object is referenced to a `SortedList<ReadOnlyPerson>`
+object which is bound to the User Interface (UI) of Augustine. Any changes to the `SortedList<ReadOnlyPerson>`
+object will be reflected on Augustine UI contact list display.
 
-===== Filtering by arguments
+The contact list can be filtered or sorted using the mechanism below.
 
-The find command allows users to filter the contact list by either *name* or *tag* or *both.* On application start,
-the contact list's data are stored in a `FilteredList<ReadOnlyPerson>` object in `ModelManager`. The contact list are
-filtered by making use of `java.util.stream.Stream` interface which can easily filter a list by defining the predicate*.
+. [red]*Filtering contact list*
++
+--
+The contact list can be filtered with the find command where the user is able to filter the contact list by
+either name, tag or both. The contact list data is stored in a `FilteredList<ReadOnlyPerson>` object. It is
+filtered by making use of the `java.util.stream.Stream` interface which uses a predicate to filter the
+`FilteredList<ReadOnlyPerson>` object.
 
 [NOTE]
-A predicate is a lambda expression to define the filtering criteria.
+A predicate is a lambda expression for defining the find command filter criteria.
 
-The code snippet below shows how the `Find` command defines the predicate for filtering the contact list.
+Depending on the find command specified by the user, a different predicate statement will be
+created (see code snippet below). The predicate statement will define how the contact list’s
+data in the `FilteredList<ReadOnlyPerson>` object are filtered.
 
 [source, java]
 ----
@@ -760,15 +767,21 @@ public boolean test(ReadOnlyPerson person) {
     }
 }
 ----
+--
 
-===== Sorting by arguments
+. [red]*Sorting the contact list*
++
+--
+The find command allows users to sort the contact list by either *address*, *email*, *name* or *tag*.
+The `FilteredList<ReadOnlyPerson>` object is referenced to a `SortedList<ReadOnlyPerson>` object which is bound
+to the Augustine UI. The order of the contact list's data in the `SortedList<ReadOnlyPerson>` object will be the
+same as the list displayed in the Augustine UI.
 
-The find command allows users to sort the filtered contact list results by either *address*, *email*, *name*, *tag*.
-The contact list stored in `FilterList<ReadOnlyPerson>` object are referenced to a `SortedList<ReadOnlyPerson` object
-to implement the sorting algorithm. The `SortedList<ReadOnlyPerson>` object is bound to the Augustine UI. Any changes to
-the `SortedList<ReadOnlyPerson>` object will be reflected on the contact list displayed in Augustine UI.
+[NOTE]
+The word “referenced” means that the contact list’s data in the `FilteredList<ReadOnlyPerson>` object is the
+exact same as the contact list’s data in the `SortedList<ReadOnlyPerson> object.
 
-The code snippet below shows how the `Find` command defines the sorting algorithm for sorting the contact list.
+Depending on the sort option (address, email, name or tag), the contact list will be sorted differently (see code snippet below).
 
 [source,java]
 ----
@@ -829,36 +842,37 @@ The code snippet below shows how the `Find` command defines the sorting algorith
      sortedPersonsList.setComparator(sort);
  }
 ----
+--
 
 ===== Design Considerations
 
-[Big]#**Aspect:** Find users using custom fields (eg. name, tag, email, etc...)#
+[Big]#**Aspect:** Filter contact list by custom fields (eg. name, tag, email, etc...)#
 ====
-**Alternative 1:** finding base on user define keywords  +
+**Alternative 1:** Filter contact list based on user defined keywords +
 
 * **Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
-* **Cons:** The find command might display unnecessary results. +
+* **Cons:** The find command might display unnecessary results which are related to the keywords but not what the user wants. +
 ====
 ====
 **Alternative 2 (current choice):** Use prefix to define fields +
 
-* **Pros:** There will be more flexibility and find results will be more user specific +
-* **Cons:** The find command might contain too many fields and becomes confusing.
+* **Pros:** There will be more flexibility for users when using the find command and the find results will be more user specific. +
+* **Cons:** The find command might contain too many fields and becomes too confusing for the user.
 ====
 ---
 
-[Big]#**Aspect:** Sorting Find Result#
+[Big]#**Aspect:** Sort the filtered contact list#
 ====
 **Alternative 1:** Create a Sort command +
 
-* **Pros:** Users can sort the list at any point of time, not only during the find command +
-* **Cons:** Users will have to run an extra sort command instead of a one line find command with sort options +
+* **Pros:** Users can sort the list at any point of time, not only during the find command. +
+* **Cons:** Users will have to run an extra sort command instead of a one line find command with sort options. +
 ====
 ====
-**Alternative 2 (current choice):** Creating a Find Command with sort options +
+**Alternative 2 (current choice):** Create a Find Command with sort options +
 
 * **Pros:** Users will only need to run a single line of code to find users in a sorted list. +
-* **Cons:** The find command might become too complex.
+* **Cons:** The find command might become too complex with too many arguments.
 ====
 ---
 
