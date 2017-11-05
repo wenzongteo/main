@@ -427,8 +427,6 @@ image::UndoRedoActivityDiagram.png[width="200"]
 
 ===== Design Considerations
 
-
----
 [Big]#**Aspect:** Implementation of `UndoableCommand`#
 ====
 **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()` +
@@ -441,12 +439,10 @@ image::UndoRedoActivityDiagram.png[width="200"]
 
 * **Pros:** It does not involve the template pattern, easier for new developers to understand. +
 * **Cons:** Classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to undo/redo.
-
 ====
 ---
 
 [Big]#**Aspect:** Type of commands that can be undone/redone#
-
 ====
 **Alternative 1 (current choice):** Only include commands that modifies the address book (`add`, `clear`, `edit`). +
 
@@ -459,13 +455,10 @@ image::UndoRedoActivityDiagram.png[width="200"]
 * **Pros:** Might be more intuitive for the user. +
 * **Cons:** User have no way of skipping such commands if he or she just want to reset the state of the address book and not the view. +
 * **Additional Info:** See our discussion at https://github.com/se-edu/addressbook-level4/issues/390#issuecomment-298936672
-
 ====
-
 ---
 
 [Big]#**Aspect:** Data structure to support the undo/redo commands#
-
 ====
 **Alternative 1 (current choice):** Use separate stack for undo and redo +
 
@@ -477,8 +470,9 @@ image::UndoRedoActivityDiagram.png[width="200"]
 
 * **Pros:** We do not need to maintain a separate stack, and just reuse what is already in the codebase. +
 * **Cons:** Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things. +
-
 ====
+---
+
 // end::undoredo[]
 
 === Logging
@@ -550,6 +544,7 @@ the user input method into the different objects required for the `Person` class
 * **Pros:** It will save data space in the computer as unfilled fields are not stored in the data file. +
 * **Cons:** It will be harder for developers to understand the inner working of the enhancement.
 ====
+---
 // end::optionalfields[]
 
 // tag::imagestorage[]
@@ -613,14 +608,13 @@ image::ActivityDiagramImageStorage.png[width="640"]
 
 ===== Design Considerations
 
+[Big]#**Aspect:** ??#
 ====
-
 **Alternative 1 current choice:** Create a local copy of the Display Picture in the data/images folder +
 
 * **Pros:** Removal of the original image will not affect the display of a contact's Display Picture. +
 * **Cons:** Additional storage space on the computer is required to store the local copy of the Display Picture. +
 ====
-
 ====
 **Alternative 2 (current choice):** Store the file path of the chosen Display Picture in each Contact. +
 
@@ -628,6 +622,7 @@ image::ActivityDiagramImageStorage.png[width="640"]
 * **Cons:** User is unable to move or change the Display Picture as any modification to it will prevent Augustine from
 displaying the Display Picture.
 ====
+---
 // end::imagestorage[];
 
 === NUSmods integration
@@ -717,10 +712,7 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 
 ===== Design considerations
 
----
-
 [Big]#**Aspect:** Displaying of schedule#
-
 ====
 **Alternative 1:** Use javafx to draw the schedule +
 
@@ -736,7 +728,6 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 ---
 
 [Big]#**Aspect:** Storing of schedule#
-
 ====
 **Alternative 1(current choice):** Store it as a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` +
 
@@ -749,11 +740,9 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 * **Pros:** As it is a single string, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
 * **Cons:** Need to parse when want to modify part of the string, then reformat it back into a string, which can be inefficient
 ====
-
 ---
 
 [Big]#**Aspect:** Command to edit timetables#
-
 ====
 **Alternative 1(current choice):** Create new command to add/edit timetables  +
 
@@ -766,28 +755,36 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 * **Pros:** User will not need to know more commands +
 * **Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
 ====
+---
 
-=== Find with filter and sort Mechanism
+=== Filter and Sort Mechanism for find command
 
 The find command is facilitated by the Model and Logic Component. It provides the user with the option to
 filter and sort the contact list.
 
 ===== Implementation Details
 
-The contact list in Augustine UI are bound to the `SortedList<ReadOnlyPerson>` object in `ModelManager`. Any changes
-to the `SortedList<ReadOnlyPerson>` object will result in changes to the results of the contact list displayed in
-Augustine UI. The contact list can be filtered or sorted based on the find command executed as explain below.
+When Augustine starts, the contact list data are extracted from data\addressbook.xml and stored in a
+`FilteredList<ReadOnlyPerson>` object in `ModelManager`. This object is referenced to a `SortedList<ReadOnlyPerson>`
+object which is bound to the User Interface (UI) of Augustine. Any changes to the `SortedList<ReadOnlyPerson>`
+object will be reflected on Augustine UI contact list display.
 
-===== Filtering by arguments
+The contact list can be filtered or sorted using the mechanism below.
 
-The find command allows users to filter the contact list by either *name* or *tag* or *both.* On application start,
-the contact list's data are stored in a `FilteredList<ReadOnlyPerson>` object in `ModelManager`. The contact list are
-filtered by making use of `java.util.stream.Stream` interface which can easily filter a list by defining the predicate*.
+. [red]*Filtering contact list*
++
+--
+The contact list can be filtered with the find command where the user is able to filter the contact list by
+either name, tag or both. The contact list data is stored in a `FilteredList<ReadOnlyPerson>` object. It is
+filtered by making use of the `java.util.stream.Stream` interface which uses a predicate to filter the
+`FilteredList<ReadOnlyPerson>` object.
 
 [NOTE]
-A predicate is a lambda expression to define the filtering criteria.
+A predicate is a lambda expression for defining the find command filter criteria.
 
-The code snippet below shows how the `Find` command defines the predicate for filtering the contact list.
+Depending on the find command specified by the user, a different predicate statement will be
+created (see code snippet below). The predicate statement will define how the contact list’s
+data in the `FilteredList<ReadOnlyPerson>` object are filtered.
 
 [source, java]
 ----
@@ -805,15 +802,21 @@ public boolean test(ReadOnlyPerson person) {
     }
 }
 ----
+--
 
-===== Sorting by arguments
+. [red]*Sorting the contact list*
++
+--
+The find command allows users to sort the contact list by either *address*, *email*, *name* or *tag*.
+The `FilteredList<ReadOnlyPerson>` object is referenced to a `SortedList<ReadOnlyPerson>` object which is bound
+to the Augustine UI. The order of the contact list's data in the `SortedList<ReadOnlyPerson>` object will be the
+same as the list displayed in the Augustine UI.
 
-The find command allows users to sort the filtered contact list results by either *address*, *email*, *name*, *tag*.
-The contact list stored in `FilterList<ReadOnlyPerson>` object are referenced to a `SortedList<ReadOnlyPerson` object
-to implement the sorting algorithm. The `SortedList<ReadOnlyPerson>` object is bound to the Augustine UI. Any changes to
-the `SortedList<ReadOnlyPerson>` object will be reflected on the contact list displayed in Augustine UI.
+[NOTE]
+The word “referenced” means that the contact list’s data in the `FilteredList<ReadOnlyPerson>` object is the
+exact same as the contact list’s data in the `SortedList<ReadOnlyPerson> object.
 
-The code snippet below shows how the `Find` command defines the sorting algorithm for sorting the contact list.
+Depending on the sort option (address, email, name or tag), the contact list will be sorted differently (see code snippet below).
 
 [source,java]
 ----
@@ -874,38 +877,39 @@ The code snippet below shows how the `Find` command defines the sorting algorith
      sortedPersonsList.setComparator(sort);
  }
 ----
+--
 
 ===== Design Considerations
-[Big]#**Aspect:** Find users using custom fields (eg. name, tag, email, etc...)#
 
+[Big]#**Aspect:** Filter contact list by custom fields (eg. name, tag, email, etc...)#
 ====
-**Alternative 1:** finding base on user define keywords  +
+**Alternative 1:** Filter contact list based on user defined keywords +
 
 * **Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
-* **Cons:** The find command might display unnecessary results. +
+* **Cons:** The find command might display unnecessary results which are related to the keywords but not what the user wants. +
 ====
 ====
 **Alternative 2 (current choice):** Use prefix to define fields +
 
-* **Pros:** There will be more flexibility and find results will be more user specific +
-* **Cons:** The find command might contain too many fields and becomes confusing.
+* **Pros:** There will be more flexibility for users when using the find command and the find results will be more user specific. +
+* **Cons:** The find command might contain too many fields and becomes too confusing for the user.
 ====
-
 ---
-[Big]#**Aspect:** Sorting Find Result#
 
+[Big]#**Aspect:** Sort the filtered contact list#
 ====
 **Alternative 1:** Create a Sort command +
 
-* **Pros:** Users can sort the list at any point of time, not only during the find command +
-* **Cons:** Users will have to run an extra sort command instead of a one line find command with sort options +
+* **Pros:** Users can sort the list at any point of time, not only during the find command. +
+* **Cons:** Users will have to run an extra sort command instead of a one line find command with sort options. +
 ====
 ====
-**Alternative 2 (current choice):** Creating a Find Command with sort options +
+**Alternative 2 (current choice):** Create a Find Command with sort options +
 
 * **Pros:** Users will only need to run a single line of code to find users in a sorted list. +
-* **Cons:** The find command might become too complex.
+* **Cons:** The find command might become too complex with too many arguments.
 ====
+---
 
 === Email Mechanism
 
@@ -935,7 +939,6 @@ The `EmailSend` class sets up the connection to send email via `JavaMail` API. T
 
 ===== Design considerations
 
----
 [Big]#**Aspect:** Method for sending Email#
 ====
 **Alternative 1:** Using Pop up Default Email Client +
@@ -948,10 +951,9 @@ The `EmailSend` class sets up the connection to send email via `JavaMail` API. T
 
 * **Pros:** Email will be sent from the application. +
 * **Cons:** User will have less control over the email content and the email will be less secure. +
-
 ====
-
 ---
+
 [Big]#**Aspect:** Identifying Recipient Email List#
 ====
 **Alternative 1:** Add Recipient Email List using prefix in Email Command +
@@ -967,6 +969,7 @@ The `EmailSend` class sets up the connection to send email via `JavaMail` API. T
 * **Cons:** Users will have to execute the find command to get the desired list of recipients first before they can
  execute the email command +
 ====
+---
 
 === Birthday Tab
 
@@ -1063,7 +1066,6 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 
 ===== Design considerations
 
----
 [Big]#**Aspect:** Method for displaying the sorted birthday list#
 ====
 **Alternative 1:** Using a command +
@@ -1079,10 +1081,9 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
  is no need for the contact list to be resorted every time, and the birthday tab updates in real-time. +
 * **Cons:** As extra tab is harder to implement, and the constant checking of birthdates for sorting and highlighting
  might cost some performance. +
-
 ====
-
 ---
+
 [Big]#**Aspect:** Format requirements for birthdate field#
 ====
 **Alternative 1:** To allow any seemingly valid birthday formats such as d/mm, dd/m, dd.mm.yy , dd-mm-yyyy +
@@ -1090,7 +1091,6 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 * **Pros:** Users have more control over their preferred formats. +
 * **Cons:** Extremely difficult to account for the different variation and their permutations, causing the sort
 implementation to be overly complicated and inconsistent +
-
 ====
 ====
 **Alternative 2 (current choice):** Restrict input to dd/mm/yyyy +
