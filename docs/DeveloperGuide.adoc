@@ -932,6 +932,137 @@ The `EmailSend` class sets up the connection to send email via `JavaMail` API. T
 * **Cons:** Users will have to execute the find command to get the desired list of recipients first before they can
  execute the email command +
 ====
+
+=== Birthday Tab
+
+The birthday tab is facilitated by the `Model`, `Logic`, and `UI` components. It allows the user to display the main
+contact list sorted by birth dates. A contact whose birthday is closest to the current system time will be displayed
+first. If a contact should be celebrating his birthday today, then his contact card will be highlighted in blue.
+
+==== Implementation Details
+
+There are several components that are key to the implementation this functionality:
+
+===== Birthdate class
+
+Every contact is required to have a blank `-` or a valid `dd/mm/yyyy` date stored in its Birthdate field, which is
+enforced through the `BIRTHDATE_VALIDATION_REGEX` String implemented in the class, failing which will cause an
+`IllegalValueException` to be thrown.
+
+===== sortBirthdate method
+
+The `sortBirthdate` method is a method added onto `ModelManager`. It updates as the main contact list changes
+and runs the following sorting algorithm on a separate `SortedList<ReadOnlyPerson>` object:
+
+[source, java]
+----
+public void sortBirthdate() {
+
+    Comparator<ReadOnlyPerson> sort = new Comparator<ReadOnlyPerson>() {
+
+       public int compare(ReadOnlyPerson o1, ReadOnlyPerson o2) {
+            String birthdate1 = o1.getBirthdate().value;
+
+            String birthdate2 = o2.getBirthdate().value;
+            DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
+
+            LocalDate today = LocalDate.now();
+            LocalDate date1;
+            LocalDate date2;
+
+            try {
+                date1 = LocalDate.parse(birthdate1, format).withYear(today.getYear());
+            } catch (DateTimeParseException e) {
+                date1 = LocalDate.of(9999, 12, 30);
+            }
+
+            try {
+                date2 = LocalDate.parse(birthdate2, format).withYear(today.getYear());
+            } catch (DateTimeParseException e) {
+                date2 = LocalDate.of(9999, 12, 30);
+            }
+
+            if (date1.isBefore(today)) {
+                date1 = date1.withYear(date1.getYear() + 1);
+            }
+
+            if (date2.isBefore(today)) {
+                date2 = date2.withYear(date2.getYear() + 1);
+            }
+
+            return date1.compareTo(date2);
+            }
+    };
+
+    sortedPersonsListBirthdate.setComparator(sort);
+}
+----
+
+By converting the birthdates in question to contain the same year as current system time, we check if the updated date
+is before or after today's date. If that date has already passed, increment the year by one. You could think of the
+updated dates as the date of the most upcoming birthday celebration for each contact.
+
+For example, running this algorithm in November 2017 on a contact with a birthdate of `15/02/1995` would be updated it
+to `15/02/2018` in the sorting process.
+
+Afterwards it is simply a matter of sorting the dates normally.
+
+===== LeftDisplayPanel class
+
+The new `SortedList` will then be passed as a separate parameter into the `LeftDisplayPanel` constructor along the
+main contact list. This new list, sorted by birthdates, will be displayed on a separate tab in the left display panel.
+
+===== PersonCard class
+
+Through a `setColor` method, a contact's card will be highlighted if his birthday is today (system time). This is
+achieved in a similar fashion as the above birthday sort. By updating a contact's birthdate's year to that of today's
+as such:
+
+[source, java]
+----
+date1 = LocalDate.parse(person.getBirthdate().value, format).withYear(now.getYear());
+----
+
+we can easily compare that date with today's date. If they are equal, the contact's birthday is today, and through
+the `SetStyle` method from the Java API we can easily update the colour to highlight this.
+
+==== Design considerations
+
+---
+[Big]#**Aspect:** Method for displaying the sorted birthday list#
+====
+**Alternative 1:** Using a command +
+
+* **Pros:** Fewer tabs, easier to implement +
+* **Cons:** This functionality will be less intuitive. A user might not be so likely to input a command regularly
+ just to check for upcoming birthdays +
+====
+====
+**Alternative 2 (current choice):** Using a separate tab +
+
+* **Pros:** User can check for upcoming birthdays without affecting the regular functionality of Augustine. There
+ is no need for the contact list to be resorted every time, and the birthday tab updates in real-time. +
+* **Cons:** As extra tab is harder to implement, and the constant checking of birthdates for sorting and highlighting
+ might cost some performance. +
+
+====
+
+---
+[Big]#**Aspect:** Format requirements for birthdate field#
+====
+**Alternative 1:** To allow any seemingly valid birthday formats such as d/mm, dd/m, dd.mm.yy , dd-mm-yyyy +
+
+* **Pros:** Users have more control over their preferred formats. +
+* **Cons:** Extremely difficult to account for the different variation and their permutations, causing the sort
+implementation to be overly complicated and inconsistent +
+
+====
+====
+**Alternative 2 (current choice):** Restrict input to dd/mm/yyyy +
+
+* **Pros:** Consistent and simpler implementation. +
+* **Cons:** More restrictive, user might intuitively try to input a date like 1/12/1983 and cause an error prompt. +
+====
 ---
 
 == Documentation
