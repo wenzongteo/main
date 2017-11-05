@@ -77,7 +77,7 @@ Before you continue with this section, do take note of the following:
 ** For example, if you see `n/NAME [t/TAG]`, `TAG` is an optional parameter you could choose whether or not to include.
 ** E.g. `n/John Doe t/friend`
 
-* Words in `angled brackets` < > separated by a bar `|` requires you to fill up one of the parameters.
+* Words in `angle brackets` < > separated by a bar `|` requires you to fill up one of the parameters.
 ** For example, `< name | tag >` means to input either name or tag, but not both, in your command.
 
 * Words with `…`​ after them are parameters that can be used *multiple times*.
