@@ -427,8 +427,6 @@ image::UndoRedoActivityDiagram.png[width="200"]
 
 ===== Design Considerations
 
-
----
 [Big]#**Aspect:** Implementation of `UndoableCommand`#
 ====
 **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()` +
@@ -441,12 +439,10 @@ image::UndoRedoActivityDiagram.png[width="200"]
 
 * **Pros:** Does not involve the template pattern, easier for new developers to understand. +
 * **Cons:** Classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to undo/redo.
-
 ====
 ---
 
 [Big]#**Aspect:** Type of commands that can be undone/redone#
-
 ====
 **Alternative 1 (current choice):** Only include commands that modifies the address book (`add`, `clear`, `edit`). +
 
@@ -459,13 +455,10 @@ image::UndoRedoActivityDiagram.png[width="200"]
 * **Pros:** Might be more intuitive for the user. +
 * **Cons:** User have no way of skipping such commands if he or she just want to reset the state of the address book and not the view. +
 * **Additional Info:** See our discussion at https://github.com/se-edu/addressbook-level4/issues/390#issuecomment-298936672
-
 ====
-
 ---
 
 [Big]#**Aspect:** Data structure to support the undo/redo commands#
-
 ====
 **Alternative 1 (current choice):** Use separate stack for undo and redo +
 
@@ -477,8 +470,9 @@ image::UndoRedoActivityDiagram.png[width="200"]
 
 * **Pros:** We do not need to maintain a separate stack, and just reuse what is already in the codebase. +
 * **Cons:** Requires dealing with commands that have already been undone: We must remember to skip these commands. Violates Single Responsibility Principle and Separation of Concerns as `HistoryManager` now needs to do two different things. +
-
 ====
+---
+
 // end::undoredo[]
 
 === Logging
@@ -537,7 +531,6 @@ the user input method into the different objects required for the `Person` class
 ===== Design Considerations
 
 [Big]#**Aspect:** Detect unfilled fields in user input#
-
 ====
 **Alternative 1 (current choice):** Check if value is present, if value is not present, return a '-' as the value instead. +
 
@@ -550,6 +543,7 @@ the user input method into the different objects required for the `Person` class
 * **Pros:** Save data space in the computer as unfilled fields are not stored in the data file. +
 * **Cons:** Harder for developers to understand the inner working of the enhancement.
 ====
+---
 // end::optionalfields[]
 
 // tag::imagestorage[]
@@ -613,14 +607,13 @@ image::ActivityDiagramImageStorage.png[width="640"]
 
 ===== Design Considerations
 
+[Big]#**Aspect:** ??#
 ====
-
 **Alternative 1 current choice:** Create a local copy of the Display Picture in the data/images folder +
 
 * **Pros:** Removal of the original image will not affect the display of a contact's Display Picture. +
 * **Cons:** Additional storage space on the computer is required to store the local copy of the Display Picture. +
 ====
-
 ====
 **Alternative 2 (current choice):** Store the file path of the chosen Display Picture in each Contact. +
 
@@ -628,6 +621,7 @@ image::ActivityDiagramImageStorage.png[width="640"]
 * **Cons:** User is unable to move or change the Display Picture as any modification to it will prevent Augustine from
 displaying the Display Picture.
 ====
+---
 // end::imagestorage[];
 
 === NUSmods integration
@@ -683,10 +677,7 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 
 ===== Design considerations
 
----
-
 [Big]#**Aspect:** Displaying of schedule#
-
 ====
 **Alternative 1:** Use javafx to draw the schedule +
 
@@ -702,7 +693,6 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 ---
 
 [Big]#**Aspect:** Storing of schedule#
-
 ====
 **Alternative 1(current choice):** Store it as a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` +
 
@@ -715,11 +705,9 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 * **Pros:** As it is a single string, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
 * **Cons:** Need to parse when want to modify part of the string, then reformat it back into a string, which can be inefficient
 ====
-
 ---
 
 [Big]#**Aspect:** Command to edit timetables#
-
 ====
 **Alternative 1(current choice):** Create new command to add/edit timetables  +
 
@@ -732,6 +720,7 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 * **Pros:** User will not need to know more commands +
 * **Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
 ====
+---
 
 === Find with filter and sort Mechanism
 
@@ -842,8 +831,8 @@ The code snippet below shows how the `Find` command defines the sorting algorith
 ----
 
 ===== Design Considerations
-[Big]#**Aspect:** Find users using custom fields (eg. name, tag, email, etc...)#
 
+[Big]#**Aspect:** Find users using custom fields (eg. name, tag, email, etc...)#
 ====
 **Alternative 1:** finding base on user define keywords  +
 
@@ -856,10 +845,9 @@ The code snippet below shows how the `Find` command defines the sorting algorith
 * **Pros:** There will be more flexibility and find results will be more user specific +
 * **Cons:** The find command might contain too many fields and becomes confusing.
 ====
-
 ---
-[Big]#**Aspect:** Sorting Find Result#
 
+[Big]#**Aspect:** Sorting Find Result#
 ====
 **Alternative 1:** Create a Sort command +
 
@@ -872,6 +860,7 @@ The code snippet below shows how the `Find` command defines the sorting algorith
 * **Pros:** Users will only need to run a single line of code to find users in a sorted list. +
 * **Cons:** The find command might become too complex.
 ====
+---
 
 === Email Mechanism
 
@@ -901,7 +890,6 @@ The `EmailSend` class sets up the connection to send email via `JavaMail` API. T
 
 ===== Design considerations
 
----
 [Big]#**Aspect:** Method for sending Email#
 ====
 **Alternative 1:** Using Pop up Default Email Client +
@@ -914,10 +902,9 @@ The `EmailSend` class sets up the connection to send email via `JavaMail` API. T
 
 * **Pros:** Email will be sent from the application. +
 * **Cons:** User will have less control over the email content and the email will be less secure. +
-
 ====
-
 ---
+
 [Big]#**Aspect:** Identifying Recipient Email List#
 ====
 **Alternative 1:** Add Recipient Email List using prefix in Email Command +
@@ -933,6 +920,7 @@ The `EmailSend` class sets up the connection to send email via `JavaMail` API. T
 * **Cons:** Users will have to execute the find command to get the desired list of recipients first before they can
  execute the email command +
 ====
+---
 
 === Birthday Tab
 
@@ -1029,7 +1017,6 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 
 ===== Design considerations
 
----
 [Big]#**Aspect:** Method for displaying the sorted birthday list#
 ====
 **Alternative 1:** Using a command +
@@ -1045,10 +1032,9 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
  is no need for the contact list to be resorted every time, and the birthday tab updates in real-time. +
 * **Cons:** As extra tab is harder to implement, and the constant checking of birthdates for sorting and highlighting
  might cost some performance. +
-
 ====
-
 ---
+
 [Big]#**Aspect:** Format requirements for birthdate field#
 ====
 **Alternative 1:** To allow any seemingly valid birthday formats such as d/mm, dd/m, dd.mm.yy , dd-mm-yyyy +
@@ -1056,7 +1042,6 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 * **Pros:** Users have more control over their preferred formats. +
 * **Cons:** Extremely difficult to account for the different variation and their permutations, causing the sort
 implementation to be overly complicated and inconsistent +
-
 ====
 ====
 **Alternative 2 (current choice):** Restrict input to dd/mm/yyyy +
