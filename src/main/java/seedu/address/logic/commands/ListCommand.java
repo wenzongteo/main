@@ -1,9 +1,11 @@
+
+
 package seedu.address.logic.commands;
 
 import static seedu.address.logic.parser.CliSyntax.PREFIX_SORT;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
-
+//@@author hengyu95
 /**
  * Lists all persons in the address book to the user.
  */
@@ -26,7 +28,6 @@ public class ListCommand extends Command {
         new ListCommand(0);
     }
 
-    //@@author hengyu95
     public ListCommand(int sortOrder) {
         this.sortOrder = sortOrder;
     }

@@ -179,6 +179,10 @@ public class ModelManager extends ComponentManager implements Model {
     //@@author
 
     //@@author hengyu95
+    /**
+     * Returns an unmodifiable view of the list of {@code ReadOnlyPerson} backed by the internal list of
+     * {@code addressBook} sorted by upcoming birthday
+     */
     @Override
     public ObservableList<ReadOnlyPerson> getFilteredPersonListBirthdate() {
         return FXCollections.unmodifiableObservableList(sortedPersonsListBirthdate);

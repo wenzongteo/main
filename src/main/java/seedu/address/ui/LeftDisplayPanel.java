@@ -86,6 +86,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
      */
     public void scrollDown() {
         personListPanel.scrollDown();
+        birthdayListPanel.scrollDown();
     }
 
     /**
@@ -93,6 +94,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
      */
     public void scrollUp() {
         personListPanel.scrollUp();
+        birthdayListPanel.scrollUp();
     }
 
     public PersonListPanel getPersonListPanel() {
