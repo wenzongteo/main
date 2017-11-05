@@ -935,7 +935,8 @@ There is no need to save manually.
 == FAQ
 
 *Q*: How do I transfer my data to another computer? +
-*A*: Install the application in that other computer and overwrite the empty data file generated with your original data.
+*A*: Install the application on that other computer and overwrite the empty data file generated there
+(located at `/data/addressbook.xml` of the program's directory) with your original data.
 
 == Command Summary
 
