@@ -31,7 +31,7 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(PersonListBirthdatePanel.class);
 
     @FXML
-    private ListView<PersonCard> personListView2;
+    private ListView<PersonCard> personListBirthdateView;
 
     @FXML
     private ScrollBar personListViewScrollBar;
@@ -80,7 +80,7 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
      * Initializes personListViewScrollBar and assigns personListView's scrollbar to it
      */
     private void setPersonListViewScrollBar() {
-        Set<Node> set = personListView2.lookupAll(".scroll-bar");
+        Set<Node> set = personListBirthdateView.lookupAll(".scroll-bar");
         for (Node node: set) {
             ScrollBar bar = (ScrollBar) node;
             if (bar.getOrientation() == Orientation.VERTICAL) {
@@ -92,13 +92,13 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
     private void setConnections(ObservableList<ReadOnlyPerson> personList) {
         ObservableList<PersonCard> mappedList = EasyBind.map(
                 personList, (person) -> new PersonCard(person, personList.indexOf(person) + 1));
-        personListView2.setItems(mappedList);
-        personListView2.setCellFactory(listView -> new PersonListViewCell());
+        personListBirthdateView.setItems(mappedList);
+        personListBirthdateView.setCellFactory(listView -> new PersonListViewCell());
         setEventHandlerForSelectionChangeEvent();
     }
 
     private void setEventHandlerForSelectionChangeEvent() {
-        personListView2.getSelectionModel().selectedItemProperty()
+        personListBirthdateView.getSelectionModel().selectedItemProperty()
                 .addListener((observable, oldValue, newValue) -> {
                     if (newValue != null) {
                         logger.fine("Selection in person list panel changed to : '" + newValue + "'");
@@ -112,8 +112,8 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
      */
     private void scrollTo(int index) {
         Platform.runLater(() -> {
-            personListView2.scrollTo(index);
-            personListView2.getSelectionModel().clearAndSelect(index);
+            personListBirthdateView.scrollTo(index);
+            personListBirthdateView.getSelectionModel().clearAndSelect(index);
         });
     }
 
