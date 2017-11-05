@@ -44,8 +44,6 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
         registerAsAnEventHandler(this);
     }
 
-
-
     /**
      * Scrolls one page down
      */
@@ -94,17 +92,6 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
                 personList, (person) -> new PersonCard(person, personList.indexOf(person) + 1));
         personListBirthdateView.setItems(mappedList);
         personListBirthdateView.setCellFactory(listView -> new PersonListViewCell());
-        setEventHandlerForSelectionChangeEvent();
-    }
-
-    private void setEventHandlerForSelectionChangeEvent() {
-        personListBirthdateView.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    if (newValue != null) {
-                        logger.fine("Selection in person list panel changed to : '" + newValue + "'");
-                        raise(new PersonPanelSelectionChangedEvent(newValue));
-                    }
-                });
     }
 
     /**
@@ -115,12 +102,6 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
             personListBirthdateView.scrollTo(index);
             personListBirthdateView.getSelectionModel().clearAndSelect(index);
         });
-    }
-
-    @Subscribe
-    private void handleJumpToListRequestEvent(JumpToListRequestEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        scrollTo(event.targetIndex);
     }
 
     /**
