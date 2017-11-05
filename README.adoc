@@ -9,7 +9,7 @@ https://coveralls.io/github/CS2103AUG2017-W14-B2/main?branch=master[image:https:
 * Augustine is a address book which is able to store and display NUSmods timetables.
 * It is design with NUS students in mind.
 
-image::docs/images/readmeScreenshot.png[width="600"]
+image::docs/images/UI.png[width="600"]
 
 == Site Map
 

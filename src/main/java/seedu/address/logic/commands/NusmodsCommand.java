@@ -1,18 +1,8 @@
 package seedu.address.logic.commands;
 
 import static java.util.Objects.requireNonNull;
-import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_DESIGN_LECTURE;
-import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_LABORATORY;
-import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_LECTURE;
 import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_MODULE_CODE;
-import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_PACKAGED_LECTURE;
-import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_PACKAGED_TUTORIAL;
-import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_RECITATION;
-import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_SECTIONAL_TEACHING;
-import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_SEMINAR;
 import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_TUTORIAL;
-import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_TUTORIAL2;
-import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_TUTORIAL3;
 import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_TYPE;
 import static seedu.address.model.Model.PREDICATE_SHOW_ALL_PERSONS;
 
@@ -23,8 +13,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 import java.util.Set;
+import java.util.logging.Logger;
 
 import seedu.address.commons.core.EventsCenter;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
@@ -55,32 +47,24 @@ public class NusmodsCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edit nusmods details of person identified "
             + "by the index number used in the last person listing.\n"
             + PREFIX_TYPE + "is followed by either add, delete or url.\n"
-            + PREFIX_TYPE + " and " + PREFIX_MODULE_CODE + " must be filled.\n"
-            + "Followed by lessonType/lessonSlot"
-            + "[" + PREFIX_TYPE + "ADD/DELETE/URL] "
-            + "[" + PREFIX_MODULE_CODE + "MODULE_CODE] "
-            + "[" + PREFIX_MODULE_CODE + "EMAIL] "
-            + "[" + PREFIX_DESIGN_LECTURE + "] and/or "
-            + "[" + PREFIX_LABORATORY + "] and/or "
-            + "[" + PREFIX_PACKAGED_LECTURE + "] and/or "
-            + "[" + PREFIX_PACKAGED_TUTORIAL + "] and/or "
-            + "[" + PREFIX_LECTURE + "] and/or "
-            + "[" + PREFIX_RECITATION + "] and/or "
-            + "[" + PREFIX_SECTIONAL_TEACHING + "] and/or "
-            + "[" + PREFIX_SEMINAR + "] and/or "
-            + "[" + PREFIX_TUTORIAL + "] and/or "
-            + "[" + PREFIX_TUTORIAL2 + "] and/or "
-            + "[" + PREFIX_TUTORIAL3 + "]/LESSONSLOT"
+            + PREFIX_TYPE + " and " + PREFIX_MODULE_CODE + " must be filled."
+            + "It is then followed any number of lessonType/lessonSlot\n"
+            + "Format: " + COMMAND_WORD + " INDEX "
+            + "[" + PREFIX_TYPE + "<ADD|DELETE|URL>] "
+            + "[" + PREFIX_MODULE_CODE + "MODULE_CODE/URL] "
+            + "[LESSONTYPE/LESSONSLOT]..\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_TYPE + "add "
-            + PREFIX_MODULE_CODE + "CS2103T"
+            + PREFIX_MODULE_CODE + "CS2103T "
             + PREFIX_TUTORIAL + "T5";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Changed modules: %1$s";
-    public static final String MESSAGE_INVALID_TYPE = "Type needs to be 'add', 'url',"
+    public static final String MESSAGE_NUSMODS_SUCCESS = "Changed modules: %1$s";
+    public static final String MESSAGE_INVALID_TYPE = "t/ needs to be 'add', 'url',"
             + " or 'delete'. m/ needs to be filled";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
     public static final String MESSAGE_INVALID_MODULE_DETAILS = "Module details invalid";
+
+    private static final Logger logger = LogsCenter.getLogger(NusmodsCommand.class);
 
     private final Index index;
     private final NusmodsDescriptor nusmodsDescriptor;
@@ -120,7 +104,7 @@ public class NusmodsCommand extends UndoableCommand {
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         EventsCenter.getInstance().post(new JumpToListRequestEvent(index));
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
+        return new CommandResult(String.format(MESSAGE_NUSMODS_SUCCESS, editedPerson.getNusModules().toString()));
     }
 
     /**
@@ -153,7 +137,7 @@ public class NusmodsCommand extends UndoableCommand {
                 || nusmodsDescriptor.getType().toUpperCase().equals("U")) {
             updatedNusModules = processNusmodsDescriptorForUrl(nusmodsDescriptor);
         }
-
+        logger.info("Change person Nusmodules object to: " + updatedNusModules.toString());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPhoto, updatedTags,
                 updatedBirthdate, updatedNusModules);

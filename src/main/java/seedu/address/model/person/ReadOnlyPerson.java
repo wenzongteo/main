@@ -42,7 +42,8 @@ public interface ReadOnlyPerson {
                 && other.getPhone().equals(this.getPhone())
                 && other.getEmailAddress().equals(this.getEmailAddress())
                 && other.getAddress().equals(this.getAddress())
-                && other.getBirthdate().equals(this.getBirthdate()));
+                && other.getBirthdate().equals(this.getBirthdate())
+                && other.getNusModules().equals(this.getNusModules()));
     }
 
     /**

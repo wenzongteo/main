@@ -74,7 +74,7 @@ public interface Model {
     void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException, IOException;
 
     /** send email based on last displayed person list **/
-    void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException, EmailMessageEmptyException,
+    void sendEmail(MessageDraft message) throws EmailLoginInvalidException, EmailMessageEmptyException,
             EmailRecipientsEmptyException, AuthenticationFailedException;
 
     /** set login credentials for sending emails **/
@@ -82,5 +82,11 @@ public interface Model {
 
     /** get Email Sent status **/
     String getEmailStatus();
+
+    /** Clear Email Draft Content **/
+    void clearEmailDraft();
+
+    /** Clear Email Draft Content **/
+    void draftEmail(MessageDraft message);
 
 }

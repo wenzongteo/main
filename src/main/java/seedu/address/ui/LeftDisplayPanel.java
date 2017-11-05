@@ -71,13 +71,11 @@ public class LeftDisplayPanel extends UiPart<Region> {
         if  (toggle && toggle2) {
             leftDisplayPanel.getSelectionModel().select(emailDraftTab);
             toggle2 = !toggle2;
-        }
-        else if (toggle && !toggle2) {
+        } else if (toggle && !toggle2) {
             leftDisplayPanel.getSelectionModel().select(birthdateTab);
             toggle2 = !toggle2;
             toggle = false;
-        }
-        else {
+        } else {
             leftDisplayPanel.getSelectionModel().select(personListTab);
             toggle = true;
         }

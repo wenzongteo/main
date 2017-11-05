@@ -22,13 +22,13 @@ import seedu.address.model.person.ReadOnlyPerson;
 public class BrowserPanel extends UiPart<Region> {
 
     public static final String DEFAULT_PAGE = "default.html";
+    public static final String NO_TIMETABLE = "noTimetable.html";
     public static final String NUSMODS_SEARCH_URL_PREFIX = "https://nusmods.com/timetable/";
 
     private static final String FXML = "BrowserPanel.fxml";
 
     private String semester;
     private String academicYear;
-
 
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 
@@ -57,7 +57,7 @@ public class BrowserPanel extends UiPart<Region> {
             loadPage(NUSMODS_SEARCH_URL_PREFIX + academicYear + "/sem" + semester + "?"
                     + person.getNusModules().toString());
         } else {
-            loadDefaultPage();
+            loadNoTimetablePage();
         }
     }
 
@@ -78,6 +78,15 @@ public class BrowserPanel extends UiPart<Region> {
     private void setAcademicYearSemester(Config config) {
         academicYear = config.getAcademicYear();
         semester = config.getSemester();
+    }
+
+    //@@author ritchielq-reuse
+    /**
+     * Loads a default HTML file with a background that matches the general theme.
+     */
+    private void loadNoTimetablePage() {
+        URL noTimetablePage = MainApp.class.getResource(FXML_FILE_FOLDER + NO_TIMETABLE);
+        loadPage(noTimetablePage.toExternalForm());
     }
 
     //@@author

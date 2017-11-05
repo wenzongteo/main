@@ -135,7 +135,7 @@ public class EmailLoginTest {
             //different type --> return false
             assertFalse(standardEmailLogin.equals(5));
 
-            //different message --> return false
+            //different login Details --> return false
             emailLogin = new EmailLogin();
             String [] loginDetails2 = {"alex@gmail.com", "password"};
             emailLogin.loginEmail(loginDetails2);

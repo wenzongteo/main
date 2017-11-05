@@ -51,15 +51,6 @@ public class ParserUtil {
      */
     public static Optional<Name> parseName(Optional<String> name) throws IllegalValueException {
         requireNonNull(name);
-        return name.isPresent() ? Optional.of(new Name(name.get())) : Optional.of(new Name("-"));
-    }
-
-    /**
-     * Parses a {@code Optional<String> name} into an {@code Optional<Name>} if {@code name} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<Name> parseNameForEdit(Optional<String> name) throws IllegalValueException {
-        requireNonNull(name);
         return name.isPresent() ? Optional.of(new Name(name.get())) : Optional.empty();
     }
 
@@ -69,33 +60,14 @@ public class ParserUtil {
      */
     public static Optional<Phone> parsePhone(Optional<String> phone) throws IllegalValueException {
         requireNonNull(phone);
-        return phone.isPresent() ? Optional.of(new Phone(phone.get())) : Optional.of(new Phone("-"));
-    }
-
-    /**
-     * Parses a {@code Optional<String> phone} into an {@code Optional<Phone>} if {@code phone} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<Phone> parsePhoneForEdit(Optional<String> phone) throws IllegalValueException {
-        requireNonNull(phone);
         return phone.isPresent() ? Optional.of(new Phone(phone.get())) : Optional.empty();
     }
-
 
     /**
      * Parses a {@code Optional<String> address} into an {@code Optional<Address>}
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
     public static Optional<Address> parseAddress(Optional<String> address) throws IllegalValueException {
-        requireNonNull(address);
-        return address.isPresent() ? Optional.of(new Address(address.get())) : Optional.of(new Address("-"));
-    }
-
-    /**
-     * Parses a {@code Optional<String> address} into an {@code Optional<Address>} if {@code address} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<Address> parseAddressForEdit(Optional<String> address) throws IllegalValueException {
         requireNonNull(address);
         return address.isPresent() ? Optional.of(new Address(address.get())) : Optional.empty();
     }
@@ -106,16 +78,6 @@ public class ParserUtil {
      */
     public static Optional<Photo> parsePhoto(Optional<String> photo) throws IllegalValueException {
         requireNonNull(photo);
-        return photo.isPresent() ? Optional.of(new Photo(photo.get())) : Optional.of(
-                new Photo("data/images/default.jpeg"));
-    }
-
-    /**
-     * Parses a {@code Optional<String> address} into an {@code Optional<Address>} if {@code address} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<Photo> parsePhotoForEdit(Optional<String> photo) throws IllegalValueException {
-        requireNonNull(photo);
         return photo.isPresent() ? Optional.of(new Photo(photo.get())) : Optional.empty();
     }
 
@@ -124,15 +86,6 @@ public class ParserUtil {
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
     public static Optional<EmailAddress> parseEmail(Optional<String> emailAddress) throws IllegalValueException {
-        requireNonNull(emailAddress);
-        return emailAddress.isPresent() ? Optional.of(new EmailAddress(emailAddress.get())) : Optional.empty();
-    }
-
-    /**
-     * Parses a {@code Optional<String> email} into an {@code Optional<Email>} if {@code email} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-    public static Optional<EmailAddress> parseEmailForEdit(Optional<String> emailAddress) throws IllegalValueException {
         requireNonNull(emailAddress);
         return emailAddress.isPresent() ? Optional.of(new EmailAddress(emailAddress.get())) : Optional.empty();
     }
@@ -155,16 +108,6 @@ public class ParserUtil {
      */
 
     public static Optional<Birthdate> parseBirthdate(Optional<String> birthdate) throws IllegalValueException {
-        requireNonNull(birthdate);
-        return birthdate.isPresent() ? Optional.of(new Birthdate(birthdate.get())) : Optional.of(new Birthdate("-"));
-    }
-
-    /**
-     * Parses a {@code Optional<String> birthdate} into an {@code Optional<Birthdate>} if {@code birthdate} is present.
-     * See header comment of this class regarding the use of {@code Optional} parameters.
-     */
-
-    public static Optional<Birthdate> parseBirthdateForEdit(Optional<String> birthdate) throws IllegalValueException {
         requireNonNull(birthdate);
         return birthdate.isPresent() ? Optional.of(new Birthdate(birthdate.get())) : Optional.empty();
     }
