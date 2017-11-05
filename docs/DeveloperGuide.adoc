@@ -1139,9 +1139,9 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *`|user |add a person without filling all the fields |add even with missing information
 
-|`* * *`|user |tag my contacts |I can categorise my contacts into groups
+|`* * *`|user |tag my contacts |categorise my contacts into groups
 
-|`* * *`|user |edit my contacts |I can update my contacts details
+|`* * *`|user |edit my contacts |update my contacts details
 
 |`* * *`|group member |filter contact list by tags |see only my group mates
 
@@ -1153,23 +1153,23 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |new user |have a simple walkthrough |quickly learn how the user interface works
 
-|`* *` |new user |have all the possible commands listed out on first start |I can learn how to use the application immediately
+|`* *` |new user |have all the possible commands listed out on first start |learn how to use the application immediately
 
-|`* *` |user |be able to add remarks to my contacts |I can add a note if there is something important about the contact
+|`* *` |user |be able to add remarks to my contacts |add a note if there is something important about the contact
 
-|`* *` |user |choose where to save my file |I can have control over where my files are stored
+|`* *` |user |choose where to save my file |have control over where my files are stored
 
-|`* *` |user |be able to email my contacts |I send an email to my contacts easily
+|`* *` |user |be able to email my contacts |send an email to my contacts easily
 
-|`* *` |user |add multiple address book |I can have a merge copy of my contacts from different platform
+|`* *` |user |add multiple address book |have a merge copy of my contacts from different platform
 
 |`* *` |user |add a display photo to an existing person |remember how a particular person looks like
 
 |`* *` |user with many persons in the address book |merge two persons into one |merge duplicated entries of the same person in the list
 
-|`* *` |user |add a new person in any order |so that I can have an easier time adding a person into the App without having to follow a fixed format
+|`* *` |user |add a new person in any order |have an easier time adding a person into the App without having to follow a fixed format
 
-|`* *` |user |have a built in browser |I can view my contacts on their linkedin, facebook or instagram profile
+|`* *` |user |have a built in browser |view my contacts on their linkedin, facebook or instagram profile
 
 |`* *` |user |store the birthdates of my contacts |easily keep track of their birthdates
 
