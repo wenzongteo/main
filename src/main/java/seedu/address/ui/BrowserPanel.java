@@ -138,20 +138,14 @@ public class BrowserPanel extends UiPart<Region> {
 
         if (person.getUserId().value.equals("-")) {
             Platform.runLater(() -> instaBrowser.getEngine().load("https://www.instagram.com/"));
-        }
-
-        else {
-            Platform.runLater(() -> instaBrowser.getEngine()
-                    .load(new StringBuilder().append("https://www.instagram.com/")
-                            .append(person.getUserId()).toString()));
+        } else {
+            Platform.runLater(() -> instaBrowser.getEngine().load(new StringBuilder()
+                    .append("https://www.instagram.com/").append(person.getUserId()).toString()));
         }
 
         if (insta) {
             browserPanel.getSelectionModel().select(instaTab);
-        }
-
-
-        else {
+        } else {
             browserPanel.getSelectionModel().select(nusModsTab);
         }
     }

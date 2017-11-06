@@ -26,7 +26,7 @@ public class InstaCommand extends Command {
 
     public static final String MESSAGE_SELECT_PERSON_SUCCESS = "Selected Person: %1$s";
 
-    public static final String MESSAGE_SELECT_PERSON_SUCCESS2 = "\nUser ID is: " ;
+    public static final String MESSAGE_SELECT_PERSON_SUCCESS2 = "\nUser ID is: ";
 
     public static final String MESSAGE_SELECT_PERSON_SUCCESS3 = "\nUser ID is unavailable, redirecting to Instagram "
             + "home page...";
@@ -59,11 +59,9 @@ public class InstaCommand extends Command {
             return new CommandResult(new StringBuilder()
                     .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()))
                     .append(MESSAGE_SELECT_PERSON_SUCCESS3).toString());
-        }
-
-        else {
-            return new CommandResult(new StringBuilder().
-                    append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()))
+        } else {
+            return new CommandResult(new StringBuilder()
+                    .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()))
                     .append(MESSAGE_SELECT_PERSON_SUCCESS2)
                     .append(personToEdit.getUserId().value).toString());
         }
