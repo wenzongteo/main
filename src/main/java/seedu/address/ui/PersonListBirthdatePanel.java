@@ -5,8 +5,6 @@ import java.util.logging.Logger;
 
 import org.fxmisc.easybind.EasyBind;
 
-import com.google.common.eventbus.Subscribe;
-
 import javafx.application.Platform;
 import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
@@ -17,8 +15,6 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
-import seedu.address.commons.events.ui.JumpToListRequestEvent;
-import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.ReadOnlyPerson;
 
 //@@author hengyu95
@@ -43,8 +39,6 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
         setConnections(personList);
         registerAsAnEventHandler(this);
     }
-
-
 
     /**
      * Scrolls one page down
@@ -94,17 +88,6 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
                 personList, (person) -> new PersonCard(person, personList.indexOf(person) + 1));
         personListBirthdateView.setItems(mappedList);
         personListBirthdateView.setCellFactory(listView -> new PersonListViewCell());
-        setEventHandlerForSelectionChangeEvent();
-    }
-
-    private void setEventHandlerForSelectionChangeEvent() {
-        personListBirthdateView.getSelectionModel().selectedItemProperty()
-                .addListener((observable, oldValue, newValue) -> {
-                    if (newValue != null) {
-                        logger.fine("Selection in person list panel changed to : '" + newValue + "'");
-                        raise(new PersonPanelSelectionChangedEvent(newValue));
-                    }
-                });
     }
 
     /**
@@ -115,12 +98,6 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
             personListBirthdateView.scrollTo(index);
             personListBirthdateView.getSelectionModel().clearAndSelect(index);
         });
-    }
-
-    @Subscribe
-    private void handleJumpToListRequestEvent(JumpToListRequestEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        scrollTo(event.targetIndex);
     }
 
     /**

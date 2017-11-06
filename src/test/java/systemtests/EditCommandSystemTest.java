@@ -155,7 +155,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
                 + ADDRESS_DESC_BOB + BIRTHDATE_DESC_BOB + TAG_DESC_FRIEND + PHOTO_DESC_BOB;
         // this can be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new person's name
-        assertCommandSuccess(command, index, MAT, index);
+        assertCommandSuccess(command, index, MAT, null);
 
         /* --------------------------------- Performing invalid edit operation -------------------------------------- */
 

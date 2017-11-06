@@ -15,6 +15,7 @@ import javafx.scene.web.WebView;
 import seedu.address.MainApp;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.PersonPanelDeselectionEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.ReadOnlyPerson;
 
@@ -146,5 +147,12 @@ public class BrowserPanel extends UiPart<Region> {
 
         else
             BrowserPanel.getSelectionModel().select(nusModsTab);
+    }
+
+    //@@author ritchielq-reuse
+    @Subscribe
+    private void handlePersonPanelDeselectionEvent(PersonPanelDeselectionEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        loadDefaultPage();
     }
 }

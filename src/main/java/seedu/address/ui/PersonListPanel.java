@@ -17,7 +17,9 @@ import javafx.scene.control.ListView;
 import javafx.scene.control.ScrollBar;
 import javafx.scene.layout.Region;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.DeselectEvent;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
+import seedu.address.commons.events.ui.PersonPanelDeselectionEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.commons.events.ui.ReselectEvent;
 import seedu.address.model.person.ReadOnlyPerson;
@@ -111,6 +113,8 @@ public class PersonListPanel extends UiPart<Region> {
                     if (newValue != null) {
                         logger.fine("Selection in person list panel changed to : '" + newValue + "'");
                         raise(new PersonPanelSelectionChangedEvent(newValue));
+                    } else {
+                        raise(new PersonPanelDeselectionEvent());
                     }
                 });
     }
@@ -139,6 +143,12 @@ public class PersonListPanel extends UiPart<Region> {
         int index = personListView.getSelectionModel().getSelectedIndex();
         personListView.getSelectionModel().clearSelection();
         scrollTo(index);
+    }
+
+    @Subscribe
+    private void handleDeselectEvent(DeselectEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        personListView.getSelectionModel().clearSelection();
     }
 
     //@@author

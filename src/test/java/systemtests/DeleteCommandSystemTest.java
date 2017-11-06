@@ -96,7 +96,7 @@ public class DeleteCommandSystemTest extends AddressBookSystemTest {
         command = DeleteCommand.COMMAND_WORD + " " + selectedIndex.getOneBased();
         deletedPerson = removePerson(expectedModel, selectedIndex);
         expectedResultMessage = String.format(MESSAGE_DELETE_PERSON_SUCCESS, deletedPerson);
-        assertCommandSuccess(command, expectedModel, expectedResultMessage, expectedIndex);
+        assertCommandSuccess(command, expectedModel, expectedResultMessage, null);
         assertFalse(ImageInit.checkLydiaPhoto()); //Lydia photo should be deleted.
 
         /* --------------------------------- Performing invalid delete operation ------------------------------------ */
