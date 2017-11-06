@@ -10,7 +10,7 @@
 
 <!--@@author hengyu95-->
 
-<TabPane fx:id="BrowserPanel" minWidth="450" prefWidth="450" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
+<TabPane fx:id="browserPanel" minWidth="450" prefWidth="450" tabClosingPolicy="UNAVAILABLE" xmlns="http://javafx.com/javafx/8.0.111" xmlns:fx="http://javafx.com/fxml/1">
     <tabs>
         <Tab fx:id="nusModsTab" text="NUSMods">
             <content>

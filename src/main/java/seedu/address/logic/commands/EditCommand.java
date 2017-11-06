@@ -153,10 +153,10 @@ public class EditCommand extends UndoableCommand {
         Photo updatedPhoto = editPersonDescriptor.getPhoto().orElse(personToEdit.getPhoto());
         Set<Tag> updatedTags = processTags(personToEdit, editPersonDescriptor);
         Birthdate updatedBirthdate = editPersonDescriptor.getBirthdate().orElse(personToEdit.getBirthdate());
-        UserId updatedID = editPersonDescriptor.getUserId().orElse(personToEdit.getUserId());
+        UserId updatedId = editPersonDescriptor.getUserId().orElse(personToEdit.getUserId());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPhoto, updatedTags,
-                updatedBirthdate, updatedID);
+                updatedBirthdate, updatedId);
 
     }
 

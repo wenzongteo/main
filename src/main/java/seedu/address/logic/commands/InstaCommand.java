@@ -26,7 +26,7 @@ public class InstaCommand extends Command {
 
     public static final String MESSAGE_SELECT_PERSON_SUCCESS = "Selected Person: %1$s";
 
-    public static final String MESSAGE_SELECT_PERSON_SUCCESS2 = "\nUser ID is: "  ;
+    public static final String MESSAGE_SELECT_PERSON_SUCCESS2 = "\nUser ID is: " ;
 
     public static final String MESSAGE_SELECT_PERSON_SUCCESS3 = "\nUser ID is unavailable, redirecting to Instagram "
             + "home page...";
@@ -49,22 +49,24 @@ public class InstaCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
-        BrowserPanel.insta = true;
+        BrowserPanel.setInstaBoolean(true);
 
         ReadOnlyPerson personToEdit = lastShownList.get(targetIndex.getZeroBased());
 
         EventsCenter.getInstance().post(new JumpToListRequestEvent(targetIndex));
 
-        if (personToEdit.getUserId().value.equals("-"))
-            return new CommandResult(new StringBuilder().
-                    append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased())).
-                    append(MESSAGE_SELECT_PERSON_SUCCESS3).toString());
+        if (personToEdit.getUserId().value.equals("-")) {
+            return new CommandResult(new StringBuilder()
+                    .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()))
+                    .append(MESSAGE_SELECT_PERSON_SUCCESS3).toString());
+        }
 
-        else
+        else {
             return new CommandResult(new StringBuilder().
-                    append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased())).
-                    append(MESSAGE_SELECT_PERSON_SUCCESS2).append(personToEdit.getUserId().value).toString());
-
+                    append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()))
+                    .append(MESSAGE_SELECT_PERSON_SUCCESS2)
+                    .append(personToEdit.getUserId().value).toString());
+        }
 
     }
 
