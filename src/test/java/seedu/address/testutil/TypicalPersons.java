@@ -48,7 +48,7 @@ public class TypicalPersons {
             .withAddress("michegan ave").withBirthdate("12/02/1992").build();
     public static final ReadOnlyPerson FIONA = new PersonBuilder().withName("Fiona Kunz").withPhone("94826427")
             .withPhoto("data/images/lydia@example.com.jpg").withEmailAddress("lydia@example.com")
-            .withAddress("little tokyo").withBirthdate("13/10/1995").build();
+            .withAddress("little tokyo").withBirthdate("13/10/1995").withUserID("arsenal").build();
     public static final ReadOnlyPerson GEORGE = new PersonBuilder().withName("George Best").withPhone("94822442")
             .withPhoto("data/images/anna@example.com.jpg").withEmailAddress("anna@example.com")
             .withAddress("4th street").withBirthdate("10/12/1995").build();

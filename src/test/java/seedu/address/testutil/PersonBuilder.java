@@ -13,6 +13,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.UserID;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -28,6 +29,7 @@ public class PersonBuilder {
     public static final String DEFAULT_STORED_PHOTO = "data/images/alice@example.com.jpg";
     public static final String DEFAULT_TAGS = "friends";
     public static final String DEFAULT_BIRTHDATE = "12/12/1995";
+    public static final String DEFAULT_USERID = "-";
 
     private Person person;
 
@@ -40,8 +42,9 @@ public class PersonBuilder {
             Photo defaultPhoto = new Photo(DEFAULT_STORED_PHOTO, 0);
             Set<Tag> defaultTags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
             Birthdate defaultBirthdate = new Birthdate(DEFAULT_BIRTHDATE);
+            UserID defaultUserID = new UserID(DEFAULT_USERID);
             this.person = new Person(defaultName, defaultPhone, defaultEmail, defaultAddress, defaultPhoto,
-                    defaultTags, defaultBirthdate);
+                    defaultTags, defaultBirthdate, defaultUserID);
         } catch (IllegalValueException ive) {
             throw new AssertionError("Default person's values are invalid.");
         }
@@ -125,6 +128,7 @@ public class PersonBuilder {
     /**
      * Sets the {@code Birthdate} of the {@code Person} that we are building.
      */
+    //@@author hengyu95
     public PersonBuilder withBirthdate(String birthdate) {
         try {
             this.person.setBirthdate(new Birthdate(birthdate));
@@ -133,6 +137,16 @@ public class PersonBuilder {
         }
         return this;
     }
+
+    public PersonBuilder withUserID(String id) {
+        try {
+            this.person.setUserID(new UserID(id));
+        } catch (IllegalValueException ive) {
+            throw new IllegalArgumentException("id is expected.");
+        }
+        return this;
+    }
+    //@@author
 
     //@@author ritchielq
     /**

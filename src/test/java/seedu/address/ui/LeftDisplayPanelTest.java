@@ -18,13 +18,14 @@ import seedu.address.model.ModelManager;
 public class LeftDisplayPanelTest extends GuiUnitTest {
 
     private LeftDisplayPanelHandle leftDisplayPanelHandle;
+    private LeftDisplayPanel leftDisplayPanel;
 
     @Before
     public void setUp() {
         Model model = new ModelManager();
         Logic logic = new LogicManager(model);
 
-        LeftDisplayPanel leftDisplayPanel = new LeftDisplayPanel(
+        leftDisplayPanel = new LeftDisplayPanel(
                 logic.getFilteredPersonList(), logic.getFilteredPersonListBirthdate());
         uiPartRule.setUiPart(leftDisplayPanel);
 
@@ -50,4 +51,22 @@ public class LeftDisplayPanelTest extends GuiUnitTest {
         leftDisplayPanelHandle.toggle(0);
         assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
     }
+    //@@author
+
+    //@@author hengyu95
+    @Test
+    public void toggleTabs() throws Exception {
+        //Start from Tab 1
+        assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
+
+        //Toggling once goes to Tab 2
+        leftDisplayPanel.toggleTabs();
+        assertEquals(1, leftDisplayPanelHandle.getSelectedTabIndex());
+
+        //Toggling once goes to Tab 3
+        leftDisplayPanel.toggleTabs();
+        assertEquals(2, leftDisplayPanelHandle.getSelectedTabIndex());
+
+    }
+
 }
