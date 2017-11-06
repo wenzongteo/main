@@ -15,8 +15,8 @@ import org.junit.Test;
 
 import seedu.address.commons.core.index.Index;
 import seedu.address.logic.commands.ClearCommand;
-import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.InstaCommand;
+import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.UndoCommand;
 import seedu.address.model.Model;
 import seedu.address.testutil.ImageInit;
@@ -127,9 +127,9 @@ public class InstaCommandSystemTest extends AddressBookSystemTest {
      */
     private void assertCommandSuccess(String command, Index expectedSelectedCardIndex) {
         Model expectedModel = getModel();
-        String expectedResultMessage = (new StringBuilder().
-                append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, expectedSelectedCardIndex.getOneBased())).
-                append(MESSAGE_SELECT_PERSON_SUCCESS3).toString());
+        String expectedResultMessage = (new StringBuilder()
+                .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, expectedSelectedCardIndex.getOneBased()))
+                .append(MESSAGE_SELECT_PERSON_SUCCESS3).toString());
         int preExecutionSelectedCardIndex = getPersonListPanel().getSelectedCardIndex();
 
         executeCommand(command);

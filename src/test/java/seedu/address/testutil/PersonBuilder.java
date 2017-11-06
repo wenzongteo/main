@@ -138,6 +138,10 @@ public class PersonBuilder {
         return this;
     }
 
+    /**
+     * Sets the {@code UserID} of the {@code Person} that we are building.
+     */
+
     public PersonBuilder withUserId(String id) {
         try {
             this.person.setUserId(new UserId(id));
