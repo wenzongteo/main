@@ -57,7 +57,7 @@ import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.ReadOnlyPerson;
-import seedu.address.model.person.UserID;
+import seedu.address.model.person.UserId;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.tag.Tag;
 import seedu.address.testutil.PersonBuilder;
@@ -196,7 +196,7 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: invalid ID -> rejected */
         command = AddCommand.COMMAND_WORD + NAME_DESC_AMY + PHONE_DESC_AMY + EMAIL_DESC_AMY + ADDRESS_DESC_AMY
                 + INVALID_USERID_DESC;
-        assertCommandFailure(command, UserID.MESSAGE_USERID_CONSTRAINTS);
+        assertCommandFailure(command, UserId.MESSAGE_USERID_CONSTRAINTS);
 
 
     }

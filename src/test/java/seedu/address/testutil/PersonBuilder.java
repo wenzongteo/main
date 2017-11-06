@@ -13,7 +13,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
-import seedu.address.model.person.UserID;
+import seedu.address.model.person.UserId;
 import seedu.address.model.tag.Tag;
 import seedu.address.model.util.SampleDataUtil;
 
@@ -42,9 +42,9 @@ public class PersonBuilder {
             Photo defaultPhoto = new Photo(DEFAULT_STORED_PHOTO, 0);
             Set<Tag> defaultTags = SampleDataUtil.getTagSet(DEFAULT_TAGS);
             Birthdate defaultBirthdate = new Birthdate(DEFAULT_BIRTHDATE);
-            UserID defaultUserID = new UserID(DEFAULT_USERID);
+            UserId defaultUserId = new UserId(DEFAULT_USERID);
             this.person = new Person(defaultName, defaultPhone, defaultEmail, defaultAddress, defaultPhoto,
-                    defaultTags, defaultBirthdate, defaultUserID);
+                    defaultTags, defaultBirthdate, defaultUserId);
         } catch (IllegalValueException ive) {
             throw new AssertionError("Default person's values are invalid.");
         }
@@ -138,9 +138,9 @@ public class PersonBuilder {
         return this;
     }
 
-    public PersonBuilder withUserID(String id) {
+    public PersonBuilder withUserId(String id) {
         try {
-            this.person.setUserID(new UserID(id));
+            this.person.setUserId(new UserId(id));
         } catch (IllegalValueException ive) {
             throw new IllegalArgumentException("id is expected.");
         }

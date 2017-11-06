@@ -29,7 +29,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
-import seedu.address.model.person.UserID;
+import seedu.address.model.person.UserId;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -153,7 +153,7 @@ public class EditCommand extends UndoableCommand {
         Photo updatedPhoto = editPersonDescriptor.getPhoto().orElse(personToEdit.getPhoto());
         Set<Tag> updatedTags = processTags(personToEdit, editPersonDescriptor);
         Birthdate updatedBirthdate = editPersonDescriptor.getBirthdate().orElse(personToEdit.getBirthdate());
-        UserID updatedID = editPersonDescriptor.getUserID().orElse(personToEdit.getUserID());
+        UserId updatedID = editPersonDescriptor.getUserId().orElse(personToEdit.getUserId());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPhoto, updatedTags,
                 updatedBirthdate, updatedID);
@@ -190,7 +190,7 @@ public class EditCommand extends UndoableCommand {
         private Photo photo;
         private Set<Tag> tags;
         private Birthdate birthdate;
-        private UserID id;
+        private UserId id;
 
         public EditPersonDescriptor() {}
 
@@ -261,11 +261,11 @@ public class EditCommand extends UndoableCommand {
             this.birthdate = birthdate;
         }
 
-        public Optional<UserID> getUserID() {
+        public Optional<UserId> getUserId() {
             return Optional.ofNullable(id);
         }
 
-        public void setUserID(UserID id) {
+        public void setUserId(UserId id) {
             this.id = id;
         }
 
@@ -299,7 +299,7 @@ public class EditCommand extends UndoableCommand {
                     && getPhoto().equals(e.getPhoto())
                     && getTags().equals(e.getTags())
                     && getBirthdate().equals(e.getBirthdate())
-                    && getUserID().equals(e.getUserID());
+                    && getUserId().equals(e.getUserId());
         }
     }
 }

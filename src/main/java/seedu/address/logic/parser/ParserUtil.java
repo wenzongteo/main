@@ -16,7 +16,7 @@ import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
-import seedu.address.model.person.UserID;
+import seedu.address.model.person.UserId;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -114,13 +114,13 @@ public class ParserUtil {
     }
 
     /**
-     * Parses a {@code Optional<String> id} into an {@code Optional<UserID>}
+     * Parses a {@code Optional<String> id} into an {@code Optional<UserId>}
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
 
-    public static Optional<UserID> parseUserID(Optional<String> id) throws IllegalValueException {
+    public static Optional<UserId> parseUserId(Optional<String> id) throws IllegalValueException {
         requireNonNull(id);
-        return id.isPresent() ? Optional.of(new UserID(id.get())) : Optional.empty();
+        return id.isPresent() ? Optional.of(new UserId(id.get())) : Optional.empty();
     }
 
     /**

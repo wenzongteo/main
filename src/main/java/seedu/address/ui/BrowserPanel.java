@@ -133,13 +133,13 @@ public class BrowserPanel extends UiPart<Region> {
     //@@author hengyu95
     public void loadInsta(ReadOnlyPerson person) {
 
-        if (person.getUserID().value.equals("-"))
+        if (person.getUserId().value.equals("-"))
             Platform.runLater(() -> instaBrowser.getEngine().load("https://www.instagram.com/"));
 
         else
             Platform.runLater(() -> instaBrowser.getEngine()
                     .load(new StringBuilder().append("https://www.instagram.com/")
-                            .append(person.getUserID()).toString()));
+                            .append(person.getUserId()).toString()));
 
         if (insta)
             BrowserPanel.getSelectionModel().select(instaTab);

@@ -59,8 +59,8 @@ public class EditCommandParser implements Parser<EditCommand> {
             ParserUtil.parseBirthdate(argMultimap.getValue(PREFIX_BIRTHDATE))
                     .ifPresent(editPersonDescriptor::setBirthdate);
             parseTagsForEdit(argMultimap.getAllValues(PREFIX_TAG)).ifPresent(editPersonDescriptor::setTags);
-            ParserUtil.parseUserID(argMultimap.getValue(PREFIX_USERID))
-                    .ifPresent(editPersonDescriptor::setUserID);
+            ParserUtil.parseUserId(argMultimap.getValue(PREFIX_USERID))
+                    .ifPresent(editPersonDescriptor::setUserId);
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }

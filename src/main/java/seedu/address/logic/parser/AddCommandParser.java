@@ -26,7 +26,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
-import seedu.address.model.person.UserID;
+import seedu.address.model.person.UserId;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -56,7 +56,7 @@ public class AddCommandParser implements Parser<AddCommand> {
             Photo photo = ParserUtil.parsePhoto(checkInput(argMultimap.getValue(PREFIX_PHOTO))).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
             Birthdate birthdate = ParserUtil.parseBirthdate(checkInput(argMultimap.getValue(PREFIX_BIRTHDATE))).get();
-            UserID id = ParserUtil.parseUserID(checkInput(argMultimap.getValue(PREFIX_USERID))).get();
+            UserId id = ParserUtil.parseUserId(checkInput(argMultimap.getValue(PREFIX_USERID))).get();
             ReadOnlyPerson person = new Person(name, phone, emailAddress, address, photo, tagList, birthdate, id);
 
             return new AddCommand(person);

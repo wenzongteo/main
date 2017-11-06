@@ -29,14 +29,14 @@ public class Person implements ReadOnlyPerson {
     private ObjectProperty<UniqueTagList> tags;
     private ObjectProperty<Birthdate> birthdate;
     private ObjectProperty<NusModules> nusModules;
-    private ObjectProperty<UserID> id;
+    private ObjectProperty<UserId> id;
 
     /**
      * Every field must be present and not null.
      */
 
     public Person(Name name, Phone phone, EmailAddress email, Address address, Photo photo, Set<Tag> tags,
-                  Birthdate birthdate, UserID id) {
+                  Birthdate birthdate, UserId id) {
         requireAllNonNull(name, phone, email, address, tags, birthdate, id);
 
         this.name = new SimpleObjectProperty<>(name);
@@ -56,7 +56,7 @@ public class Person implements ReadOnlyPerson {
      */
 
     public Person(Name name, Phone phone, EmailAddress email, Address address, Photo photo, Set<Tag> tags,
-                  Birthdate birthdate, NusModules nusModules, UserID id) {
+                  Birthdate birthdate, NusModules nusModules, UserId id) {
         requireAllNonNull(name, phone, email, address, tags, birthdate, id);
 
         this.name = new SimpleObjectProperty<>(name);
@@ -77,7 +77,7 @@ public class Person implements ReadOnlyPerson {
      */
     public Person(ReadOnlyPerson source) {
         this(source.getName(), source.getPhone(), source.getEmailAddress(), source.getAddress(),
-                source.getPhoto(), source.getTags(), source.getBirthdate(), source.getNusModules(), source.getUserID());
+                source.getPhoto(), source.getTags(), source.getBirthdate(), source.getNusModules(), source.getUserId());
     }
 
     public void setName(Name name) {
@@ -152,16 +152,16 @@ public class Person implements ReadOnlyPerson {
     }
 
     @Override
-    public ObjectProperty<UserID> userIDProperty() {
+    public ObjectProperty<UserId> userIdProperty() {
         return id;
     }
 
     @Override
-    public UserID getUserID() {
+    public UserId getUserId() {
         return id.get();
     }
 
-    public void setUserID(UserID id) {
+    public void setUserId(UserId id) {
         this.id.set(requireNonNull(id));
     }
 

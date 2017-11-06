@@ -19,7 +19,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
-import seedu.address.model.person.UserID;
+import seedu.address.model.person.UserId;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -73,7 +73,7 @@ public class XmlAdaptedPerson {
         }
         birthdate = source.getBirthdate().value;
         nusModules = getArrayListOfXmlAdaptedNusModule(source);
-        id = source.getUserID().value;
+        id = source.getUserId().value;
     }
 
     /**
@@ -94,7 +94,7 @@ public class XmlAdaptedPerson {
         final Set<Tag> tags = new HashSet<>(personTags);
         final Birthdate birthdate = new Birthdate(this.birthdate);
         final NusModules personNusModules = getPersonNusModules();
-        final UserID id = new UserID(this.id);
+        final UserId id = new UserId(this.id);
 
         return new Person(name, phone, email, address, photo, tags, birthdate, personNusModules, id);
 

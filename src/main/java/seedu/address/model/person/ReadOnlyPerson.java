@@ -29,8 +29,8 @@ public interface ReadOnlyPerson {
     Birthdate getBirthdate();
     ObjectProperty<NusModules> nusModulesProperty();
     NusModules getNusModules();
-    UserID getUserID();
-    ObjectProperty<UserID> userIDProperty();
+    UserId getUserId();
+    ObjectProperty<UserId> userIdProperty();
     boolean containsTags(List<String> tags);
 
     /**
@@ -46,7 +46,7 @@ public interface ReadOnlyPerson {
                 && other.getAddress().equals(this.getAddress())
                 && other.getBirthdate().equals(this.getBirthdate())
                 && other.getNusModules().equals(this.getNusModules())
-                && other.getUserID().equals(this.getUserID()));
+                && other.getUserId().equals(this.getUserId()));
     }
 
     /**
@@ -66,7 +66,7 @@ public interface ReadOnlyPerson {
                 .append(" Birthdate: ")
                 .append(getBirthdate())
                 .append(" User ID: ")
-                .append(getUserID())
+                .append(getUserId())
                 .append(" Tags: ");
         getTags().forEach(builder::append);
         return builder.toString();

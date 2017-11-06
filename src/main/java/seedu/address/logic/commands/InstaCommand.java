@@ -55,7 +55,7 @@ public class InstaCommand extends Command {
 
         EventsCenter.getInstance().post(new JumpToListRequestEvent(targetIndex));
 
-        if (personToEdit.getUserID().value.equals("-"))
+        if (personToEdit.getUserId().value.equals("-"))
             return new CommandResult(new StringBuilder().
                     append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased())).
                     append(MESSAGE_SELECT_PERSON_SUCCESS3).toString());
@@ -63,7 +63,7 @@ public class InstaCommand extends Command {
         else
             return new CommandResult(new StringBuilder().
                     append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased())).
-                    append(MESSAGE_SELECT_PERSON_SUCCESS2).append(personToEdit.getUserID().value).toString());
+                    append(MESSAGE_SELECT_PERSON_SUCCESS2).append(personToEdit.getUserId().value).toString());
 
 
     }
