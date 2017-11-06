@@ -16,6 +16,7 @@ import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
+import seedu.address.model.person.UserID;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -110,6 +111,16 @@ public class ParserUtil {
     public static Optional<Birthdate> parseBirthdate(Optional<String> birthdate) throws IllegalValueException {
         requireNonNull(birthdate);
         return birthdate.isPresent() ? Optional.of(new Birthdate(birthdate.get())) : Optional.empty();
+    }
+
+    /**
+     * Parses a {@code Optional<String> id} into an {@code Optional<UserID>}
+     * See header comment of this class regarding the use of {@code Optional} parameters.
+     */
+
+    public static Optional<UserID> parseUserID(Optional<String> id) throws IllegalValueException {
+        requireNonNull(id);
+        return id.isPresent() ? Optional.of(new UserID(id.get())) : Optional.empty();
     }
 
     /**

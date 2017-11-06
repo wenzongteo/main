@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_USERID;
 
 import java.io.IOException;
 
@@ -31,16 +32,18 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_EMAIL_ADDRESS + "EMAIL "
             + PREFIX_ADDRESS + "ADDRESS "
             + PREFIX_BIRTHDATE + "BIRTHDATE "
+            + PREFIX_USERID + "INSTAGRAM ID "
             + "[" + PREFIX_TAG + "TAG]...\n"
             + "Example: " + COMMAND_WORD + " "
             + PREFIX_NAME + "John Doe "
             + PREFIX_PHONE + "98765432 "
             + PREFIX_EMAIL_ADDRESS + "johnd@example.com "
             + PREFIX_ADDRESS + "311, Clementi Ave 2, #02-25 "
-            + PREFIX_BIRTHDATE + "25/12 "
+            + PREFIX_BIRTHDATE + "25/12/1980"
             + PREFIX_PHOTO + "/data/photo.jpeg "
             + PREFIX_TAG + "friends "
-            + PREFIX_TAG + "owesMoney";
+            + PREFIX_TAG + "owesMoney "
+            + PREFIX_USERID + "johndoe80";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";

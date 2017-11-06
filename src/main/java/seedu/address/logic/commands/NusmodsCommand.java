@@ -31,6 +31,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.UserID;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
@@ -124,6 +125,8 @@ public class NusmodsCommand extends UndoableCommand {
         Set<Tag> updatedTags = personToEdit.getTags();
         Birthdate updatedBirthdate = personToEdit.getBirthdate();
         NusModules updatedNusModules = null;
+        UserID updatedUserID = personToEdit.getUserID();
+
         if (nusmodsDescriptor.getType().toUpperCase().equals("ADD")
                 || nusmodsDescriptor.getType().toUpperCase().equals("A")) {
             updatedNusModules = processNusmodsDescriptorForAdd(personToEdit, nusmodsDescriptor);
@@ -140,7 +143,7 @@ public class NusmodsCommand extends UndoableCommand {
         logger.info("Change person Nusmodules object to: " + updatedNusModules.toString());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPhoto, updatedTags,
-                updatedBirthdate, updatedNusModules);
+                updatedBirthdate, updatedNusModules, updatedUserID);
 
     }
 
