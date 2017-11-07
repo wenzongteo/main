@@ -208,6 +208,7 @@ You can use the alias `l` instead of typing out `list`
 
 '''
 
+// tag::edit[]
 === Editing a person : [fuchsia]`edit`
 
 The [fuchsia]`edit` command will modify contacts in Augustine.
@@ -278,8 +279,8 @@ image::editChangePhone.png[width="940px"]
 
 
 --
-
 '''
+// end::edit[]
 
 === Searching for contacts: [fuchsia]`find`
 

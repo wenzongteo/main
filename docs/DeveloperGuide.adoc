@@ -623,8 +623,10 @@ image::ActivityDiagramImageStorage.png[width="640"]
 displaying the Display Picture.
 ====
 ---
-// end::imagestorage[];
+// end::imagestorage[]
 
+
+// tag::nusmods[]
 === NUSmods integration
 Each contact in Augustine can be contain a `NUSmodules` which stores all their modules and lesson slots.
 Augustine utilizes https://nusmods.com to display through the browser. The current academic year and semester is set inside config.json
@@ -756,6 +758,7 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 * **Cons:** It can be confusing for user if one command does too many things, also reduce cohesion in the program.
 ====
 ---
+// end::nusmods[]
 
 === Filter and Sort Mechanism for find command
 
