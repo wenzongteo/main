@@ -1,22 +1,4 @@
 # ritchielq
-###### \java\seedu\address\commons\events\ui\ReselectEvent.java
-``` java
-/**
- * Indicates a request to reselect person
- */
-public class ReselectEvent extends BaseEvent {
-
-
-    public ReselectEvent() {
-    }
-
-    @Override
-    public String toString() {
-        return this.getClass().getSimpleName();
-    }
-
-}
-```
 ###### \java\seedu\address\logic\commands\EditCommand.java
 ``` java
     /**
@@ -1041,14 +1023,6 @@ public class XmlAdaptedNusModule {
 ```
 ###### \java\seedu\address\ui\PersonListPanel.java
 ``` java
-    @Subscribe
-    private void handleReselectEvent(ReselectEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        int index = personListView.getSelectionModel().getSelectedIndex();
-        personListView.getSelectionModel().clearSelection();
-        scrollTo(index);
-    }
-
     @Subscribe
     private void handleDeselectEvent(DeselectEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
