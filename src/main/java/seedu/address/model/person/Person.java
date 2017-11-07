@@ -164,6 +164,7 @@ public class Person implements ReadOnlyPerson {
     public void setUserId(UserId id) {
         this.id.set(requireNonNull(id));
     }
+    //@@author
 
 
     public void setPhoto(Photo photo) {

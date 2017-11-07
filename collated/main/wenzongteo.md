@@ -1,4 +1,17 @@
 # wenzongteo
+###### \java\seedu\address\logic\parser\AddCommandParser.java
+``` java
+    /**
+     * Check if the user has input any value for this variable before sending the input for further parsing.
+     *
+     * @param userInput Input entered by the user that is parsed by argMultimap.
+     * @return the value of the input entered by the user or '-' if no input was entered.
+     */
+    private static Optional<String> checkInput(Optional<String> userInput) {
+        return Optional.of(userInput.orElse("-"));
+    }
+}
+```
 ###### \java\seedu\address\MainApp.java
 ``` java
     /**
@@ -61,6 +74,30 @@
     }
 }
 ```
+###### \java\seedu\address\model\ModelManager.java
+``` java
+    @Override
+    public synchronized String addImage(EmailAddress email, Photo photo) throws IOException {
+        String folder = "data/images/";
+        String fileExt = ".jpg";
+
+        File imageFolder = new File(folder);
+
+        if (!imageFolder.exists()) {
+            imageFolder.mkdir();
+        } else {
+
+        }
+
+        String destination = folder + email.toString() + fileExt;
+        Path sourcePath = Paths.get(photo.toString());
+        Path destPath = Paths.get(destination);
+
+        Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
+
+        return folder + email.toString() + fileExt;
+    }
+```
 ###### \java\seedu\address\model\person\Photo.java
 ``` java
 /**
@@ -71,14 +108,18 @@ public class Photo {
     public static final String MESSAGE_PHOTO_CONSTRAINTS =
             "Person's photo should be in jpeg and preferred to be of 340px x 453px dimension";
     public static final String MESSAGE_PHOTO_NOT_FOUND = "Error! Photo does not exist!";
+    public static final String MESSAGE_LINK_ERROR = "Error! URL given is invalid!";
 
     /**
      * Can contain multiple words but must end with .jpg or .jpeg
      */
     public static final String PHOTO_VALIDATION_REGEX = "([^\\s]+[\\s\\w]*(\\.(?i)(jpg|jpeg|))$)";
+    public static final String URL_REGEX = "\\b(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
     public final String value;
-    private String hash;
+    public final String tempStorage = "data/temporary.jpg";
+    private final String hash;
+
     /**
      * Validates given photo.
      * @throws IllegalValueException if given photo string is invalid or file is not found.
@@ -86,19 +127,28 @@ public class Photo {
     public Photo(String photo) throws IllegalValueException {
         photo = photo.trim();
 
+        if (photo.equals("-")) {
+            photo = "data/images/default.jpeg";
+        }
+
         if (!isValidPhoto(photo)) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         } else {
-            File image = new File(photo);
-            if (!FileUtil.isFileExists(image)) {
-                throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
+            if (photo.matches(URL_REGEX)) {
+                this.value = downloadFromInternet(photo);
             } else {
-                this.value = photo;
-                try {
-                    this.hash = generateHash(image);
-                } catch (NoSuchAlgorithmException | IOException e) {
-                    throw new AssertionError("Impossible to reach here");
+                File image = new File(photo);
+                if (!FileUtil.isFileExists(image)) {
+                    throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
+                } else {
+                    this.value = photo;
                 }
+            }
+            File image = new File(this.value);
+            try {
+                this.hash = generateHash(image);
+            } catch (NoSuchAlgorithmException | IOException e) {
+                throw new AssertionError("Impossible to reach here");
             }
         }
     }
@@ -143,6 +193,38 @@ public class Photo {
      */
     public String getHash() {
         return hash;
+    }
+
+    /**
+     * Downloads photo from the link given onto the computer and store it locally.
+     * @param photo URL link given by the user
+     * @return the temporary storage location of the downloaded image.
+     * @throws IllegalValueException if errors are faced when writing file onto local drive.
+     */
+    private String downloadFromInternet(String photo) throws IllegalValueException {
+        try {
+            URL url = new URL(photo);
+            InputStream is = url.openStream();
+            OutputStream os = new FileOutputStream(tempStorage);
+            byte[] buffer = new byte[4096];
+
+            int length = 0;
+
+            while ((length = is.read(buffer)) != -1) {
+                os.write(buffer, 0, length);
+            }
+
+            is.close();
+            os.close();
+
+            return tempStorage;
+        } catch (MalformedURLException mue) {
+            throw new IllegalValueException(MESSAGE_LINK_ERROR);
+        } catch (IOException ioe) {
+            throw new AssertionError("Read / Write have issue");
+        } catch (Exception e) {
+            throw new AssertionError("Impossible to reach here");
+        }
     }
 
     @Override
@@ -220,9 +302,26 @@ public class Photo {
         person.setPhoto(new Photo(srcPath, 0));
         return person;
     }
-
 ```
 ###### \java\seedu\address\ui\PersonCard.java
+``` java
+    /**
+     * Bind the path of a contact's display picture into an Image and set the image into the ImageView photo.
+     */
+    public void getPhoto() {
+        try {
+            StringExpression filePath = Bindings.convert(person.photoProperty());
+            FileInputStream imageInputStream = new FileInputStream(filePath.getValue());
+            Image image = new Image(imageInputStream, 100, 200, true, true);
+            photo.setImage(image);
+            imageInputStream.close();
+        } catch (Exception e) {
+            System.out.println(e);
+        }
+    }
+}
+```
+###### \java\seedu\address\ui\PersonCardBirthday.java
 ``` java
     /**
      * Bind the path of a contact's display picture into an Image and set the image into the ImageView photo.

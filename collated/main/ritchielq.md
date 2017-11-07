@@ -1,4 +1,22 @@
 # ritchielq
+###### \java\seedu\address\commons\events\ui\ReselectEvent.java
+``` java
+/**
+ * Indicates a request to reselect person
+ */
+public class ReselectEvent extends BaseEvent {
+
+
+    public ReselectEvent() {
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+
+}
+```
 ###### \java\seedu\address\logic\commands\EditCommand.java
 ``` java
     /**
@@ -47,32 +65,24 @@ public class NusmodsCommand extends UndoableCommand {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edit nusmods details of person identified "
             + "by the index number used in the last person listing.\n"
             + PREFIX_TYPE + "is followed by either add, delete or url.\n"
-            + PREFIX_TYPE + " and " + PREFIX_MODULE_CODE + " must be filled.\n"
-            + "Followed by lessonType/lessonSlot"
-            + "[" + PREFIX_TYPE + "ADD/DELETE/URL] "
-            + "[" + PREFIX_MODULE_CODE + "MODULE_CODE] "
-            + "[" + PREFIX_MODULE_CODE + "EMAIL] "
-            + "[" + PREFIX_DESIGN_LECTURE + "] and/or "
-            + "[" + PREFIX_LABORATORY + "] and/or "
-            + "[" + PREFIX_PACKAGED_LECTURE + "] and/or "
-            + "[" + PREFIX_PACKAGED_TUTORIAL + "] and/or "
-            + "[" + PREFIX_LECTURE + "] and/or "
-            + "[" + PREFIX_RECITATION + "] and/or "
-            + "[" + PREFIX_SECTIONAL_TEACHING + "] and/or "
-            + "[" + PREFIX_SEMINAR + "] and/or "
-            + "[" + PREFIX_TUTORIAL + "] and/or "
-            + "[" + PREFIX_TUTORIAL2 + "] and/or "
-            + "[" + PREFIX_TUTORIAL3 + "]/LESSONSLOT"
+            + PREFIX_TYPE + " and " + PREFIX_MODULE_CODE + " must be filled."
+            + "It is then followed any number of lessonType/lessonSlot\n"
+            + "Format: " + COMMAND_WORD + " INDEX "
+            + "[" + PREFIX_TYPE + "<ADD|DELETE|URL>] "
+            + "[" + PREFIX_MODULE_CODE + "MODULE_CODE/URL] "
+            + "[LESSONTYPE/LESSONSLOT]..\n"
             + "Example: " + COMMAND_WORD + " 1 "
             + PREFIX_TYPE + "add "
-            + PREFIX_MODULE_CODE + "CS2103T"
+            + PREFIX_MODULE_CODE + "CS2103T "
             + PREFIX_TUTORIAL + "T5";
 
-    public static final String MESSAGE_EDIT_PERSON_SUCCESS = "Changed modules: %1$s";
-    public static final String MESSAGE_INVALID_TYPE = "Type needs to be 'add', 'url',"
+    public static final String MESSAGE_NUSMODS_SUCCESS = "Changed modules: %1$s";
+    public static final String MESSAGE_INVALID_TYPE = "t/ needs to be 'add', 'url',"
             + " or 'delete'. m/ needs to be filled";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
     public static final String MESSAGE_INVALID_MODULE_DETAILS = "Module details invalid";
+
+    private static final Logger logger = LogsCenter.getLogger(NusmodsCommand.class);
 
     private final Index index;
     private final NusmodsDescriptor nusmodsDescriptor;
@@ -112,7 +122,7 @@ public class NusmodsCommand extends UndoableCommand {
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         EventsCenter.getInstance().post(new JumpToListRequestEvent(index));
-        return new CommandResult(String.format(MESSAGE_EDIT_PERSON_SUCCESS, editedPerson));
+        return new CommandResult(String.format(MESSAGE_NUSMODS_SUCCESS, editedPerson.getNusModules().toString()));
     }
 
     /**
@@ -132,6 +142,8 @@ public class NusmodsCommand extends UndoableCommand {
         Set<Tag> updatedTags = personToEdit.getTags();
         Birthdate updatedBirthdate = personToEdit.getBirthdate();
         NusModules updatedNusModules = null;
+        UserId updatedUserId = personToEdit.getUserId();
+
         if (nusmodsDescriptor.getType().toUpperCase().equals("ADD")
                 || nusmodsDescriptor.getType().toUpperCase().equals("A")) {
             updatedNusModules = processNusmodsDescriptorForAdd(personToEdit, nusmodsDescriptor);
@@ -145,10 +157,10 @@ public class NusmodsCommand extends UndoableCommand {
                 || nusmodsDescriptor.getType().toUpperCase().equals("U")) {
             updatedNusModules = processNusmodsDescriptorForUrl(nusmodsDescriptor);
         }
-
+        logger.info("Change person Nusmodules object to: " + updatedNusModules.toString());
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPhoto, updatedTags,
-                updatedBirthdate, updatedNusModules);
+                updatedBirthdate, updatedNusModules, updatedUserId);
 
     }
 
@@ -589,14 +601,12 @@ public class NusModules {
     public static int isValidNusModules(HashMap<String, HashMap<String, String>> test) {
         for (Map.Entry<String, HashMap<String, String>> module : test.entrySet()) {
             String moduleCode = module.getKey();
+            // If fail either, return 1 and 2 respectively
+            if (!moduleCode.matches(NUS_MODULE_VALIDATION_REGEX)) {
+                return 1;
+            }
             for (Map.Entry<String, String> lessons : module.getValue().entrySet()) {
                 String lessonType = lessons.getKey();
-
-                // If fail either, return 1 and 2 respectively
-                if (!moduleCode.matches(NUS_MODULE_VALIDATION_REGEX)) {
-                    return 1;
-                }
-
                 if (!lessonType.matches(LESSON_TYPE_VALIDATION_REGEX)) {
                     return 2;
                 }
@@ -826,7 +836,7 @@ public class XmlAdaptedNusModule {
         ArrayList<XmlAdaptedNusModule> xmlAdaptedNusModulesArrayList = new ArrayList<>();
         if (source.getNusModules() != null) {
             for (Map.Entry<String, HashMap<String, String>> module : source.getNusModules().value.entrySet()) {
-                nusModules.add(new XmlAdaptedNusModule(module));
+                xmlAdaptedNusModulesArrayList.add(new XmlAdaptedNusModule(module));
             }
         }
         return xmlAdaptedNusModulesArrayList;
@@ -844,6 +854,8 @@ public class XmlAdaptedNusModule {
         if (person.getNusModules() != null && !person.getNusModules().value.isEmpty()) {
             loadPage(NUSMODS_SEARCH_URL_PREFIX + academicYear + "/sem" + semester + "?"
                     + person.getNusModules().toString());
+        } else {
+            loadNoTimetablePage();
         }
     }
 
@@ -940,6 +952,33 @@ public class XmlAdaptedNusModule {
         return tagColors.get(tagName);
     }
 
+    private static String getRandomDarkColor() {
+        Random random = new Random();
+
+        int red;
+        int green;
+        int blue;
+
+        // Do while too luminous
+        do {
+            red = random.nextInt(255);
+            green = random.nextInt(255);
+            blue = random.nextInt(255);
+        } while ((red * 0.299) + (green * 0.587) + (blue * 0.114) > 186);
+
+        return "rgb(" + red + "," + green + "," + blue + ")";
+    }
+
+```
+###### \java\seedu\address\ui\PersonCardBirthday.java
+``` java
+    private static String getColorForTag(String tagName) {
+        if (!tagColors.containsKey(tagName)) {
+            tagColors.put(tagName, getRandomDarkColor());
+        }
+
+        return tagColors.get(tagName);
+    }
 
     private static String getRandomDarkColor() {
         Random random = new Random();
@@ -997,6 +1036,23 @@ public class XmlAdaptedNusModule {
                 personListViewScrollBar.decrement();
             }
         });
+    }
+
+```
+###### \java\seedu\address\ui\PersonListPanel.java
+``` java
+    @Subscribe
+    private void handleReselectEvent(ReselectEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        int index = personListView.getSelectionModel().getSelectedIndex();
+        personListView.getSelectionModel().clearSelection();
+        scrollTo(index);
+    }
+
+    @Subscribe
+    private void handleDeselectEvent(DeselectEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event));
+        personListView.getSelectionModel().clearSelection();
     }
 
 ```

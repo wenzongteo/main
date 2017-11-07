@@ -910,54 +910,6 @@ The format of the [fuchsia]`exit` command is as follows:
 [fuchsia]#exit#
 ====
 
-=== Filtering the listed entries : [fuchsia]`filter`
-
-The [fuchsia]`filter` command filters the displayed list to only include entries that fulfill certain conditions.
-
-===== Format
-The format of the [fuchsia]`filter` command is as follows:
-====
-[fuchsia]#filter [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [t/TAG]#
-====
-****
-*Things to take note:* +
-
-* Parameters are optional, input at least one
-****
-
-===== Example
-
-. [red]*Filter by name*
-+
---
-You can [fuchsia]`filter` contacts by name. The command below will display only the
-entries with name "John"
-
-[horizontal]
-*Command:* :: [fuchsia]`filter n/John`
---
-
-. [red]*Filter by multiple names*
-+
---
-You can [fuchsia]`filter` contacts by multiple name. The command below will display the
-entries with name "John" *and* entries with name "Sally".
-
-[horizontal]
-*Command:* :: [fuchsia]`filter n/John n/Sally`
---
-
-. [red]*Filter by tags*
-+
---
-You can [fuchsia]`filter` contacts by tags. The command below will display only the contacts tagged under "Owes money"
-
-[horizontal]
-*Command:* :: [fuchsia]`filter t/Owes money`
---
-
-'''
-
 === Saving the data
 
 Augustine data is saved in the hard disk automatically whenever a command changes it. +

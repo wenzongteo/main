@@ -50,35 +50,6 @@ public class EmailDraftChangedEvent extends BaseEvent {
         }
         return false;
     }
-
-    /**
-     * Returns a detailed message of the t, including the stack trace.
-     */
-    public static String getDetails(Throwable t) {
-        requireNonNull(t);
-        StringWriter sw = new StringWriter();
-        t.printStackTrace(new PrintWriter(sw));
-        return t.getMessage() + "\n" + sw.toString();
-    }
-
-    /**
-     * Returns true if {@code s} represents a non-zero unsigned integer
-     * e.g. 1, 2, 3, ..., {@code Integer.MAX_VALUE} <br>
-     * Will return false for any other non-null string input
-     * e.g. empty string, "-1", "0", "+1", and " 2 " (untrimmed), "3 0" (contains whitespace), "1 a" (contains letters)
-     * @throws NullPointerException if {@code s} is null.
-     */
-    public static boolean isNonZeroUnsignedInteger(String s) {
-        requireNonNull(s);
-
-        try {
-            int value = Integer.parseInt(s);
-            return value > 0 && !s.startsWith("+"); // "+1" is successfully parsed by Integer#parseInt(String)
-        } catch (NumberFormatException nfe) {
-            return false;
-        }
-    }
-}
 ```
 ###### \java\seedu\address\email\Email.java
 ``` java
@@ -101,6 +72,9 @@ public interface Email {
 
     /* View Email Send Status */
     String getEmailStatus();
+
+    /* Clear Email Draft content */
+    void clearEmailDraft();
 
     /* send Email Draft to all users */
     void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException,
@@ -262,7 +236,7 @@ public class EmailManager extends ComponentManager implements Email {
     private String emailStatus;
 
     public EmailManager() {
-        logger.fine("Initializing Email Component");
+        logger.fine("Initializing Default Email component");
 
         this.emailLogin = new EmailLogin();
         this.emailCompose = new EmailCompose();
@@ -272,6 +246,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     @Override
     public void composeEmail(MessageDraft message) {
+
         emailCompose.composeEmail(message);
         this.emailStatus = "drafted";
     }
@@ -289,6 +264,7 @@ public class EmailManager extends ComponentManager implements Email {
     @Override
     public void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException,
             EmailRecipientsEmptyException, AuthenticationFailedException {
+        logger.info("-------------------[Sending Email] ");
 
         emailSend.sendEmail(emailCompose, emailLogin);
 
@@ -304,11 +280,17 @@ public class EmailManager extends ComponentManager implements Email {
 
     /**
      * Checks if the email manager holds the username and password of user
-     *
-     * @return boolean
      **/
+    @Override
     public boolean isUserLogin() {
         return emailLogin.isUserLogin();
+    }
+
+
+    @Override
+    public void clearEmailDraft() {
+        resetData();
+        this.emailStatus = "cleared";
     }
 
     /** reset Email Draft Data **/
@@ -417,6 +399,64 @@ public class EmailSend {
         } catch (MessagingException e) {
             throw new RuntimeException(e);
         }
+    }
+}
+```
+###### \java\seedu\address\email\EmailTask.java
+``` java
+/**
+ * Keeps track of Current Email Command Task
+ */
+public class EmailTask {
+    public static final String TASKSEND = "send";
+    public static final String TASKCLEAR = "clear";
+
+    private String task;
+
+    public EmailTask() {
+        this.task = "";
+    }
+
+    public EmailTask(String task) {
+        this.task = task;
+    }
+
+    /**
+     * Returns the Task
+     * @return
+     */
+    public String getTask() {
+        return this.task;
+    }
+
+    /**
+     * Sets the task on Email Command Run
+     * @param task
+     */
+    public void setTask(String task) {
+        this.task = task;
+    }
+
+    /**
+     * Checks if the task is valid
+     * @return
+     */
+    public boolean isValid() {
+        switch (this.task) {
+        case TASKCLEAR:
+            return true;
+        case TASKSEND:
+            return true;
+        default:
+            return false;
+        }
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof EmailTask // instanceof handles nulls
+                && this.task.equals(((EmailTask) other).task));
     }
 }
 ```
@@ -635,15 +675,16 @@ public class EmailCommand extends Command {
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Emails all contacts in the last displayed list\n"
             + "Parameters:\n"
-            + "email et/[send|draft|compose] em/MESSAGE es/SUBJECT el/user@gmail.com:password\n"
+            + "email [ et/<send|clear> ] [ em/MESSAGE ] [ es/SUBJECT ]  [ el/user@gmail.com:password ]\n"
             + "Examples:\n"
             + "1) email em/what is your message?\n"
             + "2) email es/new subject\n"
             + "3) email el/adam@gmail.com:password\n"
             + "4) email et/send\n"
-            + "5) email em/message es/subject el/adam@gamil.com:password et/send";
+            + "5) email em/message es/subject el/adam@gamil.com:password et/send\n"
+            + "6) email et/clear";
 
-    public static final String MESSAGE_SUCCESS = "Email have been  %1$s";
+    public static final String MESSAGE_SUCCESS = "Email have been %1$s";
     public static final String MESSAGE_LOGIN_INVALID = "You must log in with a gmail email account before you can send "
             + "an email.\n"
             + "Command: email el/<username@gmail.com>:<password>";
@@ -661,11 +702,11 @@ public class EmailCommand extends Command {
 
     private final MessageDraft message;
     private final String [] loginDetails;
-    private final boolean send;
+    private final EmailTask task;
 
-    public EmailCommand(String message, String subject, String [] loginDetails, boolean send) {
+    public EmailCommand(String message, String subject, String [] loginDetails, EmailTask task) {
         this.message = new MessageDraft(message, subject);
-        this.send = send;
+        this.task = task;
         this.loginDetails = loginDetails;
     }
 
@@ -687,6 +728,24 @@ public class EmailCommand extends Command {
         return recipientsEmail;
     }
 
+    /**
+     * Identify the Email Command Execution Task purpose
+     */
+    private void identifyEmailTask() throws EmailLoginInvalidException, EmailMessageEmptyException,
+            EmailRecipientsEmptyException, AuthenticationFailedException {
+        switch (task.getTask()) {
+        case EmailTask.TASKSEND:
+            model.sendEmail(message);
+            break;
+        case EmailTask.TASKCLEAR:
+            model.clearEmailDraft();
+            break;
+        default:
+            model.draftEmail(message);
+            break;
+        }
+    }
+
     @Override
     public CommandResult execute() throws CommandException {
         requireNonNull(model);
@@ -703,7 +762,7 @@ public class EmailCommand extends Command {
         try {
             //Set up Email Details
             model.loginEmail(loginDetails);
-            model.sendEmail(message, send);
+            identifyEmailTask();
             return new CommandResult(String.format(MESSAGE_SUCCESS, model.getEmailStatus()));
         } catch (EmailLoginInvalidException e) {
             throw new CommandException(MESSAGE_LOGIN_INVALID);
@@ -725,7 +784,7 @@ public class EmailCommand extends Command {
                 || (other instanceof EmailCommand // instanceof handles nulls
                 && ((EmailCommand) other).message.equals(this.message)
                 && ((EmailCommand) other).loginDetailsEquals(this.loginDetails)
-                && ((EmailCommand) other).send == this.send);
+                && ((EmailCommand) other).task.equals(this.task));
     }
 
     /**
@@ -747,6 +806,52 @@ public class EmailCommand extends Command {
     }
 }
 ```
+###### \java\seedu\address\logic\commands\FindCommand.java
+``` java
+/**
+ * Finds and lists all persons in address book whose name contains any of the argument keywords.
+ * Keyword matching is case sensitive.
+ */
+public class FindCommand extends Command {
+
+    public static final String COMMAND_WORD = "find";
+    public static final String COMMAND_ALIAS = "f";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD + ": Finds all persons whose names or tag contain any of "
+            + "the specified keywords (case-sensitive) and displays them as a list with index numbers.\n"
+            + "Parameters: "
+            + "[ " + PREFIX_NAME + "KEYWORD [MORE_KEYWORDS]... ] [ " + PREFIX_TAG + "KEYWORD [MORE_KEYWORDS]... ] "
+            + "[ " + PREFIX_SORT + "<name|tag|email|address> ]\n"
+            + "Examples:\n"
+            + "1) " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob charlie\n"
+            + "2) " + COMMAND_WORD + " " + PREFIX_TAG + "tag1 tag2 tag3\n"
+            + "3) " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob charlie " + PREFIX_TAG + "tag1 tag2 tag3\n"
+            + "4) " + COMMAND_WORD + " " + PREFIX_NAME + "alice bob charlie " + PREFIX_SORT + "name\n"
+            + "5) " + COMMAND_WORD + " " + PREFIX_TAG + "tag1 tag2 tag3 " + PREFIX_SORT + "tag";
+
+    private final NameContainsKeywordsPredicate predicate;
+    private int sortOrder = 0;
+
+    public FindCommand(NameContainsKeywordsPredicate predicate, int sortOrder) {
+        this.predicate = predicate;
+        this.sortOrder = sortOrder;
+    }
+
+    @Override
+    public CommandResult execute() {
+        model.updateFilteredPersonList(predicate);
+        model.sortFilteredPersons(sortOrder);
+        return new CommandResult(getMessageForPersonListShownSummary(model.getFilteredPersonList().size()));
+    }
+
+    @Override
+    public boolean equals(Object other) {
+        return other == this // short circuit if same object
+                || (other instanceof FindCommand // instanceof handles nulls
+                && this.predicate.equals(((FindCommand) other).predicate)); // state check
+    }
+}
+```
 ###### \java\seedu\address\logic\parser\EmailCommandParser.java
 ``` java
 /**
@@ -765,11 +870,10 @@ public class EmailCommandParser implements Parser<EmailCommand> {
                 ArgumentTokenizer.tokenize(args, PREFIX_EMAIL_MESSAGE, PREFIX_EMAIL_SUBJECT, PREFIX_EMAIL_LOGIN,
                         PREFIX_EMAIL_TASK);
 
-        boolean send = false;
+        EmailTask task = new EmailTask();
         String message = "";
         String subject = "";
         String login = "";
-        String task = "";
         String [] loginDetails = new String[0];
 
         try {
@@ -794,21 +898,34 @@ public class EmailCommandParser implements Parser<EmailCommand> {
                 }
             }
 
-            // checks what is the email task, to send or create draft
+            /** checks what is the email task, to send or create draft **/
             if (argMultimap.getValue(PREFIX_EMAIL_TASK).isPresent()) {
-                task = ParserUtil.parseEmailTask(argMultimap.getValue(PREFIX_EMAIL_TASK)).trim();
-                if (!task.isEmpty() && task.equalsIgnoreCase("send")) {
-                    send = true;
+                task.setTask(ParserUtil.parseEmailTask(argMultimap.getValue(PREFIX_EMAIL_TASK)).trim());
+                if (!task.isValid()) {
+                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
                 }
+            }
+
+            /** checks if only "email" command is run **/
+            if (message.isEmpty() && subject.isEmpty() && login.isEmpty() && !task.isValid()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
             }
 
         } catch (IllegalValueException ive) {
             throw new ParseException(ive.getMessage(), ive);
         }
 
-        return new EmailCommand(message, subject, loginDetails, send);
+        return new EmailCommand(message, subject, loginDetails, task);
     }
 }
+```
+###### \java\seedu\address\logic\parser\FindCommandParser.java
+``` java
+/**
+ * Parses input arguments and creates a new FindCommand object
+ */
+public class FindCommandParser implements Parser<FindCommand> {
+
 ```
 ###### \java\seedu\address\logic\parser\FindCommandParser.java
 ``` java
@@ -952,75 +1069,9 @@ public class EmailCommandParser implements Parser<EmailCommand> {
     public Email getEmailManager() {
         return email;
     }
-
-    /** Raises an event to indicate the model has changed */
-    private void indicateAddressBookChanged() {
-        raise(new AddressBookChangedEvent(addressBook));
-    }
-
-    @Override
-    public synchronized void deletePerson(ReadOnlyPerson target) throws PersonNotFoundException, IOException {
-        addressBook.removePerson(target);
-        indicateAddressBookChanged();
-    }
-
-    @Override
-    public synchronized void addPerson(ReadOnlyPerson person) throws DuplicatePersonException, IOException {
-        addressBook.addPerson(person);
-        updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        indicateAddressBookChanged();
-    }
-
-    @Override
-    public synchronized String addImage(EmailAddress email, Photo photo) throws IOException {
-        String folder = "data/images/";
-        String fileExt = ".jpg";
-
-        File imageFolder = new File(folder);
-
-        if (!imageFolder.exists()) {
-            imageFolder.mkdir();
-        } else {
-
-        }
-
-        String destination = folder + email.toString() + fileExt;
-        Path sourcePath = Paths.get(photo.toString());
-        Path destPath = Paths.get(destination);
-
-        Files.copy(sourcePath, destPath, StandardCopyOption.REPLACE_EXISTING);
-
-        return folder + email.toString() + fileExt;
-    }
-
-    @Override
-    public void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedPerson)
-            throws DuplicatePersonException, PersonNotFoundException, IOException {
-        requireAllNonNull(target, editedPerson);
-
-        addressBook.updatePerson(target, editedPerson);
-        indicateAddressBookChanged();
-    }
-
-    @Override
-    public void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException, IOException {
-        for (int i = 0; i < addressBook.getPersonList().size(); i++) {
-            ReadOnlyPerson orginalPerson = addressBook.getPersonList().get(i);
-
-            Person person = new Person(orginalPerson);
-            Set<Tag> tags = person.getTags();
-
-            tags.remove(tag);
-            person.setTags(tags);
-
-            addressBook.updatePerson(orginalPerson, person);
-
-        }
-    }
-
-
-    //=========== Filtered Person List Accessors =============================================================
-
+```
+###### \java\seedu\address\model\ModelManager.java
+``` java
     /**
      * Returns an unmodifiable view of the list of {@code ReadOnlyPerson} backed by the internal list of
      * {@code addressBook}
@@ -1029,7 +1080,6 @@ public class EmailCommandParser implements Parser<EmailCommand> {
     public ObservableList<ReadOnlyPerson> getFilteredPersonList() {
         return FXCollections.unmodifiableObservableList(sortedPersonsList);
     }
-
 ```
 ###### \java\seedu\address\model\ModelManager.java
 ``` java
@@ -1090,12 +1140,6 @@ public class EmailCommandParser implements Parser<EmailCommand> {
         sortedPersonsList.setComparator(sort);
     }
 
-    @Override
-    public void updateFilteredPersonList(Predicate<ReadOnlyPerson> predicate) {
-        requireNonNull(predicate);
-        filteredPersons.setPredicate(predicate);
-    }
-
 ```
 ###### \java\seedu\address\model\ModelManager.java
 ``` java
@@ -1104,49 +1148,19 @@ public class EmailCommandParser implements Parser<EmailCommand> {
         email.loginEmail(loginDetails);
     }
 
-```
-###### \java\seedu\address\model\ModelManager.java
-``` java
     @Override
-    public void sendEmail(MessageDraft message, boolean send) throws EmailLoginInvalidException,
-            EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
+    public void sendEmail(MessageDraft message) throws EmailLoginInvalidException, EmailMessageEmptyException,
+            EmailRecipientsEmptyException, AuthenticationFailedException {
         email.composeEmail(message);
+        email.sendEmail();
 
-        if (send) {
-            email.sendEmail();
-        }
         raise(new EmailDraftChangedEvent(email.getEmailDraft()));
     }
 
-```
-###### \java\seedu\address\model\ModelManager.java
-``` java
     @Override
     public String getEmailStatus() {
         return email.getEmailStatus();
     }
-
-    @Override
-    public boolean equals(Object obj) {
-
-        // short circuit if same object
-        if (obj == this) {
-            return true;
-        }
-
-        // instanceof handles nulls
-        if (!(obj instanceof ModelManager)) {
-            return false;
-        }
-
-        // state check
-        ModelManager other = (ModelManager) obj;
-        return addressBook.equals(other.addressBook)
-                && sortedPersonsList.equals(other.sortedPersonsList)
-                && email.equals(other.email);
-    }
-
-}
 ```
 ###### \java\seedu\address\model\person\NameContainsKeywordsPredicate.java
 ``` java
@@ -1206,26 +1220,6 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
         }
         return false;
     }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof ReadOnlyPerson // instanceof handles nulls
-                && this.isSameStateAs((ReadOnlyPerson) other));
-    }
-
-    @Override
-    public int hashCode() {
-        // use this method for custom fields hashing instead of implementing your own
-        return Objects.hash(name, phone, emailAddress, address, photo, tags, birthdate);
-    }
-
-    @Override
-    public String toString() {
-        return getAsText();
-    }
-
-}
 ```
 ###### \java\seedu\address\model\person\UniquePersonList.java
 ``` java
@@ -1241,25 +1235,6 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
         };
         sortedInternalList.setComparator(sort);
     }
-
-    @Override
-    public Iterator<Person> iterator() {
-        return internalList.iterator();
-    }
-
-    @Override
-    public boolean equals(Object other) {
-        return other == this // short circuit if same object
-                || (other instanceof UniquePersonList // instanceof handles nulls
-                && this.sortedInternalList.equals(((UniquePersonList) other).sortedInternalList));
-    }
-
-    @Override
-    public int hashCode() {
-        return internalList.hashCode();
-    }
-
-}
 ```
 ###### \java\seedu\address\model\tag\Tag.java
 ``` java
@@ -1267,13 +1242,11 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
     public int compareTo(Tag o) {
         return this.tagName.compareTo(o.tagName);
     }
-
-}
 ```
 ###### \java\seedu\address\ui\LeftDisplayPanel.java
 ``` java
 /**
- * Tab Panel containing personListPanel and EmailDraftPanel
+ * Tab Panel containing personListPanel, EmailDraftPanel, and BirthdateTab
  */
 public class LeftDisplayPanel extends UiPart<Region> {
     private static final String FXML = "LeftDisplayPanel.fxml";
@@ -1281,9 +1254,10 @@ public class LeftDisplayPanel extends UiPart<Region> {
 
     //Independent UI parts residing in this UI container
     private PersonListPanel personListPanel;
+    private PersonListBirthdatePanel birthdayListPanel;
     private MessageDisplay messageDisplay;
-
     private boolean toggle;
+    private boolean toggle2;
 
     @FXML
     private TabPane leftDisplayPanel;
@@ -1295,33 +1269,49 @@ public class LeftDisplayPanel extends UiPart<Region> {
     private Tab emailDraftTab;
 
     @FXML
+    private Tab birthdateTab;
+
+    @FXML
     private StackPane personListPanelPlaceholder;
 
     @FXML
     private StackPane messageDraftPanelPlaceholder;
 
-    public LeftDisplayPanel(ObservableList<ReadOnlyPerson> personList) {
+    @FXML
+    private StackPane birthdatePanelPlaceholder;
+
+    public LeftDisplayPanel(ObservableList<ReadOnlyPerson> personList,
+                            ObservableList<ReadOnlyPerson> personListBirthdate) {
         super(FXML);
 
         personListPanel = new PersonListPanel(personList);
         personListPanelPlaceholder.getChildren().add(personListPanel.getRoot());
 
+        birthdayListPanel = new PersonListBirthdatePanel(personListBirthdate);
+        birthdatePanelPlaceholder.getChildren().add(birthdayListPanel.getRoot());
+
         messageDisplay = new MessageDisplay();
         messageDraftPanelPlaceholder.getChildren().add(messageDisplay.getRoot());
 
         toggle = true;
+        toggle2 = true;
     }
 
     /**
      * Toggle Tabs
      */
     public void toggleTabs() {
-        if  (toggle) {
+        if  (toggle && toggle2) {
             leftDisplayPanel.getSelectionModel().select(emailDraftTab);
+            toggle2 = !toggle2;
+        } else if (toggle && !toggle2) {
+            leftDisplayPanel.getSelectionModel().select(birthdateTab);
+            toggle2 = !toggle2;
+            toggle = false;
         } else {
             leftDisplayPanel.getSelectionModel().select(personListTab);
+            toggle = true;
         }
-        toggle = !toggle;
     }
 
     /**
@@ -1329,6 +1319,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
      */
     public void scrollDown() {
         personListPanel.scrollDown();
+        birthdayListPanel.scrollDown();
     }
 
     /**
@@ -1336,6 +1327,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
      */
     public void scrollUp() {
         personListPanel.scrollUp();
+        birthdayListPanel.scrollUp();
     }
 
     public PersonListPanel getPersonListPanel() {
@@ -1427,6 +1419,15 @@ public class MessageDisplay extends UiPart<Region> {
             <StackPane fx:id="messageDraftPanelPlaceholder" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
          </content>
     </Tab>
+      <Tab fx:id="birthdateTab" text="Birthdays">
+          <content>
+              <VBox fx:id="birthdayList" minWidth="450" prefWidth="450">
+                  <children>
+                      <StackPane fx:id="birthdatePanelPlaceholder" prefHeight="150.0" prefWidth="200.0" VBox.vgrow="ALWAYS" />
+                  </children>
+              </VBox>
+          </content>
+      </Tab>
   </tabs>
 </TabPane>
 ```
