@@ -8,6 +8,8 @@ import com.google.common.eventbus.Subscribe;
 import javafx.application.Platform;
 import javafx.event.Event;
 import javafx.fxml.FXML;
+import javafx.scene.control.Tab;
+import javafx.scene.control.TabPane;
 import javafx.scene.layout.Region;
 import javafx.scene.web.WebView;
 import seedu.address.MainApp;
@@ -25,6 +27,7 @@ public class BrowserPanel extends UiPart<Region> {
     public static final String DEFAULT_PAGE = "default.html";
     public static final String NO_TIMETABLE = "noTimetable.html";
     public static final String NUSMODS_SEARCH_URL_PREFIX = "https://nusmods.com/timetable/";
+    private static boolean insta = false;
 
     private static final String FXML = "BrowserPanel.fxml";
 
@@ -34,7 +37,19 @@ public class BrowserPanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(this.getClass());
 
     @FXML
+    private TabPane browserPanel;
+
+    @FXML
+    private Tab nusModsTab;
+
+    @FXML
+    private Tab instaTab;
+
+    @FXML
     private WebView browser;
+
+    @FXML
+    private WebView instaBrowser;
 
     public BrowserPanel(Config config) {
         super(FXML);
@@ -45,6 +60,7 @@ public class BrowserPanel extends UiPart<Region> {
 
         loadDefaultPage();
         registerAsAnEventHandler(this);
+
     }
 
     //@@author ritchielq
@@ -110,7 +126,38 @@ public class BrowserPanel extends UiPart<Region> {
     private void handlePersonPanelSelectionChangedEvent(PersonPanelSelectionChangedEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         loadPersonPage(event.getNewSelection().person);
+        loadInsta(event.getNewSelection().person);
+
     }
+
+    /**
+     * Loads Instagram page on Instagram tab
+     */
+    //@@author hengyu95
+    public void loadInsta(ReadOnlyPerson person) {
+
+        if (person.getUserId().value.equals("-")) {
+            Platform.runLater(() -> instaBrowser.getEngine().load("https://www.instagram.com/"));
+        } else {
+            Platform.runLater(() -> instaBrowser.getEngine().load(new StringBuilder()
+                    .append("https://www.instagram.com/").append(person.getUserId()).toString()));
+        }
+
+        if (insta) {
+            browserPanel.getSelectionModel().select(instaTab);
+        } else {
+            browserPanel.getSelectionModel().select(nusModsTab);
+        }
+    }
+
+    /**
+     * Chooses between which of the two tabs to display
+     */
+    public static void setInstaBoolean(boolean set) {
+        insta = set;
+    }
+
+    //@@author
 
     //@@author ritchielq-reuse
     @Subscribe

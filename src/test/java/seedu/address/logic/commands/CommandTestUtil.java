@@ -12,6 +12,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_USERID;
 import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_MODULE_CODE;
 import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_TUTORIAL;
 import static seedu.address.logic.parser.NusmodsCommandParser.PREFIX_TYPE;
@@ -93,6 +94,8 @@ public class CommandTestUtil {
     public static final String INVALID_EMAIL_LOGIN_USERNAME = "bernicefortesting@yahoo.com:password";
     public static final String INVALID_TYPE_DESC = " " + PREFIX_TYPE + "asdf"; // Only allowed add, delete and url
     public static final String INVALID_MODULE_DESC_CS2103T = " " + PREFIX_MODULE_CODE + "CSS123456"; // Too Maybe digit
+    public static final String INVALID_USERID_DESC = " " + PREFIX_USERID + "johncena@"; // contains '@' symbol
+
 
     public static final String NOT_FILLED = "-";
     public static final String IMAGE_STORAGE_BOB = "data/images/bob@example.com.jpg";

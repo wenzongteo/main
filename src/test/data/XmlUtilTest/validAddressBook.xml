@@ -7,6 +7,7 @@
         <address isPrivate="false">4th street</address>
 		<photo>default.jpeg</photo>
 		<birthdate>02/03/1995</birthdate>
+		<id>-</id>
         <nusModule moduleCode="CS2010">
             <lesson lessonType="TUT">5</lesson>
             <lesson lessonType="LEC">1</lesson>
@@ -34,6 +35,7 @@
         <address isPrivate="false">81th street</address>
 		<photo>default.jpeg</photo>
 		<birthdate>02/04/1993</birthdate>
+		<id>-</id>
     </persons>
     <persons>
         <name>Heinz Kurz</name>
@@ -42,6 +44,7 @@
         <address isPrivate="false">wall street</address>
 		<photo>default.jpeg</photo>
 		<birthdate>02/05/1980</birthdate>
+		<id>-</id>
     </persons>
     <persons>
         <name>Cornelia Meier</name>
@@ -50,6 +53,7 @@
         <address isPrivate="false">10th street</address>
 		<photo>default.jpeg</photo>
 		<birthdate>02/03/1980</birthdate>
+		<id>-</id>
     </persons>
     <persons>
         <name>Werner Meyer</name>
@@ -58,6 +62,7 @@
         <address isPrivate="false">michegan ave</address>
 		<photo>default.jpeg</photo>
 		<birthdate>02/03/1990</birthdate>
+		<id>-</id>
     </persons>
     <persons>
         <name>Lydia Kunz</name>
@@ -66,6 +71,7 @@
         <address isPrivate="false">little tokyo</address>
 		<photo>default.jpeg</photo>
 		<birthdate>02/03/1983</birthdate>
+		<id>-</id>
     </persons>
     <persons>
         <name>Anna Best</name>
@@ -74,6 +80,7 @@
         <address isPrivate="false">4th street</address>
 		<photo>default.jpeg</photo>
 		<birthdate>02/04/1990</birthdate>
+		<id>-</id>
     </persons>
     <persons>
         <name>Stefan Meier</name>
@@ -82,6 +89,7 @@
         <address isPrivate="false">little india</address>
 		<photo>default.jpeg</photo>
 		<birthdate>-</birthdate>
+		<id>-</id>
     </persons>
     <persons>
         <name>Martin Mueller</name>
@@ -90,5 +98,6 @@
         <address isPrivate="false">chicago ave</address>
 		<photo>default.jpeg</photo>
 		<birthdate>02/03/1999</birthdate>
+		<id>-</id>
     </persons>
 </addressbook>

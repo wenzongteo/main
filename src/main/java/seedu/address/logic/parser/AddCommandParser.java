@@ -8,6 +8,7 @@ import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHONE;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_PHOTO;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_TAG;
+import static seedu.address.logic.parser.CliSyntax.PREFIX_USERID;
 
 import java.io.IOException;
 import java.util.Optional;
@@ -25,6 +26,7 @@ import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
 import seedu.address.model.person.ReadOnlyPerson;
+import seedu.address.model.person.UserId;
 import seedu.address.model.tag.Tag;
 
 /**
@@ -39,7 +41,7 @@ public class AddCommandParser implements Parser<AddCommand> {
      */
     public AddCommand parse(String args) throws ParseException, IOException {
         ArgumentMultimap argMultimap = ArgumentTokenizer.tokenize(args, PREFIX_NAME, PREFIX_PHONE, PREFIX_EMAIL_ADDRESS,
-                PREFIX_ADDRESS, PREFIX_PHOTO, PREFIX_BIRTHDATE, PREFIX_TAG);
+                PREFIX_ADDRESS, PREFIX_PHOTO, PREFIX_BIRTHDATE, PREFIX_TAG, PREFIX_USERID);
 
         if (!arePrefixesPresent(argMultimap, PREFIX_NAME, PREFIX_EMAIL_ADDRESS)) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, AddCommand.MESSAGE_USAGE));
@@ -54,8 +56,8 @@ public class AddCommandParser implements Parser<AddCommand> {
             Photo photo = ParserUtil.parsePhoto(checkInput(argMultimap.getValue(PREFIX_PHOTO))).get();
             Set<Tag> tagList = ParserUtil.parseTags(argMultimap.getAllValues(PREFIX_TAG));
             Birthdate birthdate = ParserUtil.parseBirthdate(checkInput(argMultimap.getValue(PREFIX_BIRTHDATE))).get();
-
-            ReadOnlyPerson person = new Person(name, phone, emailAddress, address, photo, tagList, birthdate);
+            UserId id = ParserUtil.parseUserId(checkInput(argMultimap.getValue(PREFIX_USERID))).get();
+            ReadOnlyPerson person = new Person(name, phone, emailAddress, address, photo, tagList, birthdate, id);
 
             return new AddCommand(person);
         } catch (IllegalValueException ive) {

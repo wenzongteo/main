@@ -27,7 +27,7 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
     private final Logger logger = LogsCenter.getLogger(PersonListBirthdatePanel.class);
 
     @FXML
-    private ListView<PersonCard> personListBirthdateView;
+    private ListView<PersonCardBirthday> personListBirthdateView;
 
     @FXML
     private ScrollBar personListViewScrollBar;
@@ -84,14 +84,14 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
     }
 
     private void setConnections(ObservableList<ReadOnlyPerson> personList) {
-        ObservableList<PersonCard> mappedList = EasyBind.map(
-                personList, (person) -> new PersonCard(person, personList.indexOf(person) + 1));
+        ObservableList<PersonCardBirthday> mappedList = EasyBind.map(
+                personList, (person) -> new PersonCardBirthday(person, personList.indexOf(person) + 1));
         personListBirthdateView.setItems(mappedList);
         personListBirthdateView.setCellFactory(listView -> new PersonListViewCell());
     }
 
     /**
-     * Scrolls to the {@code PersonCard} at the {@code index} and selects it.
+     * Scrolls to the {@code PersonCardBirthday} at the {@code index} and selects it.
      */
     private void scrollTo(int index) {
         Platform.runLater(() -> {
@@ -101,12 +101,12 @@ public class PersonListBirthdatePanel extends UiPart<Region> {
     }
 
     /**
-     * Custom {@code ListCell} that displays the graphics of a {@code PersonCard}.
+     * Custom {@code ListCell} that displays the graphics of a {@code PersonCardBirthday}.
      */
-    class PersonListViewCell extends ListCell<PersonCard> {
+    class PersonListViewCell extends ListCell<PersonCardBirthday> {
 
         @Override
-        protected void updateItem(PersonCard person, boolean empty) {
+        protected void updateItem(PersonCardBirthday person, boolean empty) {
             super.updateItem(person, empty);
 
             if (empty || person == null) {

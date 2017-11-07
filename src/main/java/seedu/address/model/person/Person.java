@@ -29,14 +29,15 @@ public class Person implements ReadOnlyPerson {
     private ObjectProperty<UniqueTagList> tags;
     private ObjectProperty<Birthdate> birthdate;
     private ObjectProperty<NusModules> nusModules;
+    private ObjectProperty<UserId> id;
 
     /**
      * Every field must be present and not null.
      */
 
     public Person(Name name, Phone phone, EmailAddress email, Address address, Photo photo, Set<Tag> tags,
-                  Birthdate birthdate) {
-        requireAllNonNull(name, phone, email, address, tags, birthdate);
+                  Birthdate birthdate, UserId id) {
+        requireAllNonNull(name, phone, email, address, tags, birthdate, id);
 
         this.name = new SimpleObjectProperty<>(name);
         this.phone = new SimpleObjectProperty<>(phone);
@@ -46,6 +47,7 @@ public class Person implements ReadOnlyPerson {
         this.birthdate = new SimpleObjectProperty<>(birthdate);
         // protect internal tags from changes in the arg list
         this.tags = new SimpleObjectProperty<>(new UniqueTagList(tags));
+        this.id = new SimpleObjectProperty<>(id);
 
     }
 
@@ -54,8 +56,8 @@ public class Person implements ReadOnlyPerson {
      */
 
     public Person(Name name, Phone phone, EmailAddress email, Address address, Photo photo, Set<Tag> tags,
-                  Birthdate birthdate, NusModules nusModules) {
-        requireAllNonNull(name, phone, email, address, tags, birthdate);
+                  Birthdate birthdate, NusModules nusModules, UserId id) {
+        requireAllNonNull(name, phone, email, address, tags, birthdate, id);
 
         this.name = new SimpleObjectProperty<>(name);
         this.phone = new SimpleObjectProperty<>(phone);
@@ -66,6 +68,7 @@ public class Person implements ReadOnlyPerson {
         // protect internal tags from changes in the arg list
         this.tags = new SimpleObjectProperty<>(new UniqueTagList(tags));
         this.nusModules = new SimpleObjectProperty<>(nusModules);
+        this.id = new SimpleObjectProperty<>(id);
 
     }
 
@@ -74,7 +77,7 @@ public class Person implements ReadOnlyPerson {
      */
     public Person(ReadOnlyPerson source) {
         this(source.getName(), source.getPhone(), source.getEmailAddress(), source.getAddress(),
-                source.getPhoto(), source.getTags(), source.getBirthdate(), source.getNusModules());
+                source.getPhoto(), source.getTags(), source.getBirthdate(), source.getNusModules(), source.getUserId());
     }
 
     public void setName(Name name) {
@@ -133,6 +136,7 @@ public class Person implements ReadOnlyPerson {
         return address.get();
     }
 
+    //@@author hengyu95
     @Override
     public ObjectProperty<Birthdate> birthdateProperty() {
         return birthdate;
@@ -146,6 +150,21 @@ public class Person implements ReadOnlyPerson {
     public void setBirthdate(Birthdate birthdate) {
         this.birthdate.set(requireNonNull(birthdate));
     }
+
+    @Override
+    public ObjectProperty<UserId> userIdProperty() {
+        return id;
+    }
+
+    @Override
+    public UserId getUserId() {
+        return id.get();
+    }
+
+    public void setUserId(UserId id) {
+        this.id.set(requireNonNull(id));
+    }
+
 
     public void setPhoto(Photo photo) {
         this.photo.set(photo);

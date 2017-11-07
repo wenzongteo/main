@@ -126,7 +126,7 @@ The [fuchsia]`add` command will enable you to populate Augustine.
 The format of the [fuchsia]`add` command is as follows:
 
 ====
-[fuchsia]#add n/NAME e/EMAIL [p/PHONE_NUMBER] [a/ADDRESS] [b/BIRTHDATE] [dp/DISPLAY_PICTURE] [t/TAG]...#
+[fuchsia]#add n/NAME e/EMAIL [p/PHONE_NUMBER] [a/ADDRESS] [b/BIRTHDATE] [dp/DISPLAY_PICTURE] [insta/USER_ID] [t/TAG]...#
 ====
 ****
 *Things to take note:* +
@@ -215,7 +215,7 @@ The [fuchsia]`edit` command will modify contacts in Augustine.
 ===== Format
 The format of the [fuchsia]`edit` command is as follows:
 ====
-[fuchsia]#edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [b/BIRTHDATE] [t/TAG]...#
+[fuchsia]#edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [b/BIRTHDATE] [insta/USER_ID] [t/TAG]...#
 ====
 ****
 *Things to take note:* +
@@ -713,6 +713,42 @@ image::happyBirthdayJohnCena.png[width="440px"]
 --
 
 '''
+
+=== Instagram tab
+
+The Instagram tab allows you to view the Instagram profile of the selected contact.
+
+===== Format
+
+The format of the [fuchsia]`insta` command is as follows:
+
+====
+[fuchsia]#select INDEX#
+====
+
+[TIP]
+You can use the alias `i` instead of typing out `insta`
+
+****
+*Things to take note:* +
+
+* You could log on to Instagram like you would on a normal web browser to be able to view private accounts you follow.
+* If you do not manually log out, you will stay logged on until Augustine is closed. The program will not store any of your
+personal information.
+* If you do not have a contact's Instagram account ID, this tab will redirect you to the Instagram home page.
+* You could also manually click on the tab and contact card if you prefer that over using the command.
+****
+
+===== Example
+Here is an example of the Instagram command: (see Figure 19)
+
+[caption="Figure 19. "]
+.Instagram tab in action
+image::instagram.png[width="1295px"]
+--
+--
+
+'''
 === Listing entered commands : [fuchsia]`history`
 
 The [fuchsia]`history` command lists all the commands that you have entered in
@@ -946,6 +982,7 @@ There is no need to save manually.
 |*Help*|`help` +|h|`help` +
 |*Select*|`select INDEX` +|s|`select 2` +
 |*Email*|`email [em/MESSAGE] [es/SUBJECT] [el/user@gmail.com:password] [et/<send\|clear>]` +|em|`email em/message es/subject el/adam@gmail.com:password et/send`
+|*Instagram*|`insta INDEX`|i|`insta 3` +
 |*History*|`history`|h|`history` +
 |*Undo*|`undo`|u|`undo` +
 |*Redo*|`redo`|r|`redo` +
