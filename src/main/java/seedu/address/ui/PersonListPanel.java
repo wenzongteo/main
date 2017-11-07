@@ -21,7 +21,6 @@ import seedu.address.commons.events.ui.DeselectEvent;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.events.ui.PersonPanelDeselectionEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
-import seedu.address.commons.events.ui.ReselectEvent;
 import seedu.address.model.person.ReadOnlyPerson;
 
 /**
@@ -137,14 +136,6 @@ public class PersonListPanel extends UiPart<Region> {
     }
 
     //@@author ritchielq
-    @Subscribe
-    private void handleReselectEvent(ReselectEvent event) {
-        logger.info(LogsCenter.getEventHandlingLogMessage(event));
-        int index = personListView.getSelectionModel().getSelectedIndex();
-        personListView.getSelectionModel().clearSelection();
-        scrollTo(index);
-    }
-
     @Subscribe
     private void handleDeselectEvent(DeselectEvent event) {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
