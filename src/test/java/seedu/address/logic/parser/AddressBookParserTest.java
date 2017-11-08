@@ -124,6 +124,7 @@ public class AddressBookParserTest {
         assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
     }
 
+    //@@author awarenessxz
     @Test
     public void parseCommand_email() throws Exception {
         String message = "message";
@@ -141,6 +142,7 @@ public class AddressBookParserTest {
         assertEquals(new EmailCommand(message, subject, loginDetails, new EmailTask("")), command);
 
     }
+    //@@author
 
     @Test
     public void parseCommand_exit() throws Exception {

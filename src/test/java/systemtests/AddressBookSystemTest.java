@@ -172,6 +172,7 @@ public abstract class AddressBookSystemTest {
         assertListMatching(getPersonListPanel(), expectedModel.getFilteredPersonList());
     }
 
+    //@@author awarenessxz
     /**
      * Asserts that the {@code messageDisplay} display {@code expectedMessage}, the {@code subjectDisplay} display
      * {@code expectedSubject}, the {@code RecipientsDisplay} displays {@code expectedRecipients} and the
@@ -184,6 +185,7 @@ public abstract class AddressBookSystemTest {
         assertEquals(expectedRecipients, getEmailRecipientsDisplay().getText());
         assertEquals(expectedTabIndex, getLeftDisplayPanel().getSelectedTabIndex());
     }
+    //@@author
 
     /**
      * Calls {@code BrowserPanelHandle}, {@code PersonListPanelHandle} and {@code StatusBarFooterHandle} to remember
