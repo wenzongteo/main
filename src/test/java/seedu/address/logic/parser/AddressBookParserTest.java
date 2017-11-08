@@ -22,11 +22,13 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import seedu.address.email.EmailTask;
 import seedu.address.logic.commands.AddCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
 import seedu.address.logic.commands.EditCommand.EditPersonDescriptor;
+import seedu.address.logic.commands.EmailCommand;
 import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
@@ -121,6 +123,26 @@ public class AddressBookParserTest {
                 + INDEX_FIRST_PERSON.getOneBased() + " " + PersonUtil.getPersonDetails(person));
         assertEquals(new EditCommand(INDEX_FIRST_PERSON, descriptor), command);
     }
+
+    //@@author awarenessxz
+    @Test
+    public void parseCommand_email() throws Exception {
+        String message = "message";
+        String subject = "subject";
+        String [] loginDetails = new String[0];
+
+        //Using Email command
+        EmailCommand command = (EmailCommand) parser.parseCommand(EmailCommand.COMMAND_WORD + " em/"
+                + message + " es/" + subject);
+        assertEquals(new EmailCommand(message, subject, loginDetails, new EmailTask("")), command);
+
+        //Using Email alias
+        command = (EmailCommand) parser.parseCommand(EmailCommand.COMMAND_ALIAS + " em/"
+                + message + " es/" + subject);
+        assertEquals(new EmailCommand(message, subject, loginDetails, new EmailTask("")), command);
+
+    }
+    //@@author
 
     @Test
     public void parseCommand_exit() throws Exception {

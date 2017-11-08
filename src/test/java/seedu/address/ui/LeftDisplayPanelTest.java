@@ -36,20 +36,23 @@ public class LeftDisplayPanelTest extends GuiUnitTest {
     @Test
     public void display() {
         // default tab
-        guiRobot.pauseForHuman();
-        assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
-
-        //Change to Tab 2
-        leftDisplayPanelHandle.toggle(1);
-        assertEquals(1, leftDisplayPanelHandle.getSelectedTabIndex());
-
-        //Change to Tab 3
-        leftDisplayPanelHandle.toggle(2);
-        assertEquals(2, leftDisplayPanelHandle.getSelectedTabIndex());
-
-        //Change to Tab 1
         leftDisplayPanelHandle.toggle(0);
         assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
+
+        //Set to Tab 3
+        guiRobot.pauseForHuman();
+        leftDisplayPanel.toggleTabs(2);
+        assertEquals(2, leftDisplayPanelHandle.getSelectedTabIndex());
+
+        //Toggle Shortcut Tab 1
+        guiRobot.pauseForHuman();
+        leftDisplayPanel.toggleTabs(-1);
+        assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
+
+        //Toggle shortcut to Tab 2
+        guiRobot.pauseForHuman();
+        leftDisplayPanel.toggleTabs(-1);
+        assertEquals(1, leftDisplayPanelHandle.getSelectedTabIndex());
     }
     //@@author
 
@@ -60,13 +63,12 @@ public class LeftDisplayPanelTest extends GuiUnitTest {
         assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
 
         //Toggling once goes to Tab 2
-        leftDisplayPanel.toggleTabs();
+        leftDisplayPanel.toggleTabs(-1);
         assertEquals(1, leftDisplayPanelHandle.getSelectedTabIndex());
 
         //Toggling once goes to Tab 3
-        leftDisplayPanel.toggleTabs();
+        leftDisplayPanel.toggleTabs(-1);
         assertEquals(2, leftDisplayPanelHandle.getSelectedTabIndex());
 
     }
-
 }

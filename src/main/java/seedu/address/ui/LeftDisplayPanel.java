@@ -23,8 +23,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
     private PersonListPanel personListPanel;
     private PersonListBirthdatePanel birthdayListPanel;
     private MessageDisplay messageDisplay;
-    private boolean toggle;
-    private boolean toggle2;
+    private int tabIndex;
 
     @FXML
     private TabPane leftDisplayPanel;
@@ -60,24 +59,32 @@ public class LeftDisplayPanel extends UiPart<Region> {
         messageDisplay = new MessageDisplay();
         messageDraftPanelPlaceholder.getChildren().add(messageDisplay.getRoot());
 
-        toggle = true;
-        toggle2 = true;
+        tabIndex = 0;
     }
 
     /**
      * Toggle Tabs
      */
-    public void toggleTabs() {
-        if  (toggle && toggle2) {
-            leftDisplayPanel.getSelectionModel().select(emailDraftTab);
-            toggle2 = !toggle2;
-        } else if (toggle && !toggle2) {
-            leftDisplayPanel.getSelectionModel().select(birthdateTab);
-            toggle2 = !toggle2;
-            toggle = false;
+    public void toggleTabs(int index) {
+        if (index >= 0) {
+            tabIndex = index;
         } else {
+            tabIndex = (tabIndex + 1) % 3;
+        }
+
+        switch (tabIndex) {
+        case 0:
             leftDisplayPanel.getSelectionModel().select(personListTab);
-            toggle = true;
+            break;
+        case 1:
+            leftDisplayPanel.getSelectionModel().select(emailDraftTab);
+            break;
+        case 2:
+            leftDisplayPanel.getSelectionModel().select(birthdateTab);
+            break;
+        default:
+            assert false : "This should not happen";
+            break;
         }
     }
 
@@ -85,16 +92,22 @@ public class LeftDisplayPanel extends UiPart<Region> {
      * Scrolls one page down
      */
     public void scrollDown() {
-        personListPanel.scrollDown();
-        birthdayListPanel.scrollDown();
+        if (tabIndex == 0) {
+            personListPanel.scrollDown();
+        } else if (tabIndex == 2) {
+            birthdayListPanel.scrollDown();
+        }
     }
 
     /**
      * Scrolls one page up
      */
     public void scrollUp() {
-        personListPanel.scrollUp();
-        birthdayListPanel.scrollUp();
+        if (tabIndex == 0) {
+            personListPanel.scrollUp();
+        } else if (tabIndex == 2) {
+            birthdayListPanel.scrollUp();
+        }
     }
 
     public PersonListPanel getPersonListPanel() {

@@ -35,6 +35,9 @@ public class AddressBookParser {
      */
     private static final Pattern BASIC_COMMAND_FORMAT = Pattern.compile("(?<commandWord>\\S+)(?<arguments>.*)");
 
+    /** Used for changing left tabs display depending on user command **/
+    private int leftTabIndex = 0;
+
     /**
      * Parses user input into command for execution.
      *
@@ -47,6 +50,9 @@ public class AddressBookParser {
         if (!matcher.matches()) {
             throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, HelpCommand.MESSAGE_USAGE));
         }
+
+        //resets left tab to default.
+        leftTabIndex = 0;
 
         final String commandWord = matcher.group("commandWord");
         final String arguments = matcher.group("arguments");
@@ -65,9 +71,11 @@ public class AddressBookParser {
             return new EditCommandParser().parse(arguments);
 
         case EmailCommand.COMMAND_WORD:
+            leftTabIndex = 1;
             return new EmailCommandParser().parse(arguments);
 
         case EmailCommand.COMMAND_ALIAS:
+            leftTabIndex = 1;
             return new EmailCommandParser().parse(arguments);
 
         case SelectCommand.COMMAND_WORD:
@@ -145,5 +153,10 @@ public class AddressBookParser {
         default:
             throw new ParseException(MESSAGE_UNKNOWN_COMMAND);
         }
+    }
+
+    /** get current left tab view **/
+    public int getLeftTabIndex() {
+        return this.leftTabIndex;
     }
 }

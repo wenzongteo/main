@@ -375,6 +375,8 @@
 .tab-pane .tab:selected
 {
     -fx-background-color: #3c3c3c;
+    -fx-border-color: red #3c3c3c #3c3c3c #3c3c3c;
+    -fx-border-width: 3 0 0 0;
 }
 
 .tab .tab-label {

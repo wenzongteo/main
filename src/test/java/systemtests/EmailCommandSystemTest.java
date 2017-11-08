@@ -16,7 +16,12 @@ import static seedu.address.logic.commands.CommandTestUtil.VALID_NAME_JOHN_EMAIL
 import static seedu.address.logic.parser.CliSyntax.PREFIX_EMAIL_TASK;
 import static seedu.address.logic.parser.CliSyntax.PREFIX_NAME;
 
+import java.util.List;
+import java.util.function.Predicate;
+
 import javax.mail.AuthenticationFailedException;
+import javax.mail.internet.AddressException;
+import javax.mail.internet.InternetAddress;
 
 import org.junit.AfterClass;
 import org.junit.BeforeClass;
@@ -27,6 +32,7 @@ import seedu.address.email.exceptions.EmailLoginInvalidException;
 import seedu.address.email.exceptions.EmailMessageEmptyException;
 import seedu.address.email.exceptions.EmailRecipientsEmptyException;
 import seedu.address.email.message.MessageDraft;
+import seedu.address.email.message.ReadOnlyMessageDraft;
 import seedu.address.logic.commands.EmailCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.model.Model;
@@ -34,12 +40,14 @@ import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.testutil.ImageInit;
 import seedu.address.testutil.PersonBuilder;
 
+//@@author awarenessxz
 public class EmailCommandSystemTest extends AddressBookSystemTest {
 
     private static final String EMAIL_SUCCESSFULLY_DRAFTED = "drafted";
     private static final String EMAIL_SUCCESSFULLY_CLEARED = "cleared";
     private static final String EMAIL_COMMAND_SEND = " " + PREFIX_EMAIL_TASK + "send";
     private static final String EMAIL_COMMAND_CLEAR = " " + PREFIX_EMAIL_TASK + "clear";
+    private Predicate<ReadOnlyPerson> predicateShowNoPerson = unused -> false;
 
     @BeforeClass
     public static void setup() throws Exception {
@@ -53,7 +61,6 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         ImageInit.deleteImagesFiles();
     }
 
-    //@@author awarenessxz
     @Test
     public void sendEmail() throws Exception {
         String command = "";
@@ -160,7 +167,6 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_CLEARED);
     }
 
-    //@@author awarenessxz
     private void setupModel(Model expectedModel) throws Exception {
         /**
          *  Set up Model such the list is empty
@@ -172,7 +178,24 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         executeCommand(findCommand);
     }
 
-    //@@author awarenessxz
+    /**
+     * Extract Email from last display person {@code lastshownList} into an InternetAddresss[] for sending email
+     *
+     * @params: last shown display person list
+     * @return: list of internet email address
+     **/
+    private InternetAddress[] extractEmailFromContacts(List<ReadOnlyPerson> lastShownList) throws AddressException {
+        InternetAddress [] recipientsEmail = new InternetAddress[lastShownList.size()];
+        try {
+            for (int i = 0; i < lastShownList.size(); i++) {
+                recipientsEmail[i] = new InternetAddress(lastShownList.get(i).getEmailAddress().value);
+            }
+        } catch (AddressException e) {
+            throw new AddressException();
+        }
+        return recipientsEmail;
+    }
+
     /**
      * Executes the {@code EmailCommand} that sends or draft an email {@code message} and verifies the command box
      * displays the email status results of executing the {@code EmailCommand} and the model related components equal
@@ -185,6 +208,7 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
     private void assertCommandSucess(String command, MessageDraft message, String [] loginDetails,
                                      EmailTask task, String status) throws Exception {
         Model expectedModel = getModel();
+        message.setRecipientsEmail(extractEmailFromContacts(expectedModel.getFilteredPersonList()));
 
         try {
             //Set up Email Details
@@ -213,25 +237,27 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         }
         String expectedResultMessage = String.format(EmailCommand.MESSAGE_SUCCESS, status);
 
-        assertCommandSuccess(command, expectedModel, expectedResultMessage);
+        assertCommandSuccess(command, expectedModel, expectedModel.getEmailManager().getEmailDraft(),
+                expectedResultMessage);
     }
 
-    //@@author awarenessxz
     /**
      * Performs the same verification as {@code assertCommandSuccess(String, Message, String [], boolean)} except
-     * that the result display box displays {@code expectedResultMessage} and the model related components equal to
-     * {@code expectedModel}.
+     * that the result display box displays {@code expectedResultMessage}, the model related components equal to
+     * {@code expectedModel} and the email tab displays {@code expectedMessage}.
      * @see EmailCommandSystemTest#
      * assertCommandSuccess(String, MessageDraft, String [], boolean)
      */
-    private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
+    private void assertCommandSuccess(String command, Model expectedModel, ReadOnlyMessageDraft expectedDraft,
+                                      String expectedResultMessage) {
         executeCommand(command);
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
         assertCommandBoxShowsDefaultStyle();
+        assertEmailDisplayExpected(expectedDraft.getMessage(), expectedDraft.getSubject(),
+                expectedDraft.getRecipientsEmailtoString(), 1);
     }
 
-    //@@author awarenessxz
     /**
      * Executes {@code command} and verifies that the command box displays {@code command}, the result display
      * box displays {@code expectedResultMessage} and the model related components equal to the current model.
@@ -251,7 +277,6 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         assertStatusBarUnchanged();
     }
 
-    //@@author awarenessxz
     /**
      * Performs the same verification as {@code assertCommandSuccess(String, String)} except
      * that the displayed person list is empty.
