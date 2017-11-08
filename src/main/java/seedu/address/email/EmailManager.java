@@ -33,7 +33,7 @@ public class EmailManager extends ComponentManager implements Email {
         this.emailCompose = new EmailCompose();
         this.emailSend = new EmailSend();
         this.emailStatus = "";
-        this.emailLoginStatus = "You are not logged in to any Gmail Account.";
+        this.emailLoginStatus = "You are not logged in to any Gmail account.";
     }
 
     @Override

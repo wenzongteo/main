@@ -43,8 +43,10 @@ import seedu.address.testutil.PersonBuilder;
 //@@author awarenessxz
 public class EmailCommandSystemTest extends AddressBookSystemTest {
 
-    private static final String EMAIL_SUCCESSFULLY_DRAFTED = "drafted";
-    private static final String EMAIL_SUCCESSFULLY_CLEARED = "cleared";
+    private static final String EMAIL_SUCCESSFULLY_DRAFTED = "drafted.\n";
+    private static final String EMAIL_SUCCESSFULLY_CLEARED = "cleared.";
+    private static final String EMAIL_NOT_LOGIN_STATUS = "You are not logged in to any Gmail account.";
+    private static final String EMAIL_LOGIN_STATUS = "You are logged in to %1$s";
     private static final String EMAIL_COMMAND_SEND = " " + PREFIX_EMAIL_TASK + "send";
     private static final String EMAIL_COMMAND_CLEAR = " " + PREFIX_EMAIL_TASK + "clear";
     private Predicate<ReadOnlyPerson> predicateShowNoPerson = unused -> false;
@@ -109,7 +111,8 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
          **/
         command = EmailCommand.COMMAND_WORD + EMAIL_MESSAGE;
         message = new MessageDraft(VALID_EMAIL_MESSAGE, "");
-        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED);
+        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED
+                + EMAIL_NOT_LOGIN_STATUS);
 
         /**
          * Case: Email Commmand to draft email with empty message parameter --> invalid
@@ -122,7 +125,8 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
          **/
         command = EmailCommand.COMMAND_WORD + EMAIL_SUBJECT;
         message = new MessageDraft("", VALID_EMAIL_SUBJECT);
-        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED);
+        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED
+                + EMAIL_NOT_LOGIN_STATUS);
 
         /**
          * Case: Email Commmand to draft email with empty subject parameter --> invalid
@@ -137,7 +141,8 @@ public class EmailCommandSystemTest extends AddressBookSystemTest {
         command = EmailCommand.COMMAND_WORD + EMAIL_LOGIN;
         message = new MessageDraft();
         loginDetails = VALID_EMAIL_LOGIN.split(":");
-        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED);
+        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED
+                + String.format(EMAIL_LOGIN_STATUS, loginDetails[0]));
 
         /**
          * Case: Email Commmand to draft email with invalid login parameter --> invalid
