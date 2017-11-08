@@ -5,10 +5,10 @@ import java.util.List;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.events.ui.BrowserPanelChangeActiveTabEvent;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.logic.commands.exceptions.CommandException;
 import seedu.address.model.person.ReadOnlyPerson;
-import seedu.address.ui.BrowserPanel;
 
 /**
  * Selects a person identified using it's last displayed index from the address book and displays his instagram page
@@ -19,6 +19,7 @@ public class InstaCommand extends Command {
 
     public static final String COMMAND_WORD = "insta";
     public static final String COMMAND_ALIAS = "i";
+    public static final int INSTA_TAB = 2;
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Opens the Instagram account of the person identified by the index number.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
@@ -49,7 +50,7 @@ public class InstaCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
-        BrowserPanel.setBrowserTab(BrowserPanel.INSTA_TAB);
+        EventsCenter.getInstance().post(new BrowserPanelChangeActiveTabEvent(INSTA_TAB));
 
         ReadOnlyPerson personToEdit = lastShownList.get(targetIndex.getZeroBased());
 

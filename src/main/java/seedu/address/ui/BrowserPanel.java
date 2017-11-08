@@ -1,5 +1,8 @@
 package seedu.address.ui;
 
+import static seedu.address.logic.commands.InstaCommand.INSTA_TAB;
+import static seedu.address.logic.commands.NusmodsCommand.NUSMODS_TAB;
+
 import java.net.URL;
 import java.util.logging.Logger;
 
@@ -15,9 +18,11 @@ import javafx.scene.web.WebView;
 import seedu.address.MainApp;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.BrowserPanelChangeActiveTabEvent;
 import seedu.address.commons.events.ui.PersonPanelDeselectionEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.ReadOnlyPerson;
+
 
 /**
  * The Browser Panel of the App.
@@ -27,8 +32,6 @@ public class BrowserPanel extends UiPart<Region> {
     public static final String DEFAULT_PAGE = "default.html";
     public static final String NO_TIMETABLE = "noTimetable.html";
     public static final String NUSMODS_SEARCH_URL_PREFIX = "https://nusmods.com/timetable/";
-    public static final int NUSMODS_TAB = 1;
-    public static final int INSTA_TAB = 2;
 
     private static final String FXML = "BrowserPanel.fxml";
     private static int activeTab = 1;
@@ -164,11 +167,10 @@ public class BrowserPanel extends UiPart<Region> {
 
     }
 
-    /**
-     * Chooses between which of the two tabs to display
-     */
-    public static void setBrowserTab(int tab) {
-        activeTab = tab;
+    @Subscribe
+    private void handlePersonPanelDeselectionEvent(BrowserPanelChangeActiveTabEvent event) {
+        activeTab = event.targetTab;
+        setActiveTab();
     }
 
     //@@author ritchielq-reuse

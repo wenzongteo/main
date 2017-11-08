@@ -19,6 +19,7 @@ import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.core.Messages;
 import seedu.address.commons.core.index.Index;
+import seedu.address.commons.events.ui.BrowserPanelChangeActiveTabEvent;
 import seedu.address.commons.events.ui.JumpToListRequestEvent;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -35,7 +36,6 @@ import seedu.address.model.person.UserId;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
-import seedu.address.ui.BrowserPanel;
 
 //@@author ritchielq
 /**
@@ -45,6 +45,7 @@ public class NusmodsCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "nusmods";
     public static final String COMMAND_ALIAS = "nm";
+    public static final int NUSMODS_TAB = 1;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edit nusmods details of person identified "
             + "by the index number used in the last person listing.\n"
@@ -105,7 +106,7 @@ public class NusmodsCommand extends UndoableCommand {
         }
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
-        BrowserPanel.setBrowserTab(BrowserPanel.NUSMODS_TAB);
+        EventsCenter.getInstance().post(new BrowserPanelChangeActiveTabEvent(NUSMODS_TAB));
         EventsCenter.getInstance().post(new JumpToListRequestEvent(index));
         return new CommandResult(String.format(MESSAGE_NUSMODS_SUCCESS, editedPerson.getNusModules().toString()));
     }
