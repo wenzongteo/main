@@ -24,6 +24,7 @@ public class EmailManager extends ComponentManager implements Email {
     private final EmailSend emailSend;
 
     private String emailStatus;
+    private String emailLoginStatus;
 
     public EmailManager() {
         logger.fine("Initializing Default Email component");
@@ -32,13 +33,14 @@ public class EmailManager extends ComponentManager implements Email {
         this.emailCompose = new EmailCompose();
         this.emailSend = new EmailSend();
         this.emailStatus = "";
+        this.emailLoginStatus = "You are not logged in to any Gmail Account.";
     }
 
     @Override
     public void composeEmail(MessageDraft message) {
 
         emailCompose.composeEmail(message);
-        this.emailStatus = "drafted";
+        this.emailStatus = "drafted.\n";
     }
 
     @Override
@@ -48,7 +50,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     @Override
     public String getEmailStatus() {
-        return this.emailStatus;
+        return this.emailStatus + this.emailLoginStatus;
     }
 
     @Override
@@ -59,13 +61,19 @@ public class EmailManager extends ComponentManager implements Email {
         emailSend.sendEmail(emailCompose, emailLogin);
 
         //reset the email draft after email have been sent
-        this.emailStatus = "sent";
+        this.emailStatus = "sent ";
+        this.emailLoginStatus = "using " + emailLogin.getEmailLogin();
         resetData();
     }
 
     @Override
     public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         emailLogin.loginEmail(loginDetails);
+        if (emailLogin.isUserLogin()) {
+            this.emailLoginStatus = "You are logged in to " + emailLogin.getEmailLogin();
+        } else {
+            this.emailLoginStatus = "You are not logged in to any Gmail account.";
+        }
     }
 
     /**
@@ -80,7 +88,8 @@ public class EmailManager extends ComponentManager implements Email {
     @Override
     public void clearEmailDraft() {
         resetData();
-        this.emailStatus = "cleared";
+        this.emailStatus = "cleared.";
+        this.emailLoginStatus = "";
     }
 
     /** reset Email Draft Data **/
