@@ -142,7 +142,8 @@ public class EmailCommandTest {
         EmailTask task = new EmailTask();
         EmailCommand emailCommand = getEmailCommand("message", "subject", loginDetails, task, model);
 
-        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS, "drafted.\nYou are logged in to " + loginDetails[0]);
+        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS,
+                "drafted.\nYou are logged in to " + loginDetails[0]);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), model.getEmailManager());
         expectedModel.draftEmail(new MessageDraft("message", "subject"));
