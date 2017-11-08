@@ -3,14 +3,30 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
-== Augustine
-Augustine is a desktop address book application that is derived from AddressBook - Level 4. User interacts with it using a CLI, and it has a GUI created with JavaFX. It is written in Java, and has about 6 kLoC.
+== Project: Augustine
 
-*Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] {give links to collated code files}
+*Code contributed*: [https://github.com/collated/main/wenzongteo.md[Functional code]] [https://github.com/test/wenzongteo.md[Test code]] {give links to collated code files}
 
-=== Enhancement Added:
- Add +
- Profile Picture
+=== Enhancement Added: Modified Edit Command
 
-=== Component:
- Logic
+---
+#Start of Extract [from: User Guide]#
+
+include::../UserGuide.adoc[tag=add]
+
+#End of Extract#
+
+
+=== Enhancement Added: Add Image to contacts
+
+---
+#Start of Extract [from: Developer Guide]#
+
+include::../DeveloperGuide.adoc[tag=optionalfields[]]
+
+#End of Extract#
+
+
+=== Other contributions
+
+* Done Acceptance Testing for other team (W10-B4)
