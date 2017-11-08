@@ -8,6 +8,7 @@ import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.EventsCenter;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.ui.DeselectEvent;
+import seedu.address.commons.events.ui.ToggleTabEvent;
 import seedu.address.logic.commands.Command;
 import seedu.address.logic.commands.CommandResult;
 import seedu.address.logic.commands.exceptions.CommandException;
@@ -42,6 +43,7 @@ public class LogicManager extends ComponentManager implements Logic {
             Command command = addressBookParser.parseCommand(commandText);
             command.setData(model, history, undoRedoStack);
             CommandResult result = command.execute();
+            raise(new ToggleTabEvent(addressBookParser.getLeftTabIndex()));
             undoRedoStack.push(command);
             return result;
         } finally {

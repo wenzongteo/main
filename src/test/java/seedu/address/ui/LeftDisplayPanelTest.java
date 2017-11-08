@@ -60,11 +60,11 @@ public class LeftDisplayPanelTest extends GuiUnitTest {
         assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
 
         //Toggling once goes to Tab 2
-        leftDisplayPanel.toggleTabs();
+        leftDisplayPanel.toggleTabs(1);
         assertEquals(1, leftDisplayPanelHandle.getSelectedTabIndex());
 
         //Toggling once goes to Tab 3
-        leftDisplayPanel.toggleTabs();
+        leftDisplayPanel.toggleTabs(2);
         assertEquals(2, leftDisplayPanelHandle.getSelectedTabIndex());
 
     }
