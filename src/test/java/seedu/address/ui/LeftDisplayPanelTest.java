@@ -51,6 +51,24 @@ public class LeftDisplayPanelTest extends GuiUnitTest {
         leftDisplayPanelHandle.toggle(0);
         assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
     }
+
+    @Test
+    public void toggleTabsWithIndex() throws Exception {
+        //Start from Tab 1
+        guiRobot.pauseForHuman();
+        leftDisplayPanel.toggleTabs(0);
+        assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
+
+        //Set Toggle to Tab 3
+        guiRobot.pauseForHuman();
+        leftDisplayPanel.toggleTabs(2);
+        assertEquals(2, leftDisplayPanelHandle.getSelectedTabIndex());
+
+        //Toggling without index
+        guiRobot.pauseForHuman();
+        leftDisplayPanel.toggleTabs(-1);
+        assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
+    }
     //@@author
 
     //@@author hengyu95
@@ -60,13 +78,12 @@ public class LeftDisplayPanelTest extends GuiUnitTest {
         assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
 
         //Toggling once goes to Tab 2
-        leftDisplayPanel.toggleTabs(1);
+        leftDisplayPanel.toggleTabs(-1);
         assertEquals(1, leftDisplayPanelHandle.getSelectedTabIndex());
 
         //Toggling once goes to Tab 3
-        leftDisplayPanel.toggleTabs(2);
+        leftDisplayPanel.toggleTabs(-1);
         assertEquals(2, leftDisplayPanelHandle.getSelectedTabIndex());
 
     }
-
 }
