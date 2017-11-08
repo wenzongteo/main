@@ -35,6 +35,7 @@ import seedu.address.model.person.UserId;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.person.exceptions.PersonNotFoundException;
 import seedu.address.model.tag.Tag;
+import seedu.address.ui.BrowserPanel;
 
 //@@author ritchielq
 /**
@@ -104,6 +105,7 @@ public class NusmodsCommand extends UndoableCommand {
         }
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        BrowserPanel.setBrowserTab(BrowserPanel.NUSMODS_TAB);
         EventsCenter.getInstance().post(new JumpToListRequestEvent(index));
         return new CommandResult(String.format(MESSAGE_NUSMODS_SUCCESS, editedPerson.getNusModules().toString()));
     }

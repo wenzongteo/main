@@ -27,9 +27,11 @@ public class BrowserPanel extends UiPart<Region> {
     public static final String DEFAULT_PAGE = "default.html";
     public static final String NO_TIMETABLE = "noTimetable.html";
     public static final String NUSMODS_SEARCH_URL_PREFIX = "https://nusmods.com/timetable/";
-    private static boolean insta = false;
+    public static final int NUSMODS_TAB = 1;
+    public static final int INSTA_TAB = 2;
 
     private static final String FXML = "BrowserPanel.fxml";
+    private static int activeTab = 1;
 
     private String semester;
     private String academicYear;
@@ -127,13 +129,30 @@ public class BrowserPanel extends UiPart<Region> {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         loadPersonPage(event.getNewSelection().person);
         loadInsta(event.getNewSelection().person);
-
+        setActiveTab();
     }
 
+    //@@author ritchielq
+    /**
+     * Sets active tab to {@code activeTab}
+     */
+    private void setActiveTab() {
+        switch (activeTab) {
+        case INSTA_TAB:
+            browserPanel.getSelectionModel().select(instaTab);
+            break;
+        case NUSMODS_TAB:
+            browserPanel.getSelectionModel().select(nusModsTab);
+            break;
+        default:
+            break;
+        }
+    }
+
+    //@@author hengyu95
     /**
      * Loads Instagram page on Instagram tab
      */
-    //@@author hengyu95
     public void loadInsta(ReadOnlyPerson person) {
 
         if (person.getUserId().value.equals("-")) {
@@ -143,21 +162,14 @@ public class BrowserPanel extends UiPart<Region> {
                     .append("https://www.instagram.com/").append(person.getUserId()).toString()));
         }
 
-        if (insta) {
-            browserPanel.getSelectionModel().select(instaTab);
-        } else {
-            browserPanel.getSelectionModel().select(nusModsTab);
-        }
     }
 
     /**
      * Chooses between which of the two tabs to display
      */
-    public static void setInstaBoolean(boolean set) {
-        insta = set;
+    public static void setBrowserTab(int tab) {
+        activeTab = tab;
     }
-
-    //@@author
 
     //@@author ritchielq-reuse
     @Subscribe

@@ -49,7 +49,7 @@ public class InstaCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
-        BrowserPanel.setInstaBoolean(true);
+        BrowserPanel.setBrowserTab(BrowserPanel.INSTA_TAB);
 
         ReadOnlyPerson personToEdit = lastShownList.get(targetIndex.getZeroBased());
 
