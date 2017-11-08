@@ -282,6 +282,7 @@ image::editChangePhone.png[width="940px"]
 '''
 // end::edit[]
 
+// tag::find[]
 === Searching for contacts: [fuchsia]`find`
 
 The [fuchsia]`find` command searches for contacts in Augustine using names or tags as keywords.
@@ -375,7 +376,7 @@ Note that the sort option "name", "tag", "email" and "address" are *case-sensiti
 .Result of find contacts by name with the list displayed sorted by tags
 image::findByNameSorted.png[]
 --
-
+// end::find[]
 '''
 
 === Deleting a person : [fuchsia]`delete`
@@ -570,6 +571,7 @@ contact by the contact's index. The command below selects the first person on th
 
 '''
 
+// tag::email[]
 === Email contacts : [fuchsia]`email`
 
 The [fuchsia]`email` command sends an email to all contacts from the last displayed contact list in Augustine.
@@ -688,8 +690,10 @@ Email drafts are only stored in Augustine until Augustine exits.
 .Result of email command.
 image::emailClear.png[]
 --
+// end::email[]
 
 '''
+
 === Birthdays tab
 
 The Birthdays tab lists all your existing contacts starting with the contact with the nearest upcoming birthday.
