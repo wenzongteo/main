@@ -21,6 +21,10 @@ import org.junit.ClassRule;
 
 import guitests.guihandles.BrowserPanelHandle;
 import guitests.guihandles.CommandBoxHandle;
+import guitests.guihandles.EmailMessageDisplayHandle;
+import guitests.guihandles.EmailRecipientsDisplayHandle;
+import guitests.guihandles.EmailSubjectDisplayHandle;
+import guitests.guihandles.LeftDisplayPanelHandle;
 import guitests.guihandles.MainMenuHandle;
 import guitests.guihandles.MainWindowHandle;
 import guitests.guihandles.PersonListPanelHandle;
@@ -97,6 +101,22 @@ public abstract class AddressBookSystemTest {
         return mainWindowHandle.getResultDisplay();
     }
 
+    public EmailMessageDisplayHandle getEmailMessageDisplay() {
+        return mainWindowHandle.getEmailMessageDisplay();
+    }
+
+    public EmailRecipientsDisplayHandle getEmailRecipientsDisplay() {
+        return mainWindowHandle.getEmailRecipientsDisplay();
+    }
+
+    public EmailSubjectDisplayHandle getEmailSubjectDisplay() {
+        return mainWindowHandle.getEmailSubjectDisplay();
+    }
+
+    public LeftDisplayPanelHandle getLeftDisplayPanel() {
+        return mainWindowHandle.getLeftDisplayPanel();
+    }
+
     /**
      * Executes {@code command} in the application's {@code CommandBox}.
      * Method returns after UI components have been updated.
@@ -150,6 +170,19 @@ public abstract class AddressBookSystemTest {
         assertEquals(expectedModel, getModel());
         assertEquals(expectedModel.getAddressBook(), testApp.readStorageAddressBook());
         assertListMatching(getPersonListPanel(), expectedModel.getFilteredPersonList());
+    }
+
+    /**
+     * Asserts that the {@code messageDisplay} display {@code expectedMessage}, the {@code subjectDisplay} display
+     * {@code expectedSubject}, the {@code RecipientsDisplay} displays {@code expectedRecipients} and the
+     * {@LeftDisplayPanelTab} display {@code expectedTabIndex}
+     */
+    protected void assertEmailDisplayExpected(String expectedMessage, String expectedSubject,
+                                              String expectedRecipients, int expectedTabIndex) {
+        assertEquals(expectedMessage, getEmailMessageDisplay().getText());
+        assertEquals(expectedSubject, getEmailSubjectDisplay().getText());
+        assertEquals(expectedRecipients, getEmailRecipientsDisplay().getText());
+        assertEquals(expectedTabIndex, getLeftDisplayPanel().getSelectedTabIndex());
     }
 
     /**

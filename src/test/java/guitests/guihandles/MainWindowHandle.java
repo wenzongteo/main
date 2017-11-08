@@ -7,7 +7,6 @@ import javafx.stage.Stage;
  */
 public class MainWindowHandle extends StageHandle {
 
-    private final PersonListPanelHandle personListPanel;
     private final ResultDisplayHandle resultDisplay;
     private final CommandBoxHandle commandBox;
     private final StatusBarFooterHandle statusBarFooter;
@@ -18,7 +17,6 @@ public class MainWindowHandle extends StageHandle {
     public MainWindowHandle(Stage stage) {
         super(stage);
 
-        personListPanel = new PersonListPanelHandle(getChildNode(PersonListPanelHandle.PERSON_LIST_VIEW_ID));
         resultDisplay = new ResultDisplayHandle(getChildNode(ResultDisplayHandle.RESULT_DISPLAY_ID));
         commandBox = new CommandBoxHandle(getChildNode(CommandBoxHandle.COMMAND_INPUT_FIELD_ID));
         statusBarFooter = new StatusBarFooterHandle(getChildNode(StatusBarFooterHandle.STATUS_BAR_PLACEHOLDER));
@@ -28,7 +26,7 @@ public class MainWindowHandle extends StageHandle {
     }
 
     public PersonListPanelHandle getPersonListPanel() {
-        return personListPanel;
+        return leftDisplayPanel.getPersonListPanel();
     }
 
     public ResultDisplayHandle getResultDisplay() {
@@ -53,5 +51,17 @@ public class MainWindowHandle extends StageHandle {
 
     public LeftDisplayPanelHandle getLeftDisplayPanel() {
         return leftDisplayPanel;
+    }
+
+    public EmailMessageDisplayHandle getEmailMessageDisplay() {
+        return leftDisplayPanel.getEmailMessageDisplay();
+    }
+
+    public EmailRecipientsDisplayHandle getEmailRecipientsDisplay() {
+        return leftDisplayPanel.getEmailRecipientsDisplay();
+    }
+
+    public EmailSubjectDisplayHandle getEmailSubjectDisplay() {
+        return leftDisplayPanel.getEmailSubjectDisplay();
     }
 }
