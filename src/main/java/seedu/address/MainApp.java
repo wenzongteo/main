@@ -58,7 +58,6 @@ public class MainApp extends Application {
     protected UserPrefs userPrefs;
     protected Email email;
 
-
     @Override
     public void init() throws Exception {
         logger.info("=============================[ Initializing AddressBook ]===========================");

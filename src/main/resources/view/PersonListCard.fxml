@@ -10,6 +10,8 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.image.ImageView?>
 
+<?import de.jensd.fx.glyphs.materialdesignicons.MaterialDesignIconView?>
+
 <HBox id="cardPane" fx:id="cardPane" xmlns="http://javafx.com/javafx/8" xmlns:fx="http://javafx.com/fxml/1" minWidth="420">
   <GridPane HBox.hgrow="ALWAYS">
     <columnConstraints>
@@ -29,10 +31,26 @@
         <Label fx:id="name" text="\$first" styleClass="cell_big_label" />
       </HBox>
       <FlowPane fx:id="tags" />
-      <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" />
-      <Label fx:id="address" styleClass="cell_small_label" text="\$address" />
-      <Label fx:id="emailAddress" styleClass="cell_small_label" text="\$emailAddress" />
-	  <Label fx:id="birthdate" styleClass="cell_small_label" text="\$birthdate" />
+      <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" >
+        <graphic>
+          <MaterialDesignIconView glyphName="PHONE" size="30" />
+        </graphic>
+      </Label>
+      <Label fx:id="address" styleClass="cell_small_label" text="\$address" >
+        <graphic>
+          <MaterialDesignIconView glyphName="HOME" size="30" />
+        </graphic>
+      </Label>
+      <Label fx:id="emailAddress" styleClass="cell_small_label" text="\$emailAddress" >
+      <graphic>
+        <MaterialDesignIconView glyphName="EMAIL" size="30" />
+      </graphic>
+      </Label>
+	  <Label fx:id="birthdate" styleClass="cell_small_label" text="\$birthdate" >
+      <graphic>
+        <MaterialDesignIconView glyphName="CAKE_VARIANT" size="30" />
+      </graphic>
+      </Label>
     </VBox>
     <VBox alignment="CENTER_RIGHT" minHeight="105" GridPane.columnIndex="1">
       <padding>
