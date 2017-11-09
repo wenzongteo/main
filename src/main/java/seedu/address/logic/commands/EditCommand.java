@@ -25,6 +25,7 @@ import seedu.address.model.person.Address;
 import seedu.address.model.person.Birthdate;
 import seedu.address.model.person.EmailAddress;
 import seedu.address.model.person.Name;
+import seedu.address.model.person.NusModules;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.Phone;
 import seedu.address.model.person.Photo;
@@ -154,9 +155,10 @@ public class EditCommand extends UndoableCommand {
         Set<Tag> updatedTags = processTags(personToEdit, editPersonDescriptor);
         Birthdate updatedBirthdate = editPersonDescriptor.getBirthdate().orElse(personToEdit.getBirthdate());
         UserId updatedId = editPersonDescriptor.getUserId().orElse(personToEdit.getUserId());
+        NusModules copyNusModules = personToEdit.getNusModules();
 
         return new Person(updatedName, updatedPhone, updatedEmail, updatedAddress, updatedPhoto, updatedTags,
-                updatedBirthdate, updatedId);
+                updatedBirthdate, copyNusModules, updatedId);
 
     }
 

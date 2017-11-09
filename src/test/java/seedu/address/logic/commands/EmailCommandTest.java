@@ -128,7 +128,7 @@ public class EmailCommandTest {
         EmailTask task = new EmailTask("clear");
         EmailCommand emailCommand = getEmailCommand("message", "subject", loginDetails, task, model);
 
-        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS, "cleared");
+        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS, "cleared.");
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), model.getEmailManager());
         expectedModel.clearEmailDraft();
@@ -142,7 +142,8 @@ public class EmailCommandTest {
         EmailTask task = new EmailTask();
         EmailCommand emailCommand = getEmailCommand("message", "subject", loginDetails, task, model);
 
-        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS, "drafted");
+        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS,
+                "drafted.\nYou are logged in to " + loginDetails[0]);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), model.getEmailManager());
         expectedModel.draftEmail(new MessageDraft("message", "subject"));

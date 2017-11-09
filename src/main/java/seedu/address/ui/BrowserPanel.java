@@ -1,5 +1,8 @@
 package seedu.address.ui;
 
+import static seedu.address.logic.commands.InstaCommand.INSTA_TAB;
+import static seedu.address.logic.commands.NusmodsCommand.NUSMODS_TAB;
+
 import java.net.URL;
 import java.util.logging.Logger;
 
@@ -15,9 +18,11 @@ import javafx.scene.web.WebView;
 import seedu.address.MainApp;
 import seedu.address.commons.core.Config;
 import seedu.address.commons.core.LogsCenter;
+import seedu.address.commons.events.ui.BrowserPanelChangeActiveTabEvent;
 import seedu.address.commons.events.ui.PersonPanelDeselectionEvent;
 import seedu.address.commons.events.ui.PersonPanelSelectionChangedEvent;
 import seedu.address.model.person.ReadOnlyPerson;
+
 
 /**
  * The Browser Panel of the App.
@@ -27,9 +32,9 @@ public class BrowserPanel extends UiPart<Region> {
     public static final String DEFAULT_PAGE = "default.html";
     public static final String NO_TIMETABLE = "noTimetable.html";
     public static final String NUSMODS_SEARCH_URL_PREFIX = "https://nusmods.com/timetable/";
-    private static boolean insta = false;
 
     private static final String FXML = "BrowserPanel.fxml";
+    private static int activeTab = 1;
 
     private String semester;
     private String academicYear;
@@ -127,13 +132,30 @@ public class BrowserPanel extends UiPart<Region> {
         logger.info(LogsCenter.getEventHandlingLogMessage(event));
         loadPersonPage(event.getNewSelection().person);
         loadInsta(event.getNewSelection().person);
-
+        setActiveTab();
     }
 
+    //@@author ritchielq
+    /**
+     * Sets active tab to {@code activeTab}
+     */
+    private void setActiveTab() {
+        switch (activeTab) {
+        case INSTA_TAB:
+            browserPanel.getSelectionModel().select(instaTab);
+            break;
+        case NUSMODS_TAB:
+            browserPanel.getSelectionModel().select(nusModsTab);
+            break;
+        default:
+            break;
+        }
+    }
+
+    //@@author hengyu95
     /**
      * Loads Instagram page on Instagram tab
      */
-    //@@author hengyu95
     public void loadInsta(ReadOnlyPerson person) {
 
         if (person.getUserId().value.equals("-")) {
@@ -143,21 +165,13 @@ public class BrowserPanel extends UiPart<Region> {
                     .append("https://www.instagram.com/").append(person.getUserId()).toString()));
         }
 
-        if (insta) {
-            browserPanel.getSelectionModel().select(instaTab);
-        } else {
-            browserPanel.getSelectionModel().select(nusModsTab);
-        }
     }
 
-    /**
-     * Chooses between which of the two tabs to display
-     */
-    public static void setInstaBoolean(boolean set) {
-        insta = set;
+    @Subscribe
+    private void handlePersonPanelDeselectionEvent(BrowserPanelChangeActiveTabEvent event) {
+        activeTab = event.targetTab;
+        setActiveTab();
     }
-
-    //@@author
 
     //@@author ritchielq-reuse
     @Subscribe
