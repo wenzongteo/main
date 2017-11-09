@@ -33,22 +33,22 @@
       <FlowPane fx:id="tags" />
       <Label fx:id="phone" styleClass="cell_small_label" text="\$phone" >
         <graphic>
-          <MaterialDesignIconView glyphName="PHONE" size="30" />
+          <MaterialDesignIconView glyphName="PHONE" size="20" />
         </graphic>
       </Label>
       <Label fx:id="address" styleClass="cell_small_label" text="\$address" >
         <graphic>
-          <MaterialDesignIconView glyphName="HOME" size="30" />
+          <MaterialDesignIconView glyphName="HOME" size="20" />
         </graphic>
       </Label>
       <Label fx:id="emailAddress" styleClass="cell_small_label" text="\$emailAddress" >
       <graphic>
-        <MaterialDesignIconView glyphName="EMAIL" size="30" />
+        <MaterialDesignIconView glyphName="EMAIL" size="20" />
       </graphic>
       </Label>
 	  <Label fx:id="birthdate" styleClass="cell_small_label" text="\$birthdate" >
       <graphic>
-        <MaterialDesignIconView glyphName="CAKE_VARIANT" size="30" />
+        <MaterialDesignIconView glyphName="CAKE_VARIANT" size="20" />
       </graphic>
       </Label>
     </VBox>
