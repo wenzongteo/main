@@ -143,7 +143,6 @@ public class ModelManager extends ComponentManager implements Model {
     public void updatePerson(ReadOnlyPerson target, ReadOnlyPerson editedPerson)
             throws DuplicatePersonException, PersonNotFoundException, IOException {
         requireAllNonNull(target, editedPerson);
-
         addressBook.updatePerson(target, editedPerson);
         indicateAddressBookChanged();
     }
