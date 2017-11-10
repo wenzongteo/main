@@ -1,10 +1,51 @@
 # hengyu95
+###### \java\seedu\address\commons\events\model\BackupAddressBookEvent.java
+``` java
+/** Indicates that a backup command was used*/
+public class BackupAddressBookEvent extends BaseEvent {
+
+    public final ReadOnlyAddressBook data;
+
+    public BackupAddressBookEvent(ReadOnlyAddressBook data) {
+        this.data = data;
+    }
+
+    @Override
+    public String toString() {
+        return "number of persons " + data.getPersonList().size() + ", number of tags " + data.getTagList().size();
+    }
+}
+```
+###### \java\seedu\address\logic\commands\BackupCommand.java
+``` java
+public class BackupCommand extends Command {
+
+    public static final String COMMAND_WORD = "backup";
+
+    public static final String COMMAND_ALIAS = "b";
+
+    public static final String MESSAGE_USAGE = COMMAND_WORD
+            + ": Saves a backup copy of Augustine data.\n";
+
+    public static final String MESSAGE_SUCCESS = "Data backed up at \"/data/addressbook-backup.xml\"!";
+
+    public BackupCommand() {
+    }
+
+    @Override
+    public CommandResult execute() {
+        model.backupAddressBook();
+        return new CommandResult(MESSAGE_SUCCESS);
+    }
+}
+```
 ###### \java\seedu\address\logic\commands\InstaCommand.java
 ``` java
 public class InstaCommand extends Command {
 
     public static final String COMMAND_WORD = "insta";
     public static final String COMMAND_ALIAS = "i";
+    public static final int INSTA_TAB = 2;
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Opens the Instagram account of the person identified by the index number.\n"
             + "Parameters: INDEX (must be a positive integer)\n"
@@ -35,7 +76,7 @@ public class InstaCommand extends Command {
             throw new CommandException(Messages.MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
         }
 
-        BrowserPanel.setInstaBoolean(true);
+        EventsCenter.getInstance().post(new BrowserPanelChangeActiveTabEvent(INSTA_TAB));
 
         ReadOnlyPerson personToEdit = lastShownList.get(targetIndex.getZeroBased());
 
@@ -330,8 +371,34 @@ public class UserId {
 
 
 ```
+###### \java\seedu\address\storage\StorageManager.java
+``` java
+    @Override
+    public void backupAddressBook(ReadOnlyAddressBook addressBook) throws IOException {
+        String path = addressBookStorage.getAddressBookFilePath();
+        saveAddressBook(addressBook, path.substring(0, path.indexOf(".xml")) + "-backup.xml");
+    }
+```
+###### \java\seedu\address\storage\StorageManager.java
+``` java
+    @Override
+    @Subscribe
+    public void handleBackupAddressBookEvent(BackupAddressBookEvent event) {
+        logger.info(LogsCenter.getEventHandlingLogMessage(event, "Backup requested, saving to file"));
+        try {
+            backupAddressBook(event.data);
+        } catch (IOException e) {
+            raise(new DataSavingExceptionEvent(e));
+        }
+    }
+
+}
+```
 ###### \java\seedu\address\ui\BrowserPanel.java
 ``` java
+    /**
+     * Loads Instagram page on Instagram tab
+     */
     public void loadInsta(ReadOnlyPerson person) {
 
         if (person.getUserId().value.equals("-")) {
@@ -341,18 +408,12 @@ public class UserId {
                     .append("https://www.instagram.com/").append(person.getUserId()).toString()));
         }
 
-        if (insta) {
-            browserPanel.getSelectionModel().select(instaTab);
-        } else {
-            browserPanel.getSelectionModel().select(nusModsTab);
-        }
     }
 
-    /**
-     * Chooses between which of the two tabs to display
-     */
-    public static void setInstaBoolean(boolean set) {
-        insta = set;
+    @Subscribe
+    private void handlePersonPanelDeselectionEvent(BrowserPanelChangeActiveTabEvent event) {
+        activeTab = event.targetTab;
+        setActiveTab();
     }
 
 ```

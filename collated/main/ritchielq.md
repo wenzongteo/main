@@ -43,6 +43,7 @@ public class NusmodsCommand extends UndoableCommand {
 
     public static final String COMMAND_WORD = "nusmods";
     public static final String COMMAND_ALIAS = "nm";
+    public static final int NUSMODS_TAB = 1;
 
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Edit nusmods details of person identified "
             + "by the index number used in the last person listing.\n"
@@ -103,6 +104,7 @@ public class NusmodsCommand extends UndoableCommand {
         }
 
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
+        EventsCenter.getInstance().post(new BrowserPanelChangeActiveTabEvent(NUSMODS_TAB));
         EventsCenter.getInstance().post(new JumpToListRequestEvent(index));
         return new CommandResult(String.format(MESSAGE_NUSMODS_SUCCESS, editedPerson.getNusModules().toString()));
     }
@@ -855,6 +857,25 @@ public class XmlAdaptedNusModule {
     private void setAcademicYearSemester(Config config) {
         academicYear = config.getAcademicYear();
         semester = config.getSemester();
+    }
+
+```
+###### \java\seedu\address\ui\BrowserPanel.java
+``` java
+    /**
+     * Sets active tab to {@code activeTab}
+     */
+    private void setActiveTab() {
+        switch (activeTab) {
+        case INSTA_TAB:
+            browserPanel.getSelectionModel().select(instaTab);
+            break;
+        case NUSMODS_TAB:
+            browserPanel.getSelectionModel().select(nusModsTab);
+            break;
+        default:
+            break;
+        }
     }
 
 ```

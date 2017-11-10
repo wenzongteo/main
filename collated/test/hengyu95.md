@@ -31,6 +31,32 @@
                         + TAG_DESC_HUSBAND + TAG_DESC_FRIEND,
                 Birthdate.MESSAGE_BIRTHDATE_CONSTRAINTS);
 ```
+###### \java\seedu\address\logic\parser\AddressBookParserTest.java
+``` java
+    @Test
+    public void parseCommand_insta() throws Exception {
+        //Using command word
+        InstaCommand command = (InstaCommand) parser.parseCommand(
+                InstaCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(new InstaCommand(INDEX_FIRST_PERSON), command);
+
+        //Using command alias
+        command = (InstaCommand) parser.parseCommand(
+                InstaCommand.COMMAND_ALIAS + " " + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(new InstaCommand(INDEX_FIRST_PERSON), command);
+    }
+
+    public void parseCommand_backup() throws Exception {
+        //Using command word
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_WORD) instanceof BackupCommand);
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_WORD + " 3") instanceof BackupCommand);
+
+        //Using command alias
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_ALIAS) instanceof BackupCommand);
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_ALIAS + " 3") instanceof BackupCommand);
+
+    }
+```
 ###### \java\seedu\address\testutil\PersonBuilder.java
 ``` java
     public PersonBuilder withBirthdate(String birthdate) {
@@ -63,15 +89,14 @@
         assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
 
         //Toggling once goes to Tab 2
-        leftDisplayPanel.toggleTabs();
+        leftDisplayPanel.toggleTabs(-1);
         assertEquals(1, leftDisplayPanelHandle.getSelectedTabIndex());
 
         //Toggling once goes to Tab 3
-        leftDisplayPanel.toggleTabs();
+        leftDisplayPanel.toggleTabs(-1);
         assertEquals(2, leftDisplayPanelHandle.getSelectedTabIndex());
 
     }
-
 }
 ```
 ###### \java\systemtests\InstaCommandSystemTest.java
@@ -92,7 +117,7 @@ public class InstaCommandSystemTest extends AddressBookSystemTest {
     }
 
     @Test
-    public void select() {
+    public void insta() {
         /* Case: select the first card in the person list, command with leading spaces and trailing spaces
          * -> selected
          */
@@ -158,7 +183,7 @@ public class InstaCommandSystemTest extends AddressBookSystemTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, InstaCommand.MESSAGE_USAGE));
 
         /* Case: mixed case command word -> rejected */
-        assertCommandFailure("SeLeCt 1", MESSAGE_UNKNOWN_COMMAND);
+        assertCommandFailure("inStA 1", MESSAGE_UNKNOWN_COMMAND);
 
         /* Case: select from empty address book -> rejected */
         executeCommand(ClearCommand.COMMAND_WORD);

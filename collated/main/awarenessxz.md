@@ -234,6 +234,7 @@ public class EmailManager extends ComponentManager implements Email {
     private final EmailSend emailSend;
 
     private String emailStatus;
+    private String emailLoginStatus;
 
     public EmailManager() {
         logger.fine("Initializing Default Email component");
@@ -242,13 +243,14 @@ public class EmailManager extends ComponentManager implements Email {
         this.emailCompose = new EmailCompose();
         this.emailSend = new EmailSend();
         this.emailStatus = "";
+        this.emailLoginStatus = "You are not logged in to any Gmail account.";
     }
 
     @Override
     public void composeEmail(MessageDraft message) {
 
         emailCompose.composeEmail(message);
-        this.emailStatus = "drafted";
+        this.emailStatus = "drafted.\n";
     }
 
     @Override
@@ -258,7 +260,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     @Override
     public String getEmailStatus() {
-        return this.emailStatus;
+        return this.emailStatus + this.emailLoginStatus;
     }
 
     @Override
@@ -269,13 +271,19 @@ public class EmailManager extends ComponentManager implements Email {
         emailSend.sendEmail(emailCompose, emailLogin);
 
         //reset the email draft after email have been sent
-        this.emailStatus = "sent";
+        this.emailStatus = "sent ";
+        this.emailLoginStatus = "using " + emailLogin.getEmailLogin();
         resetData();
     }
 
     @Override
     public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         emailLogin.loginEmail(loginDetails);
+        if (emailLogin.isUserLogin()) {
+            this.emailLoginStatus = "You are logged in to " + emailLogin.getEmailLogin();
+        } else {
+            this.emailLoginStatus = "You are not logged in to any Gmail account.";
+        }
     }
 
     /**
@@ -290,7 +298,8 @@ public class EmailManager extends ComponentManager implements Email {
     @Override
     public void clearEmailDraft() {
         resetData();
-        this.emailStatus = "cleared";
+        this.emailStatus = "cleared.";
+        this.emailLoginStatus = "";
     }
 
     /** reset Email Draft Data **/
@@ -926,9 +935,6 @@ public class EmailCommandParser implements Parser<EmailCommand> {
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
-```
-###### \java\seedu\address\logic\parser\FindCommandParser.java
-``` java
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
      * and returns an FindCommand object for execution.
@@ -1256,8 +1262,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
     private PersonListPanel personListPanel;
     private PersonListBirthdatePanel birthdayListPanel;
     private MessageDisplay messageDisplay;
-    private boolean toggle;
-    private boolean toggle2;
+    private int tabIndex;
 
     @FXML
     private TabPane leftDisplayPanel;
@@ -1293,24 +1298,32 @@ public class LeftDisplayPanel extends UiPart<Region> {
         messageDisplay = new MessageDisplay();
         messageDraftPanelPlaceholder.getChildren().add(messageDisplay.getRoot());
 
-        toggle = true;
-        toggle2 = true;
+        tabIndex = 0;
     }
 
     /**
      * Toggle Tabs
      */
-    public void toggleTabs() {
-        if  (toggle && toggle2) {
-            leftDisplayPanel.getSelectionModel().select(emailDraftTab);
-            toggle2 = !toggle2;
-        } else if (toggle && !toggle2) {
-            leftDisplayPanel.getSelectionModel().select(birthdateTab);
-            toggle2 = !toggle2;
-            toggle = false;
+    public void toggleTabs(int index) {
+        if (index >= 0) {
+            tabIndex = index;
         } else {
+            tabIndex = (tabIndex + 1) % 3;
+        }
+
+        switch (tabIndex) {
+        case 0:
             leftDisplayPanel.getSelectionModel().select(personListTab);
-            toggle = true;
+            break;
+        case 1:
+            leftDisplayPanel.getSelectionModel().select(emailDraftTab);
+            break;
+        case 2:
+            leftDisplayPanel.getSelectionModel().select(birthdateTab);
+            break;
+        default:
+            assert false : "This should not happen";
+            break;
         }
     }
 
@@ -1318,16 +1331,22 @@ public class LeftDisplayPanel extends UiPart<Region> {
      * Scrolls one page down
      */
     public void scrollDown() {
-        personListPanel.scrollDown();
-        birthdayListPanel.scrollDown();
+        if (tabIndex == 0) {
+            personListPanel.scrollDown();
+        } else if (tabIndex == 2) {
+            birthdayListPanel.scrollDown();
+        }
     }
 
     /**
      * Scrolls one page up
      */
     public void scrollUp() {
-        personListPanel.scrollUp();
-        birthdayListPanel.scrollUp();
+        if (tabIndex == 0) {
+            personListPanel.scrollUp();
+        } else if (tabIndex == 2) {
+            birthdayListPanel.scrollUp();
+        }
     }
 
     public PersonListPanel getPersonListPanel() {
@@ -1343,7 +1362,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
      */
     @FXML
     private void handleToggleTabs() {
-        leftDisplayPanel.toggleTabs();
+        leftDisplayPanel.toggleTabs(-1);
     }
 
 ```

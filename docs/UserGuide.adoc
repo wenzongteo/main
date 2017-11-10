@@ -693,7 +693,7 @@ image::emailClear.png[]
 // end::email[]
 
 '''
-
+// tag::birthday[]
 === Birthdays tab
 
 The Birthdays tab lists all your existing contacts starting with the contact with the nearest upcoming birthday.
@@ -718,7 +718,9 @@ image::happyBirthdayJohnCena.png[width="440px"]
 --
 
 '''
+// end::find[]
 
+// tag::insta[]
 === Instagram tab
 
 The Instagram tab allows you to view the Instagram profile of the selected contact.
@@ -752,8 +754,10 @@ Here is an example of the Instagram command: (see Figure 19)
 image::instagram.png[width="1295px"]
 --
 --
-
+// end::insta[]
 '''
+
+
 === Listing entered commands : [fuchsia]`history`
 
 The [fuchsia]`history` command lists all the commands that you have entered in

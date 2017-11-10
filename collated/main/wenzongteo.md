@@ -115,9 +115,10 @@ public class Photo {
      */
     public static final String PHOTO_VALIDATION_REGEX = "([^\\s]+[\\s\\w]*(\\.(?i)(jpg|jpeg|))$)";
     public static final String URL_REGEX = "\\b(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+    public static final String DEFAULT_PHOTO = "data/images/default.jpeg";
+    public static final String tempStorage = "data/temporary.jpg";
 
     public final String value;
-    public final String tempStorage = "data/temporary.jpg";
     private final String hash;
 
     /**
@@ -155,14 +156,19 @@ public class Photo {
 
     /**
      * Photo entered by the app that does not require validation as Image should already exist.
+     * If Photo entered by the app does not exist, default image will used instead.
      * @param photo path to the image stored.
      * @param num used for overloading constructor.
      */
     public Photo(String photo, int num) {
+        File image = new File(photo);
         this.value = photo;
-        MessageDigest hashing;
+
         try {
-            File image = new File(photo);
+            if (!FileUtil.isFileExists(image)) {
+                Files.copy(Paths.get(DEFAULT_PHOTO), Paths.get(photo), StandardCopyOption.REPLACE_EXISTING);
+            } else {
+            }
             this.hash = generateHash(image);
         } catch (NoSuchAlgorithmException nsa) {
             throw new AssertionError("Algorithm should exist");
@@ -221,7 +227,7 @@ public class Photo {
         } catch (MalformedURLException mue) {
             throw new IllegalValueException(MESSAGE_LINK_ERROR);
         } catch (IOException ioe) {
-            throw new AssertionError("Read / Write have issue");
+            throw new AssertionError("Read / Write issue");
         } catch (Exception e) {
             throw new AssertionError("Impossible to reach here");
         }

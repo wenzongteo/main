@@ -8,4 +8,20 @@ AddressBook - Level 4 is a desktop address book application used for teaching So
 
 *Code contributed*: [https://github.com[Functional code]] [https://github.com[Test code]] {give links to collated code files}
 
-=== Enhancement Added: Birthdate Field/Tab, Instagram Tab
+=== Enhancement Added: Birthdate Field/Tab
+
+---
+#Start of Extract [from: User Guide]#
+
+include::../UserGuide.adoc[tag=birthday]
+
+#End of Extract#
+
+=== Enhancement Added: Instagram Tab
+
+---
+#Start of Extract [from: User Guide]#
+
+include::../UserGuide.adoc[tag=insta]
+
+#End of Extract#
