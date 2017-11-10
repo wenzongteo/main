@@ -59,12 +59,14 @@ public class InstaCommand extends Command {
         if (personToEdit.getUserId().value.equals("-")) {
             return new CommandResult(new StringBuilder()
                     .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS,
-                            lastShownList.get(targetIndex.getZeroBased()).getName().fullName, targetIndex.getOneBased()))
+                            lastShownList.get(targetIndex.getZeroBased()).getName().fullName,
+                            targetIndex.getOneBased()))
                     .append(MESSAGE_SELECT_PERSON_SUCCESS3).toString());
         } else {
             return new CommandResult(new StringBuilder()
                     .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS,
-                            lastShownList.get(targetIndex.getZeroBased()).getName().fullName, targetIndex.getOneBased()))
+                            lastShownList.get(targetIndex.getZeroBased()).getName().fullName,
+                            targetIndex.getOneBased()))
                     .append(MESSAGE_SELECT_PERSON_SUCCESS2)
                     .append(personToEdit.getUserId().value).toString());
         }
