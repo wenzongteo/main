@@ -33,41 +33,17 @@ public class EmailCommandParser implements Parser<EmailCommand> {
         EmailTask task = new EmailTask();
         String message = "";
         String subject = "";
-        String login = "";
         String [] loginDetails = new String[0];
 
         try {
 
-            if (argMultimap.getValue(PREFIX_EMAIL_MESSAGE).isPresent()) {
-                message = ParserUtil.parseEmailMessage(argMultimap.getValue(PREFIX_EMAIL_MESSAGE)).trim();
-                if (message.isEmpty()) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
-                }
-            }
-            if (argMultimap.getValue(PREFIX_EMAIL_SUBJECT).isPresent()) {
-                subject = ParserUtil.parseEmailMessage(argMultimap.getValue(PREFIX_EMAIL_SUBJECT)).trim();
-                if (subject.isEmpty()) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
-                }
-            }
-            if (argMultimap.getValue(PREFIX_EMAIL_LOGIN).isPresent()) {
-                login = ParserUtil.parseLoginDetails(argMultimap.getValue(PREFIX_EMAIL_LOGIN)).trim();
-                loginDetails = login.split(":");
-                if (loginDetails.length != 2) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
-                }
-            }
-
-            /** checks what is the email task, to send or create draft */
-            if (argMultimap.getValue(PREFIX_EMAIL_TASK).isPresent()) {
-                task.setTask(ParserUtil.parseEmailTask(argMultimap.getValue(PREFIX_EMAIL_TASK)).trim());
-                if (!task.isValid()) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
-                }
-            }
-
+            message = getArgumentMessage(argMultimap);
+            subject = getArgumentSubject(argMultimap);
+            loginDetails = getArgumentLoginDetails(argMultimap);
+            task = getArgumentEmailTask(argMultimap, task);
+            
             /** checks if only "email" command is run */
-            if (message.isEmpty() && subject.isEmpty() && login.isEmpty() && !task.isValid()) {
+            if (message.isEmpty() && subject.isEmpty() && (loginDetails.length == 0) && !task.isValid()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
             }
 
@@ -76,5 +52,82 @@ public class EmailCommandParser implements Parser<EmailCommand> {
         }
 
         return new EmailCommand(message, subject, loginDetails, task);
+    }
+
+    /**
+     * Returns argument message values if available
+     *
+     * @param argMultimap
+     * @return argument message values
+     * @throws IllegalValueException if value is empty
+     */
+    private String getArgumentMessage(ArgumentMultimap argMultimap) throws IllegalValueException {
+        String message = "";
+
+        if (argMultimap.getValue(PREFIX_EMAIL_MESSAGE).isPresent()) {
+            message = ParserUtil.parseEmailMessage(argMultimap.getValue(PREFIX_EMAIL_MESSAGE)).trim();
+            if (message.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
+            }
+        }
+        return message;
+    }
+
+    /**
+     * Returns argument subject values if available
+     *
+     * @param argMultimap
+     * @return argument subject values
+     * @throws IllegalValueException if value is empty
+     */
+    private String getArgumentSubject(ArgumentMultimap argMultimap) throws IllegalValueException {
+        String subject = "";
+
+        if (argMultimap.getValue(PREFIX_EMAIL_SUBJECT).isPresent()) {
+            subject = ParserUtil.parseEmailMessage(argMultimap.getValue(PREFIX_EMAIL_SUBJECT)).trim();
+            if (subject.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
+            }
+        }
+        return subject;
+    }
+
+    /**
+     * Returns argument login values if available
+     *
+     * @param argMultimap
+     * @return argument login values
+     * @throws IllegalValueException if value is empty
+     */
+    private String [] getArgumentLoginDetails(ArgumentMultimap argMultimap) throws IllegalValueException {
+        String login = "";
+        String [] loginDetails = new String[0];
+
+        if (argMultimap.getValue(PREFIX_EMAIL_LOGIN).isPresent()) {
+            login = ParserUtil.parseLoginDetails(argMultimap.getValue(PREFIX_EMAIL_LOGIN)).trim();
+            loginDetails = login.split(":");
+            if (loginDetails.length != 2) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
+            }
+        }
+        return loginDetails;
+    }
+
+    /**
+     * Returns argument task values if available
+     *
+     * @param argMultimap
+     * @param task new EmailTask object
+     * @return task with argument task values
+     * @throws IllegalValueException if task is not "send" or "clear"
+     */
+    private EmailTask getArgumentEmailTask(ArgumentMultimap argMultimap, EmailTask task) throws IllegalValueException {
+        if (argMultimap.getValue(PREFIX_EMAIL_TASK).isPresent()) {
+            task.setTask(ParserUtil.parseEmailTask(argMultimap.getValue(PREFIX_EMAIL_TASK)).trim());
+            if (!task.isValid()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
+            }
+        }
+        return task;
     }
 }
