@@ -61,7 +61,7 @@ public class NusmodsCommand extends UndoableCommand {
             + PREFIX_MODULE_CODE + "CS2103T "
             + PREFIX_TUTORIAL + "T5";
 
-    public static final String MESSAGE_NUSMODS_SUCCESS = "Changed modules: %1$s";
+    public static final String MESSAGE_NUSMODS_SUCCESS = "Changed modules: %1$s (%2$s)";
     public static final String MESSAGE_INVALID_TYPE = "t/ needs to be 'add', 'url',"
             + " or 'delete'. m/ needs to be filled";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
@@ -108,7 +108,8 @@ public class NusmodsCommand extends UndoableCommand {
         model.updateFilteredPersonList(PREDICATE_SHOW_ALL_PERSONS);
         EventsCenter.getInstance().post(new BrowserPanelChangeActiveTabEvent(NUSMODS_TAB));
         EventsCenter.getInstance().post(new JumpToListRequestEvent(index));
-        return new CommandResult(String.format(MESSAGE_NUSMODS_SUCCESS, editedPerson.getNusModules().toString()));
+        return new CommandResult(String.format(MESSAGE_NUSMODS_SUCCESS,
+                lastShownList.get(index.getZeroBased()).getName().fullName, editedPerson.getNusModules().toString()));
     }
 
     /**
