@@ -12,12 +12,14 @@ import seedu.address.email.message.ReadOnlyMessageDraft;
 public class EmailCompose {
     private DraftList emailDraftsList;
 
+    /** Creates an EmailCompose with an empty draft list **/
     public EmailCompose() {
         emailDraftsList = new DraftList();
     }
 
     /**
-     * compose an Email or edit the current one
+     * Compose an Email or edit the current one
+     *
      * @param message
      */
     public void composeEmail(MessageDraft message) {
@@ -28,6 +30,9 @@ public class EmailCompose {
         return emailDraftsList.getMessage(0);
     }
 
+    /**
+     * Resets the existing data of this {@code emailDraftsList} with an empty draft list
+     */
     public void resetData() {
         emailDraftsList = new DraftList();
     }

@@ -190,15 +190,7 @@ public class ModelManager extends ComponentManager implements Model {
 
 
     //@@author awarenessxz
-    /**
-     * @param: int
-     * 0 = sort by name ascending
-     * 1 = sort by tags ascending
-     * 2 = sort by email ascending
-     * 3 = sort by address ascending
-     * Returns a sorted unmodifable view of the list {@code ReadOnlyPerson} backed by the internal list of
-     * {@code addressBook}
-     */
+    @Override
     public void sortFilteredPersons(int sortOrder) {
 
         //sort by name by default
@@ -319,7 +311,6 @@ public class ModelManager extends ComponentManager implements Model {
     public String getEmailStatus() {
         return email.getEmailStatus();
     }
-    //@@author
 
     @Override
     public void clearEmailDraft() {
@@ -334,6 +325,7 @@ public class ModelManager extends ComponentManager implements Model {
 
         raise(new EmailDraftChangedEvent(email.getEmailDraft()));
     }
+    //@@author
 
     @Override
     public boolean equals(Object obj) {

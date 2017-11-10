@@ -11,8 +11,11 @@ public interface ReadOnlyMessageDraft {
     String getMessage();
     String getSubject();
     InternetAddress [] getRecipientsEmails();
+
+    /** Converts all recipient's email address to String */
     String getRecipientsEmailtoString();
 
+    /** Returns true if message and subject is not empty */
     boolean containsContent();
 
     /**
@@ -27,5 +30,6 @@ public interface ReadOnlyMessageDraft {
                 && other.recipientsEquals(this.getRecipientsEmails()));
     }
 
+    /** Returns true if both recipient addresses are the same */
     boolean recipientsEquals(InternetAddress [] other);
 }
