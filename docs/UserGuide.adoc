@@ -721,7 +721,7 @@ image::happyBirthdayJohnCena.png[width="440px"]
 // end::find[]
 
 // tag::insta[]
-=== Instagram tab
+=== Instagram tab: [fuchsia]`insta`
 
 The Instagram tab allows you to view the Instagram profile of the selected contact.
 
