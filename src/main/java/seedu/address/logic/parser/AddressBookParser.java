@@ -118,6 +118,9 @@ public class AddressBookParser {
         case BackupCommand.COMMAND_WORD:
             return new BackupCommand();
 
+        case BackupCommand.COMMAND_ALIAS:
+            return new BackupCommand();
+
         case NusmodsCommand.COMMAND_WORD:
             return new NusmodsCommandParser().parse(arguments);
 

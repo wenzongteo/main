@@ -24,6 +24,7 @@ import org.junit.rules.ExpectedException;
 
 import seedu.address.email.EmailTask;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.BackupCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -236,6 +237,17 @@ public class AddressBookParserTest {
         command = (InstaCommand) parser.parseCommand(
                 InstaCommand.COMMAND_ALIAS + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new InstaCommand(INDEX_FIRST_PERSON), command);
+    }
+
+    public void parseCommand_backup() throws Exception {
+        //Using command word
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_WORD) instanceof BackupCommand);
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_WORD + " 3") instanceof BackupCommand);
+
+        //Using command alias
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_ALIAS) instanceof BackupCommand);
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_ALIAS + " 3") instanceof BackupCommand);
+
     }
     //@@author
 

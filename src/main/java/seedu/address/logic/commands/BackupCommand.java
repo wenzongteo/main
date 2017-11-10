@@ -12,6 +12,8 @@ public class BackupCommand extends Command {
 
     public static final String COMMAND_WORD = "backup";
 
+    public static final String COMMAND_ALIAS = "b";
+
     public static final String MESSAGE_USAGE = COMMAND_WORD
             + ": Saves a backup copy of Augustine data.\n";
 
