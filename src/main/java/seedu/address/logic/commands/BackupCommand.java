@@ -1,8 +1,5 @@
 package seedu.address.logic.commands;
 
-import seedu.address.commons.core.index.Index;
-
-
 /**
  * Saves a backup copy of the address book data
  */
