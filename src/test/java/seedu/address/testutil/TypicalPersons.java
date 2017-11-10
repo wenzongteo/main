@@ -78,16 +78,16 @@ public class TypicalPersons {
             .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto("default.jpeg")
             .withTags(VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_BOB).build();
     public static final ReadOnlyPerson MAT = new PersonBuilder().withName(VALID_NAME_AMY).withPhone(VALID_PHONE_BOB)
-            .withEmailAddress(VALID_EMAIL_BOB).withAddress(VALID_ADDRESS_BOB).withPhoto("default.jpeg")
+            .withEmailAddress(VALID_EMAIL_AMY).withAddress(VALID_ADDRESS_BOB).withPhoto("default.jpeg")
             .withTags(VALID_TAG_FRIENDS).withBirthdate(VALID_BIRTHDATE_BOB).build();
 
     // Different situations of missing data.
     public static final ReadOnlyPerson MISSINGPHONE = new PersonBuilder().withName("Ida Mueller")
-            .withEmailAddress("hans@example.com").withPhoto("data/images/hans@example.com.jpg")
+            .withEmailAddress("missingname@example.com").withPhoto("data/images/hans@example.com.jpg")
             .withAddress("chicago ave").build();
     public static final ReadOnlyPerson MISSINGADDRESS = new PersonBuilder().withName("Ida Mueller")
-            .withPhone("84822131").withEmailAddress("hans@example.com").withPhoto("data/images/hans@example.com.jpg")
-            .build();
+            .withPhone("84822131").withEmailAddress("missingaddress@example.com")
+            .withPhoto("data/images/hans@example.com.jpg").build();
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 

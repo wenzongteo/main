@@ -86,7 +86,6 @@ public class UniquePersonList implements Iterable<Person> {
         if (!target.equals(editedPerson) && internalList.contains(editedPerson)) {
             throw new DuplicatePersonException();
         }
-
         Person person = new Person(editedPerson);
         String intendedPhotoPath = "data/images/" + editedPerson.getEmailAddress().toString() + ".jpg";
         boolean deleteFile = false;

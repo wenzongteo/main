@@ -50,6 +50,16 @@ public interface ReadOnlyPerson {
     }
 
     /**
+     * Returns true if both have the same email. (interfaces cannot override .equals)
+     */
+    default boolean isSameEmail(ReadOnlyPerson other) {
+
+        return other == this // short circuit if same object
+                || (other != null // this is first to avoid NPE below
+                && other.getEmailAddress().equals(this.getEmailAddress()));
+    }
+
+    /**
      * Formats the person as text, showing all contact details.
      */
     default String getAsText() {

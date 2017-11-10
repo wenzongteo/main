@@ -4,6 +4,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static seedu.address.logic.commands.CommandTestUtil.ADDRESS_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.BIRTHDATE_DESC_BOB;
+import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_AMY;
 import static seedu.address.logic.commands.CommandTestUtil.EMAIL_DESC_BOB;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_ADDRESS_DESC;
 import static seedu.address.logic.commands.CommandTestUtil.INVALID_EMAIL_DESC;
@@ -151,10 +152,11 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         showAllPersons();
         index = INDEX_FIRST_PERSON;
         selectPerson(index);
-        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_BOB
+        command = EditCommand.COMMAND_WORD + " " + index.getOneBased() + NAME_DESC_AMY + PHONE_DESC_BOB + EMAIL_DESC_AMY
                 + ADDRESS_DESC_BOB + BIRTHDATE_DESC_BOB + TAG_DESC_FRIEND + PHOTO_DESC_BOB;
         // this can be misleading: card selection actually remains unchanged but the
         // browser's url is updated to reflect the new person's name
+        System.out.println(command);
         assertCommandSuccess(command, index, MAT, null);
 
         /* --------------------------------- Performing invalid edit operation -------------------------------------- */
@@ -251,6 +253,7 @@ public class EditCommandSystemTest extends AddressBookSystemTest {
         }
 
         try {
+            System.out.println("last stretch");
             assertCommandSuccess(command, expectedModel,
                     String.format(EditCommand.MESSAGE_EDIT_PERSON_SUCCESS, editedPerson), expectedSelectedCardIndex);
         } catch (IOException e) {
