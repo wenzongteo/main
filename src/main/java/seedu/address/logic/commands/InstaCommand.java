@@ -25,7 +25,7 @@ public class InstaCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_SELECT_PERSON_SUCCESS = "Selected Person: %1$s";
+    public static final String MESSAGE_SELECT_PERSON_SUCCESS = "Selected Person: %1$s (%2$s)";
 
     public static final String MESSAGE_SELECT_PERSON_SUCCESS2 = "\nUser ID is: ";
 
@@ -58,11 +58,15 @@ public class InstaCommand extends Command {
 
         if (personToEdit.getUserId().value.equals("-")) {
             return new CommandResult(new StringBuilder()
-                    .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()))
+                    .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS,
+                            lastShownList.get(targetIndex.getZeroBased()).getName().fullName,
+                            targetIndex.getOneBased()))
                     .append(MESSAGE_SELECT_PERSON_SUCCESS3).toString());
         } else {
             return new CommandResult(new StringBuilder()
-                    .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()))
+                    .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS,
+                            lastShownList.get(targetIndex.getZeroBased()).getName().fullName,
+                            targetIndex.getOneBased()))
                     .append(MESSAGE_SELECT_PERSON_SUCCESS2)
                     .append(personToEdit.getUserId().value).toString());
         }

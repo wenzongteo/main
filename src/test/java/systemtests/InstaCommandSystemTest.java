@@ -6,6 +6,10 @@ import static seedu.address.commons.core.Messages.MESSAGE_UNKNOWN_COMMAND;
 import static seedu.address.logic.commands.InstaCommand.MESSAGE_SELECT_PERSON_SUCCESS;
 import static seedu.address.logic.commands.InstaCommand.MESSAGE_SELECT_PERSON_SUCCESS3;
 import static seedu.address.testutil.TypicalIndexes.INDEX_FIRST_PERSON;
+import static seedu.address.testutil.TypicalPersons.ALICE;
+import static seedu.address.testutil.TypicalPersons.BENSON;
+import static seedu.address.testutil.TypicalPersons.CARL;
+import static seedu.address.testutil.TypicalPersons.GEORGE;
 import static seedu.address.testutil.TypicalPersons.KEYWORD_MATCHING_MEIER;
 import static seedu.address.testutil.TypicalPersons.getTypicalPersons;
 
@@ -43,12 +47,12 @@ public class InstaCommandSystemTest extends AddressBookSystemTest {
          * -> selected
          */
         String command = "   " + InstaCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased() + "   ";
-        assertCommandSuccess(command, INDEX_FIRST_PERSON);
+        assertCommandSuccess(command, ALICE.getName().fullName, INDEX_FIRST_PERSON);
 
         /* Case: select the last card in the person list -> selected */
         Index personCount = Index.fromOneBased(getTypicalPersons().size());
         command = InstaCommand.COMMAND_WORD + " " + personCount.getOneBased();
-        assertCommandSuccess(command, personCount);
+        assertCommandSuccess(command, GEORGE.getName().fullName, personCount);
 
         /* Case: undo previous selection -> rejected */
         command = UndoCommand.COMMAND_WORD;
@@ -63,7 +67,7 @@ public class InstaCommandSystemTest extends AddressBookSystemTest {
         /* Case: select the middle card in the person list -> selected */
         Index middleIndex = Index.fromOneBased(personCount.getOneBased() / 2);
         command = InstaCommand.COMMAND_WORD + " " + middleIndex.getOneBased();
-        assertCommandSuccess(command, middleIndex);
+        assertCommandSuccess(command, CARL.getName().fullName, middleIndex);
 
         /* Case: invalid index (size + 1) -> rejected */
         int invalidIndex = getModel().getFilteredPersonList().size() + 1;
@@ -71,7 +75,7 @@ public class InstaCommandSystemTest extends AddressBookSystemTest {
                 MESSAGE_INVALID_PERSON_DISPLAYED_INDEX);
 
         /* Case: select the current selected card -> selected */
-        assertCommandSuccess(command, middleIndex);
+        assertCommandSuccess(command, CARL.getName().fullName, middleIndex);
 
         /* Case: filtered person list, select index within bounds of address book but out of bounds of person list
          * -> rejected
@@ -85,7 +89,7 @@ public class InstaCommandSystemTest extends AddressBookSystemTest {
         Index validIndex = Index.fromOneBased(1);
         assert validIndex.getZeroBased() < getModel().getFilteredPersonList().size();
         command = InstaCommand.COMMAND_WORD + " " + validIndex.getOneBased();
-        assertCommandSuccess(command, validIndex);
+        assertCommandSuccess(command, BENSON.getName().fullName, validIndex);
 
         /* Case: invalid index (0) -> rejected */
         assertCommandFailure(InstaCommand.COMMAND_WORD + " " + 0,
@@ -125,10 +129,11 @@ public class InstaCommandSystemTest extends AddressBookSystemTest {
      * @see AddressBookSystemTest#assertApplicationDisplaysExpected(String, String, Model)
      * @see AddressBookSystemTest#assertSelectedCardChanged(Index)
      */
-    private void assertCommandSuccess(String command, Index expectedSelectedCardIndex) {
+    private void assertCommandSuccess(String command, String expectedPerson, Index expectedSelectedCardIndex) {
         Model expectedModel = getModel();
         String expectedResultMessage = (new StringBuilder()
-                .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, expectedSelectedCardIndex.getOneBased()))
+                .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, expectedPerson,
+                        expectedSelectedCardIndex.getOneBased()))
                 .append(MESSAGE_SELECT_PERSON_SUCCESS3).toString());
         int preExecutionSelectedCardIndex = getPersonListPanel().getSelectedCardIndex();
 
