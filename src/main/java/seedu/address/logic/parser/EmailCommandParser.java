@@ -31,9 +31,9 @@ public class EmailCommandParser implements Parser<EmailCommand> {
                         PREFIX_EMAIL_TASK);
 
         EmailTask task = new EmailTask();
-        String message = "";
-        String subject = "";
-        String [] loginDetails = new String[0];
+        String message;
+        String subject;
+        String [] loginDetails;
 
         try {
 
@@ -41,7 +41,7 @@ public class EmailCommandParser implements Parser<EmailCommand> {
             subject = getArgumentSubject(argMultimap);
             loginDetails = getArgumentLoginDetails(argMultimap);
             task = getArgumentEmailTask(argMultimap, task);
-            
+
             /** checks if only "email" command is run */
             if (message.isEmpty() && subject.isEmpty() && (loginDetails.length == 0) && !task.isValid()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
