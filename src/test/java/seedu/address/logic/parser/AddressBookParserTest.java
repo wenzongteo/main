@@ -33,6 +33,7 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
+import seedu.address.logic.commands.InstaCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
@@ -222,6 +223,21 @@ public class AddressBookParserTest {
                 SelectCommand.COMMAND_ALIAS + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new SelectCommand(INDEX_FIRST_PERSON), command);
     }
+
+    //@@author hengyu95
+    @Test
+    public void parseCommand_insta() throws Exception {
+        //Using command word
+        InstaCommand command = (InstaCommand) parser.parseCommand(
+                InstaCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(new InstaCommand(INDEX_FIRST_PERSON), command);
+
+        //Using command alias
+        command = (InstaCommand) parser.parseCommand(
+                InstaCommand.COMMAND_ALIAS + " " + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(new InstaCommand(INDEX_FIRST_PERSON), command);
+    }
+    //@@author
 
     @Test
     public void parseCommand_redoCommandWord_returnsRedoCommand() throws Exception {

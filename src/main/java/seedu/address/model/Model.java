@@ -89,4 +89,7 @@ public interface Model {
     /** Clear Email Draft Content **/
     void draftEmail(MessageDraft message);
 
+    /** Backs up address book data **/
+    void backupAddressBook();
+
 }
