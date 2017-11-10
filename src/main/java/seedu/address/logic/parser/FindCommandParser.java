@@ -35,30 +35,19 @@ public class FindCommandParser implements Parser<FindCommand> {
         String [] tagKeywords = new String[0];
 
         try {
-            if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-                trimmedArgsName = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_NAME)).get().trim();
-                nameKeywords = trimmedArgsName.split("\\s+");
-                if (trimmedArgsName.isEmpty()) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-                }
-            }
-            if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
-                trimmedArgsTag = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_TAG)).get().trim();
-                tagKeywords = trimmedArgsTag.split("\\s+");
-                if (trimmedArgsTag.isEmpty()) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-                }
-            }
-
-            if (argMultimap.getValue(PREFIX_SORT).isPresent()) {
-                sortOrder = ParserUtil.parseSortOrder(argMultimap.getValue(PREFIX_SORT));
-                if (sortOrder < 0) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-                }
-            }
+            trimmedArgsName = getArgumentName(argMultimap);
+            trimmedArgsTag = getArgumentTag(argMultimap);
+            sortOrder = getArgumentSortOrder(argMultimap);
 
             if (trimmedArgsName.isEmpty() && trimmedArgsTag.isEmpty()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            } else {
+                if (!trimmedArgsName.isEmpty()) {
+                    nameKeywords = trimmedArgsName.split("\\s+");
+                }
+                if (!trimmedArgsTag.isEmpty()) {
+                    tagKeywords = trimmedArgsTag.split("\\s+");
+                }
             }
 
         } catch (IllegalValueException ive) {
@@ -67,6 +56,63 @@ public class FindCommandParser implements Parser<FindCommand> {
 
         return new FindCommand(new NameContainsKeywordsPredicate(Arrays.asList(nameKeywords),
                 Arrays.asList(tagKeywords)), sortOrder);
+    }
+
+    /**
+     * Returns argument name values if available
+     *
+     * @param argMultimap
+     * @return argument name values
+     * @throws IllegalValueException if value is empty
+     */
+    private String getArgumentName(ArgumentMultimap argMultimap) throws IllegalValueException {
+        String trimmedArgsName = "";
+
+        if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
+            trimmedArgsName = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_NAME)).get().trim();
+            if (trimmedArgsName.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+        }
+        return trimmedArgsName;
+    }
+
+    /**
+     * Returns argument tag values if available
+     *
+     * @param argMultimap
+     * @return argument tag values
+     * @throws IllegalValueException if value is empty
+     */
+    private String getArgumentTag(ArgumentMultimap argMultimap) throws IllegalValueException {
+        String trimmedArgsTag = "";
+
+        if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
+            trimmedArgsTag = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_TAG)).get().trim();
+            if (trimmedArgsTag.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+        }
+        return trimmedArgsTag;
+    }
+
+    /**
+     * Returns sort option if available
+     *
+     * @param argMultimap
+     * @return int sort option
+     * @throws IllegalValueException if sort < 0
+     */
+    private int getArgumentSortOrder(ArgumentMultimap argMultimap) throws IllegalValueException {
+        int sortOrder = 0;
+
+        if (argMultimap.getValue(PREFIX_SORT).isPresent()) {
+            sortOrder = ParserUtil.parseSortOrder(argMultimap.getValue(PREFIX_SORT));
+            if (sortOrder < 0) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+        }
+        return sortOrder;
     }
 
 }
