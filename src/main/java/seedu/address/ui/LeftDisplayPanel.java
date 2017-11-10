@@ -13,7 +13,7 @@ import seedu.address.model.person.ReadOnlyPerson;
 
 //@@author awarenessxz
 /**
- * Tab Panel containing personListPanel, EmailDraftPanel, and BirthdateTab
+ * Left Tab Panel containing personListPanel, EmailDraftPanel, and BirthdateTab
  */
 public class LeftDisplayPanel extends UiPart<Region> {
     private static final String FXML = "LeftDisplayPanel.fxml";
@@ -63,7 +63,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
     }
 
     /**
-     * Toggle Tabs
+     * Toggles Tabs based on index
      */
     public void toggleTabs(int index) {
         if (index >= 0) {

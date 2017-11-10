@@ -21,6 +21,7 @@ public class EmailCommandParser implements Parser<EmailCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the EmailCommand
      * and returns an EmailCommand object for execution.
+     *
      * @throws ParseException if the user input does not conform the expected format
      */
     public EmailCommand parse(String args) throws ParseException {
@@ -57,7 +58,7 @@ public class EmailCommandParser implements Parser<EmailCommand> {
                 }
             }
 
-            /** checks what is the email task, to send or create draft **/
+            /** checks what is the email task, to send or create draft */
             if (argMultimap.getValue(PREFIX_EMAIL_TASK).isPresent()) {
                 task.setTask(ParserUtil.parseEmailTask(argMultimap.getValue(PREFIX_EMAIL_TASK)).trim());
                 if (!task.isValid()) {
@@ -65,7 +66,7 @@ public class EmailCommandParser implements Parser<EmailCommand> {
                 }
             }
 
-            /** checks if only "email" command is run **/
+            /** checks if only "email" command is run */
             if (message.isEmpty() && subject.isEmpty() && login.isEmpty() && !task.isValid()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
             }

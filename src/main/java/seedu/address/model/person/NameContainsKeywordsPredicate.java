@@ -31,7 +31,7 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
         } else if (!tagkeywords.isEmpty()) {
             return person.containsTags(tagkeywords);
         } else {
-            //should not occur at all.
+            assert false : "This should not occur at all";
             return false;
         }
     }

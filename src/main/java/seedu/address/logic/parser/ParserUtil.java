@@ -1,6 +1,10 @@
 package seedu.address.logic.parser;
 
 import static java.util.Objects.requireNonNull;
+import static seedu.address.logic.parser.CliSyntax.SORT_ADDRESS;
+import static seedu.address.logic.parser.CliSyntax.SORT_EMAIL;
+import static seedu.address.logic.parser.CliSyntax.SORT_NAME;
+import static seedu.address.logic.parser.CliSyntax.SORT_TAG;
 
 import java.util.Collection;
 import java.util.HashSet;
@@ -133,7 +137,7 @@ public class ParserUtil {
 
     //@@author awarenessxz
     /**
-     * Parses {@code String sort} into an {@code int} and returns it.
+     * Parses {@code Optional<String> sort} into an {@code int} and returns it.
      * @throws IllegalValueException if the specified sort is invalid
      */
     public static int parseSortOrder(Optional<String> sort) throws IllegalValueException {
@@ -141,16 +145,16 @@ public class ParserUtil {
         int sortOrder = 0;
         if (sort.isPresent()) {
             switch(sort.get().trim()) {
-            case "name":
+            case SORT_NAME:
                 sortOrder = 0;
                 break;
-            case "tag":
+            case SORT_TAG:
                 sortOrder = 1;
                 break;
-            case "email":
+            case SORT_EMAIL:
                 sortOrder = 2;
                 break;
-            case "address":
+            case SORT_ADDRESS:
                 sortOrder = 3;
                 break;
             default:
@@ -163,7 +167,6 @@ public class ParserUtil {
         return sortOrder;
     }
 
-    //@@author awarenessxz
     /**
      * Parses a {@code Optional<String> message} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
@@ -173,7 +176,6 @@ public class ParserUtil {
         return message.isPresent() ? message.get() : "";
     }
 
-    //@@author awarenessxz
     /**
      * Parses a {@code Optional<String> subject} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
@@ -183,9 +185,8 @@ public class ParserUtil {
         return subject.isPresent() ? subject.get() : "";
     }
 
-    //@@author awarenessxz
     /**
-     * Parses a {@code Optional<String> login} into an {@code String}
+     * Parses a {@code Optional<String> loginDetails} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
     public static String parseLoginDetails(Optional<String> loginDetails) throws IllegalValueException {
@@ -193,13 +194,13 @@ public class ParserUtil {
         return loginDetails.isPresent() ? loginDetails.get() : "";
     }
 
-    //@@author awarenessxz
     /**
-     * Parses a {@code Optional<String> login} into an {@code String}
+     * Parses a {@code Optional<String> task} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
     public static String parseEmailTask(Optional<String> task) throws IllegalValueException {
         requireNonNull(task);
         return task.isPresent() ? task.get() : "";
     }
+    //@@author
 }

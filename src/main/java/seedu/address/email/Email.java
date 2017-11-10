@@ -10,29 +10,40 @@ import seedu.address.email.message.ReadOnlyMessageDraft;
 
 //@@author awarenessxz
 /**
- * The API of Email component
+ * API of Email component
  */
 public interface Email {
 
-    /* Login to send Email */
+    /**
+     * Logins to Email Component with given login details
+     *
+     * @throws EmailLoginInvalidException if login fails
+     */
     void loginEmail(String [] loginDetails) throws EmailLoginInvalidException;
 
-    /* Checks if user is Log in */
+    /** Returns true if user is Log in */
     boolean isUserLogin();
 
-    /* Create Email Draft with all details */
+    /** Creates Email Draft with given message */
     void composeEmail(MessageDraft message);
 
-    /* view Email Draft */
+    /** Views Email Draft */
     ReadOnlyMessageDraft getEmailDraft();
 
-    /* View Email Send Status */
+    /** Views Email Send Status */
     String getEmailStatus();
 
-    /* Clear Email Draft content */
+    /** Clears Email Draft content */
     void clearEmailDraft();
 
-    /* send Email Draft to all users */
+    /**
+     * Sends Email Draft to all users
+     *
+     * @throws EmailLoginInvalidException if login details is empty
+     * @throws EmailMessageEmptyException if message is empty
+     * @throws EmailRecipientsEmptyException if recipients list is empty
+     * @throws AuthenticationFailedException if gmail account can't be logged in
+     */
     void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException,
             EmailRecipientsEmptyException, AuthenticationFailedException;
 

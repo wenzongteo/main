@@ -23,11 +23,12 @@ import seedu.address.email.message.ReadOnlyMessageDraft;
 public class EmailSend {
     private Properties props;
 
+    /** Creates an EmailSend with an default properties */
     public EmailSend() {
         prepEmailProperties();
     }
 
-    /** Prepare Email Default Properties **/
+    /** Prepares Email Default Properties */
     private void prepEmailProperties() {
         props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -39,10 +40,13 @@ public class EmailSend {
 
     /**
      * Handles sending email process
-     * @throws EmailLoginInvalidException
-     * @throws EmailMessageEmptyException
-     * @throws EmailRecipientsEmptyException
-     * @throws AuthenticationFailedException
+     *
+     * @param emailCompose contains message to be send
+     * @param emailLogin contains login details of user
+     * @throws EmailLoginInvalidException if login details is empty
+     * @throws EmailMessageEmptyException if message is empty
+     * @throws EmailRecipientsEmptyException if recipients list is empty
+     * @throws AuthenticationFailedException if gmail account can't be logged in
      */
     public void sendEmail(EmailCompose emailCompose, EmailLogin emailLogin) throws EmailLoginInvalidException,
             EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
@@ -68,7 +72,14 @@ public class EmailSend {
         sendingEmail(emailLogin.getEmailLogin(), emailLogin.getPassword(), emailCompose.getMessage());
     }
 
-    /** Send email out using JavaMail API **/
+    /**
+     * Sends email out using JavaMail API
+     *
+     * @param login email login account
+     * @param pass email login password
+     * @param message message to send
+     * @throws AuthenticationFailedException if gmail account can't be logged in
+     */
     private void sendingEmail(String login, String pass, ReadOnlyMessageDraft message)
             throws AuthenticationFailedException {
         final String username = login;
