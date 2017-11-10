@@ -11,15 +11,15 @@ public class EmailTask {
     private String task;
 
     public EmailTask() {
-        this.task = "";
+        task = "";
     }
 
     public EmailTask(String task) {
-        this.task = task;
+        task = task;
     }
 
     public String getTask() {
-        return this.task;
+        return task;
     }
 
     public void setTask(String task) {
@@ -28,7 +28,7 @@ public class EmailTask {
 
     /** Returns true if task is valid */
     public boolean isValid() {
-        switch (this.task) {
+        switch (task) {
         case TASK_CLEAR:
             return true;
         case TASK_SEND:

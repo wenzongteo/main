@@ -145,9 +145,9 @@ public class EmailCommand extends Command {
 
     /** Returns true if both loginDetails are the same */
     private boolean loginDetailsEquals(String [] other) {
-        if (this.loginDetails.length == other.length) {
-            for (int i = 0; i < this.loginDetails.length; i++) {
-                if (this.loginDetails[i] != other[i]) {
+        if (loginDetails.length == other.length) {
+            for (int i = 0; i < loginDetails.length; i++) {
+                if (loginDetails[i] != other[i]) {
                     return false;
                 }
             }

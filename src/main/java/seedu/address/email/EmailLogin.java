@@ -16,7 +16,7 @@ public class EmailLogin {
 
     /** Creates an EmailLogin with an empty login detail */
     public EmailLogin() {
-        this.loginDetails = new String[0];
+        loginDetails = new String[0];
     }
 
     /**
@@ -42,7 +42,7 @@ public class EmailLogin {
      * @return true if loginDetails is available
      */
     public boolean isUserLogin() {
-        if (this.loginDetails.length != 2) {
+        if (loginDetails.length != 2) {
             return false;
         } else {
             return true;
@@ -66,8 +66,8 @@ public class EmailLogin {
 
     /** Returns user's login email */
     public String getEmailLogin() {
-        if (this.loginDetails.length == 2) {
-            return this.loginDetails[0];
+        if (loginDetails.length == 2) {
+            return loginDetails[0];
         } else {
             return "";
         }
@@ -75,8 +75,8 @@ public class EmailLogin {
 
     /** Returns user's login password */
     public String getPassword() {
-        if (this.loginDetails.length == 2) {
-            return this.loginDetails[1];
+        if (loginDetails.length == 2) {
+            return loginDetails[1];
         } else {
             return "";
         }
@@ -86,7 +86,7 @@ public class EmailLogin {
      * Resets the existing data of this {@code loginDetails} with an empty login
      */
     public void resetData() {
-        this.loginDetails = new String[0];
+        loginDetails = new String[0];
     }
 
     @Override
@@ -98,9 +98,9 @@ public class EmailLogin {
 
     /** Returns true if both have the same loginDetails */
     private boolean loginDetailsEquals(String [] other) {
-        if (this.loginDetails.length == other.length) {
-            for (int i = 0; i < this.loginDetails.length; i++) {
-                if (this.loginDetails[i] != other[i]) {
+        if (loginDetails.length == other.length) {
+            for (int i = 0; i < loginDetails.length; i++) {
+                if (loginDetails[i] != other[i]) {
                     return false;
                 }
             }
