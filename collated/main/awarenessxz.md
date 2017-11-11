@@ -167,7 +167,7 @@ public class EmailLogin {
 
     /** Creates an EmailLogin with an empty login detail */
     public EmailLogin() {
-        this.loginDetails = new String[0];
+        loginDetails = new String[0];
     }
 
     /**
@@ -193,7 +193,7 @@ public class EmailLogin {
      * @return true if loginDetails is available
      */
     public boolean isUserLogin() {
-        if (this.loginDetails.length != 2) {
+        if (loginDetails.length != 2) {
             return false;
         } else {
             return true;
@@ -217,8 +217,8 @@ public class EmailLogin {
 
     /** Returns user's login email */
     public String getEmailLogin() {
-        if (this.loginDetails.length == 2) {
-            return this.loginDetails[0];
+        if (loginDetails.length == 2) {
+            return loginDetails[0];
         } else {
             return "";
         }
@@ -226,8 +226,8 @@ public class EmailLogin {
 
     /** Returns user's login password */
     public String getPassword() {
-        if (this.loginDetails.length == 2) {
-            return this.loginDetails[1];
+        if (loginDetails.length == 2) {
+            return loginDetails[1];
         } else {
             return "";
         }
@@ -237,7 +237,7 @@ public class EmailLogin {
      * Resets the existing data of this {@code loginDetails} with an empty login
      */
     public void resetData() {
-        this.loginDetails = new String[0];
+        loginDetails = new String[0];
     }
 
     @Override
@@ -249,9 +249,9 @@ public class EmailLogin {
 
     /** Returns true if both have the same loginDetails */
     private boolean loginDetailsEquals(String [] other) {
-        if (this.loginDetails.length == other.length) {
-            for (int i = 0; i < this.loginDetails.length; i++) {
-                if (this.loginDetails[i] != other[i]) {
+        if (loginDetails.length == other.length) {
+            for (int i = 0; i < loginDetails.length; i++) {
+                if (loginDetails[i] != other[i]) {
                     return false;
                 }
             }
@@ -289,17 +289,17 @@ public class EmailManager extends ComponentManager implements Email {
     public EmailManager() {
         logger.fine("Initializing Default Email component");
 
-        this.emailLogin = new EmailLogin();
-        this.emailCompose = new EmailCompose();
-        this.emailSend = new EmailSend();
-        this.emailStatus = "";
-        this.emailLoginStatus = STATUS_LOGIN_FAIL;
+        emailLogin = new EmailLogin();
+        emailCompose = new EmailCompose();
+        emailSend = new EmailSend();
+        emailStatus = "";
+        emailLoginStatus = STATUS_LOGIN_FAIL;
     }
 
     @Override
     public void composeEmail(MessageDraft message) {
         emailCompose.composeEmail(message);
-        this.emailStatus = STATUS_DRAFTED;
+        emailStatus = STATUS_DRAFTED;
     }
 
     @Override
@@ -309,7 +309,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     @Override
     public String getEmailStatus() {
-        return this.emailStatus + this.emailLoginStatus;
+        return emailStatus + emailLoginStatus;
     }
 
     @Override
@@ -320,8 +320,8 @@ public class EmailManager extends ComponentManager implements Email {
         emailSend.sendEmail(emailCompose, emailLogin);
 
         //reset the email draft after email have been sent
-        this.emailStatus = STATUS_SENT;
-        this.emailLoginStatus = String.format(STATUS_LOGIN_SENT, emailLogin.getEmailLogin());
+        emailStatus = STATUS_SENT;
+        emailLoginStatus = String.format(STATUS_LOGIN_SENT, emailLogin.getEmailLogin());
         resetData();
     }
 
@@ -329,9 +329,9 @@ public class EmailManager extends ComponentManager implements Email {
     public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         emailLogin.loginEmail(loginDetails);
         if (emailLogin.isUserLogin()) {
-            this.emailLoginStatus = String.format(STATUS_LOGIN_SUCCESS, emailLogin.getEmailLogin());
+            emailLoginStatus = String.format(STATUS_LOGIN_SUCCESS, emailLogin.getEmailLogin());
         } else {
-            this.emailLoginStatus = STATUS_LOGIN_FAIL;
+            emailLoginStatus = STATUS_LOGIN_FAIL;
         }
     }
 
@@ -347,16 +347,16 @@ public class EmailManager extends ComponentManager implements Email {
     @Override
     public void clearEmailDraft() {
         resetData();
-        this.emailStatus = STATUS_CLEARED;
-        this.emailLoginStatus = "";
+        emailStatus = STATUS_CLEARED;
+        emailLoginStatus = "";
     }
 
     /**
      * Resets the existing data of this {@code emailCompose} and this {@code emailLogin}
      */
     private void resetData() {
-        this.emailCompose.resetData();
-        this.emailLogin.resetData();
+        emailCompose.resetData();
+        emailLogin.resetData();
     }
 
     @Override
@@ -485,7 +485,7 @@ public class EmailTask {
     private String task;
 
     public EmailTask() {
-        this.task = "";
+        task = "";
     }
 
     public EmailTask(String task) {
@@ -493,7 +493,7 @@ public class EmailTask {
     }
 
     public String getTask() {
-        return this.task;
+        return task;
     }
 
     public void setTask(String task) {
@@ -502,7 +502,7 @@ public class EmailTask {
 
     /** Returns true if task is valid */
     public boolean isValid() {
-        switch (this.task) {
+        switch (task) {
         case TASK_CLEAR:
             return true;
         case TASK_SEND:
@@ -615,20 +615,20 @@ public class MessageDraft implements ReadOnlyMessageDraft {
     private InternetAddress [] recipientsEmail;
 
     public MessageDraft() {
-        this.message = "";
-        this.subject = "";
-        this.recipientsEmail = new InternetAddress[0];
+        message = "";
+        subject = "";
+        recipientsEmail = new InternetAddress[0];
     }
 
     public MessageDraft(String message, String subject) {
         this.message = message;
         this.subject = subject;
-        this.recipientsEmail = new InternetAddress[0];
+        recipientsEmail = new InternetAddress[0];
     }
 
     @Override
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public void setMessage(String message) {
@@ -637,7 +637,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public String getSubject() {
-        return this.subject;
+        return subject;
     }
 
     public void setSubject(String subject) {
@@ -646,7 +646,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public InternetAddress[] getRecipientsEmails() {
-        return this.recipientsEmail;
+        return recipientsEmail;
     }
 
     public void setRecipientsEmail(InternetAddress[] recipientsEmail) {
@@ -668,7 +668,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public boolean containsContent() {
-        if (this.message.isEmpty() || this.subject.isEmpty()) {
+        if (message.isEmpty() || subject.isEmpty()) {
             return false;
         } else {
             return true;
@@ -684,9 +684,9 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public boolean recipientsEquals(InternetAddress [] other) {
-        if (other.length == this.recipientsEmail.length) {
+        if (other.length == recipientsEmail.length) {
             for (int i = 0; i < recipientsEmail.length; i++) {
-                if (other[i] != this.recipientsEmail[i]) {
+                if (other[i] != recipientsEmail[i]) {
                     return false;
                 }
             }
@@ -858,7 +858,7 @@ public class EmailCommand extends Command {
                 && ((EmailCommand) other).task.equals(this.task));
     }
 
-    /** Returns true if both loginDetails are the same */
+    /** Returns */
     private boolean loginDetailsEquals(String [] other) {
         if (this.loginDetails.length == other.length) {
             for (int i = 0; i < this.loginDetails.length; i++) {
