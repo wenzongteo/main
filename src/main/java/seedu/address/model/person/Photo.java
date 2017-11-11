@@ -11,7 +11,10 @@ import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.logging.Logger;
 
+import seedu.address.MainApp;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.exceptions.IllegalValueException;
 import seedu.address.commons.util.FileUtil;
 
@@ -39,6 +42,7 @@ public class Photo {
     public static final String DEFAULT_PHOTO = "data/images/default.jpeg";
     public static final String DOWNLOAD_LOCATION = "data/download.jpg";
     public static final String UNFILLED = "-";
+    private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     public final String value;
     private final String hash;
@@ -51,6 +55,7 @@ public class Photo {
         photo = photo.trim();
 
         if (photo.equals(UNFILLED)) {
+            logger.info("photo fill is left unfilled, using default photo as contact's photo.");
             photo = DEFAULT_PHOTO;
         }
 
@@ -76,6 +81,7 @@ public class Photo {
         this.value = photo;
 
         if (!FileUtil.isFileExists(image)) {
+            logger.info("contact's photo cannot be found. Using default photo instead.");
             copyDefaultPhoto(photo);
         }
         this.hash = generateHash(image);
@@ -90,6 +96,7 @@ public class Photo {
      */
     private String getPhoto(String photo) throws IllegalValueException {
         if (photo.matches(URL_REGEX)) {
+            logger.info("Attempting to download photo from the internet");
             return getPhotoFromInternet(photo);
         } else {
             return getPhotoFromLocal(photo);
@@ -173,6 +180,7 @@ public class Photo {
             is.close();
             os.close();
 
+            logger.info("Photo downloaded to " + DOWNLOAD_LOCATION);
             return DOWNLOAD_LOCATION;
         } catch (IOException e) {
             throw new IllegalValueException(MESSAGE_LINK_ERROR);
