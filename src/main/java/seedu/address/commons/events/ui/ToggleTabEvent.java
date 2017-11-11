@@ -2,8 +2,9 @@ package seedu.address.commons.events.ui;
 
 import seedu.address.commons.events.BaseEvent;
 
+//@@author awarenessxz
 /**
- * Toggle Tabs after command is executed.
+ * Indicates the change of tabs after command is executed.
  */
 public class ToggleTabEvent extends BaseEvent {
 

@@ -18,8 +18,8 @@ import seedu.address.model.person.ReadOnlyPerson;
 
 //@@author awarenessxz
 /**
- * Compose an email draft or send the draft out using gmail account
- **/
+ * Composes an email draft or sends the draft out using gmail account
+ */
 public class EmailCommand extends Command {
 
     public static final String COMMAND_WORD = "email";
@@ -63,11 +63,11 @@ public class EmailCommand extends Command {
     }
 
     /**
-     * Extract Email from last display person {@code lastshownList} into an InternetAddresss[] for sending email
+     * Extracts Email from last display person {@code lastshownList} into an InternetAddresss[] for sending email
      *
-     * @params: last shown display person list
+     * @param: lastshownList last shown display person list in user interface
      * @return: list of internet email address
-     **/
+     */
     private InternetAddress[] extractEmailFromContacts(List<ReadOnlyPerson> lastShownList) throws AddressException {
         InternetAddress [] recipientsEmail = new InternetAddress[lastShownList.size()];
         try {
@@ -81,15 +81,20 @@ public class EmailCommand extends Command {
     }
 
     /**
-     * Identify the Email Command Execution Task purpose
+     * Identifies the Email Command Execution Task purpose
+     *
+     * @throws EmailLoginInvalidException if login details is empty
+     * @throws EmailMessageEmptyException if message is empty
+     * @throws EmailRecipientsEmptyException if recipients list is empty
+     * @throws AuthenticationFailedException if gmail account can't be logged in
      */
     private void identifyEmailTask() throws EmailLoginInvalidException, EmailMessageEmptyException,
             EmailRecipientsEmptyException, AuthenticationFailedException {
         switch (task.getTask()) {
-        case EmailTask.TASKSEND:
+        case EmailTask.TASK_SEND:
             model.sendEmail(message);
             break;
-        case EmailTask.TASKCLEAR:
+        case EmailTask.TASK_CLEAR:
             model.clearEmailDraft();
             break;
         default:
@@ -112,7 +117,6 @@ public class EmailCommand extends Command {
         }
 
         try {
-            //Set up Email Details
             model.loginEmail(loginDetails);
             identifyEmailTask();
             return new CommandResult(String.format(MESSAGE_SUCCESS, model.getEmailStatus()));
@@ -139,12 +143,7 @@ public class EmailCommand extends Command {
                 && ((EmailCommand) other).task.equals(this.task));
     }
 
-    /**
-     * For validating if the loginDetails are equal (Testing)
-     *
-     * @param other to compare with
-     * @return true if loginDetails are equal
-     **/
+    /** Returns */
     private boolean loginDetailsEquals(String [] other) {
         if (this.loginDetails.length == other.length) {
             for (int i = 0; i < this.loginDetails.length; i++) {

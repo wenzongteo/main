@@ -66,27 +66,44 @@ public interface Model {
     void updateFilteredPersonList(Predicate<ReadOnlyPerson> predicate);
 
     /**
-     * Updates the sort format of the filtered person list to sort by the given {@code sortOrder}.
+     * Updates the sort comparator of this {@code sortedPersonsList} to sort by the given {@code sortOrder}.
+     *
+     * @param sortOrder
+     * 0 = sort by name ascending
+     * 1 = sort by tags ascending
+     * 2 = sort by email ascending
+     * 3 = sort by address ascending
      */
     void sortFilteredPersons(int sortOrder);
 
-    /** delete tag from all person with the tag **/
+    /** deletes tag from all person with the tag */
     void deleteTag(Tag tag) throws DuplicatePersonException, PersonNotFoundException, IOException;
 
-    /** send email based on last displayed person list **/
+    /**
+     * Sends email based on last displayed person list
+     *
+     * @throws EmailLoginInvalidException if login details is empty
+     * @throws EmailMessageEmptyException if message is empty
+     * @throws EmailRecipientsEmptyException if recipients list is empty
+     * @throws AuthenticationFailedException if gmail account can't be logged in
+     */
     void sendEmail(MessageDraft message) throws EmailLoginInvalidException, EmailMessageEmptyException,
             EmailRecipientsEmptyException, AuthenticationFailedException;
 
-    /** set login credentials for sending emails **/
+    /**
+     * Sets login credentials for sending emails
+     *
+     * @throws EmailLoginInvalidException if login details is invalid
+     */
     void loginEmail(String [] loginDetails) throws EmailLoginInvalidException;
 
-    /** get Email Sent status **/
+    /** Returns Email Sent status **/
     String getEmailStatus();
 
-    /** Clear Email Draft Content **/
+    /** Clears Email Draft Content **/
     void clearEmailDraft();
 
-    /** Clear Email Draft Content **/
+    /** Updates Email draft with given message **/
     void draftEmail(MessageDraft message);
 
 }

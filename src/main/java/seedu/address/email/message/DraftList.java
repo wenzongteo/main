@@ -13,7 +13,8 @@ public class DraftList {
 
     /**
      * Compose a new email or edit the current one
-     * @param newMessage
+     *
+     * @param newMessage new email
      */
     public void composeEmail(MessageDraft newMessage) {
         MessageDraft message = messages[0];
@@ -26,6 +27,12 @@ public class DraftList {
         messages[0] = newMessage;
     }
 
+    /**
+     * Returns draft at requested index
+     *
+     * @param i index of message in draftlist
+     * @return Unmodifiable message draft
+     */
     public ReadOnlyMessageDraft getMessage(int i) {
         return messages[i];
     }
@@ -37,11 +44,7 @@ public class DraftList {
                 && this.draftListEquals(((DraftList) other).messages));
     }
 
-    /**
-     * Verifies if the draftlist matches
-     * @param other
-     * @return true if all message matches
-     */
+    /** Returns true if both have the same draft list */
     private boolean draftListEquals(MessageDraft [] other) {
         if (other.length == this.messages.length) {
             for (int i = 0; i < this.messages.length; i++) {

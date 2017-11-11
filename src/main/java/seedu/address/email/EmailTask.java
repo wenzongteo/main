@@ -5,44 +5,33 @@ package seedu.address.email;
  * Keeps track of Current Email Command Task
  */
 public class EmailTask {
-    public static final String TASKSEND = "send";
-    public static final String TASKCLEAR = "clear";
+    public static final String TASK_SEND = "send";
+    public static final String TASK_CLEAR = "clear";
 
     private String task;
 
     public EmailTask() {
-        this.task = "";
+        task = "";
     }
 
     public EmailTask(String task) {
         this.task = task;
     }
 
-    /**
-     * Returns the Task
-     * @return
-     */
     public String getTask() {
-        return this.task;
+        return task;
     }
 
-    /**
-     * Sets the task on Email Command Run
-     * @param task
-     */
     public void setTask(String task) {
         this.task = task;
     }
 
-    /**
-     * Checks if the task is valid
-     * @return
-     */
+    /** Returns true if task is valid */
     public boolean isValid() {
-        switch (this.task) {
-        case TASKCLEAR:
+        switch (task) {
+        case TASK_CLEAR:
             return true;
-        case TASKSEND:
+        case TASK_SEND:
             return true;
         default:
             return false;

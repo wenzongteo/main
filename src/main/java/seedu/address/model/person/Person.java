@@ -226,7 +226,7 @@ public class Person implements ReadOnlyPerson {
 
     //@@author awarenessxz
     /**
-     * Check if this person have the given tags in argument tag set
+     * Returns true if all tags in {@code List<String> tags} are found in this {@code tags}
      */
     @Override
     public boolean containsTags(List<String> tags) {

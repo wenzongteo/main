@@ -5,7 +5,7 @@ import seedu.address.email.message.ReadOnlyMessageDraft;
 
 //@@author awarenessxz
 /**
- * Indicates when the email draft changed
+ * Indicates that the email draft have changed
  */
 public class EmailDraftChangedEvent extends BaseEvent {
 

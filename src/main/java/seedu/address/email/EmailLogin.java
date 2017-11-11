@@ -14,13 +14,16 @@ public class EmailLogin {
 
     private String [] loginDetails;
 
+    /** Creates an EmailLogin with an empty login detail */
     public EmailLogin() {
-        this.loginDetails = new String[0];
+        loginDetails = new String[0];
     }
 
     /**
-     * Saves user login details
-     * @param loginDetails
+     * Saves user's login details
+     *
+     * @param loginDetails login email and password
+     * @throws EmailLoginInvalidException if loginDetails is in wrong format
      */
     public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         //replace login details and ignore if login details is omitted.
@@ -35,11 +38,11 @@ public class EmailLogin {
 
     /**
      * Checks if user's login details have been stored
-     * @return boolean
+     *
+     * @return true if loginDetails is available
      */
     public boolean isUserLogin() {
-        if (this.loginDetails.length != 2) {
-            //The loginDetails empty
+        if (loginDetails.length != 2) {
             return false;
         } else {
             return true;
@@ -48,6 +51,7 @@ public class EmailLogin {
 
     /**
      * Verifies if the user is using a gmail account
+     *
      * @return true if gmail account, false for everything else
      */
     private boolean wrongUserEmailFormat(String [] loginDetails) {
@@ -60,25 +64,29 @@ public class EmailLogin {
         return false;
     }
 
-
+    /** Returns user's login email */
     public String getEmailLogin() {
-        if (this.loginDetails.length == 2) {
-            return this.loginDetails[0];
+        if (loginDetails.length == 2) {
+            return loginDetails[0];
         } else {
             return "";
         }
     }
 
+    /** Returns user's login password */
     public String getPassword() {
-        if (this.loginDetails.length == 2) {
-            return this.loginDetails[1];
+        if (loginDetails.length == 2) {
+            return loginDetails[1];
         } else {
             return "";
         }
     }
 
+    /**
+     * Resets the existing data of this {@code loginDetails} with an empty login
+     */
     public void resetData() {
-        this.loginDetails = new String[0];
+        loginDetails = new String[0];
     }
 
     @Override
@@ -88,15 +96,11 @@ public class EmailLogin {
                 && this.loginDetailsEquals(((EmailLogin) other).loginDetails));
     }
 
-    /**
-     * Verifies that the loginDetails are equal
-     * @param other
-     * @return
-     */
+    /** Returns true if both have the same loginDetails */
     private boolean loginDetailsEquals(String [] other) {
-        if (this.loginDetails.length == other.length) {
-            for (int i = 0; i < this.loginDetails.length; i++) {
-                if (this.loginDetails[i] != other[i]) {
+        if (loginDetails.length == other.length) {
+            for (int i = 0; i < loginDetails.length; i++) {
+                if (loginDetails[i] != other[i]) {
                     return false;
                 }
             }

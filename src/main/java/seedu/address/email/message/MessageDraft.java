@@ -4,8 +4,8 @@ import javax.mail.internet.InternetAddress;
 
 //@@author awarenessxz
 /**
- * Email Message Object for storing Email Drafts Contents
- **/
+ * Represents a Email Message Draft in addressbook.
+ */
 public class MessageDraft implements ReadOnlyMessageDraft {
 
     private String message;
@@ -13,20 +13,20 @@ public class MessageDraft implements ReadOnlyMessageDraft {
     private InternetAddress [] recipientsEmail;
 
     public MessageDraft() {
-        this.message = "";
-        this.subject = "";
-        this.recipientsEmail = new InternetAddress[0];
+        message = "";
+        subject = "";
+        recipientsEmail = new InternetAddress[0];
     }
 
     public MessageDraft(String message, String subject) {
         this.message = message;
         this.subject = subject;
-        this.recipientsEmail = new InternetAddress[0];
+        recipientsEmail = new InternetAddress[0];
     }
 
     @Override
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public void setMessage(String message) {
@@ -35,7 +35,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public String getSubject() {
-        return this.subject;
+        return subject;
     }
 
     public void setSubject(String subject) {
@@ -44,7 +44,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public InternetAddress[] getRecipientsEmails() {
-        return this.recipientsEmail;
+        return recipientsEmail;
     }
 
     public void setRecipientsEmail(InternetAddress[] recipientsEmail) {
@@ -66,7 +66,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public boolean containsContent() {
-        if (this.message.isEmpty() || this.subject.isEmpty()) {
+        if (message.isEmpty() || subject.isEmpty()) {
             return false;
         } else {
             return true;
@@ -82,9 +82,9 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public boolean recipientsEquals(InternetAddress [] other) {
-        if (other.length == this.recipientsEmail.length) {
+        if (other.length == recipientsEmail.length) {
             for (int i = 0; i < recipientsEmail.length; i++) {
-                if (other[i] != this.recipientsEmail[i]) {
+                if (other[i] != recipientsEmail[i]) {
                     return false;
                 }
             }
