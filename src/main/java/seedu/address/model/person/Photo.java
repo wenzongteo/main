@@ -84,7 +84,6 @@ public class Photo {
     public Photo(String photo, int num) {
         photo = photo.trim();
         File image = new File(photo);
-
         try {
             if (!FileUtil.isFileExists(image)) {
                 logger.info("Contact's photo does not exist, using default photo instead");
