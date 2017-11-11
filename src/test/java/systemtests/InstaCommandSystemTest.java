@@ -42,7 +42,7 @@ public class InstaCommandSystemTest extends AddressBookSystemTest {
     }
 
     @Test
-    public void select() {
+    public void insta() {
         /* Case: select the first card in the person list, command with leading spaces and trailing spaces
          * -> selected
          */
@@ -108,7 +108,7 @@ public class InstaCommandSystemTest extends AddressBookSystemTest {
                 String.format(MESSAGE_INVALID_COMMAND_FORMAT, InstaCommand.MESSAGE_USAGE));
 
         /* Case: mixed case command word -> rejected */
-        assertCommandFailure("SeLeCt 1", MESSAGE_UNKNOWN_COMMAND);
+        assertCommandFailure("inStA 1", MESSAGE_UNKNOWN_COMMAND);
 
         /* Case: select from empty address book -> rejected */
         executeCommand(ClearCommand.COMMAND_WORD);

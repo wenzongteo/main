@@ -62,13 +62,23 @@ public class EmailSubjectDisplayHandle extends NodeHandle<TextArea> {
 ###### \java\guitests\guihandles\LeftDisplayPanelHandle.java
 ``` java
 /**
- * A handler for the {@code ResultDisplay} of the UI
+ * A handler for the {@code LeftDisplayPanel} of the UI
  */
 public class LeftDisplayPanelHandle extends NodeHandle<TabPane> {
     public static final String LEFT_DISPLAY_ID = "#leftDisplayPanel";
+    private final PersonListPanelHandle personListPanel;
+    private final EmailRecipientsDisplayHandle emailRecipientsDisplay;
+    private final EmailMessageDisplayHandle emailMessageDisplay;
+    private final EmailSubjectDisplayHandle emailSubjectDisplay;
 
     public LeftDisplayPanelHandle(TabPane leftDisplayPanelNode) {
         super(leftDisplayPanelNode);
+
+        personListPanel = new PersonListPanelHandle(getChildNode(PersonListPanelHandle.PERSON_LIST_VIEW_ID));
+        emailMessageDisplay = new EmailMessageDisplayHandle(getChildNode(EmailMessageDisplayHandle.MESSAGE_DISPLAY_ID));
+        emailRecipientsDisplay = new EmailRecipientsDisplayHandle(
+                getChildNode(EmailRecipientsDisplayHandle.RECIPIENTS_DISPLAY_ID));
+        emailSubjectDisplay = new EmailSubjectDisplayHandle(getChildNode(EmailSubjectDisplayHandle.SUBJECT_DISPLAY_ID));
     }
 
     /**
@@ -89,6 +99,22 @@ public class LeftDisplayPanelHandle extends NodeHandle<TabPane> {
 
     public ObservableList<Tab> getTabs() {
         return getRootNode().getTabs();
+    }
+
+    public PersonListPanelHandle getPersonListPanel() {
+        return personListPanel;
+    }
+
+    public EmailMessageDisplayHandle getEmailMessageDisplay() {
+        return emailMessageDisplay;
+    }
+
+    public EmailRecipientsDisplayHandle getEmailRecipientsDisplay() {
+        return emailRecipientsDisplay;
+    }
+
+    public EmailSubjectDisplayHandle getEmailSubjectDisplay() {
+        return emailSubjectDisplay;
     }
 }
 ```
@@ -668,7 +694,7 @@ public class EmailCommandTest {
         EmailTask task = new EmailTask("clear");
         EmailCommand emailCommand = getEmailCommand("message", "subject", loginDetails, task, model);
 
-        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS, "cleared");
+        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS, "cleared.");
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), model.getEmailManager());
         expectedModel.clearEmailDraft();
@@ -682,7 +708,8 @@ public class EmailCommandTest {
         EmailTask task = new EmailTask();
         EmailCommand emailCommand = getEmailCommand("message", "subject", loginDetails, task, model);
 
-        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS, "drafted");
+        String expectedMessage = String.format(EmailCommand.MESSAGE_SUCCESS,
+                "drafted.\nYou are logged in to " + loginDetails[0]);
 
         ModelManager expectedModel = new ModelManager(model.getAddressBook(), new UserPrefs(), model.getEmailManager());
         expectedModel.draftEmail(new MessageDraft("message", "subject"));
@@ -805,6 +832,11 @@ public class EmailCommandTest {
         }
 
         @Override
+        public void backupAddressBook() {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public Email getEmailManager() {
             fail("This method should not be called.");
             return null;
@@ -919,6 +951,26 @@ public class EmailCommandTest {
     }
 
 }
+```
+###### \java\seedu\address\logic\parser\AddressBookParserTest.java
+``` java
+    @Test
+    public void parseCommand_email() throws Exception {
+        String message = "message";
+        String subject = "subject";
+        String [] loginDetails = new String[0];
+
+        //Using Email command
+        EmailCommand command = (EmailCommand) parser.parseCommand(EmailCommand.COMMAND_WORD + " em/"
+                + message + " es/" + subject);
+        assertEquals(new EmailCommand(message, subject, loginDetails, new EmailTask("")), command);
+
+        //Using Email alias
+        command = (EmailCommand) parser.parseCommand(EmailCommand.COMMAND_ALIAS + " em/"
+                + message + " es/" + subject);
+        assertEquals(new EmailCommand(message, subject, loginDetails, new EmailTask("")), command);
+
+    }
 ```
 ###### \java\seedu\address\logic\parser\EmailCommandParserTest.java
 ``` java
@@ -1149,20 +1201,23 @@ public class LeftDisplayPanelTest extends GuiUnitTest {
     @Test
     public void display() {
         // default tab
-        guiRobot.pauseForHuman();
-        assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
-
-        //Change to Tab 2
-        leftDisplayPanelHandle.toggle(1);
-        assertEquals(1, leftDisplayPanelHandle.getSelectedTabIndex());
-
-        //Change to Tab 3
-        leftDisplayPanelHandle.toggle(2);
-        assertEquals(2, leftDisplayPanelHandle.getSelectedTabIndex());
-
-        //Change to Tab 1
         leftDisplayPanelHandle.toggle(0);
         assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
+
+        //Set to Tab 3
+        guiRobot.pauseForHuman();
+        leftDisplayPanel.toggleTabs(2);
+        assertEquals(2, leftDisplayPanelHandle.getSelectedTabIndex());
+
+        //Toggle Shortcut Tab 1
+        guiRobot.pauseForHuman();
+        leftDisplayPanel.toggleTabs(-1);
+        assertEquals(0, leftDisplayPanelHandle.getSelectedTabIndex());
+
+        //Toggle shortcut to Tab 2
+        guiRobot.pauseForHuman();
+        leftDisplayPanel.toggleTabs(-1);
+        assertEquals(1, leftDisplayPanelHandle.getSelectedTabIndex());
     }
 ```
 ###### \java\seedu\address\ui\MessageDisplayTest.java
@@ -1209,8 +1264,45 @@ public class MessageDisplayTest extends GuiUnitTest {
 
 }
 ```
+###### \java\systemtests\AddressBookSystemTest.java
+``` java
+    /**
+     * Asserts that the {@code messageDisplay} display {@code expectedMessage}, the {@code subjectDisplay} display
+     * {@code expectedSubject}, the {@code RecipientsDisplay} displays {@code expectedRecipients} and the
+     * {@LeftDisplayPanelTab} display {@code expectedTabIndex}
+     */
+    protected void assertEmailDisplayExpected(String expectedMessage, String expectedSubject,
+                                              String expectedRecipients, int expectedTabIndex) {
+        assertEquals(expectedMessage, getEmailMessageDisplay().getText());
+        assertEquals(expectedSubject, getEmailSubjectDisplay().getText());
+        assertEquals(expectedRecipients, getEmailRecipientsDisplay().getText());
+        assertEquals(expectedTabIndex, getLeftDisplayPanel().getSelectedTabIndex());
+    }
+```
 ###### \java\systemtests\EmailCommandSystemTest.java
 ``` java
+public class EmailCommandSystemTest extends AddressBookSystemTest {
+
+    private static final String EMAIL_SUCCESSFULLY_DRAFTED = "drafted.\n";
+    private static final String EMAIL_SUCCESSFULLY_CLEARED = "cleared.";
+    private static final String EMAIL_NOT_LOGIN_STATUS = "You are not logged in to any Gmail account.";
+    private static final String EMAIL_LOGIN_STATUS = "You are logged in to %1$s";
+    private static final String EMAIL_COMMAND_SEND = " " + PREFIX_EMAIL_TASK + "send";
+    private static final String EMAIL_COMMAND_CLEAR = " " + PREFIX_EMAIL_TASK + "clear";
+    private Predicate<ReadOnlyPerson> predicateShowNoPerson = unused -> false;
+
+    @BeforeClass
+    public static void setup() throws Exception {
+        ImageInit.checkDirectories();
+        ImageInit.initPictures();
+    }
+
+    @AfterClass
+    public static void recovery() throws Exception {
+        ImageInit.deleteEditedFiles();
+        ImageInit.deleteImagesFiles();
+    }
+
     @Test
     public void sendEmail() throws Exception {
         String command = "";
@@ -1259,7 +1351,8 @@ public class MessageDisplayTest extends GuiUnitTest {
          **/
         command = EmailCommand.COMMAND_WORD + EMAIL_MESSAGE;
         message = new MessageDraft(VALID_EMAIL_MESSAGE, "");
-        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED);
+        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED
+                + EMAIL_NOT_LOGIN_STATUS);
 
         /**
          * Case: Email Commmand to draft email with empty message parameter --> invalid
@@ -1272,7 +1365,8 @@ public class MessageDisplayTest extends GuiUnitTest {
          **/
         command = EmailCommand.COMMAND_WORD + EMAIL_SUBJECT;
         message = new MessageDraft("", VALID_EMAIL_SUBJECT);
-        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED);
+        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED
+                + EMAIL_NOT_LOGIN_STATUS);
 
         /**
          * Case: Email Commmand to draft email with empty subject parameter --> invalid
@@ -1287,7 +1381,8 @@ public class MessageDisplayTest extends GuiUnitTest {
         command = EmailCommand.COMMAND_WORD + EMAIL_LOGIN;
         message = new MessageDraft();
         loginDetails = VALID_EMAIL_LOGIN.split(":");
-        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED);
+        assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_DRAFTED
+                + String.format(EMAIL_LOGIN_STATUS, loginDetails[0]));
 
         /**
          * Case: Email Commmand to draft email with invalid login parameter --> invalid
@@ -1317,9 +1412,6 @@ public class MessageDisplayTest extends GuiUnitTest {
         assertCommandSucess(command, message, loginDetails, task, EMAIL_SUCCESSFULLY_CLEARED);
     }
 
-```
-###### \java\systemtests\EmailCommandSystemTest.java
-``` java
     private void setupModel(Model expectedModel) throws Exception {
         /**
          *  Set up Model such the list is empty
@@ -1331,9 +1423,24 @@ public class MessageDisplayTest extends GuiUnitTest {
         executeCommand(findCommand);
     }
 
-```
-###### \java\systemtests\EmailCommandSystemTest.java
-``` java
+    /**
+     * Extract Email from last display person {@code lastshownList} into an InternetAddresss[] for sending email
+     *
+     * @params: last shown display person list
+     * @return: list of internet email address
+     **/
+    private InternetAddress[] extractEmailFromContacts(List<ReadOnlyPerson> lastShownList) throws AddressException {
+        InternetAddress [] recipientsEmail = new InternetAddress[lastShownList.size()];
+        try {
+            for (int i = 0; i < lastShownList.size(); i++) {
+                recipientsEmail[i] = new InternetAddress(lastShownList.get(i).getEmailAddress().value);
+            }
+        } catch (AddressException e) {
+            throw new AddressException();
+        }
+        return recipientsEmail;
+    }
+
     /**
      * Executes the {@code EmailCommand} that sends or draft an email {@code message} and verifies the command box
      * displays the email status results of executing the {@code EmailCommand} and the model related components equal
@@ -1346,6 +1453,7 @@ public class MessageDisplayTest extends GuiUnitTest {
     private void assertCommandSucess(String command, MessageDraft message, String [] loginDetails,
                                      EmailTask task, String status) throws Exception {
         Model expectedModel = getModel();
+        message.setRecipientsEmail(extractEmailFromContacts(expectedModel.getFilteredPersonList()));
 
         try {
             //Set up Email Details
@@ -1374,29 +1482,27 @@ public class MessageDisplayTest extends GuiUnitTest {
         }
         String expectedResultMessage = String.format(EmailCommand.MESSAGE_SUCCESS, status);
 
-        assertCommandSuccess(command, expectedModel, expectedResultMessage);
+        assertCommandSuccess(command, expectedModel, expectedModel.getEmailManager().getEmailDraft(),
+                expectedResultMessage);
     }
 
-```
-###### \java\systemtests\EmailCommandSystemTest.java
-``` java
     /**
      * Performs the same verification as {@code assertCommandSuccess(String, Message, String [], boolean)} except
-     * that the result display box displays {@code expectedResultMessage} and the model related components equal to
-     * {@code expectedModel}.
+     * that the result display box displays {@code expectedResultMessage}, the model related components equal to
+     * {@code expectedModel} and the email tab displays {@code expectedMessage}.
      * @see EmailCommandSystemTest#
      * assertCommandSuccess(String, MessageDraft, String [], boolean)
      */
-    private void assertCommandSuccess(String command, Model expectedModel, String expectedResultMessage) {
+    private void assertCommandSuccess(String command, Model expectedModel, ReadOnlyMessageDraft expectedDraft,
+                                      String expectedResultMessage) {
         executeCommand(command);
         assertApplicationDisplaysExpected("", expectedResultMessage, expectedModel);
         assertSelectedCardUnchanged();
         assertCommandBoxShowsDefaultStyle();
+        assertEmailDisplayExpected(expectedDraft.getMessage(), expectedDraft.getSubject(),
+                expectedDraft.getRecipientsEmailtoString(), 1);
     }
 
-```
-###### \java\systemtests\EmailCommandSystemTest.java
-``` java
     /**
      * Executes {@code command} and verifies that the command box displays {@code command}, the result display
      * box displays {@code expectedResultMessage} and the model related components equal to the current model.
@@ -1416,9 +1522,6 @@ public class MessageDisplayTest extends GuiUnitTest {
         assertStatusBarUnchanged();
     }
 
-```
-###### \java\systemtests\EmailCommandSystemTest.java
-``` java
     /**
      * Performs the same verification as {@code assertCommandSuccess(String, String)} except
      * that the displayed person list is empty.

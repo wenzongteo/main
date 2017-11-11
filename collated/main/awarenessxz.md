@@ -2,7 +2,7 @@
 ###### \java\seedu\address\commons\events\ui\EmailDraftChangedEvent.java
 ``` java
 /**
- * Indicates when the email draft changed
+ * Indicates that the email draft have changed
  */
 public class EmailDraftChangedEvent extends BaseEvent {
 
@@ -10,6 +10,26 @@ public class EmailDraftChangedEvent extends BaseEvent {
 
     public EmailDraftChangedEvent(ReadOnlyMessageDraft message) {
         this.message = message;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+
+}
+```
+###### \java\seedu\address\commons\events\ui\ToggleTabEvent.java
+``` java
+/**
+ * Indicates the change of tabs after command is executed.
+ */
+public class ToggleTabEvent extends BaseEvent {
+
+    public final int leftTabIndex;
+
+    public ToggleTabEvent(int leftTabIndex) {
+        this.leftTabIndex = leftTabIndex;
     }
 
     @Override
@@ -54,29 +74,40 @@ public class EmailDraftChangedEvent extends BaseEvent {
 ###### \java\seedu\address\email\Email.java
 ``` java
 /**
- * The API of Email component
+ * API of Email component
  */
 public interface Email {
 
-    /* Login to send Email */
+    /**
+     * Logins to Email Component with given login details
+     *
+     * @throws EmailLoginInvalidException if login fails
+     */
     void loginEmail(String [] loginDetails) throws EmailLoginInvalidException;
 
-    /* Checks if user is Log in */
+    /** Returns true if user is Log in */
     boolean isUserLogin();
 
-    /* Create Email Draft with all details */
+    /** Creates Email Draft with given message */
     void composeEmail(MessageDraft message);
 
-    /* view Email Draft */
+    /** Views Email Draft */
     ReadOnlyMessageDraft getEmailDraft();
 
-    /* View Email Send Status */
+    /** Views Email Send Status */
     String getEmailStatus();
 
-    /* Clear Email Draft content */
+    /** Clears Email Draft content */
     void clearEmailDraft();
 
-    /* send Email Draft to all users */
+    /**
+     * Sends Email Draft to all users
+     *
+     * @throws EmailLoginInvalidException if login details is empty
+     * @throws EmailMessageEmptyException if message is empty
+     * @throws EmailRecipientsEmptyException if recipients list is empty
+     * @throws AuthenticationFailedException if gmail account can't be logged in
+     */
     void sendEmail() throws EmailLoginInvalidException, EmailMessageEmptyException,
             EmailRecipientsEmptyException, AuthenticationFailedException;
 
@@ -91,12 +122,14 @@ public interface Email {
 public class EmailCompose {
     private DraftList emailDraftsList;
 
+    /** Creates an EmailCompose with an empty draft list **/
     public EmailCompose() {
         emailDraftsList = new DraftList();
     }
 
     /**
-     * compose an Email or edit the current one
+     * Compose an Email or edit the current one
+     *
      * @param message
      */
     public void composeEmail(MessageDraft message) {
@@ -107,6 +140,9 @@ public class EmailCompose {
         return emailDraftsList.getMessage(0);
     }
 
+    /**
+     * Resets the existing data of this {@code emailDraftsList} with an empty draft list
+     */
     public void resetData() {
         emailDraftsList = new DraftList();
     }
@@ -129,13 +165,16 @@ public class EmailLogin {
 
     private String [] loginDetails;
 
+    /** Creates an EmailLogin with an empty login detail */
     public EmailLogin() {
-        this.loginDetails = new String[0];
+        loginDetails = new String[0];
     }
 
     /**
-     * Saves user login details
-     * @param loginDetails
+     * Saves user's login details
+     *
+     * @param loginDetails login email and password
+     * @throws EmailLoginInvalidException if loginDetails is in wrong format
      */
     public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         //replace login details and ignore if login details is omitted.
@@ -150,11 +189,11 @@ public class EmailLogin {
 
     /**
      * Checks if user's login details have been stored
-     * @return boolean
+     *
+     * @return true if loginDetails is available
      */
     public boolean isUserLogin() {
-        if (this.loginDetails.length != 2) {
-            //The loginDetails empty
+        if (loginDetails.length != 2) {
             return false;
         } else {
             return true;
@@ -163,6 +202,7 @@ public class EmailLogin {
 
     /**
      * Verifies if the user is using a gmail account
+     *
      * @return true if gmail account, false for everything else
      */
     private boolean wrongUserEmailFormat(String [] loginDetails) {
@@ -175,25 +215,29 @@ public class EmailLogin {
         return false;
     }
 
-
+    /** Returns user's login email */
     public String getEmailLogin() {
-        if (this.loginDetails.length == 2) {
-            return this.loginDetails[0];
+        if (loginDetails.length == 2) {
+            return loginDetails[0];
         } else {
             return "";
         }
     }
 
+    /** Returns user's login password */
     public String getPassword() {
-        if (this.loginDetails.length == 2) {
-            return this.loginDetails[1];
+        if (loginDetails.length == 2) {
+            return loginDetails[1];
         } else {
             return "";
         }
     }
 
+    /**
+     * Resets the existing data of this {@code loginDetails} with an empty login
+     */
     public void resetData() {
-        this.loginDetails = new String[0];
+        loginDetails = new String[0];
     }
 
     @Override
@@ -203,15 +247,11 @@ public class EmailLogin {
                 && this.loginDetailsEquals(((EmailLogin) other).loginDetails));
     }
 
-    /**
-     * Verifies that the loginDetails are equal
-     * @param other
-     * @return
-     */
+    /** Returns true if both have the same loginDetails */
     private boolean loginDetailsEquals(String [] other) {
-        if (this.loginDetails.length == other.length) {
-            for (int i = 0; i < this.loginDetails.length; i++) {
-                if (this.loginDetails[i] != other[i]) {
+        if (loginDetails.length == other.length) {
+            for (int i = 0; i < loginDetails.length; i++) {
+                if (loginDetails[i] != other[i]) {
                     return false;
                 }
             }
@@ -225,30 +265,41 @@ public class EmailLogin {
 ``` java
 /**
  * Handles how email are sent out of the application.
- **/
+ */
 public class EmailManager extends ComponentManager implements Email {
     private static final Logger logger = LogsCenter.getLogger(EmailManager.class);
+
+    private static final String STATUS_CLEARED = "cleared.";
+    private static final String STATUS_DRAFTED = "drafted.\n";
+    private static final String STATUS_SENT = "sent ";
+    private static final String STATUS_LOGIN_FAIL = "You are not logged in to any Gmail account.";
+    private static final String STATUS_LOGIN_SENT = "using %1$s";
+    private static final String STATUS_LOGIN_SUCCESS = "You are logged in to %1$s";
 
     private final EmailLogin emailLogin;
     private final EmailCompose emailCompose;
     private final EmailSend emailSend;
 
     private String emailStatus;
+    private String emailLoginStatus;
 
+    /**
+     * Initializes a EmailManager with new EmailLogin, EmailCompose and EmailSend
+     */
     public EmailManager() {
         logger.fine("Initializing Default Email component");
 
-        this.emailLogin = new EmailLogin();
-        this.emailCompose = new EmailCompose();
-        this.emailSend = new EmailSend();
-        this.emailStatus = "";
+        emailLogin = new EmailLogin();
+        emailCompose = new EmailCompose();
+        emailSend = new EmailSend();
+        emailStatus = "";
+        emailLoginStatus = STATUS_LOGIN_FAIL;
     }
 
     @Override
     public void composeEmail(MessageDraft message) {
-
         emailCompose.composeEmail(message);
-        this.emailStatus = "drafted";
+        emailStatus = STATUS_DRAFTED;
     }
 
     @Override
@@ -258,7 +309,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     @Override
     public String getEmailStatus() {
-        return this.emailStatus;
+        return emailStatus + emailLoginStatus;
     }
 
     @Override
@@ -269,18 +320,24 @@ public class EmailManager extends ComponentManager implements Email {
         emailSend.sendEmail(emailCompose, emailLogin);
 
         //reset the email draft after email have been sent
-        this.emailStatus = "sent";
+        emailStatus = STATUS_SENT;
+        emailLoginStatus = String.format(STATUS_LOGIN_SENT, emailLogin.getEmailLogin());
         resetData();
     }
 
     @Override
     public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         emailLogin.loginEmail(loginDetails);
+        if (emailLogin.isUserLogin()) {
+            emailLoginStatus = String.format(STATUS_LOGIN_SUCCESS, emailLogin.getEmailLogin());
+        } else {
+            emailLoginStatus = STATUS_LOGIN_FAIL;
+        }
     }
 
     /**
-     * Checks if the email manager holds the username and password of user
-     **/
+     * Returns true if the emailLogin contains user's login details
+     */
     @Override
     public boolean isUserLogin() {
         return emailLogin.isUserLogin();
@@ -290,13 +347,16 @@ public class EmailManager extends ComponentManager implements Email {
     @Override
     public void clearEmailDraft() {
         resetData();
-        this.emailStatus = "cleared";
+        emailStatus = STATUS_CLEARED;
+        emailLoginStatus = "";
     }
 
-    /** reset Email Draft Data **/
+    /**
+     * Resets the existing data of this {@code emailCompose} and this {@code emailLogin}
+     */
     private void resetData() {
-        this.emailCompose.resetData();
-        this.emailLogin.resetData();
+        emailCompose.resetData();
+        emailLogin.resetData();
     }
 
     @Override
@@ -328,11 +388,12 @@ public class EmailManager extends ComponentManager implements Email {
 public class EmailSend {
     private Properties props;
 
+    /** Creates an EmailSend with an default properties */
     public EmailSend() {
         prepEmailProperties();
     }
 
-    /** Prepare Email Default Properties **/
+    /** Prepares Email Default Properties */
     private void prepEmailProperties() {
         props = new Properties();
         props.put("mail.smtp.auth", "true");
@@ -344,10 +405,13 @@ public class EmailSend {
 
     /**
      * Handles sending email process
-     * @throws EmailLoginInvalidException
-     * @throws EmailMessageEmptyException
-     * @throws EmailRecipientsEmptyException
-     * @throws AuthenticationFailedException
+     *
+     * @param emailCompose contains message to be send
+     * @param emailLogin contains login details of user
+     * @throws EmailLoginInvalidException if login details is empty
+     * @throws EmailMessageEmptyException if message is empty
+     * @throws EmailRecipientsEmptyException if recipients list is empty
+     * @throws AuthenticationFailedException if gmail account can't be logged in
      */
     public void sendEmail(EmailCompose emailCompose, EmailLogin emailLogin) throws EmailLoginInvalidException,
             EmailMessageEmptyException, EmailRecipientsEmptyException, AuthenticationFailedException {
@@ -373,7 +437,14 @@ public class EmailSend {
         sendingEmail(emailLogin.getEmailLogin(), emailLogin.getPassword(), emailCompose.getMessage());
     }
 
-    /** Send email out using JavaMail API **/
+    /**
+     * Sends email out using JavaMail API
+     *
+     * @param login email login account
+     * @param pass email login password
+     * @param message message to send
+     * @throws AuthenticationFailedException if gmail account can't be logged in
+     */
     private void sendingEmail(String login, String pass, ReadOnlyMessageDraft message)
             throws AuthenticationFailedException {
         final String username = login;
@@ -408,44 +479,33 @@ public class EmailSend {
  * Keeps track of Current Email Command Task
  */
 public class EmailTask {
-    public static final String TASKSEND = "send";
-    public static final String TASKCLEAR = "clear";
+    public static final String TASK_SEND = "send";
+    public static final String TASK_CLEAR = "clear";
 
     private String task;
 
     public EmailTask() {
-        this.task = "";
+        task = "";
     }
 
     public EmailTask(String task) {
         this.task = task;
     }
 
-    /**
-     * Returns the Task
-     * @return
-     */
     public String getTask() {
-        return this.task;
+        return task;
     }
 
-    /**
-     * Sets the task on Email Command Run
-     * @param task
-     */
     public void setTask(String task) {
         this.task = task;
     }
 
-    /**
-     * Checks if the task is valid
-     * @return
-     */
+    /** Returns true if task is valid */
     public boolean isValid() {
-        switch (this.task) {
-        case TASKCLEAR:
+        switch (task) {
+        case TASK_CLEAR:
             return true;
-        case TASKSEND:
+        case TASK_SEND:
             return true;
         default:
             return false;
@@ -498,7 +558,8 @@ public class DraftList {
 
     /**
      * Compose a new email or edit the current one
-     * @param newMessage
+     *
+     * @param newMessage new email
      */
     public void composeEmail(MessageDraft newMessage) {
         MessageDraft message = messages[0];
@@ -511,6 +572,12 @@ public class DraftList {
         messages[0] = newMessage;
     }
 
+    /**
+     * Returns draft at requested index
+     *
+     * @param i index of message in draftlist
+     * @return Unmodifiable message draft
+     */
     public ReadOnlyMessageDraft getMessage(int i) {
         return messages[i];
     }
@@ -522,11 +589,7 @@ public class DraftList {
                 && this.draftListEquals(((DraftList) other).messages));
     }
 
-    /**
-     * Verifies if the draftlist matches
-     * @param other
-     * @return true if all message matches
-     */
+    /** Returns true if both have the same draft list */
     private boolean draftListEquals(MessageDraft [] other) {
         if (other.length == this.messages.length) {
             for (int i = 0; i < this.messages.length; i++) {
@@ -543,8 +606,8 @@ public class DraftList {
 ###### \java\seedu\address\email\message\MessageDraft.java
 ``` java
 /**
- * Email Message Object for storing Email Drafts Contents
- **/
+ * Represents a Email Message Draft in addressbook.
+ */
 public class MessageDraft implements ReadOnlyMessageDraft {
 
     private String message;
@@ -552,20 +615,20 @@ public class MessageDraft implements ReadOnlyMessageDraft {
     private InternetAddress [] recipientsEmail;
 
     public MessageDraft() {
-        this.message = "";
-        this.subject = "";
-        this.recipientsEmail = new InternetAddress[0];
+        message = "";
+        subject = "";
+        recipientsEmail = new InternetAddress[0];
     }
 
     public MessageDraft(String message, String subject) {
         this.message = message;
         this.subject = subject;
-        this.recipientsEmail = new InternetAddress[0];
+        recipientsEmail = new InternetAddress[0];
     }
 
     @Override
     public String getMessage() {
-        return this.message;
+        return message;
     }
 
     public void setMessage(String message) {
@@ -574,7 +637,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public String getSubject() {
-        return this.subject;
+        return subject;
     }
 
     public void setSubject(String subject) {
@@ -583,7 +646,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public InternetAddress[] getRecipientsEmails() {
-        return this.recipientsEmail;
+        return recipientsEmail;
     }
 
     public void setRecipientsEmail(InternetAddress[] recipientsEmail) {
@@ -605,7 +668,7 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public boolean containsContent() {
-        if (this.message.isEmpty() || this.subject.isEmpty()) {
+        if (message.isEmpty() || subject.isEmpty()) {
             return false;
         } else {
             return true;
@@ -621,9 +684,9 @@ public class MessageDraft implements ReadOnlyMessageDraft {
 
     @Override
     public boolean recipientsEquals(InternetAddress [] other) {
-        if (other.length == this.recipientsEmail.length) {
+        if (other.length == recipientsEmail.length) {
             for (int i = 0; i < recipientsEmail.length; i++) {
-                if (other[i] != this.recipientsEmail[i]) {
+                if (other[i] != recipientsEmail[i]) {
                     return false;
                 }
             }
@@ -644,8 +707,11 @@ public interface ReadOnlyMessageDraft {
     String getMessage();
     String getSubject();
     InternetAddress [] getRecipientsEmails();
+
+    /** Converts all recipient's email address to String */
     String getRecipientsEmailtoString();
 
+    /** Returns true if message and subject is not empty */
     boolean containsContent();
 
     /**
@@ -660,14 +726,15 @@ public interface ReadOnlyMessageDraft {
                 && other.recipientsEquals(this.getRecipientsEmails()));
     }
 
+    /** Returns true if both recipient addresses are the same */
     boolean recipientsEquals(InternetAddress [] other);
 }
 ```
 ###### \java\seedu\address\logic\commands\EmailCommand.java
 ``` java
 /**
- * Compose an email draft or send the draft out using gmail account
- **/
+ * Composes an email draft or sends the draft out using gmail account
+ */
 public class EmailCommand extends Command {
 
     public static final String COMMAND_WORD = "email";
@@ -711,11 +778,11 @@ public class EmailCommand extends Command {
     }
 
     /**
-     * Extract Email from last display person {@code lastshownList} into an InternetAddresss[] for sending email
+     * Extracts Email from last display person {@code lastshownList} into an InternetAddresss[] for sending email
      *
-     * @params: last shown display person list
+     * @param: lastshownList last shown display person list in user interface
      * @return: list of internet email address
-     **/
+     */
     private InternetAddress[] extractEmailFromContacts(List<ReadOnlyPerson> lastShownList) throws AddressException {
         InternetAddress [] recipientsEmail = new InternetAddress[lastShownList.size()];
         try {
@@ -729,15 +796,20 @@ public class EmailCommand extends Command {
     }
 
     /**
-     * Identify the Email Command Execution Task purpose
+     * Identifies the Email Command Execution Task purpose
+     *
+     * @throws EmailLoginInvalidException if login details is empty
+     * @throws EmailMessageEmptyException if message is empty
+     * @throws EmailRecipientsEmptyException if recipients list is empty
+     * @throws AuthenticationFailedException if gmail account can't be logged in
      */
     private void identifyEmailTask() throws EmailLoginInvalidException, EmailMessageEmptyException,
             EmailRecipientsEmptyException, AuthenticationFailedException {
         switch (task.getTask()) {
-        case EmailTask.TASKSEND:
+        case EmailTask.TASK_SEND:
             model.sendEmail(message);
             break;
-        case EmailTask.TASKCLEAR:
+        case EmailTask.TASK_CLEAR:
             model.clearEmailDraft();
             break;
         default:
@@ -760,7 +832,6 @@ public class EmailCommand extends Command {
         }
 
         try {
-            //Set up Email Details
             model.loginEmail(loginDetails);
             identifyEmailTask();
             return new CommandResult(String.format(MESSAGE_SUCCESS, model.getEmailStatus()));
@@ -787,12 +858,7 @@ public class EmailCommand extends Command {
                 && ((EmailCommand) other).task.equals(this.task));
     }
 
-    /**
-     * For validating if the loginDetails are equal (Testing)
-     *
-     * @param other to compare with
-     * @return true if loginDetails are equal
-     **/
+    /** Returns */
     private boolean loginDetailsEquals(String [] other) {
         if (this.loginDetails.length == other.length) {
             for (int i = 0; i < this.loginDetails.length; i++) {
@@ -809,7 +875,7 @@ public class EmailCommand extends Command {
 ###### \java\seedu\address\logic\commands\FindCommand.java
 ``` java
 /**
- * Finds and lists all persons in address book whose name contains any of the argument keywords.
+ * Finds and lists all persons in address book whose name or tag contains any of the argument keywords.
  * Keyword matching is case sensitive.
  */
 public class FindCommand extends Command {
@@ -862,6 +928,7 @@ public class EmailCommandParser implements Parser<EmailCommand> {
     /**
      * Parses the given {@code String} of arguments in the context of the EmailCommand
      * and returns an EmailCommand object for execution.
+     *
      * @throws ParseException if the user input does not conform the expected format
      */
     public EmailCommand parse(String args) throws ParseException {
@@ -871,43 +938,19 @@ public class EmailCommandParser implements Parser<EmailCommand> {
                         PREFIX_EMAIL_TASK);
 
         EmailTask task = new EmailTask();
-        String message = "";
-        String subject = "";
-        String login = "";
-        String [] loginDetails = new String[0];
+        String message;
+        String subject;
+        String [] loginDetails;
 
         try {
 
-            if (argMultimap.getValue(PREFIX_EMAIL_MESSAGE).isPresent()) {
-                message = ParserUtil.parseEmailMessage(argMultimap.getValue(PREFIX_EMAIL_MESSAGE)).trim();
-                if (message.isEmpty()) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
-                }
-            }
-            if (argMultimap.getValue(PREFIX_EMAIL_SUBJECT).isPresent()) {
-                subject = ParserUtil.parseEmailMessage(argMultimap.getValue(PREFIX_EMAIL_SUBJECT)).trim();
-                if (subject.isEmpty()) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
-                }
-            }
-            if (argMultimap.getValue(PREFIX_EMAIL_LOGIN).isPresent()) {
-                login = ParserUtil.parseLoginDetails(argMultimap.getValue(PREFIX_EMAIL_LOGIN)).trim();
-                loginDetails = login.split(":");
-                if (loginDetails.length != 2) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
-                }
-            }
+            message = getArgumentMessage(argMultimap);
+            subject = getArgumentSubject(argMultimap);
+            loginDetails = getArgumentLoginDetails(argMultimap);
+            task = getArgumentEmailTask(argMultimap, task);
 
-            /** checks what is the email task, to send or create draft **/
-            if (argMultimap.getValue(PREFIX_EMAIL_TASK).isPresent()) {
-                task.setTask(ParserUtil.parseEmailTask(argMultimap.getValue(PREFIX_EMAIL_TASK)).trim());
-                if (!task.isValid()) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
-                }
-            }
-
-            /** checks if only "email" command is run **/
-            if (message.isEmpty() && subject.isEmpty() && login.isEmpty() && !task.isValid()) {
+            /** checks if only "email" command is run */
+            if (message.isEmpty() && subject.isEmpty() && (loginDetails.length == 0) && !task.isValid()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
             }
 
@@ -916,6 +959,83 @@ public class EmailCommandParser implements Parser<EmailCommand> {
         }
 
         return new EmailCommand(message, subject, loginDetails, task);
+    }
+
+    /**
+     * Returns argument message values if available
+     *
+     * @param argMultimap
+     * @return argument message values
+     * @throws IllegalValueException if value is empty
+     */
+    private String getArgumentMessage(ArgumentMultimap argMultimap) throws IllegalValueException {
+        String message = "";
+
+        if (argMultimap.getValue(PREFIX_EMAIL_MESSAGE).isPresent()) {
+            message = ParserUtil.parseEmailMessage(argMultimap.getValue(PREFIX_EMAIL_MESSAGE)).trim();
+            if (message.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
+            }
+        }
+        return message;
+    }
+
+    /**
+     * Returns argument subject values if available
+     *
+     * @param argMultimap
+     * @return argument subject values
+     * @throws IllegalValueException if value is empty
+     */
+    private String getArgumentSubject(ArgumentMultimap argMultimap) throws IllegalValueException {
+        String subject = "";
+
+        if (argMultimap.getValue(PREFIX_EMAIL_SUBJECT).isPresent()) {
+            subject = ParserUtil.parseEmailMessage(argMultimap.getValue(PREFIX_EMAIL_SUBJECT)).trim();
+            if (subject.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
+            }
+        }
+        return subject;
+    }
+
+    /**
+     * Returns argument login values if available
+     *
+     * @param argMultimap
+     * @return argument login values
+     * @throws IllegalValueException if value is empty
+     */
+    private String [] getArgumentLoginDetails(ArgumentMultimap argMultimap) throws IllegalValueException {
+        String login = "";
+        String [] loginDetails = new String[0];
+
+        if (argMultimap.getValue(PREFIX_EMAIL_LOGIN).isPresent()) {
+            login = ParserUtil.parseLoginDetails(argMultimap.getValue(PREFIX_EMAIL_LOGIN)).trim();
+            loginDetails = login.split(":");
+            if (loginDetails.length != 2) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
+            }
+        }
+        return loginDetails;
+    }
+
+    /**
+     * Returns argument task values if available
+     *
+     * @param argMultimap
+     * @param task new EmailTask object
+     * @return task with argument task values
+     * @throws IllegalValueException if task is not "send" or "clear"
+     */
+    private EmailTask getArgumentEmailTask(ArgumentMultimap argMultimap, EmailTask task) throws IllegalValueException {
+        if (argMultimap.getValue(PREFIX_EMAIL_TASK).isPresent()) {
+            task.setTask(ParserUtil.parseEmailTask(argMultimap.getValue(PREFIX_EMAIL_TASK)).trim());
+            if (!task.isValid()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, EmailCommand.MESSAGE_USAGE));
+            }
+        }
+        return task;
     }
 }
 ```
@@ -926,12 +1046,10 @@ public class EmailCommandParser implements Parser<EmailCommand> {
  */
 public class FindCommandParser implements Parser<FindCommand> {
 
-```
-###### \java\seedu\address\logic\parser\FindCommandParser.java
-``` java
     /**
      * Parses the given {@code String} of arguments in the context of the FindCommand
      * and returns an FindCommand object for execution.
+     *
      * @throws ParseException if the user input does not conform the expected format
      */
     public FindCommand parse(String args) throws ParseException {
@@ -945,30 +1063,19 @@ public class FindCommandParser implements Parser<FindCommand> {
         String [] tagKeywords = new String[0];
 
         try {
-            if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
-                trimmedArgsName = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_NAME)).get().trim();
-                nameKeywords = trimmedArgsName.split("\\s+");
-                if (trimmedArgsName.isEmpty()) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-                }
-            }
-            if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
-                trimmedArgsTag = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_TAG)).get().trim();
-                tagKeywords = trimmedArgsTag.split("\\s+");
-                if (trimmedArgsTag.isEmpty()) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-                }
-            }
-
-            if (argMultimap.getValue(PREFIX_SORT).isPresent()) {
-                sortOrder = ParserUtil.parseSortOrder(argMultimap.getValue(PREFIX_SORT));
-                if (sortOrder < 0) {
-                    throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
-                }
-            }
+            trimmedArgsName = getArgumentName(argMultimap);
+            trimmedArgsTag = getArgumentTag(argMultimap);
+            sortOrder = getArgumentSortOrder(argMultimap);
 
             if (trimmedArgsName.isEmpty() && trimmedArgsTag.isEmpty()) {
                 throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            } else {
+                if (!trimmedArgsName.isEmpty()) {
+                    nameKeywords = trimmedArgsName.split("\\s+");
+                }
+                if (!trimmedArgsTag.isEmpty()) {
+                    tagKeywords = trimmedArgsTag.split("\\s+");
+                }
             }
 
         } catch (IllegalValueException ive) {
@@ -979,12 +1086,69 @@ public class FindCommandParser implements Parser<FindCommand> {
                 Arrays.asList(tagKeywords)), sortOrder);
     }
 
+    /**
+     * Returns argument name values if available
+     *
+     * @param argMultimap
+     * @return argument name values
+     * @throws IllegalValueException if value is empty
+     */
+    private String getArgumentName(ArgumentMultimap argMultimap) throws IllegalValueException {
+        String trimmedArgsName = "";
+
+        if (argMultimap.getValue(PREFIX_NAME).isPresent()) {
+            trimmedArgsName = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_NAME)).get().trim();
+            if (trimmedArgsName.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+        }
+        return trimmedArgsName;
+    }
+
+    /**
+     * Returns argument tag values if available
+     *
+     * @param argMultimap
+     * @return argument tag values
+     * @throws IllegalValueException if value is empty
+     */
+    private String getArgumentTag(ArgumentMultimap argMultimap) throws IllegalValueException {
+        String trimmedArgsTag = "";
+
+        if (argMultimap.getValue(PREFIX_TAG).isPresent()) {
+            trimmedArgsTag = ParserUtil.parseKeywords(argMultimap.getValue(PREFIX_TAG)).get().trim();
+            if (trimmedArgsTag.isEmpty()) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+        }
+        return trimmedArgsTag;
+    }
+
+    /**
+     * Returns sort option if available
+     *
+     * @param argMultimap
+     * @return int sort option
+     * @throws IllegalValueException if sort < 0
+     */
+    private int getArgumentSortOrder(ArgumentMultimap argMultimap) throws IllegalValueException {
+        int sortOrder = 0;
+
+        if (argMultimap.getValue(PREFIX_SORT).isPresent()) {
+            sortOrder = ParserUtil.parseSortOrder(argMultimap.getValue(PREFIX_SORT));
+            if (sortOrder < 0) {
+                throw new ParseException(String.format(MESSAGE_INVALID_COMMAND_FORMAT, FindCommand.MESSAGE_USAGE));
+            }
+        }
+        return sortOrder;
+    }
+
 }
 ```
 ###### \java\seedu\address\logic\parser\ParserUtil.java
 ``` java
     /**
-     * Parses {@code String sort} into an {@code int} and returns it.
+     * Parses {@code Optional<String> sort} into an {@code int} and returns it.
      * @throws IllegalValueException if the specified sort is invalid
      */
     public static int parseSortOrder(Optional<String> sort) throws IllegalValueException {
@@ -992,16 +1156,16 @@ public class FindCommandParser implements Parser<FindCommand> {
         int sortOrder = 0;
         if (sort.isPresent()) {
             switch(sort.get().trim()) {
-            case "name":
+            case SORT_NAME:
                 sortOrder = 0;
                 break;
-            case "tag":
+            case SORT_TAG:
                 sortOrder = 1;
                 break;
-            case "email":
+            case SORT_EMAIL:
                 sortOrder = 2;
                 break;
-            case "address":
+            case SORT_ADDRESS:
                 sortOrder = 3;
                 break;
             default:
@@ -1014,9 +1178,6 @@ public class FindCommandParser implements Parser<FindCommand> {
         return sortOrder;
     }
 
-```
-###### \java\seedu\address\logic\parser\ParserUtil.java
-``` java
     /**
      * Parses a {@code Optional<String> message} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
@@ -1026,9 +1187,6 @@ public class FindCommandParser implements Parser<FindCommand> {
         return message.isPresent() ? message.get() : "";
     }
 
-```
-###### \java\seedu\address\logic\parser\ParserUtil.java
-``` java
     /**
      * Parses a {@code Optional<String> subject} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
@@ -1038,11 +1196,8 @@ public class FindCommandParser implements Parser<FindCommand> {
         return subject.isPresent() ? subject.get() : "";
     }
 
-```
-###### \java\seedu\address\logic\parser\ParserUtil.java
-``` java
     /**
-     * Parses a {@code Optional<String> login} into an {@code String}
+     * Parses a {@code Optional<String> loginDetails} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
     public static String parseLoginDetails(Optional<String> loginDetails) throws IllegalValueException {
@@ -1050,18 +1205,14 @@ public class FindCommandParser implements Parser<FindCommand> {
         return loginDetails.isPresent() ? loginDetails.get() : "";
     }
 
-```
-###### \java\seedu\address\logic\parser\ParserUtil.java
-``` java
     /**
-     * Parses a {@code Optional<String> login} into an {@code String}
+     * Parses a {@code Optional<String> task} into an {@code String}
      * See header comment of this class regarding the use of {@code Optional} parameters.
      */
     public static String parseEmailTask(Optional<String> task) throws IllegalValueException {
         requireNonNull(task);
         return task.isPresent() ? task.get() : "";
     }
-}
 ```
 ###### \java\seedu\address\model\ModelManager.java
 ``` java
@@ -1083,15 +1234,7 @@ public class FindCommandParser implements Parser<FindCommand> {
 ```
 ###### \java\seedu\address\model\ModelManager.java
 ``` java
-    /**
-     * @param: int
-     * 0 = sort by name ascending
-     * 1 = sort by tags ascending
-     * 2 = sort by email ascending
-     * 3 = sort by address ascending
-     * Returns a sorted unmodifable view of the list {@code ReadOnlyPerson} backed by the internal list of
-     * {@code addressBook}
-     */
+    @Override
     public void sortFilteredPersons(int sortOrder) {
 
         //sort by name by default
@@ -1161,6 +1304,20 @@ public class FindCommandParser implements Parser<FindCommand> {
     public String getEmailStatus() {
         return email.getEmailStatus();
     }
+
+    @Override
+    public void clearEmailDraft() {
+        email.clearEmailDraft();
+
+        raise(new EmailDraftChangedEvent(email.getEmailDraft()));
+    }
+
+    @Override
+    public void draftEmail(MessageDraft message) {
+        email.composeEmail(message);
+
+        raise(new EmailDraftChangedEvent(email.getEmailDraft()));
+    }
 ```
 ###### \java\seedu\address\model\person\NameContainsKeywordsPredicate.java
 ``` java
@@ -1189,7 +1346,6 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
         } else if (!tagkeywords.isEmpty()) {
             return person.containsTags(tagkeywords);
         } else {
-            //should not occur at all.
             return false;
         }
     }
@@ -1207,7 +1363,7 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
 ###### \java\seedu\address\model\person\Person.java
 ``` java
     /**
-     * Check if this person have the given tags in argument tag set
+     * Returns true if all tags in {@code List<String> tags} are found in this {@code tags}
      */
     @Override
     public boolean containsTags(List<String> tags) {
@@ -1246,7 +1402,7 @@ public class NameContainsKeywordsPredicate implements Predicate<ReadOnlyPerson> 
 ###### \java\seedu\address\ui\LeftDisplayPanel.java
 ``` java
 /**
- * Tab Panel containing personListPanel, EmailDraftPanel, and BirthdateTab
+ * Left Tab Panel containing personListPanel, EmailDraftPanel, and BirthdateTab
  */
 public class LeftDisplayPanel extends UiPart<Region> {
     private static final String FXML = "LeftDisplayPanel.fxml";
@@ -1256,8 +1412,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
     private PersonListPanel personListPanel;
     private PersonListBirthdatePanel birthdayListPanel;
     private MessageDisplay messageDisplay;
-    private boolean toggle;
-    private boolean toggle2;
+    private int tabIndex;
 
     @FXML
     private TabPane leftDisplayPanel;
@@ -1293,24 +1448,32 @@ public class LeftDisplayPanel extends UiPart<Region> {
         messageDisplay = new MessageDisplay();
         messageDraftPanelPlaceholder.getChildren().add(messageDisplay.getRoot());
 
-        toggle = true;
-        toggle2 = true;
+        tabIndex = 0;
     }
 
     /**
-     * Toggle Tabs
+     * Toggles Tabs based on index
      */
-    public void toggleTabs() {
-        if  (toggle && toggle2) {
-            leftDisplayPanel.getSelectionModel().select(emailDraftTab);
-            toggle2 = !toggle2;
-        } else if (toggle && !toggle2) {
-            leftDisplayPanel.getSelectionModel().select(birthdateTab);
-            toggle2 = !toggle2;
-            toggle = false;
+    public void toggleTabs(int index) {
+        if (index >= 0) {
+            tabIndex = index;
         } else {
+            tabIndex = (tabIndex + 1) % 3;
+        }
+
+        switch (tabIndex) {
+        case 0:
             leftDisplayPanel.getSelectionModel().select(personListTab);
-            toggle = true;
+            break;
+        case 1:
+            leftDisplayPanel.getSelectionModel().select(emailDraftTab);
+            break;
+        case 2:
+            leftDisplayPanel.getSelectionModel().select(birthdateTab);
+            break;
+        default:
+            assert false : "This should not happen";
+            break;
         }
     }
 
@@ -1318,16 +1481,22 @@ public class LeftDisplayPanel extends UiPart<Region> {
      * Scrolls one page down
      */
     public void scrollDown() {
-        personListPanel.scrollDown();
-        birthdayListPanel.scrollDown();
+        if (tabIndex == 0) {
+            personListPanel.scrollDown();
+        } else if (tabIndex == 2) {
+            birthdayListPanel.scrollDown();
+        }
     }
 
     /**
      * Scrolls one page up
      */
     public void scrollUp() {
-        personListPanel.scrollUp();
-        birthdayListPanel.scrollUp();
+        if (tabIndex == 0) {
+            personListPanel.scrollUp();
+        } else if (tabIndex == 2) {
+            birthdayListPanel.scrollUp();
+        }
     }
 
     public PersonListPanel getPersonListPanel() {
@@ -1343,7 +1512,7 @@ public class LeftDisplayPanel extends UiPart<Region> {
      */
     @FXML
     private void handleToggleTabs() {
-        leftDisplayPanel.toggleTabs();
+        leftDisplayPanel.toggleTabs(-1);
     }
 
 ```

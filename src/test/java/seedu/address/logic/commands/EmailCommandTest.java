@@ -266,6 +266,11 @@ public class EmailCommandTest {
         }
 
         @Override
+        public void backupAddressBook() {
+            fail("This method should not be called.");
+        }
+
+        @Override
         public Email getEmailManager() {
             fail("This method should not be called.");
             return null;
