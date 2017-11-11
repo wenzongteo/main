@@ -12,12 +12,15 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.logging.Logger;
 
 import org.fxmisc.easybind.EasyBind;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.collections.transformation.SortedList;
+import seedu.address.MainApp;
+import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.util.CollectionUtil;
 import seedu.address.commons.util.FileUtil;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
@@ -32,6 +35,15 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
  * @see CollectionUtil#elementsAreUnique(Collection)
  */
 public class UniquePersonList implements Iterable<Person> {
+
+    private static final int ONLY_PHOTO_CHANGED = 1;
+    private static final int ONLY_EMAIL_CHANGED = 2;
+    private static final int BOTH_PHOTO_AND_EMAIL_CHANGED = 3;
+    private static final int NEITHER_PHOTO_OR_EMAIL_CHANGED = 4;
+    private static final String editedFolder = "data/edited/";
+    private static final String photoFolder = "data/images/";
+    private static final String photoFileType = ".jpg";
+    private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     private final ObservableList<Person> internalList = FXCollections.observableArrayList();
     // used by asObservableList()
@@ -58,12 +70,9 @@ public class UniquePersonList implements Iterable<Person> {
         }
 
         Person person = new Person(toAdd);
-
-        String intendedPhotoPath = "data/images/" + toAdd.getEmailAddress().toString() + ".jpg";
-
+        String intendedPhotoPath = photoFolder + toAdd.getEmailAddress().toString() + photoFileType;
         createCurrentPhoto(toAdd.getPhoto().toString(), toAdd.getEmailAddress().toString());
         person = updatePhoto(person, intendedPhotoPath);
-
         internalList.add(new Person(person));
         sortInternalList();
     }
@@ -87,44 +96,51 @@ public class UniquePersonList implements Iterable<Person> {
             throw new DuplicatePersonException();
         }
         Person person = new Person(editedPerson);
-        String intendedPhotoPath = "data/images/" + editedPerson.getEmailAddress().toString() + ".jpg";
+        String intendedPhotoPath = photoFolder + editedPerson.getEmailAddress().toString() + photoFileType;
         boolean deleteFile = false;
 
-        if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
-                && !target.getPhoto().equals(editedPerson.getPhoto())) { //Only Photo changed.
+        int option = updateCasesForPhoto(target, editedPerson);
 
+        switch(option) {
+
+        case ONLY_PHOTO_CHANGED:
             createBackUpPhoto(intendedPhotoPath, editedPerson.getEmailAddress().toString());
             createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
 
             person = updatePhoto(person, intendedPhotoPath);
+            logger.info("Photo edited");
+            break;
 
-        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
-                && target.getPhoto().equals(editedPerson.getPhoto())) { //only email changed.
+        case ONLY_EMAIL_CHANGED:
             createBackUpPhoto(target.getPhoto().toString(), target.getEmailAddress().toString());
             createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
 
             person = updatePhoto(person, intendedPhotoPath);
             deleteFile = true;
+            logger.info("Email edited");
+            break;
 
-        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
-                && !target.getPhoto().equals(editedPerson.getPhoto())) { //Both changed.
-
+        case BOTH_PHOTO_AND_EMAIL_CHANGED:
             createBackUpPhoto(target.getPhoto().toString(), target.getEmailAddress().toString());
             createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
 
             person = updatePhoto(person, intendedPhotoPath);
             deleteFile = true;
+            logger.info("Both Photo and Email edited");
+            break;
 
-        } else if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
-                && target.getPhoto().equals(editedPerson.getPhoto())) { //No special update
-        } else {
+        case NEITHER_PHOTO_OR_EMAIL_CHANGED:
+            logger.info("Neither Photo and Email edited");
+            break;
+
+        default:
             throw new AssertionError("Shouldn't be here");
         }
 
         internalList.set(index, new Person(person));
         sortInternalList();
 
-        if (deleteFile == true) {
+        if (deleteFile) {
             deleteExistingPhoto(target.getPhoto().toString());
         }
     }
@@ -157,25 +173,12 @@ public class UniquePersonList implements Iterable<Person> {
         final UniquePersonList replacement = new UniquePersonList();
         for (final ReadOnlyPerson person : persons) {
             File image = new File(person.getPhoto().toString());
-            File toBeCopied = new File("data/edited/" + person.getEmailAddress().toString() + ".jpg");
+
+            File toBeCopied = new File(editedFolder + person.getEmailAddress().toString() + photoFileType);
             if (!FileUtil.isFileExists(image)) {
-                if (!FileUtil.isFileExists(toBeCopied)) {
-                    throw new AssertionError("image should exist!");
-                } else {
-                    createCurrentPhoto(toBeCopied.toString(), person.getEmailAddress().toString());
-                }
+                copyBackupPhoto(person, toBeCopied);
             } else {
-                //Compare Hash.
-                try {
-                    String hashValue = calculateHash(person.getPhoto().toString());
-                    if (!hashValue.equals(person.getPhoto().getHash())) { //Not equal, go take the old image
-                        createCurrentPhoto(toBeCopied.toString(), person.getEmailAddress().toString());
-                    } else {
-                        //Equal, do nothing.
-                    }
-                } catch (NoSuchAlgorithmException nsa) {
-                    throw new AssertionError("Impossible, algorithm should exist");
-                }
+                comparePhotoHash(person, toBeCopied);
             }
             replacement.add(new Person(person));
         }
@@ -214,8 +217,9 @@ public class UniquePersonList implements Iterable<Person> {
      * @throws IOException if the srcPath cannot be found in the system.
      */
     public void createBackUpPhoto(String srcPath, String emailAddr) throws IOException {
-        String destPath = "data/edited/" + emailAddr + ".jpg";
+        String destPath = editedFolder + emailAddr + photoFileType;
         Files.copy(Paths.get(srcPath), Paths.get(destPath), StandardCopyOption.REPLACE_EXISTING);
+        logger.info("Image for " + emailAddr + photoFileType + " copied to " + editedFolder);
     }
 
     /**
@@ -224,8 +228,11 @@ public class UniquePersonList implements Iterable<Person> {
      * @throws IOException if the srcPath cannot be found in the system.
      */
     public void createCurrentPhoto(String srcPath, String emailAddr) throws IOException {
-        String destPath = "data/images/" + emailAddr + ".jpg";
-        Files.copy(Paths.get(srcPath), Paths.get(destPath), StandardCopyOption.REPLACE_EXISTING);
+        String destPath = photoFolder + emailAddr + photoFileType;
+        if (!srcPath.equals(destPath)) {
+            Files.copy(Paths.get(srcPath), Paths.get(destPath), StandardCopyOption.REPLACE_EXISTING);
+        }
+        logger.info("Image for " + emailAddr + photoFileType + " copied to " + photoFolder);
     }
 
     /**
@@ -235,6 +242,7 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public void deleteExistingPhoto(String srcPath) throws IOException {
         Files.delete(Paths.get(srcPath));
+        logger.info("Image " + srcPath + " deleted");
     }
 
     /**
@@ -245,6 +253,67 @@ public class UniquePersonList implements Iterable<Person> {
     public Person updatePhoto(Person person, String srcPath) {
         person.setPhoto(new Photo(srcPath, 0));
         return person;
+    }
+
+    /**
+     * Check if the photo or email of the person is changed during the edit command.
+     *
+     * @param target Original Person in Augustine
+     * @param editedPerson Edited Person by the user
+     * @return which case of change occurred.
+     */
+    public int updateCasesForPhoto(ReadOnlyPerson target, ReadOnlyPerson editedPerson) {
+        if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && !target.getPhoto().equals(editedPerson.getPhoto())) { //Only Photo changed.
+            return ONLY_PHOTO_CHANGED;
+        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && target.getPhoto().equals(editedPerson.getPhoto())) { //only email changed.
+            return ONLY_EMAIL_CHANGED;
+        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && !target.getPhoto().equals(editedPerson.getPhoto())) { //Both changed.
+            return BOTH_PHOTO_AND_EMAIL_CHANGED;
+        } else if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && target.getPhoto().equals(editedPerson.getPhoto())) { //No special update
+            return NEITHER_PHOTO_OR_EMAIL_CHANGED;
+        } else {
+            throw new AssertionError("Shouldn't be here");
+        }
+    }
+
+    /**
+     * Copy the contact's photo from data/edited folder to data/images folder when an undo command is executed.
+     *
+     * @param person the edited person.
+     * @param toBeCopied Previous photo of the person.
+     */
+    private void copyBackupPhoto (ReadOnlyPerson person, File toBeCopied) {
+        try {
+            if (FileUtil.isFileExists(toBeCopied)) {
+                createCurrentPhoto(toBeCopied.toString(), person.getEmailAddress().toString());
+            }
+        } catch (IOException ioe) {
+            throw new AssertionError("Photo does not exist");
+        }
+    }
+
+    /**
+     * Compare the hash of the contact's current photo and the stored photo in the Person's Photo Object to ensure that
+     * the photo is correct.
+     *
+     * @param person person who the photos belong to.
+     * @param toBeCopied previous photo of the person.
+     */
+    private void comparePhotoHash (ReadOnlyPerson person, File toBeCopied) {
+        try {
+            String hashValue = calculateHash(person.getPhoto().toString());
+            if (!hashValue.equals(person.getPhoto().getHash())) { //Not equal, go take the old image
+                createCurrentPhoto(toBeCopied.toString(), person.getEmailAddress().toString());
+            }
+        } catch (IOException ioe) {
+            throw new AssertionError("Photo does not exist!");
+        } catch (NoSuchAlgorithmException nsa) {
+            throw new AssertionError("Impossible");
+        }
     }
     //@@author
 

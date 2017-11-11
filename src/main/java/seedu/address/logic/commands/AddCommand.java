@@ -46,7 +46,7 @@ public class AddCommand extends UndoableCommand {
             + PREFIX_USERID + "johndoe80";
 
     public static final String MESSAGE_SUCCESS = "New person added: %1$s";
-    public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book";
+    public static final String MESSAGE_DUPLICATE_PERSON = "This email is already used by a contact in Augustine.";
     public static final String MESSAGE_FILE_ERROR = "File is not found!";
 
     private final Person toAdd;
