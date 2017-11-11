@@ -35,6 +35,7 @@ public class XmlUtilTest {
     public void init() {
         ImageInit.checkDirectories();
         ImageInit.initPictures();
+        ImageInit.initDefault();
     }
 
     @After

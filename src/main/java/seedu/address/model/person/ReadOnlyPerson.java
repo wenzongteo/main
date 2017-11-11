@@ -56,7 +56,8 @@ public interface ReadOnlyPerson {
 
         return other == this // short circuit if same object
                 || (other != null // this is first to avoid NPE below
-                && other.getEmailAddress().equals(this.getEmailAddress()));
+                && other.getEmailAddress().toString().toLowerCase()
+                .equals(this.getEmailAddress().toString().toLowerCase()));
     }
 
     /**
