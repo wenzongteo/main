@@ -248,7 +248,7 @@ public class EmailCommandTest {
             fail("This method should not be called.");
         }
 
-                @Override
+        @Override
         public String addImage(EmailAddress email, Photo photo) throws IOException {
             fail("This method should not be called.");
             return "";

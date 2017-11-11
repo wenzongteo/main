@@ -239,6 +239,7 @@ public class AddressBookParserTest {
         assertEquals(new InstaCommand(INDEX_FIRST_PERSON), command);
     }
 
+    @Test
     public void parseCommand_backup() throws Exception {
         //Using command word
         assertTrue(parser.parseCommand(BackupCommand.COMMAND_WORD) instanceof BackupCommand);

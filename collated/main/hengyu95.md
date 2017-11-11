@@ -51,7 +51,7 @@ public class InstaCommand extends Command {
             + "Parameters: INDEX (must be a positive integer)\n"
             + "Example: " + COMMAND_WORD + " 1";
 
-    public static final String MESSAGE_SELECT_PERSON_SUCCESS = "Selected Person: %1$s";
+    public static final String MESSAGE_SELECT_PERSON_SUCCESS = "Selected Person: %1$s (%2$s)";
 
     public static final String MESSAGE_SELECT_PERSON_SUCCESS2 = "\nUser ID is: ";
 
@@ -84,11 +84,15 @@ public class InstaCommand extends Command {
 
         if (personToEdit.getUserId().value.equals("-")) {
             return new CommandResult(new StringBuilder()
-                    .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()))
+                    .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS,
+                            lastShownList.get(targetIndex.getZeroBased()).getName().fullName,
+                            targetIndex.getOneBased()))
                     .append(MESSAGE_SELECT_PERSON_SUCCESS3).toString());
         } else {
             return new CommandResult(new StringBuilder()
-                    .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS, targetIndex.getOneBased()))
+                    .append(String.format(MESSAGE_SELECT_PERSON_SUCCESS,
+                            lastShownList.get(targetIndex.getZeroBased()).getName().fullName,
+                            targetIndex.getOneBased()))
                     .append(MESSAGE_SELECT_PERSON_SUCCESS2)
                     .append(personToEdit.getUserId().value).toString());
         }
@@ -116,7 +120,7 @@ public class ListCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all the contacts and if specified, sort by tags "
             + "or by the names in alphabetical order\n"
             + "Parameters: "
-            + "[ " + PREFIX_SORT + "[name|tag] ]\n"
+            + "[ " + PREFIX_SORT + "<name|tag|email|address> ]\n"
             + "Examples:\n"
             + "1) " + COMMAND_WORD + "\n"
             + "2) " + COMMAND_WORD + " " + PREFIX_SORT + "tag";
@@ -422,25 +426,6 @@ public class UserId {
         leftDisplayPanel = new LeftDisplayPanel(logic.getFilteredPersonList(), logic.getFilteredPersonListBirthdate());
         leftDisplayPanelPlacedholder.getChildren().add(leftDisplayPanel.getRoot());
 ```
-###### \java\seedu\address\ui\PersonCard.java
-``` java
-    private void setColor(ReadOnlyPerson person) {
-
-        LocalDate date1;
-        LocalDate now = LocalDate.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        try {
-            date1 = LocalDate.parse(person.getBirthdate().value, format).withYear(now.getYear());
-        } catch (DateTimeParseException e) {
-            date1 = LocalDate.of(9999, 12, 30);
-        }
-
-        if (date1.equals(now)) {
-            cardPane.setStyle("-fx-background-color: #336699;");
-        }
-    }
-```
 ###### \java\seedu\address\ui\PersonCardBirthday.java
 ``` java
 public class PersonCardBirthday extends UiPart<Region> {
@@ -534,7 +519,7 @@ public class PersonCardBirthday extends UiPart<Region> {
 ###### \java\seedu\address\ui\PersonListBirthdatePanel.java
 ``` java
 /**
- * Panel containing the list of persons.
+ * Panel containing the list of persons sorted by birthdate
  */
 public class PersonListBirthdatePanel extends UiPart<Region> {
     private static final String FXML = "PersonListBirthdatePanel.fxml";
