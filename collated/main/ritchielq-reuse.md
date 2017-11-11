@@ -1,4 +1,24 @@
 # ritchielq-reuse
+###### \java\seedu\address\commons\events\ui\BrowserPanelChangeActiveTabEvent.java
+``` java
+/**
+ * Indicates a request to change active tab for browser panel
+ */
+public class BrowserPanelChangeActiveTabEvent extends BaseEvent {
+
+    public final int targetTab;
+
+    public BrowserPanelChangeActiveTabEvent(int targetTab) {
+        this.targetTab = targetTab;
+    }
+
+    @Override
+    public String toString() {
+        return this.getClass().getSimpleName();
+    }
+
+}
+```
 ###### \java\seedu\address\commons\events\ui\DeselectEvent.java
 ``` java
 /**

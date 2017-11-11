@@ -17,3 +17,5 @@ classes/
 /bin/
 src/main/resources/docs/
 out/
+collate.bat
+Collate-TUI.jar

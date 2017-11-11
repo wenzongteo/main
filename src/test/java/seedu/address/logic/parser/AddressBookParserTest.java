@@ -24,6 +24,7 @@ import org.junit.rules.ExpectedException;
 
 import seedu.address.email.EmailTask;
 import seedu.address.logic.commands.AddCommand;
+import seedu.address.logic.commands.BackupCommand;
 import seedu.address.logic.commands.ClearCommand;
 import seedu.address.logic.commands.DeleteCommand;
 import seedu.address.logic.commands.EditCommand;
@@ -33,6 +34,7 @@ import seedu.address.logic.commands.ExitCommand;
 import seedu.address.logic.commands.FindCommand;
 import seedu.address.logic.commands.HelpCommand;
 import seedu.address.logic.commands.HistoryCommand;
+import seedu.address.logic.commands.InstaCommand;
 import seedu.address.logic.commands.ListCommand;
 import seedu.address.logic.commands.RedoCommand;
 import seedu.address.logic.commands.SelectCommand;
@@ -222,6 +224,33 @@ public class AddressBookParserTest {
                 SelectCommand.COMMAND_ALIAS + " " + INDEX_FIRST_PERSON.getOneBased());
         assertEquals(new SelectCommand(INDEX_FIRST_PERSON), command);
     }
+
+    //@@author hengyu95
+    @Test
+    public void parseCommand_insta() throws Exception {
+        //Using command word
+        InstaCommand command = (InstaCommand) parser.parseCommand(
+                InstaCommand.COMMAND_WORD + " " + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(new InstaCommand(INDEX_FIRST_PERSON), command);
+
+        //Using command alias
+        command = (InstaCommand) parser.parseCommand(
+                InstaCommand.COMMAND_ALIAS + " " + INDEX_FIRST_PERSON.getOneBased());
+        assertEquals(new InstaCommand(INDEX_FIRST_PERSON), command);
+    }
+
+    @Test
+    public void parseCommand_backup() throws Exception {
+        //Using command word
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_WORD) instanceof BackupCommand);
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_WORD + " 3") instanceof BackupCommand);
+
+        //Using command alias
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_ALIAS) instanceof BackupCommand);
+        assertTrue(parser.parseCommand(BackupCommand.COMMAND_ALIAS + " 3") instanceof BackupCommand);
+
+    }
+    //@@author
 
     @Test
     public void parseCommand_redoCommandWord_returnsRedoCommand() throws Exception {
