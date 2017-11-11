@@ -36,11 +36,6 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
  */
 public class UniquePersonList implements Iterable<Person> {
 
-    private final ObservableList<Person> internalList = FXCollections.observableArrayList();
-    // used by asObservableList()
-    private final SortedList<Person> sortedInternalList = new SortedList<Person>(internalList);
-    private final ObservableList<ReadOnlyPerson> mappedList = EasyBind.map(sortedInternalList, (person) -> person);
-
     private static final int ONLY_PHOTO_CHANGED = 1;
     private static final int ONLY_EMAIL_CHANGED = 2;
     private static final int BOTH_PHOTO_AND_EMAIL_CHANGED = 3;
@@ -49,6 +44,11 @@ public class UniquePersonList implements Iterable<Person> {
     private static final String photoFolder = "data/images/";
     private static final String photoFileType = ".jpg";
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
+
+    private final ObservableList<Person> internalList = FXCollections.observableArrayList();
+    // used by asObservableList()
+    private final SortedList<Person> sortedInternalList = new SortedList<Person>(internalList);
+    private final ObservableList<ReadOnlyPerson> mappedList = EasyBind.map(sortedInternalList, (person) -> person);
 
     /**
      * Returns true if the list contains an equivalent person as the given argument.
@@ -102,38 +102,39 @@ public class UniquePersonList implements Iterable<Person> {
         int option = updateCasesForPhoto(target, editedPerson);
 
         switch(option) {
-            case ONLY_PHOTO_CHANGED:
-                createBackUpPhoto(intendedPhotoPath, editedPerson.getEmailAddress().toString());
-                createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
 
-                person = updatePhoto(person, intendedPhotoPath);
-                logger.info("Photo edited");
-                break;
+        case ONLY_PHOTO_CHANGED:
+            createBackUpPhoto(intendedPhotoPath, editedPerson.getEmailAddress().toString());
+            createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
 
-            case ONLY_EMAIL_CHANGED:
-                createBackUpPhoto(target.getPhoto().toString(), target.getEmailAddress().toString());
-                createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
+            person = updatePhoto(person, intendedPhotoPath);
+            logger.info("Photo edited");
+            break;
 
-                person = updatePhoto(person, intendedPhotoPath);
-                deleteFile = true;
-                logger.info("Email edited");
-                break;
+        case ONLY_EMAIL_CHANGED:
+            createBackUpPhoto(target.getPhoto().toString(), target.getEmailAddress().toString());
+            createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
 
-            case BOTH_PHOTO_AND_EMAIL_CHANGED:
-                createBackUpPhoto(target.getPhoto().toString(), target.getEmailAddress().toString());
-                createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
+            person = updatePhoto(person, intendedPhotoPath);
+            deleteFile = true;
+            logger.info("Email edited");
+            break;
 
-                person = updatePhoto(person, intendedPhotoPath);
-                deleteFile = true;
-                logger.info("Both Photo and Email edited");
-                break;
+        case BOTH_PHOTO_AND_EMAIL_CHANGED:
+            createBackUpPhoto(target.getPhoto().toString(), target.getEmailAddress().toString());
+            createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
 
-            case NEITHER_PHOTO_OR_EMAIL_CHANGED:
-                logger.info("Neither Photo and Email edited");
-                break;
+            person = updatePhoto(person, intendedPhotoPath);
+            deleteFile = true;
+            logger.info("Both Photo and Email edited");
+            break;
 
-            default:
-                throw new AssertionError("Shouldn't be here");
+        case NEITHER_PHOTO_OR_EMAIL_CHANGED:
+            logger.info("Neither Photo and Email edited");
+            break;
+
+        default:
+            throw new AssertionError("Shouldn't be here");
         }
 
         internalList.set(index, new Person(person));
@@ -261,7 +262,7 @@ public class UniquePersonList implements Iterable<Person> {
      * @param editedPerson Edited Person by the user
      * @return which case of change occurred.
      */
-    public int updateCasesForPhoto(ReadOnlyPerson target, ReadOnlyPerson editedPerson ) {
+    public int updateCasesForPhoto(ReadOnlyPerson target, ReadOnlyPerson editedPerson) {
         if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
                 && !target.getPhoto().equals(editedPerson.getPhoto())) { //Only Photo changed.
             return ONLY_PHOTO_CHANGED;

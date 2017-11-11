@@ -27,11 +27,11 @@ import seedu.address.commons.util.FileUtil;
 public class Photo {
     public static final String MESSAGE_PHOTO_CONSTRAINTS =
             "Person's photo end in .jpeg or .jpg and preferred to be of 340px x 453px dimension";
-    public static final String MESSAGE_PHOTO_NOT_FOUND = "Photo does not exist. If the photo is in the system, please " +
-            "give the absolute path of the photo. If the photo is from the internet, please ensure that the url starts " +
-            "with http or https and ends with .jpeg or .jpg";
-    public static final String MESSAGE_IMPROPER_URL = "URL entered should lead to a valid .jpg or .jpeg image, " +
-            "start with either http or https and end with .jpeg or .jpg";
+    public static final String MESSAGE_PHOTO_NOT_FOUND = "Photo does not exist. If the photo is in the system, please "
+            + "give the absolute path of the photo. If the photo is from the internet, please ensure that the url "
+            + "starts with http or https and ends with .jpeg or .jpg";
+    public static final String MESSAGE_IMPROPER_URL = "URL entered should lead to a valid .jpg or .jpeg image, "
+            + "start with either http or https and end with .jpeg or .jpg";
     /**
      * Can contain multiple words but must end with .jpg or .jpeg
      */
@@ -44,8 +44,8 @@ public class Photo {
 
     public static final String DEFAULT_PHOTO = "data/images/default.jpeg";
     public static final String UNFILLED = "-";
-    public static final String tempStorage = "data/downloaded.jpg";
-    public static final String hashingAlgo = "MD5";
+    public static final String TEMP_STORAGE = "data/downloaded.jpg";
+    public static final String HASHING_ALGO = "MD5";
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
 
     public final String value;
@@ -104,7 +104,7 @@ public class Photo {
      * @throws IllegalValueException if photo does not exist in the system or system face read / write issues.
      */
     private String checkPhotoAvailability(String photo) throws IllegalValueException {
-        if (isURL(photo)) {
+        if (isUrl(photo)) {
             return downloadFromInternet(photo);
         } else {
             return checkIfPhotoExist(photo);
@@ -140,14 +140,14 @@ public class Photo {
      *  @throws NoSuchAlgorithmException if the algorithm does not exist.
      */
     public String generateHash(File photo) throws IOException, NoSuchAlgorithmException {
-        MessageDigest hashing = MessageDigest.getInstance(hashingAlgo);
+        MessageDigest hashing = MessageDigest.getInstance(HASHING_ALGO);
         return new String(hashing.digest(Files.readAllBytes(photo.toPath())));
     }
 
     /**
      * @return true if a given string is a valid photo url.
      */
-    public static boolean isURL(String test) {
+    public static boolean isUrl(String test) {
         return test.matches(URL_REGEX);
     }
 
@@ -176,7 +176,7 @@ public class Photo {
         try {
             URL url = new URL(photo);
             InputStream is = url.openStream();
-            OutputStream os = new FileOutputStream(tempStorage);
+            OutputStream os = new FileOutputStream(TEMP_STORAGE);
             byte[] buffer = new byte[4096];
 
             int length = 0;
@@ -188,7 +188,7 @@ public class Photo {
             is.close();
             os.close();
             logger.info("Download complete");
-            return tempStorage;
+            return TEMP_STORAGE;
         } catch (MalformedURLException mue) {
             throw new IllegalValueException(MESSAGE_IMPROPER_URL);
         } catch (IOException ioe) {

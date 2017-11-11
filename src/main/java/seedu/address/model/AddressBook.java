@@ -89,8 +89,8 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Deletes all existing images in data/edited folder first before deleting the folder itself.
      */
     private void moveFilesToEditedFolder() {
-        String PHOTO_FOLDER = "data/images/";
-        File toBeDeletedFolder = new File(PHOTO_FOLDER);
+        String photo_folder = "data/images/";
+        File toBeDeletedFolder = new File(photo_folder);
         File[] toBeDeletedImages = toBeDeletedFolder.listFiles();
 
         if (toBeDeletedImages != null) {
@@ -105,16 +105,15 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @param f current photo to check.
      */
     private void removePhoto(File f) {
-        String DEFAULT_PHOTO = "data\\images\\default.jpeg";
-        String EDITED_FOLDER = "data/edited/";
+        String default_photo = "data\\images\\default.jpeg";
+        String edited_folder = "data/edited/";
         try {
-            if (!f.toString().equals(DEFAULT_PHOTO)) {
-                Files.copy(f.toPath(), Paths.get(EDITED_FOLDER + f.toString().substring(12)),
+            if (!f.toString().equals(default_photo)) {
+                Files.copy(f.toPath(), Paths.get(edited_folder + f.toString().substring(12)),
                         StandardCopyOption.REPLACE_EXISTING);
                 f.delete();
             }
-        }
-        catch (IOException ioe) {
+        } catch (IOException ioe) {
             throw new AssertionError("Clearing of files have issue");
         }
     }
