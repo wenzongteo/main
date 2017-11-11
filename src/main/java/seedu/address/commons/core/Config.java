@@ -50,7 +50,7 @@ public class Config {
         return semester;
     }
 
-    public String getDefaultPhoto() {return photo; }
+    public String getDefaultPhoto() { return photo; }
 
     @Override
     public boolean equals(Object other) {
