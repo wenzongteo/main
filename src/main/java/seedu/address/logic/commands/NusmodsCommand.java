@@ -63,7 +63,8 @@ public class NusmodsCommand extends UndoableCommand {
 
     public static final String MESSAGE_NUSMODS_SUCCESS = "Changed modules: %1$s (%2$s)";
     public static final String MESSAGE_INVALID_TYPE = "t/ needs to be 'add', 'url',"
-            + " or 'delete'. m/ needs to be filled";
+            + " or 'delete'. m/ needs to be filled\n + "
+            + "E.g. nusmods 1 t/add m/CS2103T tut/T5";
     public static final String MESSAGE_DUPLICATE_PERSON = "This person already exists in the address book.";
     public static final String MESSAGE_INVALID_MODULE_DETAILS = "Module details invalid";
 
