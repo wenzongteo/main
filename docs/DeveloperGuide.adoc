@@ -57,6 +57,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.h
 [NOTE]
 Augustine will *not work* with any version of Java earlier than `Java 8.6`.
 
+[start=2]
 . *Intellij IDEA* Integrated Development Environment (IDE). +
 You can download Intellij IDEA IDE from https://www.jetbrains.com/idea/download/[here]
 
