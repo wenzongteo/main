@@ -407,12 +407,16 @@ Here are some examples on using the command to delete contacts:
 +
 --
 You can list all the contacts in Augustine and delete the contact by the contact's index.
-The command below deletes the second person on the list.
+The command below deletes the second person on the list (see Figure 11).
 
 [horizontal]
 *Command:* ::
 . `list` +
 . [fuchsia]`delete 2`
+
+[caption="Figure 11. "]
+.Before and after results of deleting second person on the list
+image::deleteFromList.png[]
 
 --
 
@@ -421,12 +425,17 @@ The command below deletes the second person on the list.
 --
 You can use the `find` command to first get a list of filtered contacts and then delete a
 contact by its index. The command below deletes the first person in the results displayed after
-the `find` command.
+the `find` command (see Figure 12).
 
 [horizontal]
 *Command:* ::
 . `find Betsy` +
 . [fuchsia]`delete 1`
+
+[caption="Figure 12. "]
+.Before and after results of deleting first person on the list
+image::deleteFromFind.png[]
+
 --
 
 '''
