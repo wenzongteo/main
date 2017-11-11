@@ -5,7 +5,6 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Files;
 import java.nio.file.Paths;
@@ -123,6 +122,7 @@ public class Photo {
             throw new AssertionError("Photo should already exist!");
         }
     }
+
     /**
      *  @return the generated hash of the image.
      *  @throws IOException if the file does not exist.
@@ -141,7 +141,7 @@ public class Photo {
      * @return true if a given string is a valid person photo.
      */
     public static boolean isValidPhoto(String test) {
-        return test.matches(PHOTO_VALIDATION_REGEX);
+        return (test.matches(PHOTO_VALIDATION_REGEX) || test.matches(URL_REGEX));
     }
 
     /**
