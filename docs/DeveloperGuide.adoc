@@ -553,11 +553,24 @@ Each contact in Augustine can be assigned a photo so that the user can easily id
 to a contact, a default photo will be assigned to the contact instead.
 
 ===== Implementation Details
-The photo assigned to a contact will be copied over to the `data/images` folder and renamed as "contact's_email_address.jpg".
-By renaming the photo as "contact's_email_address.jpg", Augustine is able to associate each photo in the `/data/images` folder to a contact
-in Augustine. However, such implementation means that a contact's photo may have to be renamed if the contact's email is updated.
+The Image Storage Mechanism is in use when the user executes an add, edit or delete command in Augustine. Photos of all contacts in Augustine
+are stored in the `data/images` folder to centralize the storage of the photos and renamed as contact_email_address.jpg. By centralizing the storage
+of the photos and naming the photos in a standardized format, each photo in the `data/images` folder can be easily identified to it's corresponding
+owner.
 
-When the user edits a contact in Augustine, *one* of the 4 possible cases will occur:
+===== Add
+When adding a new contact into Augustine, Augustine will first check if the user assign a photo to the contact.
+
+If the user did assign a photo to the contact, Augustine will copy the photo assigned into the `data/images` folder and rename it as
+contact_email_address.jpg. For example, if `add n/John Doe e/john@example.com dp/photo.jpg` is executed, Augustine will copy the photo,`photo.jpg`
+to `data/images` folder and also name it as `john@example.com.jpg`.
+
+If the user did not assign a photo to the contact, Augustine will copy the default image (data/default.jpeg) to the `data/images` folder and rename
+it as contact_email_address.jpg.
+
+===== Edit
+As the photo are identified to the contacts, photos will also need to reflect on any change in the email or photo of a contact to ensure that the
+system is running as intended. As such when the user edits a contact in Augustine, *one* of the 4 possible cases will occur:
 
 [IMPORTANT]
 We are only concern on whether the contact's photo and email address are updated. Thus, possible modification of other
@@ -590,7 +603,7 @@ The new photo for the contact will overwrite the existing photo for the contact 
 .. Photo is not updated.
 .. Contact is updated in Augustine.
 
-The purpose of moving the existing photo of a contact into the `data/edited` folder is to facilitate the restoration of
+As mentioned previously, the purpose of moving the existing photo of a contact into the `data/edited` folder is to facilitate the restoration of
 the photo when the user undo or redo a command.
 
 [NOTE]
@@ -602,6 +615,10 @@ and what are the actions done within Augustine.
 [caption="Image: "]
 .Activity Diagram of Image Storage Mechanism
 image::ActivityDiagramImageStorage.png[width="640"]
+
+===== Delete
+When the user deletes a contact in Augustine, Augustine wlll first copy the existing photo into the `data/edited` folder before deleting the
+contact.
 
 ===== Design Considerations
 
