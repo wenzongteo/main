@@ -34,6 +34,8 @@ import seedu.address.model.tag.Tag;
  */
 public class AddCommandParser implements Parser<AddCommand> {
 
+    private static final String UNFILLED_PARAMETER = "-";
+
     /**
      * Parses the given {@code String} of arguments in the context of the AddCommand
      * and returns an AddCommand object for execution.
@@ -75,12 +77,12 @@ public class AddCommandParser implements Parser<AddCommand> {
 
     //@@author wenzongteo
     /**
-     * Check if the user has input any value for this variable before sending the input for further parsing.
+     * Check if the input is empty. If the input is not empty, return the input. Else, return the value '-' instead
      *
      * @param userInput Input entered by the user that is parsed by argMultimap.
      * @return the value of the input entered by the user or '-' if no input was entered.
      */
     private static Optional<String> checkInput(Optional<String> userInput) {
-        return Optional.of(userInput.orElse("-"));
+        return Optional.of(userInput.orElse(UNFILLED_PARAMETER));
     }
 }

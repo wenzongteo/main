@@ -18,6 +18,7 @@ public class ImageInit {
     private static final String IMAGES_FOLDER_PATH = "data/images";
     private static final String DEFAULT_ORIGINAL_PATH = "default.jpeg";
     private static final String ALICE_PHOTO_PATH = "data/images/alice@example.com.jpg";
+    private static final String DEFAULT_PHOTO_PATH = "data/images/default.jpeg";
     private static final String JOHN_PHOTO_PATH = "data/images/johnd@example.com.jpg";
     private static final String HEINZ_PHOTO_PATH = "data/images/heinz@example.com.jpg";
     private static final String ANNA_PHOTO_PATH = "data/images/anna@example.com.jpg";
@@ -86,7 +87,7 @@ public class ImageInit {
     }
 
     /**
-     * Initialize alice's photo during the test.
+     * Initialize alice's photo during a test.
      */
     public static void initAlice() {
         try {
@@ -94,13 +95,23 @@ public class ImageInit {
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
             throw new AssertionError("Initialization of Alice's image failed");
-        } catch (Exception e) {
-            throw new AssertionError("No such error possible");
         }
     }
 
     /**
-     * Initialize alice's photo during the test.
+     * Initialize default photo during a test.
+     */
+    public static void initDefault() {
+        try {
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(DEFAULT_PHOTO_PATH),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ioe) {
+            throw new AssertionError("Initialization of Default image failed");
+        }
+    }
+
+    /**
+     * Initialize john's photo during a test.
      */
     public static void initJohn() {
         try {
@@ -108,8 +119,6 @@ public class ImageInit {
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
             throw new AssertionError("Initialization of Alice's image failed");
-        } catch (Exception e) {
-            throw new AssertionError("No such error possible");
         }
     }
 

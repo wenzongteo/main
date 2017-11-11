@@ -49,6 +49,9 @@ public class MainApp extends Application {
     public static final Version VERSION = new Version(1, 3, 0, true);
 
     private static final Logger logger = LogsCenter.getLogger(MainApp.class);
+    private static final String DEFAULT_PHOTO = "data/images/default.jpeg";
+    private static final String PHOTO_FOLDER = "data/images";
+    private static final String EDITED_FOLDER = "data/edited";
 
     protected Ui ui;
     protected Logic logic;
@@ -99,7 +102,7 @@ public class MainApp extends Application {
         ReadOnlyAddressBook initialData;
         try {
             checkIfFilesExist();
-            checkDefaultImage();
+            checkDefaultImage(config);
 
             addressBookOptional = storage.readAddressBook();
             if (!addressBookOptional.isPresent()) {
@@ -229,11 +232,8 @@ public class MainApp extends Application {
      * Check if data/images and data/edited folders exist. If they do not exist, create them.
      */
     private void checkIfFilesExist() {
-        String imagesFolderPath = "data/images";
-        String editedPhotoPath = "data/edited";
-
-        File imagesFolder = new File(imagesFolderPath);
-        File editedFolder = new File(editedPhotoPath);
+        File imagesFolder = new File(PHOTO_FOLDER);
+        File editedFolder = new File(EDITED_FOLDER);
 
         if (!imagesFolder.exists()) {
             imagesFolder.mkdirs();
@@ -254,7 +254,7 @@ public class MainApp extends Application {
      * Deletes all existing images in data/edited folder first before deleting the folder itself.
      */
     private void removeFiles() {
-        File toBeDeletedFolder = new File("data/edited");
+        File toBeDeletedFolder = new File(EDITED_FOLDER);
         File[] toBeDeletedImages = toBeDeletedFolder.listFiles();
         if (toBeDeletedImages != null) {
             for (File f : toBeDeletedImages) {
@@ -265,22 +265,21 @@ public class MainApp extends Application {
     }
 
     /**
-     * Copy the default.jpeg, which is used for the default image, into the /data/images/ folder.
+     * Copy default photo used in Augustine from the build resource.
+     * @param config Configurations Augustine is using.
      */
-    private void checkDefaultImage() {
+    private void checkDefaultImage(Config config) {
         try {
-            InputStream is = this.getClass().getResourceAsStream("/images/default.jpeg");
+            InputStream is = this.getClass().getResourceAsStream(config.getDefaultPhoto());
             byte[] buffer = new byte[is.available()];
             is.read(buffer);
 
-            File targetFile = new File("data/images/default.jpeg");
+            File targetFile = new File(DEFAULT_PHOTO);
             OutputStream outStream = new FileOutputStream(targetFile);
             outStream.write(buffer);
-
+            logger.info("Copying default photo over to " + DEFAULT_PHOTO);
         } catch (IOException ioe) {
             throw new AssertionError("Impossible");
-        } catch (Exception e) {
-            throw new AssertionError("No other exceptions possible");
         }
     }
 }

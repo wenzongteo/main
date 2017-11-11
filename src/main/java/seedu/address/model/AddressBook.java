@@ -2,7 +2,11 @@ package seedu.address.model;
 
 import static java.util.Objects.requireNonNull;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
@@ -67,6 +71,9 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
         try {
             setPersons(newData.getPersonList());
+            if (newData.getPersonList().size() == 0) {
+                moveFilesToEditedFolder();
+            }
         } catch (DuplicatePersonException e) {
             assert false : "AddressBooks should not have duplicate persons";
         } catch (IOException e) {
@@ -77,6 +84,40 @@ public class AddressBook implements ReadOnlyAddressBook {
         syncMasterTagListWith(persons);
     }
 
+    //@@author wenzongteo
+    /**
+     * Deletes all existing images in data/edited folder first before deleting the folder itself.
+     */
+    private void moveFilesToEditedFolder() {
+        String PHOTO_FOLDER = "data/images/";
+        File toBeDeletedFolder = new File(PHOTO_FOLDER);
+        File[] toBeDeletedImages = toBeDeletedFolder.listFiles();
+
+        if (toBeDeletedImages != null) {
+            for (File f : toBeDeletedImages) {
+                removePhoto(f);
+            }
+        }
+    }
+
+    /**
+     * Check if photo in image is the default photo. If it is, ignore. Else, move to edited folder.
+     * @param f current photo to check.
+     */
+    private void removePhoto(File f) {
+        String DEFAULT_PHOTO = "data\\images\\default.jpeg";
+        String EDITED_FOLDER = "data/edited/";
+        try {
+            if (!f.toString().equals(DEFAULT_PHOTO)) {
+                Files.copy(f.toPath(), Paths.get(EDITED_FOLDER + f.toString().substring(12)),
+                        StandardCopyOption.REPLACE_EXISTING);
+                f.delete();
+            }
+        }
+        catch (IOException ioe) {
+            throw new AssertionError("Clearing of files have issue");
+        }
+    }
     //// person-level operations
 
     /**

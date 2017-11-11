@@ -16,6 +16,7 @@ public class Config {
     private String userPrefsFilePath = "preferences.json";
     private String academicYear = "2017-2018";
     private String semester = "1";
+    private String defaultPhoto = "/images/default.jpeg";
 
     public String getAppTitle() {
         return appTitle;
@@ -47,6 +48,10 @@ public class Config {
 
     public String getSemester() {
         return semester;
+    }
+
+    public String getDefaultPhoto() {
+        return defaultPhoto;
     }
 
     @Override

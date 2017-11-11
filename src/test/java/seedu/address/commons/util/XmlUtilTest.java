@@ -7,8 +7,8 @@ import java.io.FileNotFoundException;
 
 import javax.xml.bind.JAXBException;
 
-import org.junit.After;
-import org.junit.Before;
+import org.junit.AfterClass;
+import org.junit.BeforeClass;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -31,17 +31,19 @@ public class XmlUtilTest {
     @Rule
     public ExpectedException thrown = ExpectedException.none();
 
-    @Before
-    public void init() {
+    @BeforeClass
+    public static void init() {
         ImageInit.checkDirectories();
         ImageInit.initPictures();
+        ImageInit.initDefault();
     }
 
-    @After
-    public void recovery() {
+    @AfterClass
+    public static void recovery() {
         ImageInit.deleteEditedFiles();
         ImageInit.deleteImagesFiles();
     }
+
     @Test
     public void getDataFromFile_nullFile_throwsNullPointerException() throws Exception {
         thrown.expect(NullPointerException.class);

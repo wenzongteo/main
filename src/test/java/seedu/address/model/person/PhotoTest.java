@@ -57,12 +57,12 @@ public class PhotoTest {
         try {
             new Photo("doesnotexist.jpg");
         } catch (IllegalValueException ioe) {
-            assertEquals("Error! Photo does not exist!", ioe.getMessage());
+            assertEquals(Photo.MESSAGE_PHOTO_NOT_FOUND, ioe.getMessage());
         }
         try {
             new Photo("doesnotexist.jpg", 0);
         } catch (AssertionError ae) {
-            assertEquals("Image should already exist", ae.getMessage());
+            assertEquals("Should not enter here", ae.getMessage());
         }
     }
 
@@ -71,7 +71,7 @@ public class PhotoTest {
         try {
             new Photo("wrong format");
         } catch (IllegalValueException ive) {
-            assertEquals("Person's photo should be in jpeg and preferred to be of 340px x 453px dimension",
+            assertEquals(Photo.MESSAGE_PHOTO_CONSTRAINTS,
                     ive.getMessage());
         }
     }
