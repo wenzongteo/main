@@ -83,7 +83,7 @@ public class TypicalPersons {
 
     // Different situations of missing data.
     public static final ReadOnlyPerson MISSINGPHONE = new PersonBuilder().withName("Ida Mueller")
-            .withEmailAddress("missingname@example.com").withPhoto("data/images/default.jpeg")
+            .withEmailAddress("missingname@example.com").withPhoto("default.jpeg")
             .withAddress("chicago ave").build();
     public static final ReadOnlyPerson MISSINGADDRESS = new PersonBuilder().withName("Ida Mueller")
             .withPhone("84822131").withEmailAddress("missingaddress@example.com")
