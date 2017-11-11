@@ -105,10 +105,10 @@ public class AddressBook implements ReadOnlyAddressBook {
      * @param f current photo to check.
      */
     private void movePhoto(File f) {
-        String defaultPhoto = "data\\images\\default.jpeg";
+        String defaultPhoto = "data/images/default.jpeg";
         String editedFolder = "data/edited/";
         try {
-            if (!f.toString().equals(defaultPhoto)) {
+            if (!f.equals(new File(defaultPhoto))) {
                 Files.copy(f.toPath(), Paths.get(editedFolder + f.toString().substring(12)),
                         StandardCopyOption.REPLACE_EXISTING);
                 f.delete();
