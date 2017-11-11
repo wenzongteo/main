@@ -761,7 +761,7 @@ Here is an example of the Instagram command: (see Figure 19)
 
 [caption="Figure 19. "]
 .Instagram tab in action
-image::instagram.png[width="1295px"]
+image::instagram.png[width="1425px"]
 --
 --
 // end::insta[]
