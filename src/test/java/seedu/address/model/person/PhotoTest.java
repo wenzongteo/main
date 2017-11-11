@@ -62,7 +62,7 @@ public class PhotoTest {
         try {
             new Photo("doesnotexist.jpg", 0);
         } catch (AssertionError ae) {
-            assertEquals("Should not enter here", ae.getMessage());
+            assertEquals("Image should already exist", ae.getMessage());
         }
     }
 
