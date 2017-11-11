@@ -757,6 +757,21 @@ image::instagram.png[width="1295px"]
 // end::insta[]
 '''
 
+// tag::backup[]
+=== Backing up Augustine data to a separate file: [fuchsia]`backup`
+
+The [fuchsia]`backup` saves the current contacts data in a separate file, found at `/data/addressbook-backup.xml`.
+
+===== Format
+The format of the [fuchsia]`backup` command is as follows:
+====
+[fuchsia]#backup#
+====
+[TIP]
+You can use the alias `b` instead of typing out `backup`
+
+// end::backup[]
+'''
 
 === Listing entered commands : [fuchsia]`history`
 
@@ -944,6 +959,7 @@ There is no need to save manually.
 |*Select*|`select INDEX` +|s|`select 2` +
 |*Email*|`email [em/MESSAGE] [es/SUBJECT] [el/user@gmail.com:password] [et/<send\|clear>]` +|em|`email em/message es/subject el/adam@gmail.com:password et/send`
 |*Instagram*|`insta INDEX`|i|`insta 3` +
+|*Backup*|`backup`|b|`backup` +
 |*History*|`history`|h|`history` +
 |*Undo*|`undo`|u|`undo` +
 |*Redo*|`redo`|r|`redo` +

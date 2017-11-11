@@ -26,3 +26,12 @@ include::../UserGuide.adoc[tag=insta]
 
 #End of Extract#
 
+=== Enhancement Added: Backup Command
+
+---
+#Start of Extract [from: User Guide]#
+
+include::../UserGuide.adoc[tag=backup]
+
+#End of Extract#
+
