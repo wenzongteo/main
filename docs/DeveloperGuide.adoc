@@ -654,7 +654,11 @@ image::NusmodsCommandActivityDiagram.png[width="500"]
 
 ===== Storing NUSmodules in the AddressBook.xml
 
-To store in the AddressBook.xml, `NusModules` needs to be able to converted into XML format and back. See link:#StorageComponent[Storage component] for diagram.
+To store in the AddressBook.xml, `NusModules` needs to be able to converted into XML format and back (see part in red border in class diagram below).
+
+[caption="Figure 3.6.2: "]
+.Class Diagram of Storage
+image::StorageClassDiagramNusmods.png[width="500"]
 
 In the xml, the data will be stored as such:
 [source,xml]
