@@ -95,7 +95,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
         if (toBeDeletedImages != null) {
             for (File f : toBeDeletedImages) {
-                removePhoto(f);
+                movePhoto(f);
             }
         }
     }
@@ -104,7 +104,7 @@ public class AddressBook implements ReadOnlyAddressBook {
      * Check if photo in image is the default photo. If it is, ignore. Else, move to edited folder.
      * @param f current photo to check.
      */
-    private void removePhoto(File f) {
+    private void movePhoto(File f) {
         String defaultPhoto = "data\\images\\default.jpeg";
         String editedFolder = "data/edited/";
         try {

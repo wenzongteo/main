@@ -42,7 +42,7 @@ public class Photo {
      */
     public static final String URL_REGEX = "\\b(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
 
-    public static final String DEFAULT_PHOTO = "data/images/default.jpeg";
+    public static final String DEFAULT_PHOTO = "data\\images\\default.jpeg";
     public static final String UNFILLED = "-";
     public static final String TEMP_STORAGE = "data/downloaded.jpg";
     public static final String HASHING_ALGO = "MD5";
