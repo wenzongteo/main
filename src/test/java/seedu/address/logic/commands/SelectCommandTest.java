@@ -54,9 +54,12 @@ public class SelectCommandTest {
     public void execute_validIndexUnfilteredList_success() {
         Index lastPersonIndex = Index.fromOneBased(model.getFilteredPersonList().size());
 
-        assertExecutionSuccess(INDEX_FIRST_PERSON);
-        assertExecutionSuccess(INDEX_THIRD_PERSON);
-        assertExecutionSuccess(lastPersonIndex);
+        assertExecutionSuccess(INDEX_FIRST_PERSON,
+                model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()).getName().fullName);
+        assertExecutionSuccess(INDEX_THIRD_PERSON,
+                model.getFilteredPersonList().get(INDEX_THIRD_PERSON.getZeroBased()).getName().fullName);
+        assertExecutionSuccess(lastPersonIndex,
+                model.getFilteredPersonList().get(lastPersonIndex.getZeroBased()).getName().fullName);
     }
 
     @Test
@@ -70,7 +73,8 @@ public class SelectCommandTest {
     public void execute_validIndexFilteredList_success() {
         showFirstPersonOnly(model);
 
-        assertExecutionSuccess(INDEX_FIRST_PERSON);
+        assertExecutionSuccess(INDEX_FIRST_PERSON,
+                model.getFilteredPersonList().get(INDEX_FIRST_PERSON.getZeroBased()).getName().fullName);
     }
 
     @Test
@@ -110,13 +114,14 @@ public class SelectCommandTest {
      * Executes a {@code SelectCommand} with the given {@code index}, and checks that {@code JumpToListRequestEvent}
      * is raised with the correct index.
      */
-    private void assertExecutionSuccess(Index index) {
+    private void assertExecutionSuccess(Index index, String expectedPerson) {
         SelectCommand selectCommand = prepareCommand(index);
 
         try {
             CommandResult commandResult = selectCommand.execute();
-            assertEquals(String.format(SelectCommand.MESSAGE_SELECT_PERSON_SUCCESS, index.getOneBased()),
-                    commandResult.feedbackToUser);
+            System.out.println(commandResult.feedbackToUser);
+            assertEquals(String.format(SelectCommand.MESSAGE_SELECT_PERSON_SUCCESS, expectedPerson,
+                    index.getOneBased()), commandResult.feedbackToUser);
         } catch (CommandException ce) {
             throw new IllegalArgumentException("Execution of command should not fail.", ce);
         }

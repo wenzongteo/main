@@ -4,8 +4,8 @@ import javax.mail.internet.InternetAddress;
 
 //@@author awarenessxz
 /**
- * Email Message Object for storing Email Drafts Contents
- **/
+ * Represents a Email Message Draft in addressbook.
+ */
 public class MessageDraft implements ReadOnlyMessageDraft {
 
     private String message;

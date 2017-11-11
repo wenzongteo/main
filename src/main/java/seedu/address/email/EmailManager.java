@@ -15,9 +15,16 @@ import seedu.address.email.message.ReadOnlyMessageDraft;
 //@@author awarenessxz
 /**
  * Handles how email are sent out of the application.
- **/
+ */
 public class EmailManager extends ComponentManager implements Email {
     private static final Logger logger = LogsCenter.getLogger(EmailManager.class);
+
+    private static final String STATUS_CLEARED = "cleared.";
+    private static final String STATUS_DRAFTED = "drafted.\n";
+    private static final String STATUS_SENT = "sent ";
+    private static final String STATUS_LOGIN_FAIL = "You are not logged in to any Gmail account.";
+    private static final String STATUS_LOGIN_SENT = "using %1$s";
+    private static final String STATUS_LOGIN_SUCCESS = "You are logged in to %1$s";
 
     private final EmailLogin emailLogin;
     private final EmailCompose emailCompose;
@@ -26,6 +33,9 @@ public class EmailManager extends ComponentManager implements Email {
     private String emailStatus;
     private String emailLoginStatus;
 
+    /**
+     * Initializes a EmailManager with new EmailLogin, EmailCompose and EmailSend
+     */
     public EmailManager() {
         logger.fine("Initializing Default Email component");
 
@@ -33,14 +43,13 @@ public class EmailManager extends ComponentManager implements Email {
         this.emailCompose = new EmailCompose();
         this.emailSend = new EmailSend();
         this.emailStatus = "";
-        this.emailLoginStatus = "You are not logged in to any Gmail account.";
+        this.emailLoginStatus = STATUS_LOGIN_FAIL;
     }
 
     @Override
     public void composeEmail(MessageDraft message) {
-
         emailCompose.composeEmail(message);
-        this.emailStatus = "drafted.\n";
+        this.emailStatus = STATUS_DRAFTED;
     }
 
     @Override
@@ -61,8 +70,8 @@ public class EmailManager extends ComponentManager implements Email {
         emailSend.sendEmail(emailCompose, emailLogin);
 
         //reset the email draft after email have been sent
-        this.emailStatus = "sent ";
-        this.emailLoginStatus = "using " + emailLogin.getEmailLogin();
+        this.emailStatus = STATUS_SENT;
+        this.emailLoginStatus = String.format(STATUS_LOGIN_SENT, emailLogin.getEmailLogin());
         resetData();
     }
 
@@ -70,15 +79,15 @@ public class EmailManager extends ComponentManager implements Email {
     public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         emailLogin.loginEmail(loginDetails);
         if (emailLogin.isUserLogin()) {
-            this.emailLoginStatus = "You are logged in to " + emailLogin.getEmailLogin();
+            this.emailLoginStatus = String.format(STATUS_LOGIN_SUCCESS, emailLogin.getEmailLogin());
         } else {
-            this.emailLoginStatus = "You are not logged in to any Gmail account.";
+            this.emailLoginStatus = STATUS_LOGIN_FAIL;
         }
     }
 
     /**
-     * Checks if the email manager holds the username and password of user
-     **/
+     * Returns true if the emailLogin contains user's login details
+     */
     @Override
     public boolean isUserLogin() {
         return emailLogin.isUserLogin();
@@ -88,11 +97,13 @@ public class EmailManager extends ComponentManager implements Email {
     @Override
     public void clearEmailDraft() {
         resetData();
-        this.emailStatus = "cleared.";
+        this.emailStatus = STATUS_CLEARED;
         this.emailLoginStatus = "";
     }
 
-    /** reset Email Draft Data **/
+    /**
+     * Resets the existing data of this {@code emailCompose} and this {@code emailLogin}
+     */
     private void resetData() {
         this.emailCompose.resetData();
         this.emailLogin.resetData();

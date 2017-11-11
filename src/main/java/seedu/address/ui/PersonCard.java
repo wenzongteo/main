@@ -143,7 +143,6 @@ public class PersonCard extends UiPart<Region> {
         int green;
         int blue;
 
-        // Do while too luminous
         do {
             red = random.nextInt(255);
             green = random.nextInt(255);

@@ -65,7 +65,7 @@ public class NusmodsCommandTest {
         NusmodsCommand nusmodsCommand = prepareCommand(INDEX_FIRST_PERSON, descriptor);
 
         String expectedMessage = String.format(NusmodsCommand.MESSAGE_NUSMODS_SUCCESS,
-                editedPerson.getNusModules());
+                editedPerson.getName().fullName, editedPerson.getNusModules());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new EmailManager());
@@ -84,7 +84,8 @@ public class NusmodsCommandTest {
                 .withType(VALID_TYPE_ADD).withModuleCode(VALID_MODULE_CS2103T)
                 .withTutorial(VALID_LESSONSLOT_T5).build());
 
-        String expectedMessage = String.format(NusmodsCommand.MESSAGE_NUSMODS_SUCCESS, editedPerson.getNusModules());
+        String expectedMessage = String.format(NusmodsCommand.MESSAGE_NUSMODS_SUCCESS,
+                editedPerson.getName().fullName, editedPerson.getNusModules());
 
         Model expectedModel = new ModelManager(new AddressBook(model.getAddressBook()),
                 new UserPrefs(), new EmailManager());

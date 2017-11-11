@@ -20,4 +20,9 @@ public class CliSyntax {
     public static final Prefix PREFIX_EMAIL_TASK = new Prefix("et/");
     public static final Prefix PREFIX_USERID = new Prefix("insta/");
 
+    /* Sort Options */
+    public static final String SORT_ADDRESS = "address";
+    public static final String SORT_EMAIL = "email";
+    public static final String SORT_NAME = "name";
+    public static final String SORT_TAG = "tag";
 }

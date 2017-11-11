@@ -32,6 +32,10 @@ public class NusModules {
      */
     public static final String LESSON_TYPE_VALIDATION_REGEX = "[A-Z]{3}[A-Z0-9]?";
 
+    public static final int VALID_NUS_MODULE = 0;
+    public static final int FAILED_NUS_MODULE_VALIDATION_REGEX = 1;
+    public static final int FALIED_LESSON_TYPE_VALIDATION_REGEX = 2;
+
     public final HashMap<String, HashMap<String, String>> value;
 
     public NusModules() {
@@ -46,9 +50,9 @@ public class NusModules {
     public NusModules(HashMap<String, HashMap<String, String>> nusModules) throws IllegalValueException {
         requireNonNull(nusModules);
         switch (isValidNusModules(nusModules)) {
-        case 1:
+        case FAILED_NUS_MODULE_VALIDATION_REGEX:
             throw new IllegalValueException(MESSAGE_NUS_MODULE_CONSTRAINTS);
-        case 2:
+        case FALIED_LESSON_TYPE_VALIDATION_REGEX:
             throw new IllegalValueException(MESSAGE_LESSON_TYPE_CONSTRAINTS);
         default:
             break;
@@ -58,26 +62,26 @@ public class NusModules {
     }
 
     /**
-     * Returns 0 if a given HashMap is a valid person nusModules.
-     * Returns 1 if it fails NUS_MODULE_VALIDATION_REGEX
-     * Returns 2 if it fails LESSON_TYPE_VALIDATION_REGEX
+     * Returns VALID_NUS_MODULE if a given HashMap is a valid person nusModules.
+     * Returns FAILED_NUS_MODULE_VALIDATION_REGEX if it fails NUS_MODULE_VALIDATION_REGEX
+     * Returns FALIED_LESSON_TYPE_VALIDATION_REGEX if it fails LESSON_TYPE_VALIDATION_REGEX
      */
     public static int isValidNusModules(HashMap<String, HashMap<String, String>> test) {
         for (Map.Entry<String, HashMap<String, String>> module : test.entrySet()) {
             String moduleCode = module.getKey();
             // If fail either, return 1 and 2 respectively
             if (!moduleCode.matches(NUS_MODULE_VALIDATION_REGEX)) {
-                return 1;
+                return FAILED_NUS_MODULE_VALIDATION_REGEX;
             }
             for (Map.Entry<String, String> lessons : module.getValue().entrySet()) {
                 String lessonType = lessons.getKey();
                 if (!lessonType.matches(LESSON_TYPE_VALIDATION_REGEX)) {
-                    return 2;
+                    return FALIED_LESSON_TYPE_VALIDATION_REGEX;
                 }
             }
         }
 
-        return 0;
+        return VALID_NUS_MODULE;
     }
 
     /**

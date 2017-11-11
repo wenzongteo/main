@@ -17,7 +17,7 @@ public class ListCommand extends Command {
     public static final String MESSAGE_USAGE = COMMAND_WORD + ": Lists all the contacts and if specified, sort by tags "
             + "or by the names in alphabetical order\n"
             + "Parameters: "
-            + "[ " + PREFIX_SORT + "[name|tag] ]\n"
+            + "[ " + PREFIX_SORT + "<name|tag|email|address> ]\n"
             + "Examples:\n"
             + "1) " + COMMAND_WORD + "\n"
             + "2) " + COMMAND_WORD + " " + PREFIX_SORT + "tag";
