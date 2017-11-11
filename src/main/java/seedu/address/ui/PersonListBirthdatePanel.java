@@ -19,7 +19,7 @@ import seedu.address.model.person.ReadOnlyPerson;
 
 //@@author hengyu95
 /**
- * Panel containing the list of persons.
+ * Panel containing the list of persons sorted by birthdate
  */
 public class PersonListBirthdatePanel extends UiPart<Region> {
     private static final String FXML = "PersonListBirthdatePanel.fxml";

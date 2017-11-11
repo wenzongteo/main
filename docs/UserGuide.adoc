@@ -694,7 +694,8 @@ image::emailClear.png[]
 
 '''
 
-=== Displaying birthday tab
+// tag::birthday[]
+=== Displaying Birthday tab
 
 The Birthdays tab lists all your existing contacts starting with the contact with the nearest upcoming birthday.
 
@@ -718,8 +719,10 @@ image::happyBirthdayJohnCena.png[width="440px"]
 --
 
 '''
+// end::find[]
 
-=== Displaying Instagram tab
+// tag::insta[]
+=== Displaying Instagram tab: [fuchsia]`insta`
 
 The Instagram tab allows you to view the Instagram profile of the selected contact.
 
@@ -752,8 +755,25 @@ Here is an example of the Instagram command: (see Figure 19)
 image::instagram.png[width="1295px"]
 --
 --
-
+// end::insta[]
 '''
+
+// tag::backup[]
+=== Backing up Augustine data to a separate file: [fuchsia]`backup`
+
+The [fuchsia]`backup` saves the current contacts data in a separate file, found at `/data/addressbook-backup.xml`.
+
+===== Format
+The format of the [fuchsia]`backup` command is as follows:
+====
+[fuchsia]#backup#
+====
+[TIP]
+You can use the alias `b` instead of typing out `backup`
+
+// end::backup[]
+'''
+
 === Listing entered commands : [fuchsia]`history`
 
 The [fuchsia]`history` command lists all the commands that you have entered in
@@ -940,6 +960,7 @@ There is no need to save manually.
 |*Select*|`select INDEX` +|s|`select 2` +
 |*Email*|`email [em/MESSAGE] [es/SUBJECT] [el/user@gmail.com:password] [et/<send\|clear>]` +|em|`email em/message es/subject el/adam@gmail.com:password et/send`
 |*Instagram*|`insta INDEX`|i|`insta 3` +
+|*Backup*|`backup`|b|`backup` +
 |*History*|`history`|h|`history` +
 |*Undo*|`undo`|u|`undo` +
 |*Redo*|`redo`|r|`redo` +

@@ -106,4 +106,7 @@ public interface Model {
     /** Updates Email draft with given message **/
     void draftEmail(MessageDraft message);
 
+    /** Backs up address book data **/
+    void backupAddressBook();
+
 }

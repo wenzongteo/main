@@ -28,6 +28,7 @@ import javafx.collections.transformation.SortedList;
 import seedu.address.commons.core.ComponentManager;
 import seedu.address.commons.core.LogsCenter;
 import seedu.address.commons.events.model.AddressBookChangedEvent;
+import seedu.address.commons.events.model.BackupAddressBookEvent;
 import seedu.address.commons.events.ui.EmailDraftChangedEvent;
 import seedu.address.email.Email;
 import seedu.address.email.EmailManager;
@@ -345,6 +346,12 @@ public class ModelManager extends ComponentManager implements Model {
         return addressBook.equals(other.addressBook)
                 && sortedPersonsList.equals(other.sortedPersonsList)
                 && email.equals(other.email);
+    }
+
+    //@author hengyu95
+    @Override
+    public void backupAddressBook() {
+        raise(new BackupAddressBookEvent(addressBook));
     }
 
 }

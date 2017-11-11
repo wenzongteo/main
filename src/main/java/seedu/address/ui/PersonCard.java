@@ -1,9 +1,6 @@
 package seedu.address.ui;
 
 import java.io.FileInputStream;
-import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
-import java.time.format.DateTimeParseException;
 import java.util.HashMap;
 import java.util.Random;
 
@@ -76,8 +73,6 @@ public class PersonCard extends UiPart<Region> {
         emailAddress.textProperty().bind(Bindings.convert(person.emailAddressProperty()));
         birthdate.textProperty().bind(Bindings.convert(person.birthdateProperty()));
 
-        setColor(person);
-
 
         try {
             StringExpression filePath = Bindings.convert(person.photoProperty());
@@ -97,24 +92,6 @@ public class PersonCard extends UiPart<Region> {
         });
     }
 
-    //@@author hengyu95
-    private void setColor(ReadOnlyPerson person) {
-
-        LocalDate date1;
-        LocalDate now = LocalDate.now();
-        DateTimeFormatter format = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-
-        try {
-            date1 = LocalDate.parse(person.getBirthdate().value, format).withYear(now.getYear());
-        } catch (DateTimeParseException e) {
-            date1 = LocalDate.of(9999, 12, 30);
-        }
-
-        if (date1.equals(now)) {
-            cardPane.setStyle("-fx-background-color: #336699;");
-        }
-    }
-    //@@author
     /**
      * Initializes all the Tags for a given person
      * @param person
