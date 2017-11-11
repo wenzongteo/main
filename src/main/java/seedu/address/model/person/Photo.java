@@ -23,7 +23,9 @@ import seedu.address.commons.util.FileUtil;
  */
 public class Photo {
     public static final String MESSAGE_PHOTO_CONSTRAINTS =
-            "Person's photo should be in jpeg and preferred to be of 340px x 453px dimension";
+            "Person's photo should be in .jpg or .jpeg and preferred to be of 340px x 453px dimension. If the "
+                    + "photo is on the local system, please provide the absolute file path. If the photo is from the "
+                    + "internet, ensure that the link starts with http or https and ends with .jpg or .jpeg";
     public static final String MESSAGE_PHOTO_NOT_FOUND = "Error! Photo does not exist!";
     public static final String MESSAGE_LINK_ERROR = "Error! URL given is invalid!";
 
@@ -31,9 +33,13 @@ public class Photo {
      * Can contain multiple words but must end with .jpg or .jpeg
      */
     public static final String PHOTO_VALIDATION_REGEX = "([^\\s]+[\\s\\w]*(\\.(?i)(jpg|jpeg|))$)";
+    /**
+     * Can contain multiple words or symbols but must start with either http or https and end with either .jpg or .jpeg
+     */
     public static final String URL_REGEX = "\\b(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
     public static final String DEFAULT_PHOTO = "data/images/default.jpeg";
-    public static final String tempStorage = "data/temporary.jpg";
+    public static final String DOWNLOAD_LOCATION = "data/download.jpg";
+    public static final String UNFILLED = "-";
 
     public final String value;
     private final String hash;
@@ -45,29 +51,16 @@ public class Photo {
     public Photo(String photo) throws IllegalValueException {
         photo = photo.trim();
 
-        if (photo.equals("-")) {
-            photo = "data/images/default.jpeg";
+        if (photo.equals(UNFILLED)) {
+            photo = DEFAULT_PHOTO;
         }
 
         if (!isValidPhoto(photo)) {
             throw new IllegalValueException(MESSAGE_PHOTO_CONSTRAINTS);
         } else {
-            if (photo.matches(URL_REGEX)) {
-                this.value = downloadFromInternet(photo);
-            } else {
-                File image = new File(photo);
-                if (!FileUtil.isFileExists(image)) {
-                    throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
-                } else {
-                    this.value = photo;
-                }
-            }
+            this.value = getPhoto(photo);
             File image = new File(this.value);
-            try {
-                this.hash = generateHash(image);
-            } catch (NoSuchAlgorithmException | IOException e) {
-                throw new AssertionError("Impossible to reach here");
-            }
+            this.hash = generateHash(image);
         }
     }
 
@@ -78,30 +71,70 @@ public class Photo {
      * @param num used for overloading constructor.
      */
     public Photo(String photo, int num) {
+        photo = photo.trim();
+
         File image = new File(photo);
         this.value = photo;
 
-        try {
-            if (!FileUtil.isFileExists(image)) {
-                Files.copy(Paths.get(DEFAULT_PHOTO), Paths.get(photo), StandardCopyOption.REPLACE_EXISTING);
-            } else {
-            }
-            this.hash = generateHash(image);
-        } catch (NoSuchAlgorithmException nsa) {
-            throw new AssertionError("Algorithm should exist");
-        } catch (IOException ioe) {
-            throw new AssertionError("Image should already exist");
+        if (!FileUtil.isFileExists(image)) {
+            copyDefaultPhoto(photo);
+        }
+        this.hash = generateHash(image);
+    }
+
+    /**
+     * Check if photo source given is from the internet or local system and call the relevant methods.
+     * Return the path for the photo that is obtained from the relevant methods.
+     * @param photo photo path specified by the user.
+     * @return photo path of the photo that is obtained from the relevant methods.
+     * @throws IllegalValueException if the photo is not found.
+     */
+    private String getPhoto(String photo) throws IllegalValueException {
+        if (photo.matches(URL_REGEX)) {
+            return getPhotoFromInternet(photo);
+        } else {
+            return getPhotoFromLocal(photo);
         }
     }
 
+    /**
+     * Check if the file exists in the local system. Return IllegalValueException if the image is not found.
+     * @param photo photo path specified by the user.
+     * @return photo path specified by the user if the photo exists.
+     * @throws IllegalValueException if the photo is not found on the local system
+     */
+    private String getPhotoFromLocal(String photo) throws IllegalValueException {
+        File image = new File(photo);
+        if (!FileUtil.isFileExists(image)) {
+            throw new IllegalValueException(MESSAGE_PHOTO_NOT_FOUND);
+        } else {
+            return photo;
+        }
+    }
+
+    /**
+     * Copy the default photo for contact to serve as the contact's photo.
+     * @param destPath File path of the contact's photo.
+     */
+    public void copyDefaultPhoto(String destPath) {
+        try {
+            Files.copy(Paths.get(DEFAULT_PHOTO), Paths.get(destPath), StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ioe) {
+            throw new AssertionError("Photo should already exist!");
+        }
+    }
     /**
      *  @return the generated hash of the image.
      *  @throws IOException if the file does not exist.
      *  @throws NoSuchAlgorithmException if the algorithm does not exist.
      */
-    public String generateHash(File photo) throws IOException, NoSuchAlgorithmException {
-        MessageDigest hashing = MessageDigest.getInstance("MD5");
-        return new String(hashing.digest(Files.readAllBytes(photo.toPath())));
+    public String generateHash(File photo) {
+        try {
+            MessageDigest hashing = MessageDigest.getInstance("MD5");
+            return new String(hashing.digest(Files.readAllBytes(photo.toPath())));
+        } catch (Exception e) {
+            throw new AssertionError("Impossible");
+        }
     }
 
     /**
@@ -119,16 +152,16 @@ public class Photo {
     }
 
     /**
-     * Downloads photo from the link given onto the computer and store it locally.
+     * Downloads photo from the path given by the user and store it locally. Returns the local file path of the image.
      * @param photo URL link given by the user
-     * @return the temporary storage location of the downloaded image.
-     * @throws IllegalValueException if errors are faced when writing file onto local drive.
+     * @return the file path of the downloaded image in the local system.
+     * @throws IllegalValueException if errors are faced when visiting the link or downloading the file.
      */
-    private String downloadFromInternet(String photo) throws IllegalValueException {
+    private String getPhotoFromInternet(String photo) throws IllegalValueException {
         try {
             URL url = new URL(photo);
             InputStream is = url.openStream();
-            OutputStream os = new FileOutputStream(tempStorage);
+            OutputStream os = new FileOutputStream(DOWNLOAD_LOCATION);
             byte[] buffer = new byte[4096];
 
             int length = 0;
@@ -140,13 +173,9 @@ public class Photo {
             is.close();
             os.close();
 
-            return tempStorage;
-        } catch (MalformedURLException mue) {
+            return DOWNLOAD_LOCATION;
+        } catch (IOException e) {
             throw new IllegalValueException(MESSAGE_LINK_ERROR);
-        } catch (IOException ioe) {
-            throw new AssertionError("Read / Write issue");
-        } catch (Exception e) {
-            throw new AssertionError("Impossible to reach here");
         }
     }
 
