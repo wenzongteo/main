@@ -83,11 +83,11 @@ public class TypicalPersons {
 
     // Different situations of missing data.
     public static final ReadOnlyPerson MISSINGPHONE = new PersonBuilder().withName("Ida Mueller")
-            .withEmailAddress("missingname@example.com").withPhoto("default.jpeg")
+            .withEmailAddress("missingname@example.com").withPhoto("data/images/hans@example.com.jpg")
             .withAddress("chicago ave").build();
     public static final ReadOnlyPerson MISSINGADDRESS = new PersonBuilder().withName("Ida Mueller")
             .withPhone("84822131").withEmailAddress("missingaddress@example.com")
-            .withPhoto("default.jpeg").build();
+            .withPhoto("data/images/hans@example.com.jpg").build();
 
     public static final String KEYWORD_MATCHING_MEIER = "Meier"; // A keyword that matches MEIER
 
