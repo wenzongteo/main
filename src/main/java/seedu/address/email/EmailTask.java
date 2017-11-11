@@ -15,7 +15,7 @@ public class EmailTask {
     }
 
     public EmailTask(String task) {
-        task = task;
+        this.task = task;
     }
 
     public String getTask() {
