@@ -200,7 +200,7 @@ that will allow you to sort the full list by tags or by name.
 The format of the [fuchsia]`list` command is as follows:
 
 ====
-[fuchsia]#list  [s/name|tag]#
+[fuchsia]#list [ s/<name|tag|email|address> ]#
 ====
 
 [TIP]
@@ -303,7 +303,7 @@ The format of the [fuchsia]`find` command is as follows:
 * The keywords are **case insensitive**. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
 * Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
-* The find command results can be be *sorted* by *name*, *tag*, *email* or *address*.
+* The find command results can be be *sorted* by the alphabetic order of *name*, *tag*, *email* or *address*.
 ** Find with *sort by name*: [fuchsia]`find n/adam eunice s/name`
 ** Find with *sort by tag*: [fuchsia]`find n/adam eunice s/tag`
 ** Find with *sort by email*: [fuchsia]`find n/adam eunice s/email`
@@ -327,7 +327,7 @@ Here are some examples of using the find command in Augustine.
 You can find contacts by their names (see Figure 10).
 
 [horizontal]
-*Command:* :: [fuchsia]`find n/adam janice`
+*Command:* :: [fuchsia]`find n/alex roy`
 
 [caption="Figure 10. "]
 .Results after searching by name.
@@ -340,7 +340,7 @@ image::findByName.png[]
 You can find contacts by their tags (see Figure 11).
 
 [horizontal]
-*Command:* :: [fuchsia]`find t/Colleague soc`
+*Command:* :: [fuchsia]`find t/frie colleagues`
 
 [caption="Figure 11. "]
 .Results after searching by tags
@@ -363,14 +363,14 @@ image::findByNameTag.png[]
 . [red]*Find by name with sort option*
 +
 --
-You can find contacts and sort the resulting contact list displayed by name, tag, email or address. Type the command below to
+You can find contacts and sort the resulting contact list displayed by alphabetic order of name, tag, email or address. Type the command below to
 find users by their names and then sort the resulting contact list by tag order (see Figure 13).
 
 [NOTE]
 Note that the sort option "name", "tag", "email" and "address" are *case-sensitive*
 
 [horizontal]
-*Command:* :: [fuchsia]`find n/adam zachary janice s/tag`
+*Command:* :: [fuchsia]`find n/alex roy s/tag`
 
 [caption="Figure 13. "]
 .Result of find contacts by name with the list displayed sorted by tags
@@ -572,7 +572,7 @@ contact by the contact's index. The command below selects the first person on th
 '''
 
 // tag::email[]
-=== Email contacts : [fuchsia]`email`
+=== Emailing contacts : [fuchsia]`email`
 
 The [fuchsia]`email` command sends an email to all contacts from the last displayed contact list in Augustine.
 
@@ -694,7 +694,7 @@ image::emailClear.png[]
 
 '''
 
-=== Birthdays tab
+=== Displaying birthday tab
 
 The Birthdays tab lists all your existing contacts starting with the contact with the nearest upcoming birthday.
 
@@ -719,7 +719,7 @@ image::happyBirthdayJohnCena.png[width="440px"]
 
 '''
 
-=== Instagram tab
+=== Displaying Instagram tab
 
 The Instagram tab allows you to view the Instagram profile of the selected contact.
 
