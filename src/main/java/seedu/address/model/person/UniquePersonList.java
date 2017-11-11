@@ -108,7 +108,7 @@ public class UniquePersonList implements Iterable<Person> {
             createCurrentPhoto(editedPerson.getPhoto().toString(), editedPerson.getEmailAddress().toString());
 
             person = updatePhoto(person, intendedPhotoPath);
-             logger.info("Photo edited");
+            logger.info("Photo edited");
             break;
 
         case ONLY_EMAIL_CHANGED:
