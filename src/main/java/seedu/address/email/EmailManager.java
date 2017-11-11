@@ -39,17 +39,17 @@ public class EmailManager extends ComponentManager implements Email {
     public EmailManager() {
         logger.fine("Initializing Default Email component");
 
-        this.emailLogin = new EmailLogin();
-        this.emailCompose = new EmailCompose();
-        this.emailSend = new EmailSend();
-        this.emailStatus = "";
-        this.emailLoginStatus = STATUS_LOGIN_FAIL;
+        emailLogin = new EmailLogin();
+        emailCompose = new EmailCompose();
+        emailSend = new EmailSend();
+        emailStatus = "";
+        emailLoginStatus = STATUS_LOGIN_FAIL;
     }
 
     @Override
     public void composeEmail(MessageDraft message) {
         emailCompose.composeEmail(message);
-        this.emailStatus = STATUS_DRAFTED;
+        emailStatus = STATUS_DRAFTED;
     }
 
     @Override
@@ -59,7 +59,7 @@ public class EmailManager extends ComponentManager implements Email {
 
     @Override
     public String getEmailStatus() {
-        return this.emailStatus + this.emailLoginStatus;
+        return emailStatus + emailLoginStatus;
     }
 
     @Override
@@ -70,8 +70,8 @@ public class EmailManager extends ComponentManager implements Email {
         emailSend.sendEmail(emailCompose, emailLogin);
 
         //reset the email draft after email have been sent
-        this.emailStatus = STATUS_SENT;
-        this.emailLoginStatus = String.format(STATUS_LOGIN_SENT, emailLogin.getEmailLogin());
+        emailStatus = STATUS_SENT;
+        emailLoginStatus = String.format(STATUS_LOGIN_SENT, emailLogin.getEmailLogin());
         resetData();
     }
 
@@ -79,9 +79,9 @@ public class EmailManager extends ComponentManager implements Email {
     public void loginEmail(String [] loginDetails) throws EmailLoginInvalidException {
         emailLogin.loginEmail(loginDetails);
         if (emailLogin.isUserLogin()) {
-            this.emailLoginStatus = String.format(STATUS_LOGIN_SUCCESS, emailLogin.getEmailLogin());
+            emailLoginStatus = String.format(STATUS_LOGIN_SUCCESS, emailLogin.getEmailLogin());
         } else {
-            this.emailLoginStatus = STATUS_LOGIN_FAIL;
+            emailLoginStatus = STATUS_LOGIN_FAIL;
         }
     }
 
@@ -97,16 +97,16 @@ public class EmailManager extends ComponentManager implements Email {
     @Override
     public void clearEmailDraft() {
         resetData();
-        this.emailStatus = STATUS_CLEARED;
-        this.emailLoginStatus = "";
+        emailStatus = STATUS_CLEARED;
+        emailLoginStatus = "";
     }
 
     /**
      * Resets the existing data of this {@code emailCompose} and this {@code emailLogin}
      */
     private void resetData() {
-        this.emailCompose.resetData();
-        this.emailLogin.resetData();
+        emailCompose.resetData();
+        emailLogin.resetData();
     }
 
     @Override

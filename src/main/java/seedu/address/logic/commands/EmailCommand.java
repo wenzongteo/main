@@ -143,7 +143,7 @@ public class EmailCommand extends Command {
                 && ((EmailCommand) other).task.equals(this.task));
     }
 
-    /** Returns true if both loginDetails are the same */
+    /** Returns */
     private boolean loginDetailsEquals(String [] other) {
         if (this.loginDetails.length == other.length) {
             for (int i = 0; i < this.loginDetails.length; i++) {
