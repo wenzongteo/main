@@ -71,9 +71,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         requireNonNull(newData);
         try {
             setPersons(newData.getPersonList());
-            if (newData.getPersonList().size() == 0) {
-                moveFilesToEditedFolder();
-            }
         } catch (DuplicatePersonException e) {
             assert false : "AddressBooks should not have duplicate persons";
         } catch (IOException e) {
@@ -84,39 +81,6 @@ public class AddressBook implements ReadOnlyAddressBook {
         syncMasterTagListWith(persons);
     }
 
-    //@@author wenzongteo
-    /**
-     * Deletes all existing images in data/edited folder first before deleting the folder itself.
-     */
-    private void moveFilesToEditedFolder() {
-        String photoFolder = "data/images/";
-        File toBeDeletedFolder = new File(photoFolder);
-        File[] toBeDeletedImages = toBeDeletedFolder.listFiles();
-
-        if (toBeDeletedImages != null) {
-            for (File f : toBeDeletedImages) {
-                movePhoto(f);
-            }
-        }
-    }
-
-    /**
-     * Check if photo in image is the default photo. If it is, ignore. Else, move to edited folder.
-     * @param f current photo to check.
-     */
-    private void movePhoto(File f) {
-        String defaultPhoto = "data/images/default.jpeg";
-        String editedFolder = "data/edited/";
-        try {
-            if (!f.equals(new File(defaultPhoto))) {
-                Files.copy(f.toPath(), Paths.get(editedFolder + f.toString().substring(12)),
-                        StandardCopyOption.REPLACE_EXISTING);
-                f.delete();
-            }
-        } catch (IOException ioe) {
-            throw new AssertionError("Clearing of files have issue");
-        }
-    }
     //// person-level operations
 
     /**

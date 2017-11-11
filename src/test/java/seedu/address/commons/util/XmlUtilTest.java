@@ -34,6 +34,7 @@ public class XmlUtilTest {
     @BeforeClass
     public static void init() {
         ImageInit.checkDirectories();
+        ImageInit.initPictures();
         ImageInit.initDefault();
     }
 
@@ -103,7 +104,7 @@ public class XmlUtilTest {
 
         AddressBookBuilder builder = new AddressBookBuilder(new AddressBook());
         dataToWrite = new XmlSerializableAddressBook(
-                builder.withPerson(new PersonBuilder().withPhoto("default.jpeg").build()).withTag("Friends").build());
+                builder.withPerson(new PersonBuilder().build()).withTag("Friends").build());
 
         XmlUtil.saveDataToFile(TEMP_FILE, dataToWrite);
         dataFromFile = XmlUtil.getDataFromFile(TEMP_FILE, XmlSerializableAddressBook.class);
