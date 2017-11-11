@@ -765,9 +765,9 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 ---
 // end::nusmods[]
 
-=== Filter and Sort Mechanism for find command
+=== Filter and Sort Mechanism for contact list
 
-The find command is facilitated by the Model and Logic Component. It provides the user with the option to
+The find and list commands is facilitated by the Model and Logic Component. They provide the user with the option to
 filter and sort the contact list.
 
 ===== Implementation Details
@@ -779,12 +779,12 @@ object will be reflected on Augustine UI contact list display.
 
 The contact list can be filtered or sorted using the mechanism below.
 
-. [red]*Filtering contact list*
+. [red]*Filtering contact list using find command*
 +
 --
-The contact list can be filtered with the find command where the user is able to filter the contact list by
-either name, tag or both. The contact list data is stored in a `FilteredList<ReadOnlyPerson>` object. It is
-filtered by making use of the `java.util.stream.Stream` interface which uses a predicate to filter the
+The find command allows the user to filter the contact list by either name, tag or both.
+The contact list data is stored in a `FilteredList<ReadOnlyPerson>` object. This object can be filtered
+by making use of the `java.util.stream.Stream` interface which uses a predicate to filter the
 `FilteredList<ReadOnlyPerson>` object.
 
 [NOTE]
@@ -815,20 +815,23 @@ public boolean test(ReadOnlyPerson person) {
 . [red]*Sorting the contact list*
 +
 --
-The find command allows users to sort the contact list by either *address*, *email*, *name* or *tag*.
-The `FilteredList<ReadOnlyPerson>` object is referenced to a `SortedList<ReadOnlyPerson>` object which is bound
-to the Augustine UI. The order of the contact list's data in the `SortedList<ReadOnlyPerson>` object will be the
-same as the list displayed in the Augustine UI.
+The find and list commands allows users to sort the contact list by alphabetical order of either *address*,
+*email*, *name* or *tag*. The `FilteredList<ReadOnlyPerson>` object is referenced to a `SortedList<ReadOnlyPerson>`
+object which is bound to the Augustine UI. The order of the contact list's data in the `SortedList<ReadOnlyPerson>`
+object will be the same as the list displayed in the Augustine UI.
 
 [NOTE]
 The word “referenced” means that the contact list’s data in the `FilteredList<ReadOnlyPerson>` object is the
-exact same as the contact list’s data in the `SortedList<ReadOnlyPerson> object.
+exact same as the contact list’s data in the `SortedList<ReadOnlyPerson> object. Any changes to the data in the
+`FilteredList<ReadOnlyPerson>` object will be reflected in the `SortedList<ReadOnlyPerson>` object.
 
 Depending on the sort option (address, email, name or tag), the contact list will be sorted differently (see code snippet below).
 
 [source,java]
 ----
 /**
+ * Updates the sort comparator of this {@code sortedPersonsList} to sort by the given {@code sortOrder}.
+ *
  * @param: int
  * 0 = sort by name ascending
  * 1 = sort by tags ascending
@@ -893,7 +896,7 @@ Depending on the sort option (address, email, name or tag), the contact list wil
 ====
 **Alternative 1:** Filter contact list based on user defined keywords +
 
-* **Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
+* **Pros:** Users will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
 * **Cons:** The find command might display unnecessary results which are related to the keywords but not what the user wants. +
 ====
 ====
