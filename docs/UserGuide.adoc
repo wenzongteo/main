@@ -48,7 +48,7 @@ Augustine will *not work* with any earlier version of java.
 
 +
 [caption="Figure 1. "]
-.Augustine at a glance.
+.Augustine at a glance
 image::atAGlance.png[width="790"]
 
 +
@@ -113,7 +113,7 @@ You can also press kbd:[F1] on your keyboard instead of typing [fuchsia]`help` t
 Here is an example of what happens when you type the [fuchsia]`help` command (see Figure 2).
 
 [caption="Figure 2. "]
-.User Guide is shown after typing the help command in Augustine.
+.User Guide is shown after typing the help command in Augustine
 image::helpCommand.png[width="940px"]
 
 '''
@@ -156,7 +156,7 @@ You can add a new contact into Augustine with all fields filled using the comman
 a/John street, block 123, #01-01 b/01/02/1995`
 
 [caption="Figure 3. "]
-.Executing the add command with all parameters filled.
+.Executing the add command with all parameters filled
 image::addAll.png[width="940px"]
 --
 
@@ -169,7 +169,7 @@ You can also add a new contact into Augustine without filling up all the fields 
 *Command:* :: [fuchsia]`add n/Sally Ong e/sally@example.com`
 
 [caption="Figure 4. "]
-.Executing the add command with several optional parameters unfilled.
+.Executing the add command with several optional parameters unfilled
 image::addSome.png[width="940px"]
 
 [NOTE]
@@ -185,7 +185,7 @@ You cannot add a new contact that has the same email address as a contact in Aug
 *Command:* :: [fuchsia]`add n/John Wick p/97488235 e/johnw@example.com a/John street, block 123, #01-01 b/01/02/1995`
 
 [caption="Figure 5. "]
-.Executing the add command with a duplicate email address.
+.Executing the add command with a duplicate email address
 image::addFail.png[width="940px"]
 
 --
@@ -325,12 +325,12 @@ Here are some examples of using the find command in Augustine.
 . [red]*Finding by name*
 +
 --
-You can find contacts by their names (see Figure 10).
+You can find contacts by their names (see Figure 8).
 
 [horizontal]
 *Command:* :: [fuchsia]`find n/alex roy`
 
-[caption="Figure 10. "]
+[caption="Figure 8. "]
 .Results after searching by name
 image::findByName.png[]
 --
@@ -338,12 +338,12 @@ image::findByName.png[]
 . [red]*Finding by tags*
 +
 --
-You can find contacts by their tags (see Figure 11).
+You can find contacts by their tags (see Figure 9).
 
 [horizontal]
 *Command:* :: [fuchsia]`find t/frie colleagues`
 
-[caption="Figure 11. "]
+[caption="Figure 9. "]
 .Results after searching by tags
 image::findByTag.png[]
 --
@@ -351,12 +351,12 @@ image::findByTag.png[]
 . [red]*Finding by name and tag*
 +
 --
-You can find contacts filtered by both their names and tags (see Figure 12).
+You can find contacts filtered by both their names and tags (see Figure 10).
 
 [horizontal]
 *Command:* :: [fuchsia]`find n/adam t/Colleague`
 
-[caption="Figure 12. "]
+[caption="Figure 10. "]
 .Results after searching by names and tags
 image::findByNameTag.png[]
 --
@@ -365,7 +365,7 @@ image::findByNameTag.png[]
 +
 --
 You can find contacts and sort the resulting contact list displayed in alphabetical order according to either name, tag, email or address. Type the command below to
-find users by their names and then sort the resulting contact list by the tags (see Figure 13).
+find users by their names and then sort the resulting contact list by the tags (see Figure 11).
 
 [NOTE]
 Note that the sort option "name", "tag", "email" and "address" are *case-sensitive*
@@ -373,7 +373,7 @@ Note that the sort option "name", "tag", "email" and "address" are *case-sensiti
 [horizontal]
 *Command:* :: [fuchsia]`find n/alex roy s/tag`
 
-[caption="Figure 13. "]
+[caption="Figure 11. "]
 .Result of find contacts by name with the list displayed sorted by tags
 image::findByNameSorted.png[]
 --
@@ -408,14 +408,14 @@ Here are some examples on using the command to delete contacts:
 +
 --
 You can list all the contacts in Augustine and delete the contact by the contact's index.
-The command below deletes the second person on the list (see Figure 11).
+The command below deletes the second person on the list (see Figure 12).
 
 [horizontal]
 *Command:* ::
 . `list` +
 . [fuchsia]`delete 2`
 
-[caption="Figure 11. "]
+[caption="Figure 12. "]
 .Before and after deleting the second person on the list
 image::deleteFromList.png[]
 
@@ -426,14 +426,14 @@ image::deleteFromList.png[]
 --
 You can use the `find` command to first get a list of filtered contacts and then delete a
 contact by its new index. The command below deletes the first person in the results displayed after
-the `find` command (see Figure 12).
+the `find` command (see Figure 13).
 
 [horizontal]
 *Command:* ::
 . `find Betsy` +
 . [fuchsia]`delete 1`
 
-[caption="Figure 12. "]
+[caption="Figure 13. "]
 .Before and after deleting the first person on the list
 image::deleteFromFind.png[]
 
