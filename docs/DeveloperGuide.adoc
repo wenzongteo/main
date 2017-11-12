@@ -942,7 +942,7 @@ There are 3 classes, `EmailLogin`, `EmailSend` and `EmailCompose` in the `EmailM
 * `*EmailSend*`: Handles the sending of email by setting up the Simple Mail Transfer Protocol (link:#SMTP[SMTP]) connection for sending email via JavaMail API.
 The email is rejected if the `MessageDraft` object in `EmailCompose` is empty or the login details in `EmailLogin` is invalid.
 
-The sequence diagram below shows how the component interacts with one another when the user sends an email command.
+The sequence diagram below shows how the component interacts with one another when the user enters an email command.
 
 [NOTE]
 *Email* in diagram below = “email em/message to send es/subject el/adam@gmail.com:password et/send”
@@ -951,13 +951,13 @@ The sequence diagram below shows how the component interacts with one another wh
 .Component level sequence diagram for email
 image::EmailSequenceDiagramComponent.png[]
 
-The sequence diagram below shows how the `EmailManager` class interacts with the 3 email classes that facilitates the email process.
+The sequence diagram below shows how the `Email` component interacts with the 3 email classes that facilitates the email process when the user enters an email command.
 
 [caption="Figure 30. "]
 .Sequence diagram for email
 image::EmailSequenceDiagramEmail.png[]
 
-The diagram below shows how the email draft tab in the Augustine User interface (UI) is updated when the `EventCenter` reacts to the `EmailDraftChangedEvent` in Figure 30.
+The diagram below shows how the email draft tab in the Augustine User interface (UI) is updated when the `EventCenter` reacts to the `EmailDraftChangedEvent` in Figure 29.
 
 [caption="Figure 31. "]
 .Events Driven Nature of Email
@@ -966,7 +966,7 @@ image::EmailSequenceDiagramEvents.png[width="700"]
 ===== Usage of JavaMal API
 
 The `Email` component uses an external library, JavaMail to send email out from Augustine. The code snippet below sets
-up the Simple Mail Transfer Protocol (link:#SMTP[SMTP]) for email delivery.
+up the Simple Mail Transfer Protocol (link:#SMTP[SMTP]) for sending email.
 
 [source,java]
 ----
