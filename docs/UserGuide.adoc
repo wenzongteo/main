@@ -607,7 +607,7 @@ and at least one contact displayed on the contact list before an email can be se
 ** Send the current email draft: [fuchsia]`email et/send`
 ** Create a new email draft and *send*: [fuchsia]`email em/message es/subject
 el/adam@gmail.com:password et/send`
-* The email will be sent to all contacts currently displayed in Augustine contact list tab (see example 1).
+* The email will be sent to all contacts currently displayed in Augustine contact list tab (see Example 1).
 ****
 
 ===== Example
