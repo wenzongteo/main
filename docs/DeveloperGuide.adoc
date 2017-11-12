@@ -940,7 +940,7 @@ There are 3 classes, `EmailLogin`, `EmailSend` and `EmailCompose` in the `EmailM
 * `*EmailLogin*`: Handles the storing of login details and verifies that the user’s email is a gmail account using regular expression.
 * `*EmailCompose*`: Handles the composing and drafting of email using a `MessageDraft` object which stores the email’s message, subject and recipients’ email.
 * `*EmailSend*`: Handles the sending of email by setting up the Simple Mail Transfer Protocol (SMTP) connection for sending email via JavaMail API.
-The email is rejected if the `MessageDraft` object in `EmailCompose` is empty of the login details in `EmailLogin` is invalid.
+The email is rejected if the `MessageDraft` object in `EmailCompose` is empty or the login details in `EmailLogin` is invalid.
 
 The sequence diagram below shows how the component interacts with one another when the user sends an email command.
 
@@ -1460,11 +1460,9 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *`|user |add a person without filling all the fields |add even with missing information
 
-|`* * *`|user |tag my contacts |categorise my contacts into groups
-
 |`* * *`|user |edit my contacts |update my contacts details
 
-|`* * *`|group member |filter contact list by tags |see only my group mates
+|`* * *`|group member |filter contact list by tags |categorise my contacts into groups
 
 |`* *`|user |copy listed emails into my clipboard |convenient when emailing to a batch of contacts
 
@@ -1514,10 +1512,10 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 *MSS*
 
-1.  User requests to list persons
-2.  AddressBook shows a list of persons
-3.  User requests to delete a specific person in the list
-4.  AddressBook deletes the person
+1.  User requests to list persons.
+2.  AddressBook shows a list of persons.
+3.  User requests to delete a specific person in the list.
+4.  AddressBook deletes the person.
 +
 Use case ends.
 
@@ -1526,6 +1524,7 @@ Use case ends.
 [none]
 * 2a. The list is empty.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
 * 3a. The given index is invalid.
@@ -1533,6 +1532,7 @@ Use case ends.
 [none]
 ** 3a1. AddressBook shows an error message.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case resumes at step 2.
 
 [discrete]
@@ -1559,6 +1559,7 @@ Use case ends.
 [none]
 ** 2a1. AddressBook overwrites the existing file.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
 [discrete]
@@ -1566,10 +1567,10 @@ Use case ends.
 
 *MSS*
 
-1. User request to list persons
-2. AddressBook shows a list of persons
-3. User requests to copy all or selected person's email in the list
-4. Emails are copied to clipboard
+1. User request to list persons.
+2. AddressBook shows a list of persons.
+3. User requests to copy all or selected person's email in the list.
+4. Emails are copied to clipboard.
 +
 Use case ends.
 
@@ -1578,6 +1579,7 @@ Use case ends.
 [none]
 * 2a. The list is empty.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
 * 3a. The given index is invalid.
@@ -1585,6 +1587,7 @@ Use case ends.
 [none]
 ** 3a1. AddressBook shows an error message.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case resumes at step 2.
 
 [discrete]
@@ -1592,9 +1595,9 @@ Use case resumes at step 2.
 
 *MSS*
 
-1.  User requests to add person
-2.  AddressBook parses person's particulars into a fixed format
-3.  AddressBook adds the person
+1.  User requests to add person.
+2.  AddressBook parses person's particulars into a fixed format.
+3.  AddressBook adds the person.
 +
 Use case ends.
 
@@ -1607,6 +1610,7 @@ Use case ends.
 ** 2a1. AddressBook parses person's particulars into a fixed format.
 ** 2a2. AddressBook adds the person.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
 * 2b. User enter person's particulars with missing fields.
@@ -1616,6 +1620,7 @@ Use case ends.
 ** 2b2. AddressBook parses person's particulars into a fixed format.
 ** 2b3. AddressBook adds the person.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
 [none]
@@ -1624,10 +1629,11 @@ Use case ends.
 [none]
 ** 3a1. AddressBook shows an error message.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
 [discrete]
-=== Use case: Edit Person
+=== Use case: Edit person
 
 *MSS*
 
@@ -1649,6 +1655,7 @@ Use case ends.
 ** 2a1. AddressBook parses person's particulars into a fixed format.
 ** 2a2. AddressBook edit the person's particulars.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
 * 2b. User enter person's particulars with missing fields.
@@ -1658,6 +1665,7 @@ Use case ends.
 ** 2b2. AddressBook parses person's particulars into a fixed format.
 ** 2b3. AddressBook adds the person.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
 [none]
@@ -1666,9 +1674,39 @@ Use case ends.
 [none]
 ** 3a1. AddressBook shows an error message.
 +
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
-{More to be added}
+[discrete]
+=== Use case: Email contacts
+*MSS*
+
+1.  User requests to email contacts
+2.  AddressBook extracts the email address from all persons in the current displayed contact list
+3.  AddressBook compose the email
+4.  AddressBook sends the email to all of the extracted email addresses.
++
+Use case ends.
+
+*Extensions*
+
+[none]
+* 2a. The currently displayed contact list is empty
++
+[none]
+** 2a1. AddressBook shows an error message.
++
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
+Use case ends.
+
+[none]
+* 4a. The email is empty
++
+[none]
+** 4a1. AddressBook shows an error message.
++
+{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
+Use case ends.
 
 [appendix]
 == Non Functional Requirements
