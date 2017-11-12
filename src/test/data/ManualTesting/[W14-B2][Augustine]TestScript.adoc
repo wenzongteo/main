@@ -113,6 +113,7 @@ This segment covers how to find contacts in Augustine's contact list tab.
 *Command*: [red]`find t/wiz` +
 *Expected*: Contact List tab will only have 2 contact: "Emma Watson", "Harry Potter"
 --
+'''
 
 === Adding/Editing/Deleting contacts
 
@@ -136,18 +137,65 @@ This section cover commands add, edit, delete, undo, redo and clear.
 *Expected*: Adding fail.
 --
 
-=== Displaying contact's instagram
-
-This section covers the command insta to display the contact's information on the right browser of Augustine.
-
-'''
---
 *Command*: [red]`list` +
 *Expected*: GUI will be on contact list tab, with 20 contacts listed.
 --
+'''
+--
 
+=== Displaying a contact's Instagram profile page
 
-==== Editing and Displaying timetable with nusmods
+This section covers the command `insta` which displays the contact's Instagram profile on the right browser of Augustine.
+
+'''
+--
+*Command*: [red]`edit 1 insta/arsenal` +
+*Expected*: The first contact's Instagram ID will be set to `arsenal`.
+--
+
+'''
+--
+*Command*: [red]`insta 1` +
+*Expected*: Right browser will switch to the Instagram tab and load the Instagram page of `arsenal`.
+--
+
+'''
+--
+*Command*: [red]`undo` +
+*Expected*: The first contact's Instagram ID will revert back to `-`, but the browser will not automatically update
+until refreshed.
+--
+
+'''
+--
+*Command*: [red]`insta 1` +
+*Expected*: Right browser will remain at the Instagram tab and load the Instagram homepage.
+--
+
+'''
+--
+*Command*: [red]`e 1 insta/johncena` +
+*Expected*: The first contact's Instagram ID will be set to `johncena`, but the browser will not automatically update
+until refreshed.
+--
+
+'''
+--
+*Command*: [red]`Left-click contact 1` +
+*Expected*: Right browser will switch to the Instagram tab and load the Instagram page of `johncena`.
+--
+
+'''
+--
+*Command*: [red]`delete 1` +
+*Expected*: The first contact will be deleted, but the browser will remain at `johncena` 's page and not automatically
+update until refreshed.
+--
+'''
+--
+
+--
+=== Editing and Displaying timetable with nusmods
 
 This section covers nusmods command.
 
