@@ -22,7 +22,8 @@ include::../UserGuide.adoc[tag=add]
 ---
 #Start of Extract [from: Developer Guide]#
 
-include::../DeveloperGuide.adoc[tag=optionalfields[]]
+include::../DeveloperGuide.adoc[tag=optionalfields]
+include::../DeveloperGuide.adoc[tag=imagestorage]
 
 #End of Extract#
 
