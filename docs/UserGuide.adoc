@@ -93,7 +93,7 @@ Before you continue with this section, do take note of the following:
 Augustine accepts parameters in any order. +
 E.g. Entering `n/NAME p/PHONE_NUMBER` or `p/PHONE_NUMBER n/NAME` are both accepted by Augustine.
 
-=== Viewing help : [fuchsia]`help`
+=== Viewing help: [fuchsia]`help`
 
 The [fuchsia]`help` command will enable you to view this User Guide within Augustine.
 
@@ -118,7 +118,7 @@ image::helpCommand.png[width="940px"]
 
 '''
 
-=== Adding a person: [fuchsia]`add`
+=== Adding a contact: [fuchsia]`add`
 
 The [fuchsia]`add` command will enable you to populate Augustine.
 
@@ -176,7 +176,7 @@ image::addSome.png[width="940px"]
 Note that the fields that are unfilled are represented with a '-' instead
 --
 
-. [red]*Adding an contact that already exists in Augustine*
+. [red]*Adding a contact that already exists in Augustine*
 +
 --
 You cannot add a new contact that has the same email address as a contact in Augustine (see Figure 5).
@@ -192,7 +192,7 @@ image::addFail.png[width="940px"]
 
 '''
 
-=== Listing all persons : [fuchsia]`list`
+=== Listing all contacts: [fuchsia]`list`
 
 The [fuchsia]`list` command will show a list of all your contacts in the address book. There is also an optional sort command
 that will allow you to sort the full list by tags or by name.
@@ -210,7 +210,7 @@ You can use the alias `l` instead of typing out `list`
 '''
 
 // tag::edit[]
-=== Editing a person : [fuchsia]`edit`
+=== Editing a contact: [fuchsia]`edit`
 
 The [fuchsia]`edit` command will modify contacts in Augustine.
 
@@ -222,7 +222,7 @@ The format of the [fuchsia]`edit` command is as follows:
 ****
 *Things to take note:* +
 
-* The command edits the person at the specified `INDEX`.
+* The command edits the contact at the specified `INDEX`.
 ** `INDEX` refers to the index number shown in the list of contacts.
 ** The index must be a whole number (1, 2, 3, ...)
 * At least one of the optional fields must be filled.
@@ -303,7 +303,7 @@ The format of the [fuchsia]`find` command is as follows:
 ** Find by *name* and **tag**: [fuchsia]`find n/adam eunice t/tag1 tag2`
 * The keywords are **case insensitive**. e.g `hans` will match `Hans`
 * The order of the keywords does not matter. e.g. `Hans Bo` will match `Bo Hans`
-* Persons matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
+* Contacts matching at least one keyword will be returned (i.e. `OR` search). e.g. `Hans Bo` will return `Hans Gruber`, `Bo Yang`
 * The find command results can be be *sorted* by the alphabetic order of *name*, *tag*, *email* or *address*.
 ** Find with *sort by name*: [fuchsia]`find n/adam eunice s/name`
 ** Find with *sort by tag*: [fuchsia]`find n/adam eunice s/tag`
@@ -380,9 +380,9 @@ image::findByNameSorted.png[]
 // end::find[]
 '''
 
-=== Deleting a person : [fuchsia]`delete`
+=== Deleting a contact: [fuchsia]`delete`
 
-The [fuchsia]`delete` deletes a specified person from Augustine.
+The [fuchsia]`delete` deletes a specified contact from Augustine.
 
 ===== Format
 The format of the [fuchsia]`delete` command is as follows:
@@ -392,7 +392,7 @@ The format of the [fuchsia]`delete` command is as follows:
 ****
 *Things to take note:* +
 
-* Deletes the person at the specified `INDEX`.
+* Deletes the contact at the specified `INDEX`.
 * `INDEX` refers to the index number shown in the the list of contacts.
 * The index must be a whole number (1, 2, 3, ...)
 ****
@@ -408,7 +408,7 @@ Here are some examples on using the command to delete contacts:
 +
 --
 You can list all the contacts in Augustine and delete the contact by the contact's index.
-The command below deletes the second person on the list (see Figure 12).
+The command below deletes the second contact on the list (see Figure 12).
 
 [horizontal]
 *Command:* ::
@@ -416,7 +416,7 @@ The command below deletes the second person on the list (see Figure 12).
 . [fuchsia]`delete 2`
 
 [caption="Figure 12. "]
-.Before and after deleting the second person on the list
+.Before and after deleting the second contact on the list
 image::deleteFromList.png[]
 
 --
@@ -425,7 +425,7 @@ image::deleteFromList.png[]
 +
 --
 You can use the `find` command to first get a list of filtered contacts and then delete a
-contact by its new index. The command below deletes the first person in the results displayed after
+contact by its new index. The command below deletes the first contact in the results displayed after
 the `find` command (see Figure 13).
 
 [horizontal]
@@ -434,7 +434,7 @@ the `find` command (see Figure 13).
 . [fuchsia]`delete 1`
 
 [caption="Figure 13. "]
-.Before and after deleting the first person on the list
+.Before and after deleting the first contact on the list
 image::deleteFromFind.png[]
 
 --
@@ -457,7 +457,7 @@ The format of the [fuchsia]`nusmods` command is as follows:
 ****
 *Things to take note:* +
 
-* Changes the modules of the person at the specified `INDEX`.
+* Changes the modules of the contact at the specified `INDEX`.
 * `INDEX` refers to the index number shown in the the list of contacts.
 * The index must be a whole number (1, 2, 3, ...)
 * t/ is followed by "add", "delete" or "url".
@@ -490,7 +490,7 @@ Most students in NUS use NUSmods, ask them for their timetable URL to save time 
 
 ===== Example
 
-Here are some example of using the [fuchsia]`nusmods` command:
+Here are some examples of using the [fuchsia]`nusmods` command:
 
 . [red]*Inputting timetable with URL*
 +
@@ -526,7 +526,7 @@ The following command will remove the module CS2010 from the timetable of the co
 
 '''
 
-=== Displaying a person's timetable : [fuchsia]`select`
+=== Displaying a contact's timetable: [fuchsia]`select`
 
 After you have set a timetable to a contact with the [fuchsia]`nusmods` command, you can
 use the [fuchsia]`select` command to display the timetable of a contact through the NUSmods website.
@@ -539,7 +539,7 @@ The format of the [fuchsia]`select` command is as follows:
 ****
 *Things to take note:* +
 
-* This command selects the person specified at `INDEX` and loads the NUSmods webpage with the timetable belonging to the contact.
+* This command selects the contact specified at `INDEX` and loads the NUSmods webpage with the timetable belonging to the contact.
 * `INDEX` refers to the index number shown in the the list of contacts.
 * The index must be a whole number (1, 2, 3, ...)
 ****
@@ -549,7 +549,7 @@ You can use the alias `s` instead of typing out `select`
 
 ===== Example
 
-Here are some example of using the [fuchsia]`select` command:
+Here are some examples of using the [fuchsia]`select` command:
 
 . [red]*Selecting a contact from list results*
 +
@@ -571,7 +571,7 @@ image::select2after.png[width="940px"]
 +
 --
 You can first use the `find` command to get a list of filtered contacts and then select the
-contact by the contact's index. The command below selects the first person on the results displayed after the `find` command.
+contact by the contact's index. The command below selects the first contact on the results displayed after the `find` command.
 
 [horizontal]
 *Command:* ::
@@ -582,7 +582,7 @@ contact by the contact's index. The command below selects the first person on th
 '''
 
 // tag::email[]
-=== Emailing contacts : [fuchsia]`email`
+=== Emailing contacts: [fuchsia]`email`
 
 The [fuchsia]`email` command sends an email to all contacts from the last displayed contact list in Augustine.
 
@@ -657,7 +657,7 @@ After following the above examples, you would have successfully composed a draft
 and logged onto to your Gmail account. To send out that email, simply use the command below: (see Figure 17).
 
 [NOTE]
-Note that you must have *at least 1 person* in your current displayed contact list.
+Note that you must have *at least 1 contact* in your current displayed contact list.
 
 [horizontal]
 *Command:* :: [fuchsia]`email et/send`
@@ -732,7 +732,7 @@ image::happyBirthdayJohnCena.png[width="440px"]
 
 
 // tag::insta[]
-=== Displaying Instagram tab : [fuchsia]`insta`
+=== Displaying Instagram tab: [fuchsia]`insta`
 
 The Instagram tab allows you to view the Instagram profile of the selected contact.
 
@@ -769,7 +769,7 @@ image::instagram.png[width="1425px"]
 '''
 
 // tag::backup[]
-=== Backing up Augustine data : [fuchsia]`backup`
+=== Backing up Augustine data: [fuchsia]`backup`
 
 The [fuchsia]`backup` saves the current contacts data in a separate file, found at `/data/addressbook-backup.xml`.
 
@@ -784,7 +784,7 @@ You can use the alias `b` instead of typing out `backup`
 // end::backup[]
 '''
 
-=== Listing entered commands : [fuchsia]`history`
+=== Listing entered commands: [fuchsia]`history`
 
 The [fuchsia]`history` command lists all the commands that you have entered in
 reverse chronological order.
@@ -803,7 +803,7 @@ Pressing the kbd:[&uarr;] and kbd:[&darr;] arrows will display the previous and 
 '''
 
 // tag::undoredo[]
-=== Undoing previous command : [fuchsia]`undo`
+=== Undoing previous command: [fuchsia]`undo`
 
 The [fuchsia]`undo` command restores the address book to the state before the previous _undoable_ command was executed.
 
@@ -868,7 +868,7 @@ You can use the [fuchsia]`undo` command more than once to undo multiple commands
 
 '''
 
-=== Redoing the previously undone command : [fuchsia]`redo`
+=== Redoing the previously undone command: [fuchsia]`redo`
 
 The [fuchsia]`redo` command reverses the most recent `undo` command.
 
@@ -925,7 +925,7 @@ You can use the [fuchsia]`redo` command more than once to reverse multiple `undo
 
 '''
 
-=== Clearing all entries : [fuchsia]`clear`
+=== Clearing all entries: [fuchsia]`clear`
 
 The [fuchsia]`clear` command clears all entries from Augustine.
 
@@ -935,7 +935,7 @@ The format of the [fuchsia]`clear` command is as follows:
 [fuchsia]#clear#
 ====
 
-=== Exiting the program : [fuchsia]`exit`
+=== Exiting the program: [fuchsia]`exit`
 
 The [fuchsia]`exit` command exits Augustine.
 
