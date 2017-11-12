@@ -103,6 +103,7 @@ public class AddressBook implements ReadOnlyAddressBook {
 
     /**
      * Check if photo in image is the default photo. If it is, ignore. Else, move to edited folder.
+     * Add into the photoStack in UniquePersonList to record the latest image file.
      * @param f current photo to check.
      */
     private void removePhoto(File f) {
@@ -122,7 +123,8 @@ public class AddressBook implements ReadOnlyAddressBook {
     }
 
     /**
-     * Check if there are existing photos from the same contact in the data/edited/ folder.
+     * Check if there are existing photos from the same contact in the data/edited/ folder. if there are, add a counter
+     * to the file name so that the photos will not be overwritten.
      * @param originalPath photo path in data/images
      * @return the updated photo path to data/edited/ folder.
      */
@@ -132,10 +134,12 @@ public class AddressBook implements ReadOnlyAddressBook {
         String emailAddr = originalPath.substring(0, originalPath.length() - 4);
         String fileExt = ".jpg";
         int counter = 0;
+
         while (FileUtil.isFileExists(new File(destPath))) {
             counter++;
             destPath = editedFolder + emailAddr + counter + fileExt;
         }
+
         return destPath;
     }
     //@@author

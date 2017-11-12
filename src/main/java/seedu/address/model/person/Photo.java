@@ -38,7 +38,8 @@ public class Photo {
     /**
      * Can contain multiple words or symbols but must start with either http or https and end with either .jpg or .jpeg
      */
-    public static final String URL_REGEX = "\\b(https?)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+    public static final String URL_REGEX =
+            "((^(https?)(://))[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]*(\\.(?i)(jpg|jpeg))$)";
     public static final String DEFAULT_PHOTO = "data/images/default.jpeg";
     public static final String DOWNLOAD_LOCATION = "data/download.jpg";
     public static final String UNFILLED = "-";
@@ -148,7 +149,13 @@ public class Photo {
      * @return true if a given string is a valid person photo.
      */
     public static boolean isValidPhoto(String test) {
-        return (test.matches(PHOTO_VALIDATION_REGEX) || test.matches(URL_REGEX));
+        if (test.matches(URL_REGEX)) {
+            return true;
+        } else if (test.matches(PHOTO_VALIDATION_REGEX)) {
+            return true;
+        } else {
+            return false;
+        }
     }
 
     /**
