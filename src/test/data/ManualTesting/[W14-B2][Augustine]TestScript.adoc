@@ -1,0 +1,39 @@
+= Test Script
+:stylesDir: stylesheets
+
+== Getting started
+
+. Download the test files from IVLE.
+. Copy Augustine.jar and the data folder into a new folder.
+. Double click on Augustine.jar to start the program.
+. The sample data should be populated in Augustine now.
+. Refer to the instructions below for more testing.
+
+[NOTE]
+The instructions below have the following format: +
+*Command:* the command to type in the command Box. +
+*Expected:* the expected display in Augustine.
+
+== Navigating contact list
+
+--
+Command:
+Expected:
+--
+
+== New users
+
+
+List, Find
+
+Add, Edit, Delete, Undo, redo, clear
+
+Nusmods, insta, select
+
+Email
+
+Backup
+
+history
+
+help
