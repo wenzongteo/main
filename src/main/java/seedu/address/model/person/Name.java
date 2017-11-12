@@ -29,10 +29,8 @@ public class Name {
     public Name(String name) throws IllegalValueException {
         requireNonNull(name);
         String trimmedName = name.trim();
-        if (!trimmedName.equals("-")) {
-            if (!isValidName(trimmedName)) {
-                throw new IllegalValueException(MESSAGE_NAME_CONSTRAINTS);
-            }
+        if (!isValidName(trimmedName)) {
+            throw new IllegalValueException(MESSAGE_NAME_CONSTRAINTS);
         }
         this.fullName = trimmedName;
     }
