@@ -563,7 +563,7 @@ You can list all the contacts in Augustine and select the contact by the contact
 
 [caption="Figure 14. "]
 .After contact is selected
-image::select2After.png[width="940px"]
+image::select2after.png[width="940px"]
 
 --
 
