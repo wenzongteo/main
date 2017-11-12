@@ -1,39 +1,160 @@
 = Test Script
 :stylesDir: stylesheets
 
+== Introduction
+
+This is a manual test script to help you with testing Augustine.
+
 == Getting started
 
-. Download the test files from IVLE.
-. Copy Augustine.jar and the data folder into a new folder.
+. Create an empty folder.
+. Download "Augustine.jar" and "[W14-B2][Augustine]SampleData.xml" from IVLE and place it into the empty folder.
+. Rename "[W14-B2][Augustine]SampleData.xml" to *"addressbook.xml"*.
+. Create a folder "data" in the empty folder and place [W14-B2][Augustine]SampleData.xml into the "data folder".
+The empty folder should now contain the following files:
+* /<Empty Folder Name>/Augustine.jar
+* /<Empty Folder Name>/data/addressbook.xml
 . Double click on Augustine.jar to start the program.
-. The sample data should be populated in Augustine now.
+. The sample data in addressbook.xml should now be populated in Augustine.
+* If the sample data of 20 contacts are not populated, repeat step 2-5 and ensure that you have name the files correctly and also placed the files in the correct folder.
 . Refer to the instructions below for more testing.
 
+== Tips for GUI navigation
+
+. Press ctrl + t to toggle the tabs on the left panel.
+. Press ctrl + z as a shortcut for the undo command.
+. Press ctrl + y as a shortcut for the redo command.
+. Press pageup button to scroll up the contact list.
+. Press pagedown button to scroll down the contact list.
+. Type the command "insta INDEX" to display the insta tab.
+* Eg. insta 1
+. Type the command "select INDEX" to display the nusmods tab.
+* Eg select 1
+. Press F1 or type the command "help" to display the help menu.
+
 [NOTE]
-The instructions below have the following format: +
-*Command:* the command to type in the command Box. +
-*Expected:* the expected display in Augustine.
+For mac users, you have to press fn + up for pageup and fn + down for pagedown.
 
-== Navigating contact list
+== Testing
+
+=== Using the Contact List
+
+This segment covers how to find contacts in Augustine's contact list tab.
+
+'''
 
 --
-Command:
-Expected:
+*Command*: [red]`list` +
+*Expected*: GUI will be on contact list tab, with 20 contacts listed.
+--
+'''
+
+--
+*Command*: [red]`list s/tag` +
+*Expected*: GUI will be on contact list tab, with 20 contacts listed sorted by the alphabetic order of each contact's first tag.
+--
+'''
+
+--
+*Command*: [red]`list s/email` +
+*Expected*: GUI will be on contact list tab, with 20 contacts listed sorted by the alphanumeric order of the contact's email.
+--
+'''
+
+--
+*Command*: [red]`list s/address` +
+*Expected*: GUI will be on contact list tab, with 20 contacts listed sorted by the alphanumeric order of the contact's email.
+--
+'''
+
+--
+*Command*: [red]`list` +
+*Expected*: GUI will be on contact list tab, with 20 contacts listed sorted by the alphabetic order of the contact's name.
+--
+'''
+
+--
+*Command*: [red]`find n/Baby` +
+*Expected*: Contact List tab will only have 1 contact: "baby"
+--
+'''
+
+--
+*Command*: [red]`find n/B` +
+*Expected*: Contact List tab will only have 2 contact: "baby", "Black Widow"
+--
+'''
+
+--
+*Command*: [red]`find n/gary park` +
+*Expected*: Contact List tab will only have 2 contact: "Gary", "Park Shinhye"
+--
+'''
+
+--
+*Command*: [red]`find n/gary park t/runningman` +
+*Expected*: Contact List tab will only have 2 contact: "Gary"
+--
+'''
+
+--
+*Command*: [red]`find t/runningman` +
+*Expected*: Contact List tab will only have 6 contact: "Gary", "Haha", "Kim Jongkuk", "Lee Kwangsoo", "Song Jihyo", "Yoo Jaesuk"
+--
+'''
+
+--
+*Command*: [red]`find t/running man` +
+*Expected*: Contact List tab will only have 7 contact: "Gary", "Gwen Stact", "Haha", "Kim Jongkuk", "Lee Kwangsoo", "Song Jihyo", "Yoo Jaesuk"
 --
 
-== New users
+'''
+--
+*Command*: [red]`find t/wiz` +
+*Expected*: Contact List tab will only have 2 contact: "Emma Watson", "Harry Potter"
+--
 
+== Displaying contact's information
 
-List, Find
+This section covers on command select, insta and nusmods to display the contact's information on the right browser of Augustine.
 
-Add, Edit, Delete, Undo, redo, clear
+'''
+--
+*Command*: [red]`list` +
+*Expected*: GUI will be on contact list tab, with 20 contacts listed.
+--
 
-Nusmods, insta, select
+== Adding/Editing/Deleting contacts
 
-Email
+This section covers on commands add, edit, delete, undo, redo and clear.
 
-Backup
+'''
+--
+*Command*: [red]`clear` +
+*Expected*: Addressbook will be cleared. Contact List tab display will be empty and white.
+--
 
-history
+'''
+--
+*Command*: [red]`undo` +
+*Expected*: Contact List tab should have 20 contacts.
+--
 
-help
+'''
+--
+*Command*: [red]`add n/Ji SukJin` +
+*Expected*: Adding fail.
+--
+
+== Email contacts
+
+This section covers on command email.
+
+'''
+--
+*Command*: [red]`list` +
+*Expected*: GUI will be on contact list tab, with 20 contacts listed.
+
+== Backup contacts
+
+== History and exits
