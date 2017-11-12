@@ -82,14 +82,6 @@ public class ParserUtilTest {
     }
 
     @Test
-    public void parseName_unfilledName_returnsUnfilledName() throws Exception {
-        Name expectedName = new Name(NOT_FILLED);
-        Optional<Name> actualName = ParserUtil.parseName(Optional.of("-"));
-
-        assertEquals(expectedName, actualName.get());
-    }
-
-    @Test
     public void parseName_validValue_returnsName() throws Exception {
         Name expectedName = new Name(VALID_NAME);
         Optional<Name> actualName = ParserUtil.parseName(Optional.of(VALID_NAME));
