@@ -130,6 +130,91 @@ This section covers on commands add, edit, delete, undo, redo and clear.
 
 '''
 --
+*Command*: [red]`add n/Ji SukJin` +
+*Expected*: Add command fails.
+The display message is: +
+Invalid command format! add: Adds a person to the address book. Parameters (Both name and email address are compulsory): +
+n/NAME p/PHONE e/EMAIL a/ADDRESS b/BIRTHDATE insta/INSTAGRAM ID [t/TAG]... +
+Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 b/25/12/1980 dp//data/photo.jpeg t/friends t/owesMoney insta/johndoe80
+
+--
+
+'''
+--
+*Command*: [red]`add e/tester@example.com` +
+*Expected*: Add command fails.
+The display message is: +
+Invalid command format! add: Adds a person to the address book. Parameters (Both name and email address are compulsory): +
+n/NAME p/PHONE e/EMAIL a/ADDRESS b/BIRTHDATE insta/INSTAGRAM ID [t/TAG]... +
+Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 b/25/12/1980 dp//data/photo.jpeg t/friends t/owesMoney insta/johndoe80
+
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester@example.com` +
+*Expected*: Command succeed. The display message is +
+New person added: tester Phone: - Email: tester@example.com Address: - Image: data/images/default.jpeg Birthdate: - User ID: - Tags:
+
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester@example.com` +
+*Expected*: Command fail. The display message is +
+This email is already used by a contact in Augustine.
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester2@example.com` +
+*Expected*: Command succeed. Details of the person added will be shown.
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester3@example.com b/12-12-1995` +
+*Expected*: Command fail. Invalid date entry error will be shown.
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester3@example.com b/12-12-1995` +
+*Expected*: Command fail. Invalid date entry error will be shown.
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester3@example.com b/12/13/1995` +
+*Expected*: Command fail. Invalid date entry error will be shown.
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester3@example.com b/12/3/1995` +
+*Expected*: Command fail. Invalid date entry error will be shown.
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester3@example.com b/2/12/1995` +
+*Expected*: Command fail. Invalid date entry error will be shown.
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester3@example.com b/2/12/1995` +
+*Expected*: Command fail. Invalid date entry error will be shown.
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester3@example.com b/29/12/1995` +
+*Expected*: Command fail. Invalid date entry error will be shown.
+--
+
+'''
+--
 *Command*: [red]`clear` +
 *Expected*: Addressbook will be cleared. Contact List tab display will be empty and white.
 --
@@ -138,12 +223,6 @@ This section covers on commands add, edit, delete, undo, redo and clear.
 --
 *Command*: [red]`undo` +
 *Expected*: Contact List tab should have 20 contacts.
---
-
-'''
---
-*Command*: [red]`add n/Ji SukJin` +
-*Expected*: Adding fail.
 --
 
 == Email contacts
