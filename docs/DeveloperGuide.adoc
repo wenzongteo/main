@@ -308,7 +308,7 @@ _Figure 4.3.4 : Structure of the Email component_
 The `Email` component,
 
 * uses a `EmailLogin` class to store user's email login Details.
-* uses a `EmailSend` class to process and send email via JavaMail API through SMTP protocol.
+* uses a `EmailSend` class to process and send email via JavaMail link:#API[API] through link:#SMTP[SMTP] protocol.
 * uses a `EmailCompose` class to store the data of email message drafts.
 * Exposes an unmodifiable `MessageDraft` object which can be retrieved from `EmailCompose` class, such that the `MessageDisplay` UI can be bound to this list which automatically updates when the data in the `messageDraft` object change.
 
@@ -939,7 +939,7 @@ There are 3 classes, `EmailLogin`, `EmailSend` and `EmailCompose` in the `EmailM
 
 * `*EmailLogin*`: Handles the storing of login details and verifies that the user’s email is a gmail account using regular expression.
 * `*EmailCompose*`: Handles the composing and drafting of email using a `MessageDraft` object which stores the email’s message, subject and recipients’ email.
-* `*EmailSend*`: Handles the sending of email by setting up the Simple Mail Transfer Protocol (SMTP) connection for sending email via JavaMail API.
+* `*EmailSend*`: Handles the sending of email by setting up the Simple Mail Transfer Protocol (link:#SMTP[SMTP]) connection for sending email via JavaMail API.
 The email is rejected if the `MessageDraft` object in `EmailCompose` is empty or the login details in `EmailLogin` is invalid.
 
 The sequence diagram below shows how the component interacts with one another when the user sends an email command.
@@ -966,7 +966,7 @@ image::EmailSequenceDiagramEvents.png[width="700"]
 ===== Usage of JavaMal API
 
 The `Email` component uses an external library, JavaMail to send email out from Augustine. The code snippet below sets
-up the Simple Mail Transfer Protocol (SMTP) for email delivery.
+up the Simple Mail Transfer Protocol (link:#SMTP[SMTP]) for email delivery.
 
 [source,java]
 ----
@@ -1500,8 +1500,6 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |=======================================================================
 
-{More to be added}
-
 [appendix]
 == Use Cases
 
@@ -1733,17 +1731,31 @@ Mainstream OS
 Windows, Linux, Unix, OS-X
 ....
 
-API, UI, SMTP
+[[SMTP]]
+SMTP
+....
+Simple Mail Transfer Protocol (SMTP) is the internet standard for email delivery.
+....
+
+[[API]]
+API
+....
+Application Programming Interface (API) is a set of subroutine definitions, protocols, and tools for building application software.
+....
+
+[[GUI]]
+GUI
+....
+Graphical User Interface (UI) is the medium for human-computer interactions.
+....
 
 [[private-contact-detail]]
 Private contact detail
-
 ....
 A contact detail that is not meant to be shared with others
 ....
 
 NUSmods
-
 ....
 A website which can create and display NUS timetables.
 ....
