@@ -511,19 +511,19 @@ detail is not filled up by the user.
 _Figure X_ below shows you the sequence diagram of the process within Augustine when a user adds a contact.
 
 [caption="Figure X: "]
-.Sequence Diagram of Add Command
-image::addPhotoActivityDiagram.png[width="640"]
+.Sequence diagram of add command.
+image::AddCommandSequenceDiagram.png[width="900"]
 
 ===== Implementation Details
 
-As seen in _Figure X_ above, the `AddCommandParser` is used to parse the input entered by the user into the different fields for a contact.
+As seen in _Figure X_ above, the `AddCommandParser` class is used to parse the input entered by the user into the different fields for a contact.
 
 In `AddCommandParser`, Augustine will do the following. +
 
-. Check if the two compulsory prefixes, n/ and t/, which are used for the name and email fields respectively are present.
-.. If the two compulsory prefixes are not present, Augustine will throw an error message to the user, stating both the name and email fields
-are required to be filled.
-. Execute the `checkInput` method in `AddCommandParser` to determine if a field is filled by the user. If the field is not filled,
+. Call `arePrefixPresent` method to check if the two compulsory prefixes, n/ and t/, which are used for the name and email fields respectively are
+present.
+.. If the two compulsory prefixes are not present, Augustine will throw an error message to the user.
+. Execute the `checkInput` method to determine if a field is filled by the user. If the field is not filled,
 the method will give the value '-' to the field instead to denote that the field is not filled by the user.
 
 The code snippet below shows how the `checkInput` method checks if a field is filled by the user.
@@ -539,10 +539,10 @@ private static Optional<String> checkInput(Optional<String> userInput) {
 . Call the `parseField` method in `ParserUtil` to parse the user input method into the different objects required for the `Person` object.
 
 [NOTE]
-The `Field` mentioned above refers to the different field available for a contact in Augustine. E.g. name, email.
+The `Field` mentioned above refer to the different field available for a contact in Augustine. E.g. name, email.
 
 [start = 4]
-. Create the `Person` object and call `AddCommand` and pass in the newly created `Person` object as an parameter.
+. Create the `Person` object, call the `AddCommand` class and pass in the newly created `Person` object as an parameter.
 
 The result of `AddCommand` will then be displayed to the user.
 
@@ -573,16 +573,16 @@ to a contact, a default photo will be assigned to the contact instead.
 
 ===== Implementation Details
 The Image Storage Mechanism is activated when the user executes an add, edit or delete command. Photos of all contacts in Augustine are stored in the
-`data/images` folder to centralize the storage of the photos. The photos are also renamed to follow a fixed format where the file is named as
+`data/images` folder to centralize the storage of the photos. The photos are also renamed to follow a fixed format where the photos are named as
 contact_email_address.jpg. By centralizing the storage of the photos and naming the photos in a standardized format, each photo in the
 `data/images` folder can be easily identified to a contact within Augustine.
 
 Upon the startup of Augustine, Augustine will create the `data/edited` folder. The purpose of this folder is to store outdated photos of the
-contacts in Augustine while Augustine is running and enable the restoration of a contact's previous photos when the undo function is executed.
+contacts while Augustine is running and enable the restoration of a contact's previous photo when the undo function is executed.
 Upon the exit of Augustine, Augustine will delete both the folder and all the photos in the folder.
 
-===== Add
-When adding a new contact into Augustine, Augustine will do the following.
+===== During add command
+When adding a new contact, Augustine will do the following.
 
 . Check if the user assigned a specific photo for the contact.
 .. If a photo is assigned to the contact, Augustine will copy the photo assigned into the `data/images` folder.
@@ -597,12 +597,12 @@ _Figure X_ below shows the activity diagram of the Image Storage Mechanism durin
 
 [caption="Figure X: "]
 .Activity Diagram of Image Storage Mechanism
-image::addPhotoActivityDiagram.png[width="640"]
+image::addPhotoActivityDiagram.png[width="900"]
 
-===== Edit
+===== During edit command
 As each photo in the `data/images` folder are named in reference to a contact's email address, there is a need to update the photo if
 the email or photo of the contact is updated by the user. There is also a need to ensure that the current photo of the contact remains in the
-system so that the photo can be restored if an undo command is executed. Therefore, when the user edits a contact in Augustine, *one* of the
+system so that the photo can be restored if an undo command is executed. Therefore, when the user edits a contact, *one* of the
 4 possible cases will occur.
 
 [IMPORTANT]
@@ -612,8 +612,9 @@ attributes are not mentioned in the cases below.
 . User updates *BOTH* email *AND* photo. +
 .. Existing photo of the contact is copied over to 'data/edited' folder.
 .. The new photo is copied over to the `data/images` folder and renamed as *"contact_new_email_address.jpg"*.
-.. Contact's photo is updated to the file path of the new photo.
+.. Contact's photo is updated to the file path of the copied photo.
 .. Contact is updated in Augustine.
+.. Contact's existing photo is copied to `data/edited` folder.
 .. Contact's existing photo is deleted from `data/images` folder.
 
 . User updates *ONLY* photo. +
@@ -630,14 +631,15 @@ The new photo for the contact will overwrite the existing photo for the contact 
 .. The existing photo is copied over to the `data/images` folder and renamed as *"contact_new_email_address.jpg"*.
 .. Contact's photo is updated to the file path of the new photo.
 .. Contact is updated in Augustine.
+.. Contact's existing photo is copied to `data/edited` folder.
 .. Contact's existing photo is deleted from the `data/images` folder.
 
 . User *DID NOT* update email address *AND* photo. +
-.. Photo is not updated.
+.. Photo remains unchanged.
 .. Contact is updated in Augustine.
 
-Below is a code snippet of the updateCasesForPhoto method in the `UniquePersonList` class which determines which of the 4 cases an edit command
-belongs to.
+Below is a code snippet of the updateCasesForPhoto method in the `UniquePersonList` class, The method determines which of the 4 cases
+an edit command belongs to.
 
 [source,java]
 ----
@@ -660,7 +662,7 @@ public int updateCasesForPhoto(ReadOnlyPerson target, ReadOnlyPerson editedPerso
     }
 ----
 
-===== Delete
+===== During delete command
 When a contact is deleted from Augustine, the photo of the contact will be deleted from the `data/images` folder. To facilitate the restoration of
 the photo of the contact during an undo command, there is a need to ensure that the photo remains in the system. Therefore, when the user deletes a
 contact, Augustine will proceed to do the following.
