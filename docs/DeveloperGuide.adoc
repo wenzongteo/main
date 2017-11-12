@@ -504,30 +504,47 @@ When initialized, the `Config` class will read and save the values of parameters
 // tag::optionalfields[]
 === Optional Fields in a Contact
 
-Contacts in Augustine are required to have *both their name and email address* filled. The other fields of a contact can be left out.
+A user may not know all the details of a contact when adding the contact into Augustine. Hence, Augustine only requires the user to know both the Name
+and the Email of a contact to add the contact into Augustine. Unfilled details of a contact will be given a '-' value instead to denote that the
+detail is not filled up by the user.
+
+_Figure X_ below shows you the sequence diagram of the process within Augustine when a user adds a contact.
+
+[caption="Figure X: "]
+.Sequence diagram of add command.
+image::AddCommandSequenceDiagram.png[width="900"]
 
 ===== Implementation Details
 
-When adding a contact into Augustine, the `AddCommandParser` is used to parse the input entered by the user into the different fields for a contact.
+As seen in _Figure X_ above, the `AddCommandParser` class is used to parse the input entered by the user into the different fields for a contact.
 
-In `AddCommandParser`, Augustine will first check if the two compulsory prefixes, which are used for the name and email fields is present.
-If the two compulsory prefixes are not present, Augustine will throw an error message stating Augustine requires both the name and email fields to be
-filled.
+In `AddCommandParser`, Augustine will do the following. +
 
-Next, Augustine will execute the `checkInput` method in `AddCommandParser` to determine if a field is filled by the user. If the field is not filled,
-the method will give the value '-' to the field instead to denote that the field is not filled.
+. Call `arePrefixPresent` method to check if the two compulsory prefixes, n/ and t/, which are used for the name and email fields respectively are
+present.
+.. If the two compulsory prefixes are not present, Augustine will throw an error message to the user.
+. Execute the `checkInput` method to determine if a field is filled by the user. If the field is not filled,
+the method will give the value '-' to the field instead to denote that the field is not filled by the user.
 
 The code snippet below shows how the `checkInput` method checks if a field is filled by the user.
 
 [source,java]
 ----
 private static Optional<String> checkInput(Optional<String> userInput) {
-        return Optional.of(userInput.orElse("-"));
+        return Optional.of(userInput.orElse(UNFILLED));
     }
 ----
 
-After assigning values to the different fields of a contact, Augustine will then proceed to call the `parseField` method in `ParserUtil` to parse
-the user input method into the different objects required for the `Person` class before adding the contact into Augustine.
+[start = 3]
+. Call the `parseField` method in `ParserUtil` to parse the user input method into the different objects required for the `Person` object.
+
+[NOTE]
+The `Field` mentioned above refer to the different field available for a contact in Augustine. E.g. name, email.
+
+[start = 4]
+. Create the `Person` object, call the `AddCommand` class and pass in the newly created `Person` object as an parameter.
+
+The result of `AddCommand` will then be displayed to the user.
 
 ===== Design Considerations
 
@@ -536,8 +553,9 @@ the user input method into the different objects required for the `Person` class
 ====
 **Alternative 1 (current choice):** Check if value is present, if value is not present, return a '-' as the value instead. +
 
-* **Pros:** It will be simple for developers to understand the inner working of the enhancement. +
-* **Cons:** All fields are still stored in AddressBook, leading to wastage of space as fields that are not used by the User for each contact are still being stored. +
+* **Pros:** Simple to implement and for developers to understand. +
+* **Cons:** All fields are still stored in AddressBook, leading to wastage of data space as fields that are not used by the User for
+each contact are still being stored. +
 ====
 ====
 **Alternative 2:** Detecting if the field exist in AddressBook.xml, if the field does not exist for a contact, display the field in the PersonCard as unfilled. +
@@ -554,21 +572,49 @@ Each contact in Augustine can be assigned a photo so that the user can easily id
 to a contact, a default photo will be assigned to the contact instead.
 
 ===== Implementation Details
-The photo assigned to a contact will be copied over to the `data/images` folder and renamed as "contact's_email_address.jpg".
-By renaming the photo as "contact's_email_address.jpg", Augustine is able to associate each photo in the `/data/images` folder to a contact
-in Augustine. However, such implementation means that a contact's photo may have to be renamed if the contact's email is updated.
+The Image Storage Mechanism is activated when the user executes an add, edit or delete command. Photos of all contacts in Augustine are stored in the
+`data/images` folder to centralize the storage of the photos. The photos are also renamed to follow a fixed format where the photos are named as
+contact_email_address.jpg. By centralizing the storage of the photos and naming the photos in a standardized format, each photo in the
+`data/images` folder can be easily identified to a contact within Augustine.
 
-When the user edits a contact in Augustine, *one* of the 4 possible cases will occur:
+Upon the startup of Augustine, Augustine will create the `data/edited` folder. The purpose of this folder is to store outdated photos of the
+contacts while Augustine is running and enable the restoration of a contact's previous photo when the undo function is executed.
+Upon the exit of Augustine, Augustine will delete both the folder and all the photos in the folder.
+
+===== During add command
+When adding a new contact, Augustine will do the following.
+
+. Check if the user assigned a specific photo for the contact.
+.. If a photo is assigned to the contact, Augustine will copy the photo assigned into the `data/images` folder.
+.. If no photo is assigned to the contact, Augustine will copy the default photo instead.
+. Rename copied photo as contact_email_address.jpg
+. Update the photo reference path in the Photo object of the contact.
+
+For example. if `add n/John Doe e/john@example.com dp/photo.jpg` is executed, Augustine will copy the photo `photo.jpg` to `data/images` folder
+and also name the copied photo as `john@example.com.jpg`.
+
+_Figure X_ below shows the activity diagram of the Image Storage Mechanism during an add command.
+
+[caption="Figure X: "]
+.Activity Diagram of Image Storage Mechanism
+image::addPhotoActivityDiagram.png[width="900"]
+
+===== During edit command
+As each photo in the `data/images` folder are named in reference to a contact's email address, there is a need to update the photo if
+the email or photo of the contact is updated by the user. There is also a need to ensure that the current photo of the contact remains in the
+system so that the photo can be restored if an undo command is executed. Therefore, when the user edits a contact, *one* of the
+4 possible cases will occur.
 
 [IMPORTANT]
-We are only concern on whether the contact's photo and email address are updated. Thus, possible modification of other
+We are only concern on whether the contact's photo and email address are updated. Thus, modification of other
 attributes are not mentioned in the cases below.
 
 . User updates *BOTH* email *AND* photo. +
 .. Existing photo of the contact is copied over to 'data/edited' folder.
 .. The new photo is copied over to the `data/images` folder and renamed as *"contact_new_email_address.jpg"*.
-.. Contact's photo is updated to the file path of the new photo.
+.. Contact's photo is updated to the file path of the copied photo.
 .. Contact is updated in Augustine.
+.. Contact's existing photo is copied to `data/edited` folder.
 .. Contact's existing photo is deleted from `data/images` folder.
 
 . User updates *ONLY* photo. +
@@ -585,44 +631,63 @@ The new photo for the contact will overwrite the existing photo for the contact 
 .. The existing photo is copied over to the `data/images` folder and renamed as *"contact_new_email_address.jpg"*.
 .. Contact's photo is updated to the file path of the new photo.
 .. Contact is updated in Augustine.
+.. Contact's existing photo is copied to `data/edited` folder.
 .. Contact's existing photo is deleted from the `data/images` folder.
 
 . User *DID NOT* update email address *AND* photo. +
-.. Photo is not updated.
+.. Photo remains unchanged.
 .. Contact is updated in Augustine.
 
-The purpose of moving the existing photo of a contact into the `data/edited` folder is to facilitate the restoration of
-the photo when the user undo or redo a command.
+Below is a code snippet of the updateCasesForPhoto method in the `UniquePersonList` class, The method determines which of the 4 cases
+an edit command belongs to.
 
-[NOTE]
-The `/data/edited` folder will be deleted from the system when the user exits Augustine.
+[source,java]
+----
+public int updateCasesForPhoto(ReadOnlyPerson target, ReadOnlyPerson editedPerson) {
+        if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && !target.getPhoto().equals(editedPerson.getPhoto())) { //Only Photo changed.
+            return ONLY_PHOTO_CHANGED;
+        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && target.getPhoto().equals(editedPerson.getPhoto())) { //only email changed.
+            return ONLY_EMAIL_CHANGED;
+        } else if (!target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && !target.getPhoto().equals(editedPerson.getPhoto())) { //Both changed.
+            return BOTH_PHOTO_AND_EMAIL_CHANGED;
+        } else if (target.getEmailAddress().equals(editedPerson.getEmailAddress())
+                && target.getPhoto().equals(editedPerson.getPhoto())) { //No special update
+            return NEITHER_PHOTO_OR_EMAIL_CHANGED;
+        } else {
+            throw new AssertionError("Should belong to one of the 4 cases above.");
+        }
+    }
+----
 
-Refer to the _image_ below to see the activity diagram of how the Display Picture of a contact could be modified
-and what are the actions done within Augustine.
+===== During delete command
+When a contact is deleted from Augustine, the photo of the contact will be deleted from the `data/images` folder. To facilitate the restoration of
+the photo of the contact during an undo command, there is a need to ensure that the photo remains in the system. Therefore, when the user deletes a
+contact, Augustine will proceed to do the following.
 
-[caption="Image: "]
-.Activity Diagram of Image Storage Mechanism
-image::ActivityDiagramImageStorage.png[width="640"]
+. Copy the photo of the contact into `data/edited` folder.
+. Delete the contact from Augustine.
+. Delete the photo of the contact in `data/images` folder.
 
 ===== Design Considerations
 
-[Big]#**Aspect:** ??#
+[Big]#**Aspect:** Storing of contact's photo#
 ====
-**Alternative 1 current choice:** Create a local copy of the Display Picture in the data/images folder +
+**Alternative 1 (current choice):** Create a copy of the photo and store it in data/images folder. +
 
-* **Pros:** Removal of the original image will not affect the display of a contact's Display Picture. +
-* **Cons:** Additional storage space on the computer is required to store the local copy of the Display Picture. +
+* **Pros:** Modifications to the original photo source will not affect the contact's photo. +
+* **Cons:** Additional storage space on the computer is required to store each contact's photo. +
 ====
 ====
-**Alternative 2 (current choice):** Store the file path of the chosen Display Picture in each Contact. +
+**Alternative 2 :** Store the file path of the photo source entered by the user. +
 
 * **Pros:** Additional storage space on the computer is not required. +
-* **Cons:** User is unable to move or change the Display Picture as any modification to it will prevent Augustine from
-displaying the Display Picture.
+* **Cons:** Modifications such as deletion or moving of the photo source will affect the display of the contact's photo. +
 ====
 ---
 // end::imagestorage[]
-
 
 // tag::nusmods[]
 === NUSmods integration
