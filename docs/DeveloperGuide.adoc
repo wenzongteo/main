@@ -889,7 +889,7 @@ Depending on the sort option (address, email, name or tag), the contact list wil
 
 ===== Design Considerations
 
-[Big]#**Aspect:** Filter contact list by custom fields (eg. name, tag, email, etc...)#
+[Big]#**Aspect:** Method to filter contact list by custom fields (eg. name, tag, email, etc...)#
 ====
 **Alternative 1:** Filter contact list based on user defined keywords +
 
@@ -904,7 +904,7 @@ Depending on the sort option (address, email, name or tag), the contact list wil
 ====
 ---
 
-[Big]#**Aspect:** Sort the filtered contact list#
+[Big]#**Aspect:** Method to sort the filtered contact list#
 ====
 **Alternative 1:** Create a Sort command +
 
@@ -960,9 +960,63 @@ The diagram below shows how the email draft tab in the Augustine User interface 
 .Events Driven Nature of Email
 image::EmailSequenceDiagramEvents.png[width="700"]
 
+===== Usage of JavaMal API
+
+The `Email` component uses an external library, JavaMail to send email out from Augustine. The code snippet below sets
+up the Simple Mail Transfer Protocol (SMTP) for email delivery.
+
+[source,java]
+----
+private void prepEmailProperties() {
+    props = new Properties();
+    props.put("mail.smtp.auth", "true");
+    props.put("mail.smtp.host", "smtp.gmail.com");
+    props.put("mail.smtp.socketFactory.port", "465");
+    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+    props.put("mail.smtp.port", "465");
+}
+
+/**
+* Sends email out using JavaMail API
+*
+* @param login email login account
+* @param pass email login password
+* @param message message to send
+* @throws AuthenticationFailedException if gmail account can't be logged in
+*/
+private void sendingEmail(String login, String pass, ReadOnlyMessageDraft message)
+        throws AuthenticationFailedException {
+    final String username = login;
+    final String password = pass;
+
+    Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(username, password);
+        }
+    });
+
+    try {
+        Message newMessage = new MimeMessage(session);
+        newMessage.setFrom(new InternetAddress(username));
+        newMessage.setRecipients(Message.RecipientType.TO, message.getRecipientsEmails());
+        newMessage.setSubject(message.getSubject());
+        newMessage.setText(message.getMessage());
+
+        Transport.send(newMessage);
+    } catch (AuthenticationFailedException e) {
+        throw new AuthenticationFailedException();
+    } catch (MessagingException e) {
+        throw new RuntimeException(e);
+    }
+}
+----
+
+
+
 ===== Design considerations
 
-[Big]#**Aspect:** send email methods#
+[Big]#**Aspect:** Method for sending email#
 ====
 **Alternative 1:** Use a pop up default email client +
 
@@ -977,7 +1031,7 @@ image::EmailSequenceDiagramEvents.png[width="700"]
 ====
 ---
 
-[Big]#**Aspect:** Identify the recipient email list#
+[Big]#**Aspect:** Method to identify the recipient email list#
 ====
 **Alternative 1:** Add Recipient Email List using prefix in Email Command +
 
