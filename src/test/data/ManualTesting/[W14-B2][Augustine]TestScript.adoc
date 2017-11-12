@@ -133,97 +133,9 @@ This section cover commands add, edit, delete, undo, redo and clear.
 
 '''
 --
-*Command*: [red]`add n/Ji SukJin` +
-*Expected*: Adding fail.
---
-
-*Command*: [red]`list` +
-*Expected*: GUI will be on contact list tab, with 20 contacts listed.
---
-'''
---
-
-=== Displaying a contact's Instagram profile page
-
-This section covers the command `insta` which displays the contact's Instagram profile on the right browser of Augustine.
-
-'''
---
-*Command*: [red]`edit 1 insta/arsenal` +
-*Expected*: The first contact's Instagram ID will be set to `arsenal`.
---
-
-'''
---
-*Command*: [red]`insta 1` +
-*Expected*: Right browser will switch to the Instagram tab and load the Instagram page of `arsenal`.
---
-
-'''
---
 *Command*: [red]`undo` +
-*Expected*: The first contact's Instagram ID will revert back to `-`, but the browser will not automatically update
-until refreshed.
+*Expected*: No more commands to undo!
 --
-
-'''
---
-*Command*: [red]`insta 1` +
-*Expected*: Right browser will remain at the Instagram tab and load the Instagram homepage.
---
-
-'''
---
-*Command*: [red]`e 1 insta/johncena` +
-*Expected*: The first contact's Instagram ID will be set to `johncena`, but the browser will not automatically update
-until refreshed.
---
-
-'''
---
-*Command*: [red]`Left-click contact 1` +
-*Expected*: Right browser will switch to the Instagram tab and load the Instagram page of `johncena`.
---
-
-'''
---
-*Command*: [red]`delete 1` +
-*Expected*: The first contact will be deleted, but the browser will remain at `johncena` 's page and not automatically
-update until refreshed.
---
-'''
---
-
---
-=== Editing and Displaying timetable with nusmods
-
-This section covers nusmods command.
-
-'''
---
-*Command*: [red]`nusmods 1 t/url m/https://nusmods.com/timetable/2017-2018/sem1?CS2101[SEC]=5&CS2103T[TUT]=T5&MA1101R[LAB]=B01&MA1101R[LEC]=SL2&MA1101R[TUT]=T13&CS2010[LEC]=1&CS2010[LAB]=6&CS2010[TUT]=5&GET1020[LEC]=L1` +
-*Expected*: Person at index 1 will be given the timetable in the url. Browser panel will switch to nusmods tab and display the timetable.
-
-
-'''
---
-*Command*: [red]`nm 1 t/delete m/randomString` +
-*Excepted*: The timetable of person will remain the same. The browser tab will refresh to show table the same timetable.
-
-'''
---
-*Command*: [red]`nm 1 t/d m/get1020` +
-*Excepted*: The nusmods browser tab will refresh and the module "GET1020" will be removed (for person at index 1).
-
-'''
---
-*Command*: [red]`undo` +
-*Excepted*: The contact will be deselected (browser will show a blank page) and "GET1020" will be added back (for person at index 1).
-
-'''
---
-*Command*: [red]`redo` +
-*Excepted*: The browser tab will show the timetable. Note that "GET1020" has returned (for person at index 1).
 
 '''
 --
@@ -236,6 +148,12 @@ This section covers nusmods command.
 *Command*: [red]`redo` +
 *Expected*: Command fails.
 The display message is: + No more commands to redo!
+--
+
+'''
+--
+*Command*: [red]`undo` +
+*Expected*: Contact List tab should have 20 contacts.
 --
 
 '''
@@ -598,7 +516,99 @@ Deleted Person: Baby Phone: - Email: tester8@example.com Address: Singapore Imag
 *Command*: [red]`undo` +
 *Expected*: Command succeeds. The display message is +
 Undo success!
+--
 
+'''
+--
+*Command*: [red]`redo` +
+*Expected*: Command succeeds. The display message is +
+Redo success!
+--
+
+=== Displaying a contact's Instagram profile page
+
+This section covers the command `insta` which displays the contact's Instagram profile on the right browser of Augustine.
+
+'''
+--
+*Command*: [red]`edit 1 insta/arsenal` +
+*Expected*: The first contact's Instagram ID will be set to `arsenal`.
+--
+
+'''
+--
+*Command*: [red]`insta 1` +
+*Expected*: Right browser will switch to the Instagram tab and load the Instagram page of `arsenal`.
+--
+
+'''
+--
+*Command*: [red]`undo` +
+*Expected*: The first contact's Instagram ID will revert back to `-`, but the browser will not automatically update
+until refreshed.
+--
+
+'''
+--
+*Command*: [red]`insta 1` +
+*Expected*: Right browser will remain at the Instagram tab and load the Instagram homepage.
+--
+
+'''
+--
+*Command*: [red]`e 1 insta/johncena` +
+*Expected*: The first contact's Instagram ID will be set to `johncena`, but the browser will not automatically update
+until refreshed.
+--
+
+'''
+--
+*Command*: [red]`Left-click contact 1` +
+*Expected*: Right browser will switch to the Instagram tab and load the Instagram page of `johncena`.
+--
+
+'''
+--
+*Command*: [red]`delete 1` +
+*Expected*: The first contact will be deleted, but the browser will remain at `johncena` 's page and not automatically
+update until refreshed.
+--
+'''
+--
+
+--
+=== Editing and Displaying timetable with nusmods
+
+This section covers nusmods command.
+
+'''
+--
+*Command*: [red]`nusmods 1 t/url m/https://nusmods.com/timetable/2017-2018/sem1?CS2101[SEC]=5&CS2103T[TUT]=T5&MA1101R[LAB]=B01&MA1101R[LEC]=SL2&MA1101R[TUT]=T13&CS2010[LEC]=1&CS2010[LAB]=6&CS2010[TUT]=5&GET1020[LEC]=L1` +
+*Expected*: Person at index 1 will be given the timetable in the url. Browser panel will switch to nusmods tab and display the timetable.
+
+
+'''
+--
+*Command*: [red]`nm 1 t/delete m/randomString` +
+*Excepted*: The timetable of person will remain the same. The browser tab will refresh to show table the same timetable.
+
+'''
+--
+*Command*: [red]`nm 1 t/d m/get1020` +
+*Excepted*: The nusmods browser tab will refresh and the module "GET1020" will be removed (for person at index 1).
+
+'''
+--
+*Command*: [red]`undo` +
+*Excepted*: The contact will be deselected (browser will show a blank page) and "GET1020" will be added back (for person at index 1).
+
+'''
+--
+*Command*: [red]`redo` +
+*Excepted*: The browser tab will show the timetable. Note that "GET1020" has returned (for person at index 1).
+
+'''
+--
 *Command*: [red]`nm 1 t/add m/cs2010 lab/7` +
 *Excepted*: The nusmods browser tab will refresh and the LAB slot of module "CS2010" will be changed from 6 to 7 (for person at index 1).
 
