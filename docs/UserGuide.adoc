@@ -960,16 +960,18 @@ There is no need to save manually.
 
 |===
 |Feature|Command|Alias|Example
-|*Add*|`add n/NAME e/EMAIL [p/PHONE_NUMBER] [a/ADDRESS] [dp/DISPLAY_PICTURE] [b/BIRTHDATE] [t/TAG]...` +|a|`add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` +
+|*Add*|`add n/NAME e/EMAIL [p/PHONE_NUMBER] [a/ADDRESS] [dp/DISPLAY_PICTURE] [b/BIRTHDATE] [insta/USER_ID] [t/TAG]...` +|a|`add n/James Ho p/22224444 e/jamesho@example.com a/123, Clementi Rd, 1234665 t/friend t/colleague` +
 |*Clear*|`clear`|c|`clear` +
 |*Delete*|`delete INDEX` +|d|`delete 3` +
-|*Edit*|`edit INDEX [n/NAME] [p/PHONE_NUMBER] [e/EMAIL] [a/ADDRESS] [t/TAG]...` +|e|`edit 2 n/James Lee e/jameslee@example.com` +
-|*Find*|`find KEYWORD n/[MORE_KEYWORDS] t/[MORE_KEYWORDS] s/[name\|tag]` +|f|`find n/James Jake` +
-|*List*|`list` +|l|`list` +
+|*Edit*|`edit INDEX [n/NAME] [e/EMAIL] [p/PHONE_NUMBER] [a/ADDRESS] [dp/DISPLAY_PICTURE] [b/BIRTHDATE] [insta/USER_ID] [t/TAG]...` +|e|`edit 2 n/James Lee e/jameslee@example.com` +
+|*Find*|`find KEYWORD n/[MORE_KEYWORDS] t/[MORE_KEYWORDS] [s/<name\|tag\|email\|address>]` +|f|`find n/James Jake` +
+|*List*|`list [s/<name\|tag\|email\|address>]` +|l|`list`  +
 |*Help*|`help` +|h|`help` +
 |*Select*|`select INDEX` +|s|`select 2` +
 |*Email*|`email [em/MESSAGE] [es/SUBJECT] [el/user@gmail.com:password] [et/<send\|clear>]` +|em|`email em/message es/subject el/adam@gmail.com:password et/send`
 |*Instagram*|`insta INDEX`|i|`insta 3` +
+|*NUSmods*|`nusmods INDEX t/<add\|delete\|url> m/<MODULE_CODE\|URL> [LESSON_TYPE/LESSON_SLOT]...`|nm|`nusmods 2 t/add m/CS2103T tut/T5` +
+|*Exit*|`exit`|-|`exit` +
 |*Backup*|`backup`|b|`backup` +
 |*History*|`history`|h|`history` +
 |*Undo*|`undo`|u|`undo` +
