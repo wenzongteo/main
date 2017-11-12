@@ -221,7 +221,6 @@ If email still fails to send after you use your own gmail account and password, 
 Go to Google. Your Account -> Sign in and Security -> scroll down and ensure "allow less secure app:ON" is enabled.
 
 == Backup contacts
-
 This section covers how to backup your data.
 
 '''
@@ -247,4 +246,3 @@ This section covers history and exit commands.
 --
 *Command*: [red]`exit` +
 *Expected*: Augustine closes.
-
