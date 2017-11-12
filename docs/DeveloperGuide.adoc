@@ -153,8 +153,9 @@ This section covers how Augustine is designed while also providing an overview o
 
 === Architecture Design
 
+[caption="Figure 1: "]
+.Architecture Diagram
 image::Architecture.png[width="600"]
-_Figure 4.1 : Architecture Diagram_
 
 The *_Architecture Diagram_* given above explains the high-level design of Augustine. Given below is a quick overview of each component.
 
@@ -189,8 +190,9 @@ Each of the five components (UI, Logic, Model, Storage and Email)
 
 For example, the `Logic` component (see the class diagram given below) defines it's API in the `Logic.java` interface and exposes its functionality using the `LogicManager.java` class.
 
+[caption="Figure 2: "]
+.Class diagram of the Logic component.
 image::LogicClassDiagram.png[width="800"]
-_Figure 4.1.1 : Class Diagram of the Logic Component_
 
 ====
 
@@ -202,16 +204,18 @@ Augustine implements an Event-drive architecture style as explained below.
 
 The _Sequence Diagram_ below shows how the components interact for the scenario where the user issues the command `delete 1`.
 
+[caption="Figure 3: "]
+.Component interactions for `delete 1` command (part 1)
 image::SDforDeletePerson.png[width="800"]
-_Figure 1 : Component interactions for `delete 1` command (part 1)_
 
 [NOTE]
 The `Model` simply raises an `AddressBookChangedEvent` when the Address Book data are changed, instead of asking the `Storage` to save the updates to the hard disk.
 
 The diagram below shows how the `EventsCenter` reacts to that event, which eventually results in the updates being saved to the hard disk and the status bar of the UI being updated to reflect the 'Last Updated' time.
 
+[caption="Figure 4: "]
+.Component interactions for `delete 1` command (part 2)
 image::SDforDeletePersonEventHandling.png[width="800"]
-_Figure 2 : Component interactions for `delete 1` command (part 2)_
 
 [NOTE]
 The event is propagated through the `EventsCenter` to the `Storage` and `UI` without the `Model` having to be coupled to either of them. This is an example of how this Event Driven approach helps us reduce direct coupling between components.
@@ -224,8 +228,9 @@ This section covers an overview of some of the components in the architecture.
 
 ==== UI component
 
+[caption="Figure 5: "]
+.Structure of the UI component
 image::UiClassDiagram.png[width="800"]
-_Figure 4.3.1 : Structure of the UI component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
@@ -242,17 +247,17 @@ The `UI` component,
 ==== Logic component
 The Logic Component is where the user input is being parsed and the corresponding commands
 are being called from. The newly created command is then executed and depending on the
-command executed, the Model component may be accessed.
+command executed, the Model component may be accessed. (see Figure 6).
 
-_Figure X_ below shows an Overview of the process within Logic Component.
-
+[caption="Figure 6: "]
+.Class diagram of the Logic component
 image::LogicClassDiagram.png[width="800"]
-_Figure X : Class Diagram of the Logic Component_
 
-_Figure X_ below shows the detailed process of how the Command class in the Logic Component works
+_Figure 7_ below shows the detailed process of how the Command class in the Logic component works.
 
+[caption="Figure 7: "]
+.Structure of commands in Logic component
 image::LogicCommandClassDiagram.png[width="800"]
-_Figure X : Structure of Commands in the Logic Component. This diagram shows finer details concerning `XYZCommand` and `Command` in Figure 4.3.1a_
 
 *API* :
 link:{repoURL}/src/main/java/seedu/address/logic/Logic.java[`Logic.java`]
@@ -277,16 +282,18 @@ If there is no relevant CommandParser, AddressBookParser will call the Command i
 . the result of the Command which is stored in CommandResult will then be returned to LogicManager
 . The CommandResult is then returned to `handleCommandInputChange` method in the UI Component for display to the user.
 
-_Figure X_ below shows the sequence diagram of the process within the Component when the command
+_Figure 8_ below shows the sequence diagram of the process within the Component when the command
 `Delete 1` is entered by the user.
 
+[caption="Figure 8: "]
+.Sequence diagram within the Logic component for the `delete 1` command
 image::DeletePersonSdForLogic.png[width="800"]
-_Figure X : Sequence Diagram within the Logic Component for the `delete 1` Command_
 
 ==== Model component
 
+[caption="Figure 9: "]
+.Structure of the Model component
 image::ModelClassDiagram.png[width="800"]
-_Figure 4.4.3 : Structure of the Model component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/model/Model.java[`Model.java`]
 
@@ -300,8 +307,9 @@ The `Model` component,
 
 ==== Email component
 
+[caption="Figure 10: "]
+.Structure of the Email component
 image::EmailComponent.png[width="800"]
-_Figure 4.3.4 : Structure of the Email component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/email/Email.java[`Email.java`]
 
@@ -315,8 +323,9 @@ The `Email` component,
 // tag::StorageComponent[]
 ==== Storage component
 
+[caption="Figure 11: "]
+.Structure of the Storage component
 image::StorageClassDiagram.png[width="800"]
-_Figure 4.3.5 : Structure of the Storage component_
 
 *API* : link:{repoURL}/src/main/java/seedu/address/storage/Storage.java[`Storage.java`]
 
@@ -346,6 +355,8 @@ The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides insi
 
 ===== UndoableCommands
 
+[caption="Figure 12: "]
+.Logic command class diagram
 image::LogicCommandClassDiagram.png[width="800"]
 
 As you can see from the above diagram, `UndoableCommand` adds an extra layer between the abstract `Command` class and concrete commands that can be undone, such as the `DeleteCommand`. Note that extra tasks needs to be done when executing a command in an _undoable_ way, such as saving the state of the address book before execution. `UndoableCommand` contains the high-level algorithm for those extra tasks while its child classes implements the details of the specific command. Note that this technique of putting the high-level algorithm in the parent class and lower-level steps of the algorithm in child classes is also known as the https://www.tutorialspoint.com/design_pattern/template_pattern.htm[template pattern].
@@ -387,10 +398,14 @@ Suppose that the user has just launched the application. The `UndoRedoStack` wil
 
 The user executes a new `UndoableCommand`, `delete 5`, to delete the 5th person in the address book. The current state of the address book is saved before the `delete 5` command executes. The `delete 5` command will then be pushed onto the `undoStack` (the current state is saved together with the command).
 
+[caption="Figure 13: "]
+.Undo Redo starting stack diagram
 image::UndoRedoStartingStackDiagram.png[width="800"]
 
 As the user continues to use the program, more commands are added into the `undoStack`. For example, the user may execute `add n/David ...` to add a new person.
 
+[caption="Figure 14: "]
+.Undo Redo new command stack diagram
 image::UndoRedoNewCommand1StackDiagram.png[width="800"]
 
 [NOTE]
@@ -400,6 +415,8 @@ The user now decides that adding the person was a mistake, and decides to undo t
 
 We will pop the most recent command out of the `undoStack` and push it back to the `redoStack`. We will restore the address book to the state before the `add` command executed.
 
+[caption="Figure 15: "]
+.Undo Redo execute undo stack diagram
 image::UndoRedoExecuteUndoStackDiagram.png[width="800"]
 
 [NOTE]
@@ -407,6 +424,8 @@ If the `undoStack` is empty, then there are no other commands left to be undone,
 
 The following sequence diagram shows how the undo operation works:
 
+[caption="Figure 16: "]
+.Undo Redo sequence diagram
 image::UndoRedoSequenceDiagram.png[width="800"]
 
 The redo does the exact opposite (pops from `redoStack`, push to `undoStack`, and restores the address book to the state after the command is executed).
@@ -416,14 +435,20 @@ If the `redoStack` is empty, then there are no other commands left to be redone,
 
 The user now decides to execute a new command, `clear`. As before, `clear` will be pushed into the `undoStack`. This time the `redoStack` is no longer empty. It will be purged as it no longer make sense to redo the `add n/David` command (this is the behavior that most modern desktop applications follow).
 
+[caption="Figure 17: "]
+.Undo Redo new command stack diagram
 image::UndoRedoNewCommand2StackDiagram.png[width="800"]
 
 Commands that are not undoable are not added into the `undoStack`. For example, `list`, which inherits from `Command` rather than `UndoableCommand`, will not be added after execution:
 
+[caption="Figure 18: "]
+.Undo Redo new command stack diagram
 image::UndoRedoNewCommand3StackDiagram.png[width="800"]
 
 The following activity diagram summarize what happens inside the `UndoRedoStack` when a user executes a new command:
 
+[caption="Figure 19: "]
+.Undo Redo activity diagram
 image::UndoRedoActivityDiagram.png[width="200"]
 
 ===== Design Considerations
@@ -508,15 +533,15 @@ A user may not know all the details of a contact when adding the contact into Au
 and the Email of a contact to add the contact into Augustine. Unfilled details of a contact will be given a '-' value instead to denote that the
 detail is not filled up by the user.
 
-_Figure X_ below shows you the sequence diagram of the process within Augustine when a user adds a contact.
+_Figure 20_ below shows you the sequence diagram of the process within Augustine when a user adds a contact.
 
-[caption="Figure X: "]
+[caption="Figure 20: "]
 .Sequence diagram of add command.
 image::AddCommandSequenceDiagram.png[width="900"]
 
 ===== Implementation Details
 
-As seen in _Figure X_ above, the `AddCommandParser` class is used to parse the input entered by the user into the different fields for a contact.
+As seen in _Figure 20_ above, the `AddCommandParser` class is used to parse the input entered by the user into the different fields for a contact.
 
 In `AddCommandParser`, Augustine will do the following. +
 
@@ -593,10 +618,10 @@ When adding a new contact, Augustine will do the following.
 For example. if `add n/John Doe e/john@example.com dp/photo.jpg` is executed, Augustine will copy the photo `photo.jpg` to `data/images` folder
 and also name the copied photo as `john@example.com.jpg`.
 
-_Figure X_ below shows the activity diagram of the Image Storage Mechanism during an add command.
+_Figure 21_ below shows the activity diagram of the Image Storage Mechanism during an add command.
 
-[caption="Figure X: "]
-.Activity Diagram of Image Storage Mechanism
+[caption="Figure 21: "]
+.Activity diagram of Image Storage Mechanism
 image::addPhotoActivityDiagram.png[width="900"]
 
 ===== During edit command
@@ -711,16 +736,16 @@ To edit, the same command is use, new `lessonType` and `lessonSlot` will overwri
 
 The diagram below shows how the command handles different flags.
 
-[caption="Figure 3.6.1: "]
-.Activity Diagram of NusmodsCommands
+[caption="Figure 22: "]
+.Activity diagram of NusmodsCommands
 image::NusmodsCommandActivityDiagram.png[width="500"]
 
 ===== Storing NUSmodules in the AddressBook.xml
 
 To store in the AddressBook.xml, `NusModules` needs to be able to converted into XML format and back (see part in red border in class diagram below).
 
-[caption="Figure 3.6.2: "]
-.Class Diagram of Storage
+[caption="Figure 23: "]
+.Class diagram of Storage
 image::StorageClassDiagramNusmods.png[width="500"]
 
 In the xml, the data will be stored as such:
@@ -996,7 +1021,7 @@ The sections below will explain how the email mechanism works and some of the de
 
 Augustine makes use of the email command to send an email. The activity diagram shows what happens when the user enters the email command.
 
-[caption="Figure 28. "]
+[caption="Figure 24: "]
 .Activity diagram for email
 image::EmailActivityDiagram.png[]
 
@@ -1012,19 +1037,19 @@ The sequence diagram below shows how the component interacts with one another wh
 [NOTE]
 *Email* in diagram below = “email em/message to send es/subject el/adam@gmail.com:password et/send”
 
-[caption="Figure 29. "]
+[caption="Figure 25: "]
 .Component level sequence diagram for email
 image::EmailSequenceDiagramComponent.png[]
 
 The sequence diagram below shows how the `Email` component interacts with the 3 email classes that facilitates the email process when the user enters an email command.
 
-[caption="Figure 30. "]
+[caption="Figure 26: "]
 .Sequence diagram for email
 image::EmailSequenceDiagramEmail.png[]
 
-The diagram below shows how the email draft tab in the Augustine User interface (UI) is updated when the `EventCenter` reacts to the `EmailDraftChangedEvent` in Figure 29.
+The diagram below shows how the email draft tab in the Augustine User interface (UI) is updated when the `EventCenter` reacts to the `EmailDraftChangedEvent` in Figure 25.
 
-[caption="Figure 31. "]
+[caption="Figure 27: "]
 .Events Driven Nature of Email
 image::EmailSequenceDiagramEvents.png[width="700"]
 
@@ -1257,10 +1282,12 @@ Instagram's home page.
 
 ===== Implementation Details
 
-The following diagram (Figure 5.10.1) highlights the flow of logic when the user inputs the Instagram command:
+The following diagram (Figure 28) highlights the flow of logic when the user inputs the Instagram command:
 
+
+[caption="Figure 28: "]
+.Flow of Instagram command
 image::InstagramDiagram.png[width="813"]
-_Figure 5.10.1 : Flow of Instagram command_
 
 There are several components that are key to the implementation this functionality:
 
@@ -1326,8 +1353,9 @@ components.
 
 The diagram below shows how the various components react to this command:
 
+[caption="Figure 29: "]
+.High-level logic of backup command
 image::BackupDiagram.png[width="1000"]
-_Figure 5.11.1 : High-level logic of backup command_
 // end::backup[]
 
 == Documentation
@@ -1362,8 +1390,9 @@ Here are the steps to convert the project documentation files to PDF format.
 .  Within Chrome, click on the `Print` option in Chrome's menu.
 .  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot below.
 
+[caption="Figure 30: "]
+.Saving documentation as PDF files in Chrome
 image::chrome_save_as_pdf.png[width="300"]
-_Figure 6.3.1 : Saving documentation as PDF files in Chrome_
 
 == Testing
 
