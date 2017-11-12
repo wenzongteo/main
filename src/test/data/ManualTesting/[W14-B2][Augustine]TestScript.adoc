@@ -130,13 +130,37 @@ This section covers on commands add, edit, delete, undo, redo and clear.
 
 '''
 --
+*Command*: [red]`clear` +
+*Expected*: Addressbook will be cleared. Contact List tab display will be empty and white.
+--
+
+'''
+--
+*Command*: [red]`undo` +
+*Expected*: Contact List tab should have 20 contacts.
+--
+
+'''
+--
+*Command*: [red]`redo` +
+*Expected*: Addressbook will be cleared. Contact List tab display will be empty and white.
+--
+
+'''
+--
+*Command*: [red]`redo` +
+*Expected*: Command fails.
+The display message is: + No more commands to redo!
+--
+
+'''
+--
 *Command*: [red]`add n/Ji SukJin` +
 *Expected*: Add command fails.
 The display message is: +
 Invalid command format! add: Adds a person to the address book. Parameters (Both name and email address are compulsory): +
 n/NAME p/PHONE e/EMAIL a/ADDRESS b/BIRTHDATE insta/INSTAGRAM ID [t/TAG]... +
 Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 b/25/12/1980 dp//data/photo.jpeg t/friends t/owesMoney insta/johndoe80
-
 --
 
 '''
@@ -147,7 +171,6 @@ The display message is: +
 Invalid command format! add: Adds a person to the address book. Parameters (Both name and email address are compulsory): +
 n/NAME p/PHONE e/EMAIL a/ADDRESS b/BIRTHDATE insta/INSTAGRAM ID [t/TAG]... +
 Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #02-25 b/25/12/1980 dp//data/photo.jpeg t/friends t/owesMoney insta/johndoe80
-
 --
 
 '''
@@ -155,7 +178,6 @@ Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #0
 *Command*: [red]`add n/tester e/tester@example.com` +
 *Expected*: Command succeeds. The display message is +
 New person added: tester Phone: - Email: tester@example.com Address: - Image: data/images/default.jpeg Birthdate: - User ID: - Tags:
-
 --
 
 '''
@@ -170,7 +192,6 @@ This email is already used by a contact in Augustine.
 *Command*: [red]`add n/tester e/tester2@example.com` +
 *Expected*: Command succeeds. The display message is +
 New person added: tester Phone: - Email: tester2@example.com Address: - Image: data/images/default.jpeg Birthdate: - User ID: - Tags:
-
 --
 
 '''
@@ -244,21 +265,254 @@ New person added: tester Phone: - Email: tester4@example.com Address: - Image: d
 
 '''
 --
-*Command*: [red]`add n/tester e/tester4@example.com b/29/02/2016` +
-*Expected*: Command succeeds. The display message is +
-New person added: tester Phone: - Email: tester4@example.com Address: - Image: data/images/default.jpeg Birthdate: 29/02/2016 User ID: - Tags:
+*Command*: [red]`add n/tester e/tester5@example.com p/12345678` +
+*Expected*: Command fails. The display message is +
+Phone numbers can only contain numbers, start from either 6, 8 or 9 and should be at only 8 digits long
 --
 
 '''
 --
-*Command*: [red]`clear` +
-*Expected*: Addressbook will be cleared. Contact List tab display will be empty and white.
+*Command*: [red]`add n/tester e/tester5@example.com p/6127` +
+*Expected*: Command fails. The display message is +
+Phone numbers can only contain numbers, start from either 6, 8 or 9 and should be at only 8 digits long
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester5@example.com p/888888888` +
+*Expected*: Command fails. The display message is +
+Phone numbers can only contain numbers, start from either 6, 8 or 9 and should be at only 8 digits long
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester5@example.com p/988888888` +
+*Expected*: Command fails. The display message is +
+Phone numbers can only contain numbers, start from either 6, 8 or 9 and should be at only 8 digits long
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester5@example.com p/688888888` +
+*Expected*: Command fails. The display message is +
+Phone numbers can only contain numbers, start from either 6, 8 or 9 and should be at only 8 digits long
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester5@example.com p/6123 4567` +
+*Expected*: Command fails. The display message is +
+Phone numbers can only contain numbers, start from either 6, 8 or 9 and should be at only 8 digits long
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester5@example.com p/61234567` +
+*Expected*: Command succeeds. The display message is +
+New person added: tester Phone: 61234567 Email: tester5@example.com Address: - Image: data/images/default.jpeg Birthdate: - User ID: - Tags:
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester5@example.com p/61234567` +
+*Expected*: Command succeeds. The display message is +
+New person added: tester Phone: 61234567 Email: tester5@example.com Address: - Image: data/images/default.jpeg Birthdate: - User ID: - Tags:
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester6@example.com dp/invalidimage.png` +
+*Expected*: Command fails. The display message is +
+Person's photo should be in .jpg or .jpeg and preferred to be of 340px x 453px dimension. If the photo is on the local system, please provide the
+absolute file path. If the photo is from the internet, ensure that the link starts with http or https and ends with .jpg or .jpeg
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester6@example.com dp/invalidimage.jpg` +
+*Expected*: Command fails. The display message is +
+Error! Photo does not exist!
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester6@example.com dp/data/images/default.jpeg` +
+*Expected*: Command succeeds. The display message is +
+New person added: tester Phone: - Email: tester6@example.com Address: - Image: data/images/default.jpeg Birthdate: - User ID: - Tags:
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester7@example.com dp/http://www.comp.nus.edu.sg/~anarayan/files/me.jpg` +
+*Expected*: Command succeeds. The display message is +
+New person added: tester Phone: - Email: tester7@example.com Address: - Image: data/download.jpg Birthdate: - User ID: - Tags:
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester9@example.com insta/` +
+*Expected*: Command succeeds. The display message is +
+New person added: tester Phone: - Email: tester9@example.com Address: - Image: data/images/default.jpeg Birthdate: - User ID:  Tags:
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester10@example.com insta/nba` +
+*Expected*: Command succeeds. The display message is +
+New person added: tester Phone: - Email: tester10@example.com Address: - Image: data/images/default.jpeg Birthdate: - User ID: nba Tags:
+--
+
+'''
+--
+*Command*: [red]`edit` +
+*Expected*: Command fails. The display message is +
+Invalid command format! +
+edit: Edits the details of the person identified by the index number used in the last person listing. +
+Apart from tags, existing values will be overwritten by the input values. +
+Tags will be added if person does not have the tag and deleted otherwise. +
+You can remove all the person's tags by typing `t/` without specifying any tags after it. +
+Parameters: INDEX (must be a positive integer) [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [dp/PHOTO] [b/BIRTHDATE] [t/TAG]... +
+[insta/INSTAGRAM ID]... +
+Example: edit 1 p/91234567 e/johndoe@example.com +
+--
+
+'''
+--
+*Command*: [red]`edit -1` +
+*Expected*: Command fails. The display message is +
+Invalid command format! +
+edit: Edits the details of the person identified by the index number used in the last person listing. +
+Apart from tags, existing values will be overwritten by the input values. +
+Tags will be added if person does not have the tag and deleted otherwise. +
+You can remove all the person's tags by typing `t/` without specifying any tags after it. +
+Parameters: INDEX (must be a positive integer) [n/NAME] [p/PHONE] [e/EMAIL] [a/ADDRESS] [dp/PHOTO] [b/BIRTHDATE] [t/TAG]... +
+[insta/INSTAGRAM ID]... +
+Example: edit 1 p/91234567 e/johndoe@example.com +
+--
+
+'''
+--
+*Command*: [red]`edit 1` +
+*Expected*: Command fails. The display message is +
+At least one field to edit must be provided.
+--
+
+'''
+--
+*Command*: [red]`edit 100` +
+*Expected*: Command fails. The display message is +
+At least one field to edit must be provided.
+--
+
+'''
+--
+*Command*: [red]`edit 1 e/tester@example.com` +
+*Expected*: Command fails. The display message is +
+This person already exists in the address book.
+--
+
+'''
+--
+*Command*: [red]`edit 100 e/tester@example.com` +
+*Expected*: Command fails. The display message is +
+The person index provided is invalid
+--
+
+'''
+--
+*Command*: [red]`edit 1 e/tester` +
+*Expected*: Command fails. The display message is +
+Person emails should be 2 alphanumeric/period strings separated by '@'
+--
+
+'''
+--
+*Command*: [red]`edit 1 e/tester8@example.com` +
+*Expected*: Command succeeds. The display message is +
+Edited Person: Baby Phone: - Email: tester8@example.com Address: Singapore Image: data/images/baby@example.com.jpg Birthdate: 01/01/2016 User ID: - Tags: [niece][baby]
+--
+
+'''
+--
+*Command*: [red]`edit 1 dp/http://www.comp.nus.edu.sg/~anarayan/files/me.jpg` +
+*Expected*: Command succeeds. Photo is now the downloaded photo. The display message is +
+Edited Person: Baby Phone: - Email: tester8@example.com Address: Singapore Image: data/download.jpg Birthdate: 01/01/2016 User ID: - Tags: [niece][baby]
 --
 
 '''
 --
 *Command*: [red]`undo` +
-*Expected*: Contact List tab should have 20 contacts.
+*Expected*: Command succeeds. Photo is now the default photo. The display message is +
+Undo success!
+--
+
+'''
+--
+*Command*: [red]`redo` +
+*Expected*: Command succeeds. Photo is now the downloaded photo. The display message is +
+Redo success!
+--
+
+'''
+--
+*Command*: [red]`edit 1 dp/-` +
+*Expected*: Command succeeds. Photo is now the default photo. The display message is +
+Edited Person: Baby Phone: - Email: tester8@example.com Address: Singapore Image: data/images/default.jpeg Birthdate: 01/01/2016 User ID: - Tags: [niece][baby]
+--
+
+'''
+--
+*Command*: [red]`edit 1 n/-` +
+*Expected*: Command fails. The display message is +
+Person name should not be blank and should consist of letters and spaces
+--
+
+'''
+--
+*Command*: [red]`edit 1 e/-` +
+*Expected*: Command fails. The display message is +
+Person emails should be 2 alphanumeric/period strings separated by '@'
+--
+
+'''
+--
+*Command*: [red]`delete` +
+*Expected*: Command fails. The display message is +
+Invalid command format! +
+delete: Deletes the person identified by the index number used in the last person listing. +
+Parameters: INDEX (must be a positive integer) +
+Example: delete 1
+--
+
+'''
+--
+*Command*: [red]`delete -1` +
+*Expected*: Command fails. The display message is +
+Invalid command format! +
+delete: Deletes the person identified by the index number used in the last person listing. +
+Parameters: INDEX (must be a positive integer) +
+Example: delete 1
+--
+
+'''
+--
+*Command*: [red]`delete 100` +
+*Expected*: Command fails. The display message is +
+The person index provided is invalid
+--
+
+'''
+--
+*Command*: [red]`delete 1` +
+*Expected*: Command succeeds. The display message is +
+Deleted Person: Baby Phone: - Email: tester8@example.com Address: Singapore Image: data/images/tester8@example.com.jpg Birthdate: 01/01/2016 User ID: - Tags: [niece][baby]
+--
+
+'''
+--
+*Command*: [red]`undo` +
+*Expected*: Command succeeds. The display message is +
+Undo success!
 --
 
 == Email contacts
