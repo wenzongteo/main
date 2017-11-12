@@ -153,7 +153,7 @@ Example: add n/John Doe p/98765432 e/johnd@example.com a/311, Clementi Ave 2, #0
 '''
 --
 *Command*: [red]`add n/tester e/tester@example.com` +
-*Expected*: Command succeed. The display message is +
+*Expected*: Command succeeds. The display message is +
 New person added: tester Phone: - Email: tester@example.com Address: - Image: data/images/default.jpeg Birthdate: - User ID: - Tags:
 
 --
@@ -161,56 +161,92 @@ New person added: tester Phone: - Email: tester@example.com Address: - Image: da
 '''
 --
 *Command*: [red]`add n/tester e/tester@example.com` +
-*Expected*: Command fail. The display message is +
+*Expected*: Command fails. The display message is +
 This email is already used by a contact in Augustine.
 --
 
 '''
 --
 *Command*: [red]`add n/tester e/tester2@example.com` +
-*Expected*: Command succeed. Details of the person added will be shown.
+*Expected*: Command succeeds. The display message is +
+New person added: tester Phone: - Email: tester2@example.com Address: - Image: data/images/default.jpeg Birthdate: - User ID: - Tags:
+
 --
 
 '''
 --
 *Command*: [red]`add n/tester e/tester3@example.com b/12-12-1995` +
-*Expected*: Command fail. Invalid date entry error will be shown.
+*Expected*: Command fails. Invalid date entry error will be shown.
 --
 
 '''
 --
 *Command*: [red]`add n/tester e/tester3@example.com b/12-12-1995` +
-*Expected*: Command fail. Invalid date entry error will be shown.
+*Expected*: Command fails. The display message is +
+A valid date entry is in the form of dd/mm/yyyy
 --
 
 '''
 --
-*Command*: [red]`add n/tester e/tester3@example.com b/12/13/1995` +
-*Expected*: Command fail. Invalid date entry error will be shown.
+*Command*: [red]`add n/tester e/tester3@example.com b/12/12/1995` +
+*Expected*: Command succeeds. The display message is +
+New person added: tester Phone: - Email: tester3@example.com Address: - Image: data/images/default.jpeg Birthdate: 12/12/1995 User ID: - Tags:
 --
 
 '''
 --
-*Command*: [red]`add n/tester e/tester3@example.com b/12/3/1995` +
-*Expected*: Command fail. Invalid date entry error will be shown.
+*Command*: [red]`add n/tester e/tester4@example.com b/12/13/1995` +
+*Expected*: Command fails. The display message is +
+A valid date entry is in the form of dd/mm/yyyy
 --
 
 '''
 --
-*Command*: [red]`add n/tester e/tester3@example.com b/2/12/1995` +
-*Expected*: Command fail. Invalid date entry error will be shown.
+*Command*: [red]`add n/tester e/tester4@example.com b/32/12/1995` +
+*Expected*: Command fails. The display message is +
+A valid date entry is in the form of dd/mm/yyyy
 --
 
 '''
 --
-*Command*: [red]`add n/tester e/tester3@example.com b/2/12/1995` +
-*Expected*: Command fail. Invalid date entry error will be shown.
+*Command*: [red]`add n/tester e/tester4@example.com b/31/11/1995` +
+*Expected*: Command fails. The display message is +
+A valid date entry is in the form of dd/mm/yyyy
 --
 
 '''
 --
-*Command*: [red]`add n/tester e/tester3@example.com b/29/12/1995` +
-*Expected*: Command fail. Invalid date entry error will be shown.
+*Command*: [red]`add n/tester e/tester4@example.com b/28/2/2017` +
+*Expected*: Command fails. The display message is +
+A valid date entry is in the form of dd/mm/yyyy
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester4@example.com b/29/02/2017` +
+*Expected*: Command fails. The display message is +
+A valid date entry is in the form of dd/mm/yyyy
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester4@example.com b/-01/02/2017` +
+*Expected*: Command fails. The display message is +
+A valid date entry is in the form of dd/mm/yyyy
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester4@example.com b/29/02/2016` +
+*Expected*: Command succeeds. The display message is +
+New person added: tester Phone: - Email: tester4@example.com Address: - Image: data/images/default.jpeg Birthdate: 29/02/2016 User ID: - Tags:
+--
+
+'''
+--
+*Command*: [red]`add n/tester e/tester4@example.com b/29/02/2016` +
+*Expected*: Command succeeds. The display message is +
+New person added: tester Phone: - Email: tester4@example.com Address: - Image: data/images/default.jpeg Birthdate: 29/02/2016 User ID: - Tags:
 --
 
 '''
