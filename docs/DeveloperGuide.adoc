@@ -57,6 +57,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.h
 [NOTE]
 Augustine will *not work* with any version of Java earlier than `Java 8.6`.
 
+[start=2]
 . *Intellij IDEA* Integrated Development Environment (IDE). +
 You can download Intellij IDEA IDE from https://www.jetbrains.com/idea/download/[here]
 
@@ -761,9 +762,10 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 ---
 // end::nusmods[]
 
-=== Filter and Sort Mechanism for find command
+// tag::findMechanism[]
+=== Filter and Sort Mechanism for contact list
 
-The find command is facilitated by the Model and Logic Component. It provides the user with the option to
+The find and list commands is facilitated by the Model and Logic Component. They provide the user with the option to
 filter and sort the contact list.
 
 ===== Implementation Details
@@ -775,12 +777,12 @@ object will be reflected on Augustine UI contact list display.
 
 The contact list can be filtered or sorted using the mechanism below.
 
-. [red]*Filtering contact list*
+. [red]*Filtering contact list using find command*
 +
 --
-The contact list can be filtered with the find command where the user is able to filter the contact list by
-either name, tag or both. The contact list data is stored in a `FilteredList<ReadOnlyPerson>` object. It is
-filtered by making use of the `java.util.stream.Stream` interface which uses a predicate to filter the
+The find command allows the user to filter the contact list by either name, tag or both.
+The contact list data is stored in a `FilteredList<ReadOnlyPerson>` object. This object can be filtered
+by making use of the `java.util.stream.Stream` interface which uses a predicate to filter the
 `FilteredList<ReadOnlyPerson>` object.
 
 [NOTE]
@@ -811,20 +813,23 @@ public boolean test(ReadOnlyPerson person) {
 . [red]*Sorting the contact list*
 +
 --
-The find command allows users to sort the contact list by either *address*, *email*, *name* or *tag*.
-The `FilteredList<ReadOnlyPerson>` object is referenced to a `SortedList<ReadOnlyPerson>` object which is bound
-to the Augustine UI. The order of the contact list's data in the `SortedList<ReadOnlyPerson>` object will be the
-same as the list displayed in the Augustine UI.
+The find and list commands allows users to sort the contact list by alphabetical order of either *address*,
+*email*, *name* or *tag*. The `FilteredList<ReadOnlyPerson>` object is referenced to a `SortedList<ReadOnlyPerson>`
+object which is bound to the Augustine UI. The order of the contact list's data in the `SortedList<ReadOnlyPerson>`
+object will be the same as the list displayed in the Augustine UI.
 
 [NOTE]
 The word “referenced” means that the contact list’s data in the `FilteredList<ReadOnlyPerson>` object is the
-exact same as the contact list’s data in the `SortedList<ReadOnlyPerson> object.
+exact same as the contact list’s data in the `SortedList<ReadOnlyPerson> object. Any changes to the data in the
+`FilteredList<ReadOnlyPerson>` object will be reflected in the `SortedList<ReadOnlyPerson>` object.
 
 Depending on the sort option (address, email, name or tag), the contact list will be sorted differently (see code snippet below).
 
 [source,java]
 ----
 /**
+ * Updates the sort comparator of this {@code sortedPersonsList} to sort by the given {@code sortOrder}.
+ *
  * @param: int
  * 0 = sort by name ascending
  * 1 = sort by tags ascending
@@ -885,11 +890,11 @@ Depending on the sort option (address, email, name or tag), the contact list wil
 
 ===== Design Considerations
 
-[Big]#**Aspect:** Filter contact list by custom fields (eg. name, tag, email, etc...)#
+[Big]#**Aspect:** Method to filter contact list by custom fields (eg. name, tag, email, etc...)#
 ====
 **Alternative 1:** Filter contact list based on user defined keywords +
 
-* **Pros:** User will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
+* **Pros:** Users will only be required to type `find keywords`. The programme will automatically find all users related to the keywords. This way, user experience will be enhanced since Augustine handles the find smartly. +
 * **Cons:** The find command might display unnecessary results which are related to the keywords but not what the user wants. +
 ====
 ====
@@ -900,7 +905,7 @@ Depending on the sort option (address, email, name or tag), the contact list wil
 ====
 ---
 
-[Big]#**Aspect:** Sort the filtered contact list#
+[Big]#**Aspect:** Method to sort the filtered contact list#
 ====
 **Alternative 1:** Create a Sort command +
 
@@ -914,66 +919,136 @@ Depending on the sort option (address, email, name or tag), the contact list wil
 * **Cons:** The find command might become too complex with too many arguments.
 ====
 ---
+// end::findMechanism[]
 
+// tag::emailMechanism[]
 === Email Mechanism
 
-The email mechanism is facilitated by the `Email component`. It allows the sending of email via using an external
-library, JavaMail. The sections below will explain how the email mechanism works and some of the design considerations.
+The email mechanism is facilitated by the `Email` component. It allows the sending of email via an external library, JavaMail.
+The sections below will explain how the email mechanism works and some of the design considerations.
 
 ===== Implementation Details
 
-There are 3 classes, `EmailLogin`, `EmailSend`, `EmailCompose`, in the EmailManager that facilitates the email process.
-Before the user is able to send an email, the user have to login and compose the email. The section below covers how
-each class process an email.
+Augustine makes use of the email command to send an email. The activity diagram shows what happens when the user enters the email command.
 
-===== EmailCompose
+[caption="Figure 28. "]
+.Activity diagram for email
+image::EmailActivityDiagram.png[]
 
-The `EmailCompose` class creates an `MessageDraft` object which stores the email's message, subject and the recipients
-emails.
+There are 3 classes, `EmailLogin`, `EmailSend` and `EmailCompose` in the `EmailManager` class that facilitates the email process:
 
-===== EmailLogin
+* `*EmailLogin*`: Handles the storing of login details and verifies that the user’s email is a gmail account using regular expression.
+* `*EmailCompose*`: Handles the composing and drafting of email using a `MessageDraft` object which stores the email’s message, subject and recipients’ email.
+* `*EmailSend*`: Handles the sending of email by setting up the Simple Mail Transfer Protocol (SMTP) connection for sending email via JavaMail API.
+The email is rejected if the `MessageDraft` object in `EmailCompose` is empty of the login details in `EmailLogin` is invalid.
 
-The `EmailLogin` class stores the login details and verifies that the user's email is a gmail account using regular
-expression.
+The sequence diagram below shows how the component interacts with one another when the user sends an email command.
 
-===== EmailSend
+[NOTE]
+*Email* in diagram below = “email em/message to send es/subject el/adam@gmail.com:password et/send”
 
-The `EmailSend` class sets up the connection to send email via `JavaMail` API. The email is rejected if the
-`MessageDraft` object in `EmailCompose` is empty or the login details in `EmailLogin` is invalid.
+[caption="Figure 29. "]
+.Component level sequence diagram for email
+image::EmailSequenceDiagramComponent.png[]
+
+The sequence diagram below shows how the `EmailManager` class interacts with the 3 email classes that facilitates the email process.
+
+[caption="Figure 30. "]
+.Sequence diagram for email
+image::EmailSequenceDiagramEmail.png[]
+
+The diagram below shows how the email draft tab in the Augustine User interface (UI) is updated when the `EventCenter` reacts to the `EmailDraftChangedEvent` in Figure 30.
+
+[caption="Figure 31. "]
+.Events Driven Nature of Email
+image::EmailSequenceDiagramEvents.png[width="700"]
+
+===== Usage of JavaMal API
+
+The `Email` component uses an external library, JavaMail to send email out from Augustine. The code snippet below sets
+up the Simple Mail Transfer Protocol (SMTP) for email delivery.
+
+[source,java]
+----
+private void prepEmailProperties() {
+    props = new Properties();
+    props.put("mail.smtp.auth", "true");
+    props.put("mail.smtp.host", "smtp.gmail.com");
+    props.put("mail.smtp.socketFactory.port", "465");
+    props.put("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
+    props.put("mail.smtp.port", "465");
+}
+
+/**
+* Sends email out using JavaMail API
+*
+* @param login email login account
+* @param pass email login password
+* @param message message to send
+* @throws AuthenticationFailedException if gmail account can't be logged in
+*/
+private void sendingEmail(String login, String pass, ReadOnlyMessageDraft message)
+        throws AuthenticationFailedException {
+    final String username = login;
+    final String password = pass;
+
+    Session session = Session.getInstance(props, new javax.mail.Authenticator() {
+        @Override
+        protected PasswordAuthentication getPasswordAuthentication() {
+            return new PasswordAuthentication(username, password);
+        }
+    });
+
+    try {
+        Message newMessage = new MimeMessage(session);
+        newMessage.setFrom(new InternetAddress(username));
+        newMessage.setRecipients(Message.RecipientType.TO, message.getRecipientsEmails());
+        newMessage.setSubject(message.getSubject());
+        newMessage.setText(message.getMessage());
+
+        Transport.send(newMessage);
+    } catch (AuthenticationFailedException e) {
+        throw new AuthenticationFailedException();
+    } catch (MessagingException e) {
+        throw new RuntimeException(e);
+    }
+}
+----
 
 ===== Design considerations
 
-[Big]#**Aspect:** Method for sending Email#
+[Big]#**Aspect:** Method for sending email#
 ====
-**Alternative 1:** Using Pop up Default Email Client +
+**Alternative 1:** Use a pop up default email client +
 
-* **Pros:** User have more control over the editing of email content when using an Email Client. +
-* **Cons:** The app will no longer be CLI based. +
+* **Pros:** Users will have more control over the editing of email content when using an email client. +
+* **Cons:** The email feature will not be part of Augustine. +
 ====
 ====
-**Alternative 2 (current choice):** Using JavaMail API +
+**Alternative 2 (current choice):** Use JavaMail API +
 
-* **Pros:** Email will be sent from the application. +
-* **Cons:** User will have less control over the email content and the email will be less secure. +
+* **Pros:** The email feature will be send from Augustine. +
+* **Cons:** Users will have less control over the email content and the email will be less secure. +
 ====
 ---
 
-[Big]#**Aspect:** Identifying Recipient Email List#
+[Big]#**Aspect:** Method to identify the recipient email list#
 ====
 **Alternative 1:** Add Recipient Email List using prefix in Email Command +
 
-* **Pros:** Users can control who to email to using CLI. +
-* **Cons:** Users will have less flexibility and might have to type a long command if there are more than
+* **Pros:** Users can control who to send the email to using the command line interface. +
+* **Cons:** Users will have less flexibility and might have to type a long email command if there are more than
  one recipients. +
 ====
 ====
-**Alternative 2 (current choice):** Select Recipient Email List based on last displayed contact list +
+**Alternative 2 (current choice):** Select recipient email list based on last displayed contact list +
 
-* **Pros:** Users will not need to type a long Email command for multiple recipients. +
+* **Pros:** Users will not need to type a long email command for multiple recipients. +
 * **Cons:** Users will have to execute the find command to get the desired list of recipients first before they can
  execute the email command +
 ====
 ---
+// end::emailMechanism[]
 
 === Birthday Tab
 
@@ -1286,6 +1361,24 @@ Problem::
 When there are no contacts to be listed, the area where the personListView is suppose to be will display a white box instead.
 ====
 
+'''
+
+=== Email
+
+====
+Problem::
+Augustine stores the email login username and password as a unencrypted String variable which is insecure.
+====
+
+====
+Problem::
+Augustine is considered as an insecure application. Hence, “allow less secure apps to log in” must be enabled in the Gmail settings in order to send an email.
+====
+
+====
+Problem::
+Augustine only allows text email message to be send. Attachment email is not integrated into Augustine.
+====
 
 [appendix]
 == User Stories
