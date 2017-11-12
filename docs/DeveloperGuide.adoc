@@ -1359,6 +1359,24 @@ Problem::
 When there are no contacts to be listed, the area where the personListView is suppose to be will display a white box instead.
 ====
 
+'''
+
+=== Email
+
+====
+Problem::
+Augustine stores the email login username and password as a unencrypted String variable which is insecure.
+====
+
+====
+Problem::
+Augustine is considered as an insecure application. Hence, “allow less secure apps to log in” must be enabled in the Gmail settings in order to send an email.
+====
+
+====
+Problem::
+Augustine only allows text email message to be send. Attachment email is not integrated into Augustine.
+====
 
 [appendix]
 == User Stories
