@@ -15,6 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 
 import javafx.collections.ObservableList;
+import seedu.address.commons.util.FileUtil;
 import seedu.address.model.person.Person;
 import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UniquePersonList;
@@ -106,16 +107,36 @@ public class AddressBook implements ReadOnlyAddressBook {
      */
     private void removePhoto(File f) {
         String defaultPhoto = "data/images/default.jpeg";
-        String editedFolder = "data/edited/";
         try {
             if (!f.equals(new File(defaultPhoto))) {
-                Files.copy(f.toPath(), Paths.get(editedFolder + f.toString().substring(12)),
-                        StandardCopyOption.REPLACE_EXISTING);
+                String destPath = f.toString().substring(12);
+                destPath = getEditedPhotoPath(destPath);
+
+                Files.copy(f.toPath(), Paths.get(destPath), StandardCopyOption.REPLACE_EXISTING);
+                UniquePersonList.addToPhotoStack(destPath);
                 f.delete();
             }
         } catch (IOException ioe) {
             throw new AssertionError("Clearing of files have issue");
         }
+    }
+
+    /**
+     * Check if there are existing photos from the same contact in the data/edited/ folder.
+     * @param originalPath photo path in data/images
+     * @return the updated photo path to data/edited/ folder.
+     */
+    private String getEditedPhotoPath(String originalPath) {
+        String editedFolder = "data/edited/";
+        String destPath = editedFolder + originalPath;
+        String emailAddr = originalPath.substring(0, originalPath.length() - 4);
+        String fileExt = ".jpg";
+        int counter = 0;
+        while (FileUtil.isFileExists(new File(destPath))) {
+            counter++;
+            destPath = editedFolder + emailAddr + counter + fileExt;
+        }
+        return destPath;
     }
     //@@author
     //// person-level operations

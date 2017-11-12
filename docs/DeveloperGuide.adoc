@@ -492,6 +492,7 @@ There are four different logging levels you can specify depending on the amount 
 * `INFO` : Information showing the noteworthy actions by the App
 * `FINE` : Details that is not usually noteworthy but may be useful in debugging e.g. print the actual list instead of just its size
 
+---
 
 === Configuration
 
@@ -500,6 +501,8 @@ The config file and path is specified in the `Config` class.
 
 The `Config` class will be initialized by the `MainApp` and the constructed `Config` object will be kept as a protected variable.
 When initialized, the `Config` class will read and save the values of parameters in the configuration file. The `MainApp` then passes the `Config` object into classes which require it (e.g. `MainWindow`)
+
+---
 
 // tag::optionalfields[]
 === Optional Fields in a Contact

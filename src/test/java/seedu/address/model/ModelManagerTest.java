@@ -28,6 +28,7 @@ public class ModelManagerTest {
     public void setup() throws Exception {
         ImageInit.checkDirectories();
         ImageInit.initPictures();
+        ImageInit.initDefault();
     }
 
     @After
