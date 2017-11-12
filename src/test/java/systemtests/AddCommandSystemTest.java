@@ -56,6 +56,7 @@ import seedu.address.model.person.ReadOnlyPerson;
 import seedu.address.model.person.UserId;
 import seedu.address.model.person.exceptions.DuplicatePersonException;
 import seedu.address.model.tag.Tag;
+import seedu.address.testutil.ImageInit;
 import seedu.address.testutil.PersonBuilder;
 import seedu.address.testutil.PersonUtil;
 
@@ -128,6 +129,8 @@ public class AddCommandSystemTest extends AddressBookSystemTest {
         /* Case: add to empty address book -> added */
         executeCommand(ClearCommand.COMMAND_WORD);
         assert getModel().getAddressBook().getPersonList().size() == 0;
+        ImageInit.initPictures();
+        ImageInit.initDefault();
         assertCommandSuccess(ALICE);
 
         /* Case: add a person with tags, command with parameters in random order -> added */
