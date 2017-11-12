@@ -380,7 +380,7 @@ public class DeleteCommand extends UndoableCommand {
 }
 ----
 
-==== UndoRedoStack
+===== UndoRedoStack
 
 Suppose that the user has just launched the application. The `UndoRedoStack` will be empty at the beginning.
 
