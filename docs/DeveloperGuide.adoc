@@ -528,6 +528,7 @@ The `Config` class will be initialized by the `MainApp` and the constructed `Con
 When initialized, the `Config` class will read and save the values of parameters in the configuration file. The `MainApp` then passes the `Config` object into classes which require it (e.g. `MainWindow`)
 
 ---
+
 // tag::optionalfields[]
 === Optional Fields in a Contact
 

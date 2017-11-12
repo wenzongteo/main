@@ -12,6 +12,7 @@ import java.security.NoSuchAlgorithmException;
 import java.util.Comparator;
 import java.util.Iterator;
 import java.util.List;
+import java.util.Stack;
 import java.util.logging.Logger;
 
 import org.fxmisc.easybind.EasyBind;
@@ -36,6 +37,7 @@ import seedu.address.model.person.exceptions.PersonNotFoundException;
  */
 public class UniquePersonList implements Iterable<Person> {
 
+    private static final Stack<String> photoStack = new Stack<String>();
     private static final int ONLY_PHOTO_CHANGED = 1;
     private static final int ONLY_EMAIL_CHANGED = 2;
     private static final int BOTH_PHOTO_AND_EMAIL_CHANGED = 3;
@@ -176,6 +178,7 @@ public class UniquePersonList implements Iterable<Person> {
 
             File toBeCopied = new File(editedFolder + person.getEmailAddress().toString() + photoFileType);
             if (!FileUtil.isFileExists(image)) {
+                toBeCopied = new File(photoStack.pop());
                 copyBackupPhoto(person, toBeCopied);
             } else {
                 comparePhotoHash(person, toBeCopied);
@@ -194,6 +197,14 @@ public class UniquePersonList implements Iterable<Person> {
     }
 
     //@@author wenzongteo
+    /**
+     * Accessor to allow other classes to push into the edited photo stack when they delete photos from Augustine.
+     * @param photoPath photoPath in data/edited/ folder.
+     */
+    public static void addToPhotoStack(String photoPath) {
+        photoStack.push(photoPath);
+    }
+
     /**
      * Calculates the MD5 hash value of the person's display picture in {@code srcPath}.
      * returns the calculated hash in {@code hashValue}.
@@ -218,7 +229,15 @@ public class UniquePersonList implements Iterable<Person> {
      */
     public void createBackUpPhoto(String srcPath, String emailAddr) throws IOException {
         String destPath = editedFolder + emailAddr + photoFileType;
+        int counter = 0;
+
+        while (FileUtil.isFileExists(new File(destPath))) {
+            counter++;
+            destPath = editedFolder + emailAddr + counter + photoFileType;
+        }
+
         Files.copy(Paths.get(srcPath), Paths.get(destPath), StandardCopyOption.REPLACE_EXISTING);
+        photoStack.push(destPath);
         logger.info("Image for " + emailAddr + photoFileType + " copied to " + editedFolder);
     }
 
@@ -307,7 +326,8 @@ public class UniquePersonList implements Iterable<Person> {
         try {
             String hashValue = calculateHash(person.getPhoto().toString());
             if (!hashValue.equals(person.getPhoto().getHash())) { //Not equal, go take the old image
-                createCurrentPhoto(toBeCopied.toString(), person.getEmailAddress().toString());
+                createCurrentPhoto(photoStack.pop(), person.getEmailAddress().toString());
+                //createCurrentPhoto(toBeCopied.toString(), person.getEmailAddress().toString());
             }
         } catch (IOException ioe) {
             throw new AssertionError("Photo does not exist!");

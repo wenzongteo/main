@@ -118,6 +118,8 @@ image::helpCommand.png[width="940px"]
 
 '''
 
+// tag::[]
+
 === Adding a contact: [fuchsia]`add`
 
 The [fuchsia]`add` command will enable you to populate Augustine.
@@ -191,6 +193,7 @@ image::addFail.png[width="940px"]
 --
 
 '''
+// end::add[]
 
 === Listing all contacts: [fuchsia]`list`
 

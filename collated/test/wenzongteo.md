@@ -70,12 +70,12 @@ public class PhotoTest {
         try {
             new Photo("doesnotexist.jpg");
         } catch (IllegalValueException ioe) {
-            assertEquals("Error! Photo does not exist!", ioe.getMessage());
+            assertEquals(Photo.MESSAGE_PHOTO_NOT_FOUND , ioe.getMessage());
         }
         try {
             new Photo("doesnotexist.jpg", 0);
         } catch (AssertionError ae) {
-            assertEquals("Image should already exist", ae.getMessage());
+            assertEquals("Photo should already exist!", ae.getMessage());
         }
     }
 
@@ -84,8 +84,7 @@ public class PhotoTest {
         try {
             new Photo("wrong format");
         } catch (IllegalValueException ive) {
-            assertEquals("Person's photo should be in jpeg and preferred to be of 340px x 453px dimension",
-                    ive.getMessage());
+            assertEquals(Photo.MESSAGE_PHOTO_CONSTRAINTS, ive.getMessage());
         }
     }
 
@@ -167,6 +166,7 @@ public class ImageInit {
     private static final String IMAGES_FOLDER_PATH = "data/images";
     private static final String DEFAULT_ORIGINAL_PATH = "default.jpeg";
     private static final String ALICE_PHOTO_PATH = "data/images/alice@example.com.jpg";
+    private static final String DEFAULT_PHOTO_PATH = "data/images/default.jpeg";
     private static final String JOHN_PHOTO_PATH = "data/images/johnd@example.com.jpg";
     private static final String HEINZ_PHOTO_PATH = "data/images/heinz@example.com.jpg";
     private static final String ANNA_PHOTO_PATH = "data/images/anna@example.com.jpg";
@@ -249,14 +249,28 @@ public class ImageInit {
     }
 
     /**
-     * Initialize alice's photo during the test.
+     * Initialize john's photo during the test.
      */
     public static void initJohn() {
         try {
             Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(JOHN_PHOTO_PATH),
                     StandardCopyOption.REPLACE_EXISTING);
         } catch (IOException ioe) {
-            throw new AssertionError("Initialization of Alice's image failed");
+            throw new AssertionError("Initialization of John's image failed");
+        } catch (Exception e) {
+            throw new AssertionError("No such error possible");
+        }
+    }
+
+    /**
+     * Initialize default photo during the test.
+     */
+    public static void initDefault() {
+        try {
+            Files.copy(Paths.get(DEFAULT_ORIGINAL_PATH), Paths.get(DEFAULT_PHOTO_PATH),
+                    StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException ioe) {
+            throw new AssertionError("Initialization of default image failed");
         } catch (Exception e) {
             throw new AssertionError("No such error possible");
         }
