@@ -6,7 +6,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 == Project: Augustine
 
 *Code contributed*::
-Functional Code: [https://github.com/CS2103AUG2017-W14-B2/main/blob/master/collated/main/ritchielq.md[Main file]] [https://github.com/CS2103AUG2017-W14-B2/main/blob/master/collated/test/ritchielq-reuse.md[Reused Code]] +
+Functional Code: [https://github.com/CS2103AUG2017-W14-B2/main/blob/master/collated/main/ritchielq.md[Main file]] [https://github.com/CS2103AUG2017-W14-B2/main/blob/master/collated/main/ritchielq-reuse.md[Reused Code]] +
 Test Code: [https://github.com/CS2103AUG2017-W14-B2/main/blob/master/collated/test/ritchielq.md[Main file]] [https://github.com/CS2103AUG2017-W14-B2/main/blob/master/collated/test/ritchielq-reuse.md[Reused Code]] +
 
 
