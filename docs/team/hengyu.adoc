@@ -94,3 +94,7 @@ include::../DeveloperGuide.adoc[tag=backup]
 #End of Extract#
 
 ---
+
+==== Other contributions
+
+* Proof-reader of the user and developer guides.
