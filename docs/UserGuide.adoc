@@ -600,7 +600,7 @@ The format of the [fuchsia]`email` command is as follows:
 * This command requires the *message* (em/), *subject* (es/), *Gmail address/password* (el/) fields to be filled
 and at least one contact displayed on the contact list before an email can be sent out.
 * The email account used in the command must be a *Gmail* account.
-* The setting *"Allow less secure apps"* must be enabled for the Gmail account used.
+* The setting *"Allow less secure apps"* must be enabled for the Gmail account.
 ** Go to your Google account -> Your Account -> Sign in and Security -> Allow Less Secure App:OFF
 ** Change it to "Allow less secure app:ON"
 * This command will create an email draft if the command does not include `et/send`.
@@ -952,14 +952,14 @@ The format of the [fuchsia]`exit` command is as follows:
 
 === Saving the data
 
-Augustine data is saved to your hard disk automatically whenever a command changes it. +
+Augustine data is automatically saved to your hard disk whenever a command changes it. +
 There is no need to save manually.
 
 == FAQ
 
 *Q*: How do I transfer my data to another computer? +
-*A*: Install Augustine on that other computer and overwrite the data file generated there
-(located at `/data/addressbook.xml` from the program's root directory) with the same file from your original computer.
+*A*: Install Augustine on that other computer and overwrite the `addressbook.xml` file generated there
+(located at `/data/addressbook.xml` from the program's root directory) with the one from your original.
 
 == Command Summary
 
