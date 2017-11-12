@@ -1195,7 +1195,7 @@ Afterwards it is simply a matter of sorting the dates normally.
 The new `SortedList` will then be passed as a separate parameter into the `LeftDisplayPanel` constructor along the
 main contact list. This new list, sorted by birthdates, will be displayed on a separate tab in the left display panel.
 
-===== PersonCard class
+===== PersonCardBirthday class
 
 Through a `setColor` method, a contact's card will be highlighted if his birthday is today (system time). This is
 achieved in a similar fashion as the above birthday sort. By updating a contact's birthdate's year to that of today's
