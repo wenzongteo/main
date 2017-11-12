@@ -726,12 +726,12 @@ The contact whose birthday is today (according to system time) will be highlight
 image::happyBirthdayJohnCena.png[width="440px"]
 --
 --
-
+// end::birthday[]
 '''
-// end::find[]
+
 
 // tag::insta[]
-=== Displaying Instagram tab: [fuchsia]`insta`
+=== Displaying Instagram tab : [fuchsia]`insta`
 
 The Instagram tab allows you to view the Instagram profile of the selected contact.
 
@@ -768,7 +768,7 @@ image::instagram.png[width="1425px"]
 '''
 
 // tag::backup[]
-=== Backing up Augustine data: [fuchsia]`backup`
+=== Backing up Augustine data : [fuchsia]`backup`
 
 The [fuchsia]`backup` saves the current contacts data in a separate file, found at `/data/addressbook-backup.xml`.
 
