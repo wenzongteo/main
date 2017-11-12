@@ -57,11 +57,11 @@ image::atAGlance.png[width="790"]
 e.g. typing *`help`* in the command box and pressing kbd:[Enter] will open the help window.
 .  Here are some commands you can try out:
 
-* *`list`* : lists all contacts within Augustine.
-* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01` : adds a contact named `John Doe`
+* *`list`*: lists all contacts within Augustine.
+* **`add`**`n/John Doe p/98765432 e/johnd@example.com a/John street, block 123, #01-01`: adds a contact named `John Doe`
 with phone number `98765432`, email address `johnd@example.com` and address `John street, block 123, #01-01` into Augustine.
-* **`delete`**`3` : deletes the 3rd contact *shown in the current list*.
-* *`exit`* : exits Augustine.
+* **`delete`**`3`: deletes the 3rd contact *shown in the current list*.
+* *`exit`*: exits Augustine.
 
 .  Refer to the link:#features[Features] section below to learn all of Augustine's commands and their details.
 
