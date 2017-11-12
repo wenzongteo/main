@@ -97,4 +97,4 @@ include::../DeveloperGuide.adoc[tag=backup]
 
 ==== Other contributions
 
-* Proof-reader of the user and developer guides.
+* Proofreader of the user and developer guides.
