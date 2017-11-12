@@ -1120,7 +1120,7 @@ By converting the birthdates in question to contain the same year as the current
 is before or after today's date. If that date has already passed, increment the year by one. You could think of the
 updated dates as the date of the next birthday celebration for each contact.
 
-For example, running this algorithm in November 2017 on a contact with a birthdate of `15/02/1995` would updated it
+For example, running this algorithm in November 2017 on a contact with a birthdate of `15/02/1995` would update it
 to `15/02/2018` in the sorting process.
 
 Afterwards it is simply a matter of sorting the dates normally.
