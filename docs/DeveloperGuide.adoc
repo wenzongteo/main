@@ -1318,10 +1318,10 @@ The Backup function allows the user to save his existing data on a backup file.
 
 ===== Implementation Details
 
-The `Model` object simply raises a `BackupAddressBookEvent` when the command is executed, instead of directly asking the
-`Storage` object to save the backup file to the hard disk. The event is propagated through the `EventsCenter` to the
-`Storage` and `UI` without the `Model` having to be coupled to either of them, helping to reduce direct coupling between
- components.
+`Model` simply raises a `BackupAddressBookEvent` when the command is executed, instead of directly asking `Storage` to
+save the backup file to the hard disk. The event is propagated through the `EventsCenter` to the
+`Storage` and `UI` without `Model` having to be coupled to either of them, helping to reduce direct coupling between
+components.
 
 
 The diagram below shows how the various components react to this command:
