@@ -717,7 +717,7 @@ The Birthdays tab lists all your existing contacts starting from the contact wit
 ****
 *Things to take note:* +
 
-* You cannot edit Augustine data using with reference to the contacts' ordering in the Birthdays tab. You should be referring to the main Contact List tab
+* You cannot edit Augustine data using the contacts' ordering in the Birthdays tab. You should be referring to the main Contact List tab
 to make changes to the data.
 * You do not need to manually update the Birthdays tab, any changes made to the data will be reflected in both the Contact List
 and Birthdays tab automatically.
