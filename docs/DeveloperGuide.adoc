@@ -762,6 +762,7 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 ---
 // end::nusmods[]
 
+// tag::findMechanism[]
 === Filter and Sort Mechanism for contact list
 
 The find and list commands is facilitated by the Model and Logic Component. They provide the user with the option to
@@ -918,7 +919,9 @@ Depending on the sort option (address, email, name or tag), the contact list wil
 * **Cons:** The find command might become too complex with too many arguments.
 ====
 ---
+// end::findMechanism[]
 
+// tag::emailMechanism[]
 === Email Mechanism
 
 The email mechanism is facilitated by the `Email` component. It allows the sending of email via an external library, JavaMail.
@@ -1012,8 +1015,6 @@ private void sendingEmail(String login, String pass, ReadOnlyMessageDraft messag
 }
 ----
 
-
-
 ===== Design considerations
 
 [Big]#**Aspect:** Method for sending email#
@@ -1047,6 +1048,7 @@ private void sendingEmail(String login, String pass, ReadOnlyMessageDraft messag
  execute the email command +
 ====
 ---
+// end::emailMechanism[]
 
 === Birthday Tab
 
