@@ -1116,11 +1116,11 @@ public void sortBirthdate() {
 }
 ----
 
-By converting the birthdates in question to contain the same year as current system time, we check if the updated date
+By converting the birthdates in question to contain the same year as the current system time, we check if the updated date
 is before or after today's date. If that date has already passed, increment the year by one. You could think of the
-updated dates as the date of the most upcoming birthday celebration for each contact.
+updated dates as the date of the next birthday celebration for each contact.
 
-For example, running this algorithm in November 2017 on a contact with a birthdate of `15/02/1995` would be updated it
+For example, running this algorithm in November 2017 on a contact with a birthdate of `15/02/1995` would updated it
 to `15/02/2018` in the sorting process.
 
 Afterwards it is simply a matter of sorting the dates normally.
@@ -1150,9 +1150,9 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 ====
 **Alternative 1:** Using a command +
 
-* **Pros:** Fewer tabs, easier to implement +
+* **Pros:** Fewer tabs, easier to implement. +
 * **Cons:** This functionality will be less intuitive. A user might not be so likely to input a command regularly
- just to check for upcoming birthdays +
+ just to check for upcoming birthdays. +
 ====
 ====
 **Alternative 2 (current choice):** Using a separate tab +
@@ -1166,11 +1166,11 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 
 [Big]#**Aspect:** Format requirements for birthdate field#
 ====
-**Alternative 1:** To allow any seemingly valid birthday formats such as d/mm, dd/m, dd.mm.yy , dd-mm-yyyy +
+**Alternative 1:** To allow any reasonable date formats such as d/mm, dd/m, dd.mm.yy , dd-mm-yyyy +
 
 * **Pros:** Users have more control over their preferred formats. +
-* **Cons:** Extremely difficult to account for the different variation and their permutations, causing the sort
-implementation to be overly complicated and inconsistent +
+* **Cons:** Extremely difficult to account for the different variations and their permutations, causing the sort
+implementation to be overly complicated. +
 ====
 ====
 **Alternative 2 (current choice):** Restrict input to dd/mm/yyyy +
@@ -1207,7 +1207,7 @@ is enforced through the `USERNAME_VALIDATION_REGEX` String implemented in the cl
 
 ===== loadInsta method
 
-The `loadInsta` method is a method added onto the `BrowerPanel` class. When a PersonPanelSelectionChangedEvent is raised,
+The `loadInsta` method is a method added to the `BrowerPanel` class. When a `PersonPanelSelectionChangedEvent` is raised,
 this method will be called to load the required Instagram page. Since it is ensured that a '-' will populate the `UserId`
 field even if the information is not available, an `if` statement allows us to go to the Instagram home page in
 the case of unavailable information.
@@ -1236,7 +1236,7 @@ public void loadInsta(ReadOnlyPerson person) {
 
 * **Pros:** Huge benefit to user convenience since a user is not likely to include Instagram IDs when adding new contacts. +
 * **Cons:** As of recent years, Instagram has significantly restricted its API usage permissions, we would not be able to implement this
-  without going through a permissions request and Instagram's approval. +
+  without going through a permissions request and Instagram's approval, which seems excessive for a student project. +
 ====
 ====
 **Alternative 2 (current choice):** Redirect to homepage +

@@ -20,11 +20,11 @@ include::../UserGuide.adoc[tag=birthday]
 ---
 
 ==== Justification
-We felt that it would be extremely useful for an address book application to contain a contact's birthday information.
-After all, birthday celebrations are one of the most prominent reasons why people gather together and socialise.
+It is extremely useful and intuitive for an address book application to keep track of a contact's birthday information.
+After all, birthday celebrations are one of the most significant reasons why people gather together and socialise.
 
-By displaying all contacts sorted by upcoming birthdays, the user can see at one glance which friend has a nearing
-birthday celebration that might require his attention.
+By displaying contacts sorted by upcoming birthdays, the user can see at one glance which friend has an upcoming
+birthday celebration which may require his attention.
 
 By highlighting a contact whose birthday is today, this further brings the immediacy of this event to the user's attention,
 prompting him to take necessary action.
@@ -82,7 +82,7 @@ include::../UserGuide.adoc[tag=backup]
 
 ==== Justification
 
-A user might want to save their current data as a backup before making further changes to it.
+A user might want to save their current data as a backup before making further changes.
 
 
 ==== Implementation
