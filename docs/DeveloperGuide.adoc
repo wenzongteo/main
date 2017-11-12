@@ -1223,8 +1223,8 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 **Alternative 2 (current choice):** Using a separate tab +
 
 * **Pros:** User can check for upcoming birthdays without affecting the regular functionality of Augustine. There
- is no need for the contact list to be resorted every time, and the birthday tab updates in real-time. +
-* **Cons:** As extra tab is harder to implement, and the constant checking of birthdates for sorting and highlighting
+ is no need for the contact list to be re-sorted every time, and the birthday tab updates in real-time. +
+* **Cons:** An extra tab is harder to implement, and the constant checking of birthdates for sorting and highlighting
  might cost some performance. +
 ====
 ---
@@ -1234,14 +1234,14 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 **Alternative 1:** To allow any reasonable date formats such as d/mm, dd/m, dd.mm.yy , dd-mm-yyyy +
 
 * **Pros:** Users have more control over their preferred formats. +
-* **Cons:** Extremely difficult to account for the different variations and their permutations, causing the sort
+* **Cons:** Extremely difficult to account for the different variations and all their permutations, causing the sort
 implementation to be overly complicated. +
 ====
 ====
 **Alternative 2 (current choice):** Restrict input to dd/mm/yyyy +
 
 * **Pros:** Consistent and simpler implementation. +
-* **Cons:** More restrictive, user might intuitively try to input a date like 1/12/1983 and cause an error prompt. +
+* **Cons:** More restrictive, user might intuitively try to input a date like 1/12/1983 which Augustine would reject. +
 ====
 
 // end::birthday[]
@@ -1252,14 +1252,14 @@ implementation to be overly complicated. +
 === Instagram Tab
 
 The Instagram tab is facilitated by the `Model`, `Logic`, and `UI` components. It allows the user to view a contact's
-Instagram profile page. If a contact does not contain username information, the tab will redirect the user to
+Instagram profile page. If a contact does not contain the necessary username information, the tab will redirect the user to
 Instagram's home page.
 
 ===== Implementation Details
 
 The following diagram (Figure 5.10.1) highlights the flow of logic when the user inputs the Instagram command:
 
-image::InstagramDiagram.png[width="900"]
+image::InstagramDiagram.png[width="813"]
 _Figure 5.10.1 : Flow of Instagram command_
 
 There are several components that are key to the implementation this functionality:
@@ -1278,7 +1278,7 @@ field even if the information is not available, an `if` statement allows us to g
 the case of unavailable information.
 
 Instagram profile page URLs are formatted as such: `https://www.instagram.com/<userId>/`, so it is a simple matter of
-appending the contact's userID to `https://www.instagram.com/` to load the required page.
+appending the contact's UserId to `https://www.instagram.com/` to load the required page.
 
 [source, java]
 ----
@@ -1299,14 +1299,14 @@ public void loadInsta(ReadOnlyPerson person) {
 ====
 **Alternative 1:** Using Instagram's API to search Instagram with the contact's `Name`. +
 
-* **Pros:** Huge benefit to user convenience since a user is not likely to include Instagram IDs when adding new contacts. +
-* **Cons:** As of recent years, Instagram has significantly restricted its API usage permissions, we would not be able to implement this
-  without going through a permissions request and Instagram's approval, which seems excessive for a student project. +
+* **Pros:** Huge benefit to user convenience since a user is not likely to have Instagram IDs of every contact. +
+* **Cons:** As of recent years, Instagram has significantly restricted its API usage, we would not be able to implement this
+  without going through a permissions request and Instagram's approval, which is excessive for a student project. +
 ====
 ====
 **Alternative 2 (current choice):** Redirect to homepage +
 
-* **Pros:** Much simpler to implement at the moment. +
+* **Pros:** Much simpler to implement. User can still do a manual search from the homepage. +
 * **Cons:** Not as convenient as Alternative 1 for the user. +
 ====
 // end::insta[]
@@ -1318,7 +1318,13 @@ The Backup function allows the user to save his existing data on a backup file.
 
 ===== Implementation Details
 
-The following diagram shows the high-level logic of the Backup command:
+The `Model` object simply raises a `BackupAddressBookEvent` when the command is executed, instead of directly asking the
+`Storage` object to save the backup file to the hard disk. The event is propagated through the `EventsCenter` to the
+`Storage` and `UI` without the `Model` having to be coupled to either of them, helping to reduce direct coupling between
+ components.
+
+
+The diagram below shows how the various components react to this command:
 
 image::BackupDiagram.png[width="1000"]
 _Figure 5.11.1 : High-level logic of backup command_
