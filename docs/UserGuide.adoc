@@ -441,6 +441,7 @@ image::deleteFromFind.png[]
 
 '''
 
+// tag::nusmods[]
 === Using NUSmods: [fuchsia]`nusmods`
 
 Augustine is integrated with https://nusmods.com.
@@ -524,6 +525,8 @@ The following command will remove the module CS2010 from the timetable of the co
 
 --
 
+// end::nusmods[]
+
 '''
 
 === Displaying a contact's timetable: [fuchsia]`select`
@@ -598,6 +601,8 @@ The format of the [fuchsia]`email` command is as follows:
 and at least one contact displayed on the contact list before an email can be sent out.
 * The email account used in the command must be a *Gmail* account.
 * The setting *"Allow less secure apps"* must be enabled for the Gmail account.
+** Go to your Google account -> Your Account -> Sign in and Security -> Allow Less Secure App:OFF
+** Change it to "Allow less secure app:ON"
 * This command will create an email draft if the command does not include `et/send`.
 * To create an email draft:
 ** Add *message* to email draft: [fuchsia]`email em/message to send`

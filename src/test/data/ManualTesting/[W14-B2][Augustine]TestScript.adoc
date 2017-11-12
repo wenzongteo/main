@@ -152,9 +152,97 @@ This section covers on command email.
 
 '''
 --
-*Command*: [red]`list` +
-*Expected*: GUI will be on contact list tab, with 20 contacts listed.
+*Command*: [red]`email em/message es/subject` +
+*Expected*: GUI will be on Email Draft Tab. The subject field should be "subject", the message field should be "message", the recipients field should be "baby@example.com, black@example.com, captain@example.com, dwayne@example.com, emma@example.com, gary@example.com, gwen@example.com, haha@example.com, harry@example.com, hulk@example.com, iron@example.com, iu@example.com, jack@example.com, kim@example.com, lee@example.com, park@example.com, rihanna@example.com, jihyo@example.com, tim@example.com, yoo@example.com".
+The display message is "Email have been drafted. You are not logged in to any Gmail account"
+
+
+'''
+--
+*Command*: [red]`email em/message es/subject` +
+*Expected*: GUI will be on Email Draft Tab. The subject field should be "subject", the message field should be "message", the recipients field should be "baby@example.com, black@example.com, captain@example.com, dwayne@example.com, emma@example.com, gary@example.com, gwen@example.com, haha@example.com, harry@example.com, hulk@example.com, iron@example.com, iu@example.com, jack@example.com, kim@example.com, lee@example.com, park@example.com, rihanna@example.com, jihyo@example.com, tim@example.com, yoo@example.com".
+The display message is "Email have been drafted. You are not logged in to any Gmail account"
+
+'''
+--
+*Command*: [red]`email et/clear` +
+*Expected*: GUI will be on Email Draft Tab. The subject field, message field, recipients field should be empty.
+The display message is "Email have been cleared"
+
+'''
+--
+*Command*: [red]`email et/clear` +
+*Expected*: email command fails.
+The display message is "You must fill in the message and subject before you can send an email. Command: email em/<messages> es/<subjects>"
+
+'''
+--
+*Command*: [red]`email em/message es/subject` +
+*Expected*: GUI will be on Email Draft Tab. The subject field should be "subject", the message field should be "message", the recipients field should be "baby@example.com, black@example.com, captain@example.com, dwayne@example.com, emma@example.com, gary@example.com, gwen@example.com, haha@example.com, harry@example.com, hulk@example.com, iron@example.com, iu@example.com, jack@example.com, kim@example.com, lee@example.com, park@example.com, rihanna@example.com, jihyo@example.com, tim@example.com, yoo@example.com".
+The display message is "Email have been drafted. You are not logged in to any Gmail account"
+
+'''
+--
+*Command*: [red]`email et/send` +
+*Expected*: email command fails.
+The display message is "You must log in with a gmail email account before you can send an email. Command: email el/<username@gmail.com>:<password>""
+
+'''
+--
+*Command*: [red]`email el/adam@gmail.com:password` +
+*Expected*: The display message is "Email have been drafted. You are logged in to adam@gmail.com
+
+'''
+--
+*Command*: [red]`email el/zoe@gmail.com:password` +
+*Expected*: The display message is "Email have been drafted. You are logged in to zoe@gmail.com
+
+'''
+--
+*Command*: [red]`email el/zoe@yahoo.com:password` +
+*Expected*: email command fails.
+The display message is "You must log in with a gmail email account before you can send an email. Command: email el/<username@gmail.com>:<password>"
+
+'''
+--
+*Command*: [red]`email et/send` +
+*Expected*: email command fails.
+The display message is "You are unable to log in to your gmail account. Please check the following: +
+1) You have entered the correct email address and password. +
+2) You have enabled 'Allow less secure app' to sign in to your gmail account settings"
+
+'''
+--
+*Command*: [red]`email el/<your own gmail account>:<your own password> et/send` +
+*Expected*: Email have been sent. The Email Draft will have empty fields.
+
+[NOTE]
+If email still fails to send after you use your own gmail account and password, please ensure that you have enable "allow less secure app to sign in" in your gmail account settings.
+Go to Google. Your Account -> Sign in and Security -> scroll down and ensure "allow less secure app:ON" is enabled.
 
 == Backup contacts
+This section covers how to backup your data.
 
-== History and exits
+'''
+--
+*Command*: [red]`backup` +
+*Expected*: The display message is "Data backed up at "/data/addressbook-backup.xml". There will be a addressbook-backup.xml created in the data folder.
+
+== Miscs
+
+This section covers history and exit commands.
+
+'''
+--
+*Command*: [red]`history` +
+*Expected*: A list of all commands you have typed.
+
+'''
+--
+*Command*: [red]`clear` +
+*Expected*: Addressbook will be cleared. Contact List tab display will be empty and white. Check addressbook.xml. All data should be gone.
+
+'''
+--
+*Command*: [red]`exit` +
+*Expected*: Augustine closes.
