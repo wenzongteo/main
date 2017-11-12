@@ -246,7 +246,7 @@ Here are some examples to guide you with editing contacts in Augustine:
 . [red]*Adding and removing tags*
 +
 --
-You can add or remove the tags to/from a particular contact using the [fuchsia]`edit` command below (See Figures 6 and 7).
+You can add or remove the tags to/from a particular contact using the [fuchsia]`edit` command below (see Figure 6).
 
 [horizontal]
 *Command:* :: [fuchsia]`edit 2 t/colleagues t/friends`
@@ -725,7 +725,7 @@ and Birthdays tab automatically.
 
 [TIP]
 The contact whose birthday is today (according to system time) will be highlighted in blue. Send him your well wishes!
-(See Figure 20)
+(see Figure 20)
 
 [caption="Figure 20. "]
 .Birthdays tab with highlighted contact
