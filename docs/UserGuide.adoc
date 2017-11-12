@@ -441,6 +441,7 @@ image::deleteFromFind.png[]
 
 '''
 
+// tag::nusmods[]
 === Using NUSmods: [fuchsia]`nusmods`
 
 Augustine is integrated with https://nusmods.com.
@@ -523,6 +524,8 @@ The following command will remove the module CS2010 from the timetable of the co
 `nusmods 2 t/remove m/CS2010` +
 
 --
+
+// end::nusmods[]
 
 '''
 
