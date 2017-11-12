@@ -1115,6 +1115,7 @@ private void sendingEmail(String login, String pass, ReadOnlyMessageDraft messag
 ---
 // end::emailMechanism[]
 
+// tag::birthday[]
 === Birthday Tab
 
 The birthday tab is facilitated by the `Model`, `Logic`, and `UI` components. It allows the user to display the main
@@ -1180,11 +1181,11 @@ public void sortBirthdate() {
 }
 ----
 
-By converting the birthdates in question to contain the same year as current system time, we check if the updated date
+By converting the birthdates in question to contain the same year as the current system time, we check if the updated date
 is before or after today's date. If that date has already passed, increment the year by one. You could think of the
-updated dates as the date of the most upcoming birthday celebration for each contact.
+updated dates as the date of the next birthday celebration for each contact.
 
-For example, running this algorithm in November 2017 on a contact with a birthdate of `15/02/1995` would be updated it
+For example, running this algorithm in November 2017 on a contact with a birthdate of `15/02/1995` would update it
 to `15/02/2018` in the sorting process.
 
 Afterwards it is simply a matter of sorting the dates normally.
@@ -1214,9 +1215,9 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 ====
 **Alternative 1:** Using a command +
 
-* **Pros:** Fewer tabs, easier to implement +
+* **Pros:** Fewer tabs, easier to implement. +
 * **Cons:** This functionality will be less intuitive. A user might not be so likely to input a command regularly
- just to check for upcoming birthdays +
+ just to check for upcoming birthdays. +
 ====
 ====
 **Alternative 2 (current choice):** Using a separate tab +
@@ -1230,11 +1231,11 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 
 [Big]#**Aspect:** Format requirements for birthdate field#
 ====
-**Alternative 1:** To allow any seemingly valid birthday formats such as d/mm, dd/m, dd.mm.yy , dd-mm-yyyy +
+**Alternative 1:** To allow any reasonable date formats such as d/mm, dd/m, dd.mm.yy , dd-mm-yyyy +
 
 * **Pros:** Users have more control over their preferred formats. +
-* **Cons:** Extremely difficult to account for the different variation and their permutations, causing the sort
-implementation to be overly complicated and inconsistent +
+* **Cons:** Extremely difficult to account for the different variations and their permutations, causing the sort
+implementation to be overly complicated. +
 ====
 ====
 **Alternative 2 (current choice):** Restrict input to dd/mm/yyyy +
@@ -1242,7 +1243,12 @@ implementation to be overly complicated and inconsistent +
 * **Pros:** Consistent and simpler implementation. +
 * **Cons:** More restrictive, user might intuitively try to input a date like 1/12/1983 and cause an error prompt. +
 ====
+
+// end::birthday[]
+
 ---
+
+// tag::insta[]
 === Instagram Tab
 
 The Instagram tab is facilitated by the `Model`, `Logic`, and `UI` components. It allows the user to view a contact's
@@ -1251,18 +1257,23 @@ Instagram's home page.
 
 ===== Implementation Details
 
+The following diagram (Figure 5.10.1) highlights the flow of logic when the user inputs the Instagram command:
+
+image::InstagramDiagram.png[width="900"]
+_Figure 5.10.1 : Flow of Instagram command_
+
 There are several components that are key to the implementation this functionality:
 
 ===== UserId class
 
-Every contact is required to have a blank `-` or a valid `alphanumeric` Instagram ID stored in its UserId field, which
+Every contact is required to have a blank `-` or a valid `alphanumeric` Instagram ID stored in its `UserId` field, which
 is enforced through the `USERNAME_VALIDATION_REGEX` String implemented in the class, failing which will cause an
 `IllegalValueException` to be thrown.
 
 ===== loadInsta method
 
-The `loadInsta` method is a method added onto the `BrowerPanel` class. When a PersonPanelSelectionChangedEvent is raised,
-this method will be called to load the required Instagram page. Since it is ensured that a '-' will populate the UserID
+The `loadInsta` method is a method added to the `BrowerPanel` class. When a `PersonPanelSelectionChangedEvent` is raised,
+this method will be called to load the required Instagram page. Since it is ensured that a '-' will populate the `UserId`
 field even if the information is not available, an `if` statement allows us to go to the Instagram home page in
 the case of unavailable information.
 
@@ -1284,13 +1295,13 @@ public void loadInsta(ReadOnlyPerson person) {
 
 ===== Design considerations
 
-[Big]#**Aspect:** Behaviour when userId is not available#
+[Big]#**Aspect:** Behaviour when `UserId` is not available#
 ====
 **Alternative 1:** Using Instagram's API to search Instagram with the contact's `Name`. +
 
 * **Pros:** Huge benefit to user convenience since a user is not likely to include Instagram IDs when adding new contacts. +
 * **Cons:** As of recent years, Instagram has significantly restricted its API usage permissions, we would not be able to implement this
-  without going through a permissions request and review. +
+  without going through a permissions request and Instagram's approval, which seems excessive for a student project. +
 ====
 ====
 **Alternative 2 (current choice):** Redirect to homepage +
@@ -1298,14 +1309,27 @@ public void loadInsta(ReadOnlyPerson person) {
 * **Pros:** Much simpler to implement at the moment. +
 * **Cons:** Not as convenient as Alternative 1 for the user. +
 ====
+// end::insta[]
 
+// tag::backup[]
+=== Backup function
+
+The Backup function allows the user to save his existing data on a backup file.
+
+===== Implementation Details
+
+The following diagram shows the high-level logic of the Backup command:
+
+image::BackupDiagram.png[width="1000"]
+_Figure 5.11.1 : High-level logic of backup command_
+// end::backup[]
 
 == Documentation
 
 Documentations for Augustine are done in acsiidoc.
 
 [NOTE]
-We chose asciidoc over Markdown because asciidoc provides more flexibility in formatting although it is more complex than Markdown.
+We chose asciidoc over Markdown because asciidoc provides more flexibility in formatting, although it is more complex than Markdown.
 
 === Editing Documentation
 
