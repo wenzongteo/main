@@ -224,6 +224,8 @@ The event is propagated through the `EventsCenter` to the `Storage` and `UI` wit
 
 ---
 
+<<<
+
 === Components
 
 This section is an overview of the components in the architecture.
@@ -232,7 +234,7 @@ This section is an overview of the components in the architecture.
 
 [caption="Figure 5: "]
 .Structure of the UI component
-image::UiClassDiagram.png[width="800"]
+image::UiClassDiagram.png[width="700"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
@@ -247,6 +249,7 @@ The `UI` component is responsible for the following:
 * Binding itself to some data in `Model` so that the UI gets automatically updated when the data in `Model` changes.
 * Responding to events raised from various parts of the application and updating the UI accordingly.
 
+// tag::logicComponent[]
 ==== Logic component
 The `Logic` component is where the user input is parsed and the corresponding commands called.
 The newly created command is then executed, and the `Model` component may be accessed if necessary (see Figure 6).
@@ -290,6 +293,8 @@ _Figure 8_ below shows the sequence diagram of the process within the component 
 [caption="Figure 8: "]
 .Sequence diagram within the Logic component for the `delete 1` command
 image::DeletePersonSdForLogic.png[width="800"]
+
+// end::logicComponent[]
 
 ==== Model component
 
