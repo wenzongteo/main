@@ -79,7 +79,7 @@ If you do not see the welcome screen, click `File > Close Project` and close the
 . Locate the `build.gradle` file and select it. Click `OK`.
 . Click `Open as Project`.
 . Click `OK` to accept the default settings.
-. Press kbd:[Ctr; + Tab + T] *simultaneously* to open a console in IntelliJ and execute the following command:
+. Press kbd:[Ctrl + Tab + T] *simultaneously* to open a console in IntelliJ and execute the following command:
 - For Windows   : `gradlew processResources`
 - For Mac/Linux : `./gradlew processResources`
 
@@ -92,6 +92,8 @@ This will generate all the resources required by the application and its tests.
 . Run `src\main\java\seedu\address\MainApp.java` in IntelliJ and try executing a few commands.
 . link:#testing[Run all tests] by right-clicking on the `src/test/java` folder in IntelliJ and choosing `Run 'All Tests'`.
 *Ensure* that all test cases pass before you start coding.
+
+<<<
 
 === Configuring Augustine before coding
 Now that you have successfully imported Augustine's source code into your computer, complete the following before
@@ -127,6 +129,8 @@ After forking the repo, links in the documentation will still point to the `CS21
 separate product instead of contributing to `CS2103AUG2017-W14-B2/main`, you should replace the URL in the variable `repoURL` in both
 `DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your forked repo.
 
+<<<
+
 ==== Setting up Continuous Integration (CI)
 
 CI tools such as Travis and AppVeyor should be set up to prevent integration problems during development.
@@ -140,6 +144,8 @@ Travis checks for Unix-based platforms while AppVeyor checks for Windows-based p
 ==== Getting started with coding
 
 When you are ready to start coding, understand the overall design by reading the link:#software-architecture[Architecture] section.
+
+<<<
 
 == Software architecture
 
@@ -156,6 +162,8 @@ The *_Architecture Diagram_* (Figure 1) explains the high-level design of August
 [TIP]
 The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/tree/master/docs/diagrams/[diagrams] folder.
 To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as Picture`.
+
+<<<
 
 ===== Overview
 
@@ -218,6 +226,8 @@ The event is propagated through the `EventsCenter` to the `Storage` and `UI` wit
 
 ---
 
+<<<
+
 === Components
 
 This section is an overview of the components in the architecture.
@@ -226,7 +236,7 @@ This section is an overview of the components in the architecture.
 
 [caption="Figure 5: "]
 .Structure of the UI component
-image::UiClassDiagram.png[width="800"]
+image::UiClassDiagram.png[width="700"]
 
 *API* : link:{repoURL}/src/main/java/seedu/address/ui/Ui.java[`Ui.java`]
 
@@ -235,12 +245,15 @@ The UI consists of a `MainWindow` that is made up of smaller parts: `CommandBox`
 The `UI` component uses JavaFX's UI framework. The layout of these UI parts are defined in matching the `.fxml` files
 that are in the `src/main/resources/view` folder. For example, the layout of the link:{repoURL}/src/main/java/seedu/address/ui/MainWindow.java[`MainWindow`] is specified in link:{repoURL}/src/main/resources/view/MainWindow.fxml[`MainWindow.fxml`].
 
+<<<
+
 The `UI` component is responsible for the following:
 
 * Executing user commands using the `Logic` component.
 * Binding itself to some data in `Model` so that the UI gets automatically updated when the data in `Model` changes.
 * Responding to events raised from various parts of the application and updating the UI accordingly.
 
+// tag::logicComponent[]
 ==== Logic component
 The `Logic` component is where the user input is parsed and the corresponding commands called.
 The newly created command is then executed, and the `Model` component may be accessed if necessary (see Figure 6).
@@ -249,6 +262,7 @@ The newly created command is then executed, and the `Model` component may be acc
 .Class diagram of the Logic component
 image::LogicClassDiagram.png[width="800"]
 
+<<<
 _Figure 7_ below shows the detailed process of how the `Command` class in the `Logic` component works.
 
 [caption="Figure 7: "]
@@ -285,6 +299,10 @@ _Figure 8_ below shows the sequence diagram of the process within the component 
 .Sequence diagram within the Logic component for the `delete 1` command
 image::DeletePersonSdForLogic.png[width="800"]
 
+// end::logicComponent[]
+
+<<<
+
 ==== Model component
 
 [caption="Figure 9: "]
@@ -300,6 +318,8 @@ The `Model` component does not depend on the other three components. It is respo
 * storing an `Email` component which handles sending email via the JavaMail API
 * exposing an unmodifiable `ObservableList<ReadOnlyPerson>` that can be 'observed'. The UI can be bound to this list so
  that the it gets automatically updated when the data in the list changes.
+
+<<<
 
 // tag::emailComponent[]
 ==== Email component
@@ -321,6 +341,7 @@ Simple Mail Transfer Protocol (link:#SMTP[SMTP]).
  `messageDraft` object changes.
 // end::emailComponent[]
 
+<<<
 
 // tag::StorageComponent[]
 ==== Storage component
@@ -356,6 +377,8 @@ The undo/redo mechanism is facilitated by an `UndoRedoStack`, which resides in `
 ===== Implementation details
 
 `UndoRedoStack` only deals with `UndoableCommands`. Commands that cannot be undone will inherit from the `Command` class instead. Figure 12 shows the inheritance diagram of commands:
+
+<<<
 
 ===== UndoableCommands
 
@@ -420,6 +443,8 @@ image::UndoRedoStartingStackDiagram.png[width="800"]
 
 As the user continues to use the program, more commands are added into the `undoStack`. For example, the user may execute `add n/David ...` to add a new person.
 
+<<<
+
 [caption="Figure 14: "]
 .Stack diagram of the UndoRedoStack
 image::UndoRedoNewCommand1StackDiagram.png[width="800"]
@@ -438,6 +463,8 @@ image::UndoRedoExecuteUndoStackDiagram.png[width="800"]
 
 [NOTE]
 If the `undoStack` is empty, then there are no other commands left to be undone, and an `Exception` will be thrown when popping the `undoStack`.
+
+<<<
 
 The following sequence diagram shows how the undo operation works:
 
@@ -460,6 +487,8 @@ image::UndoRedoNewCommand2StackDiagram.png[width="800"]
 
 Commands that are not undoable are not added into the `undoStack`. For example, `list`, which inherits from `Command` rather than `UndoableCommand`, will not be added after execution:
 
+<<<
+
 [caption="Figure 18: "]
 .Stack diagram of the UndoRedoStack
 image::UndoRedoNewCommand3StackDiagram.png[width="800"]
@@ -469,6 +498,8 @@ The following activity diagram summarizes what happens inside the `UndoRedoStack
 [caption="Figure 19: "]
 .Undo/Redo activity diagram
 image::UndoRedoActivityDiagram.png[width="200"]
+
+<<<
 
 ===== Design considerations
 
@@ -537,6 +568,8 @@ There are four different logging levels you can choose from depending on the lev
 * `INFO` : Logs any noteworthy actions by the App
 * `FINE` : Logs fine details that are not usually noteworthy but may be useful in debugging e.g. printing the entire list instead of just its size.
 
+<<<
+
 ---
 
 === Configuration
@@ -561,6 +594,8 @@ _Figure 20_ below shows you the sequence diagram of the process within Augustine
 [caption="Figure 20: "]
 .Sequence diagram of add command.
 image::AddCommandSequenceDiagram.png[width="900"]
+
+<<<
 
 ===== Implementation details
 
@@ -642,6 +677,8 @@ For example. if `add n/John Doe e/john@example.com dp/photo.jpg` is executed, Au
  the `data/images` folder
 and also name the copied photo as `john@example.com.jpg`.
 
+<<<
+
 _Figure 21_ below shows the activity diagram of the Image Storage Mechanism during an add command.
 
 [caption="Figure 21: "]
@@ -666,6 +703,8 @@ attributes are not mentioned in the cases below.
 .. Contact's existing photo is copied to `data/edited` folder.
 .. Contact's existing photo is deleted from `data/images` folder.
 
+<<<
+
 . User updates *ONLY* photo. +
 .. Existing photo of the contact is copied over to 'data/edited' folder.
 .. The new photo is copied over to the `data/images` folder and renamed as *"contact_email_address.jpg"*.
@@ -686,6 +725,8 @@ The new photo for the contact will overwrite the existing photo for the contact 
 . User *DID NOT* update email address *AND* photo. +
 .. Photo remains unchanged.
 .. Contact is updated in Augustine.
+
+<<<
 
 Below is a code snippet of the updateCasesForPhoto method in the `UniquePersonList` class, the method determines which of the 4 cases
 an edit command belongs to.
@@ -729,6 +770,9 @@ contact, Augustine will proceed to do the following.
 * **Pros:** Modifications to the original photo source will not affect the contact's photo. +
 * **Cons:** Additional storage space on the computer is required to store each contact's photo. +
 ====
+
+<<<
+
 ====
 **Alternative 2 :** Store the file path of the photo source entered by the user. +
 
@@ -757,6 +801,8 @@ The command `nusmod 2 t/add m/CS1231 sec/2 tut/9` will modify the schedule of th
 by adding a module with the `moduleCode` CS1231 with the `lessonType` "sec" and "tut", with `lessonSlot` 2 and 9 respectively.
 
 To edit, the same command is used, new `lessonType` and `lessonSlot` will overwrite previous data. To delete, `nusmod 2 t/delete m/CS1231` can be used.
+
+<<<
 
 The diagram below shows how the command handles different flags.
 
@@ -828,6 +874,8 @@ public class XmlAdaptedModuleLessons {
 Converting from `NUSModule` back to addressbook.xml is simply the same process in reversed.
 Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for converting to and fro.
 
+<<<
+
 ===== Design considerations
 
 [Big]#**Aspect:** Displaying of schedule#
@@ -858,6 +906,9 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 * **Pros:** As it is a single String object, it will be easier to store. And being the same format as the query, less work needs to be done when fetching the webpage +
 * **Cons:** Need to parse when modifying part of the string, then reformat it back into a string, which can be inefficient
 ====
+
+<<<
+
 ---
 
 [Big]#**Aspect:** Command to edit timetables#
@@ -902,6 +953,8 @@ by making use of the `java.util.stream.Stream` interface which uses a predicate 
 [NOTE]
 A predicate is a lambda expression for defining the find command filter criteria.
 
+<<<
+
 Depending on the find command specified by the user, a different predicate statement will be
 created (see code snippet below). The predicate statement will define how the contact list’s
 data in the `FilteredList<ReadOnlyPerson>` object is filtered.
@@ -937,7 +990,7 @@ The word “referenced” means that the contact list’s data in the `FilteredL
 exact same as the contact list’s data in the `SortedList<ReadOnlyPerson>` object. Any changes to the data in the
 `FilteredList<ReadOnlyPerson>` object will be reflected in the `SortedList<ReadOnlyPerson>` object.
 
-Depending on the sort option (address, email, name or tag), the contact list will be sorted differently (see code snippet below).
+Depending on the sort option (address, email, name or tag), the contact list will be sorted differently (see code snippet on the next page).
 
 [source,java]
 ----
@@ -1026,6 +1079,9 @@ Depending on the sort option (address, email, name or tag), the contact list wil
 * **Pros:** Users can sort the list at any point in time, not only during the find command. +
 * **Cons:** Users will have to run an extra sort command instead of a one line find command with sort options. +
 ====
+
+<<<
+
 ====
 **Alternative 2 (current choice):** Create a Find command with sort options +
 
@@ -1049,6 +1105,8 @@ Augustine makes use of the email command to send an email. The activity diagram 
 .Activity diagram for email
 image::EmailActivityDiagram.png[]
 
+<<<
+
 There are 3 classes, `EmailLogin`, `EmailSend` and `EmailCompose` in the `EmailManager` class that facilitate the email process:
 
 * `*EmailLogin*`: Handles the storing of login details and verifies that the user’s email is a Gmail account using regular expression.
@@ -1065,6 +1123,8 @@ The sequence diagram below shows how the component interacts with one another wh
 .Component level sequence diagram for email
 image::EmailSequenceDiagramComponent.png[]
 
+<<<
+
 The sequence diagram below shows how the `Email` component interacts with the 3 email classes that facilitate the email process when the user enters an email command.
 
 [caption="Figure 26: "]
@@ -1076,6 +1136,8 @@ The diagram below shows how the email draft tab in the Augustine UI is updated w
 [caption="Figure 27: "]
 .Events Driven Nature of Email
 image::EmailSequenceDiagramEvents.png[width="700"]
+
+<<<
 
 ===== Usage of JavaMail API
 
@@ -1129,6 +1191,8 @@ private void sendingEmail(String login, String pass, ReadOnlyMessageDraft messag
 }
 ----
 
+<<<
+
 ===== Design considerations
 
 [Big]#**Aspect:** Method for sending email#
@@ -1163,6 +1227,8 @@ private void sendingEmail(String login, String pass, ReadOnlyMessageDraft messag
 ====
 ---
 // end::emailMechanism[]
+
+<<<
 
 // tag::birthday[]
 === Birthday tab
@@ -1239,6 +1305,8 @@ to `15/02/2018`. (only for the sorting process, the actual contact information w
 
 Afterwards it is simply a matter of sorting the dates normally.
 
+<<<
+
 ===== LeftDisplayPanel class
 
 The new `SortedList` will then be passed as a separate parameter into the `LeftDisplayPanel` constructor along the
@@ -1276,6 +1344,9 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 * **Cons:** An extra tab is harder to implement, and the constant checking of birthdates for sorting and highlighting
  might cost some performance. +
 ====
+
+<<<
+
 ---
 
 [Big]#**Aspect:** Format requirements for birthdate field#
@@ -1297,6 +1368,8 @@ implementation to be overly complicated. +
 
 ---
 
+<<<
+
 // tag::insta[]
 === Instagram tab
 
@@ -1314,6 +1387,8 @@ The following activity diagram (Figure 28) highlights the flow of logic when the
 image::InstagramDiagram.png[width="813"]
 
 There are several components that are key to the implementation this functionality:
+
+<<<
 
 ===== UserId class
 
@@ -1354,6 +1429,9 @@ public void loadInsta(ReadOnlyPerson person) {
 * **Cons:** As of recent years, Instagram has significantly restricted its API usage, we would not be able to implement this
   without going through a permissions request and Instagram's approval, which is excessive for a student project. +
 ====
+
+<<<
+
 ====
 **Alternative 2 (current choice):** Redirect to homepage +
 
@@ -1382,6 +1460,8 @@ The diagram below shows how the various components react to this command:
 .High-level logic of backup command
 image::BackupDiagram.png[width="1000"]
 // end::backup[]
+
+<<<
 
 == Documentation
 
@@ -1413,7 +1493,7 @@ Here are the steps to convert the project documentation files to PDF format.
 .  Follow the instructions in <<UsingGradle#rendering-asciidoc-files, UsingGradle.adoc>> to convert the AsciiDoc files in the `docs/` directory to HTML format.
 .  Go to your generated HTML files in the `build/docs` folder, right click on them and select `Open with -> Google Chrome`.
 .  Within Chrome, click on the `Print` option in Chrome's menu.
-.  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot below.
+.  Set the destination to `Save as PDF`, then click `Save` to save a copy of the file in PDF format. For best results, use the settings indicated in the screenshot on the next page.
 
 [caption="Figure 30: "]
 .Saving documentation as PDF files in Chrome
@@ -1432,6 +1512,8 @@ There are three ways to run tests in Augustine.
 
 * To run all tests, right-click on the `src/test/java` folder and choose `Run 'All Tests'`
 * To run a subset of tests, you can right-click on a test package, test class, or a test and choose `Run 'ABC'`
+
+<<<
 
 *Method 2: Using Gradle*
 
@@ -1507,6 +1589,8 @@ See <<UsingTravis#, UsingTravis.adoc>> and <<UsingAppVeyor#, UsingAppVeyor.adoc>
 
 ---
 
+<<<
+
 === Making a release
 
 We publish a new release every time a new feature is added onto Augustine.
@@ -1530,6 +1614,8 @@ This is preferred to some other ways of managing dependencies for the following 
 
 [NOTE]
 Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson library] for XML parsing.
+
+<<<
 
 == Future enhancements
 
@@ -1563,6 +1649,9 @@ We could render the timetable with JavaFX instead of relying on the browser to f
 This will eliminate the need to have a constant connection and open up the possibility of adding non-NUS related activities to the schedule.
 
 ====
+
+<<<
+
 ====
 Problem::
 Users are able to enter non-existent module codes, lesson types and lesson slots as long as they fulfill the regular expression.
@@ -1599,6 +1688,7 @@ Problem::
 Augustine only allows text email message to be send. Attachment email is not integrated into Augustine.
 ====
 
+<<<
 '''
 
 === Instagram tab
@@ -1611,6 +1701,8 @@ Solution::
 If we can obtain Instagram's permission to use their API in the future, we could do a search using the contact's real name
 even when their Instagram username is unavailable.
 ====
+
+<<<
 
 [appendix]
 == User stories
@@ -1676,6 +1768,8 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |=======================================================================
 
+<<<
+
 [appendix]
 == Use cases
 
@@ -1718,6 +1812,8 @@ Use case resumes at step 2.
 2.  Augustine shows a list of commands and their input requirements.
 +
 Use case ends.
+
+<<<
 
 [discrete]
 === Use case: Export Augustine
@@ -1764,6 +1860,8 @@ Use case ends.
 {nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case resumes at step 2.
 
+<<<
+
 [discrete]
 === Use case: Add person
 
@@ -1805,6 +1903,8 @@ Use case ends.
 +
 {nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
+
+<<<
 
 [discrete]
 === Use case: Edit person
@@ -1851,6 +1951,8 @@ Use case ends.
 {nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
+<<<
+
 [discrete]
 === Use case: Email contacts
 *MSS*
@@ -1882,6 +1984,8 @@ Use case ends.
 {nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}{nbsp}
 Use case ends.
 
+<<<
+
 [appendix]
 == Non-functional requirements
 
@@ -1895,7 +1999,8 @@ Use case ends.
 .  The data should be accurate.
 .  Should be able to work with the default email application of any link:#mainstream-os[mainstream OS]
 
-{More to be added}
+
+<<<
 
 [appendix]
 == Glossary
