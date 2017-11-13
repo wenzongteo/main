@@ -77,4 +77,4 @@ enable the user to assign a photo to each contact in Augustine.
 * Added icons into PersonCard to identify different fields.
 * Collated and contributed to TestScript.adoc.
 * Wrote the Software Overview, About, Getting Started sections of the Developer Guide.
-* Done Acceptance Testing for other team (W10-B4)
+* Done Acceptance Testing for another team (W10-B4).
