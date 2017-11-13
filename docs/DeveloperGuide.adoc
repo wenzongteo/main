@@ -24,8 +24,8 @@ toc::[]
 == Software overview
 
 Augustine is a virtual address book that assists students who are currently pursuing their studies in National
-University of Singapore (NUS). Users can take advantage of Augustine to better manage aspects of their daily life and easily
-keep track of their friends' contact information, no longer needing to use a physical address book for their social needs.
+University of Singapore (NUS). Users can take advantage of Augustine to better manage aspects of their daily lives by easily
+keeping track of their friends' contact information, no longer requiring a physical address book for their social needs.
 
 In Augustine, users primarily communicate with the software via a command-line interface (CLI). Augustine also provides
 users with visual feedback via a graphical user interface (GUI).
@@ -487,7 +487,7 @@ image::UndoRedoActivityDiagram.png[width="200"]
 ====
 ---
 
-[Big]#**Aspect:** Type of commands that can be undone/redone#
+[Big]#**Aspect:** Types of commands that can be undone/redone#
 ====
 **Alternative 1 (current choice):** Only include commands that modifies Augustine (`add`, `clear`, `edit`). +
 
@@ -503,7 +503,7 @@ image::UndoRedoActivityDiagram.png[width="200"]
 ====
 ---
 
-[Big]#**Aspect:** Data structure to support the undo/redo commands#
+[Big]#**Aspect:** Data structures used to support the undo/redo commands#
 ====
 **Alternative 1 (current choice):** Use separate stack for undo and redo +
 
@@ -532,9 +532,9 @@ The logging level can be controlled using the `logLevel` setting in the configur
 
 There are four different logging levels you can choose from depending on the level of verbosity desired:
 
-* `SEVERE` : Logs only critical errors detected which may possibly cause the termination of the application
-* `WARNING` : Logs errors which are not crucial
-* `INFO` : Logs any noteworthy actions by the App
+* `SEVERE` : Logs only critical errors detected which may possibly cause the termination of the application.
+* `WARNING` : Logs errors which are not crucial.
+* `INFO` : Logs any noteworthy actions executed by the application.
 * `FINE` : Logs fine details that are not usually noteworthy but may be useful in debugging e.g. printing the entire list instead of just its size.
 
 ---
@@ -545,7 +545,7 @@ Certain properties of the application can be controlled (e.g App name, logging l
 The config file and path is specified in the `Config` class.
 
 The `Config` class will be initialized by the `MainApp` and the constructed `Config` object will be kept as a protected variable.
-When initialized, the `Config` class will read and save the values of the parameters in the configuration file. The `MainApp` then passes the `Config` object into classes which require it (e.g. `MainWindow`)
+When initialized, the `Config` class will read and save the values of the parameters in the configuration file. The `MainApp` then passes the `Config` object into classes which require it (e.g. `MainWindow`).
 
 ---
 
@@ -556,7 +556,7 @@ A user may not know all the details of a contact when adding it to Augustine. He
 and the email of a contact. Unfilled details of a contact will be given a '-' value instead to denote that the
 field was not filled up by the user.
 
-_Figure 20_ below shows you the sequence diagram of the process within Augustine when a user adds a contact.
+_Figure 20_ below shows the sequence diagram of the process within Augustine when a user adds a contact.
 
 [caption="Figure 20: "]
 .Sequence diagram of add command.
@@ -570,7 +570,7 @@ In `AddCommandParser`, Augustine will do the following: +
 
 . Call `arePrefixPresent` method to check if the two compulsory prefixes, n/ and t/, which are used for the name and email fields respectively are
 present.
-.. If the two compulsory prefixes are not present, Augustine will throw an error message to the user.
+.. If the two compulsory prefixes are not present, Augustine will display an error message to the user.
 . Execute the `checkInput` method to determine if a field is filled by the user. If the field is not filled,
 the method will give the value '-' to the field instead to denote that the field is not filled by the user.
 
@@ -646,7 +646,7 @@ _Figure 21_ below shows the activity diagram of the Image Storage Mechanism duri
 
 [caption="Figure 21: "]
 .Activity diagram of Image Storage Mechanism
-image::addPhotoActivityDiagram.png[width="900"]
+image::AddPhotoActivityDiagram.png[width="900"]
 
 ===== During edit command
 As each photo in the `data/images` folder are named in reference to a contact's email address, there is a need to update the photo if
@@ -1870,7 +1870,7 @@ Use case ends.
 [appendix]
 == Non-functional requirements
 
-.  Should work on any link:#mainstream-os[mainstream OS] as long as Java `1.8.0_60` or higher is installed on the system.
+.  Should work on any link:#mainstream-os[mainstream operating system] (OS) as long as Java `1.8.0_60` or higher is installed on the system.
 .  Should be able to hold up to 1000 persons without a noticeable sluggishness in performance during typical usage.
 .  A user with above average typing speed for regular English (i.e. not code, not system admin commands) should be able to accomplish most of the tasks faster using commands than using the mouse.
 .  A user with basic experience with technology (computers, phones, applications) and basic literacy should be able to operate the application without significant problems.
@@ -1878,7 +1878,7 @@ Use case ends.
 .  Should come with automated JUnit tests and source code for modifications and resolving of bugs.
 .  The data should be stored locally and be human-editable.
 .  The data should be accurate.
-.  Should be able to work with the default email application of any link:#mainstream-os[mainstream OS]
+.  Should be able to work with the default email application of any link:#mainstream-os[mainstream OS].
 
 {More to be added}
 
