@@ -305,6 +305,7 @@ The `Model` component,
 * exposes an unmodifiable `ObservableList<ReadOnlyPerson>` that can be 'observed' e.g. the UI can be bound to this list so that the UI automatically updates when the data in the list change.
 * does not depend on any of the other three components.
 
+// tag::emailComponent[]
 ==== Email component
 
 [caption="Figure 10: "]
@@ -319,6 +320,7 @@ The `Email` component,
 * uses a `EmailSend` class to process and send email via JavaMail link:#API[API] through link:#SMTP[SMTP] protocol.
 * uses a `EmailCompose` class to store the data of email message drafts.
 * Exposes an unmodifiable `MessageDraft` object which can be retrieved from `EmailCompose` class, such that the `MessageDisplay` UI can be bound to this list which automatically updates when the data in the `messageDraft` object change.
+// end::emailComponent[]
 
 // tag::StorageComponent[]
 ==== Storage component
