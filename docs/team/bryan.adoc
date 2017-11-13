@@ -4,7 +4,7 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 :stylesDir: ../stylesheets
 
 == Introduction
-Hello. My name is Bryan Koh, and I am a year 2 Computer Science student at National University of Singapore. This portfolio is designed to outline my software development project experiences to supplement my resume. If you are interested in contacting me for possible collaborations, do drop me an email at kohwxb@u.nus.edu. Thank you for taking some time off you read my works.
+Hello. My name is Bryan Koh, and I am a year 2 Computer Science student at National University of Singapore. This portfolio is designed to outline my software development project experiences to supplement my resume. If you are interested in contacting me for possible collaborations, do drop me an email at kohwxb@u.nus.edu. Thank you for taking some time off to read my works.
 
 == Project: Augustine
 Augustine is a desktop address book application that aims to help students to manage the contacts of their newly made friends in school. It is a project for my CS2103T module which builds on an existing desktop address book application, https://github.com/nus-cs2103-AY1718S1/addressbook-level4[addressbook-level4].
