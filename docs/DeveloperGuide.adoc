@@ -30,7 +30,7 @@ keep track of their friends' contact information, no longer needing to use a phy
 In Augustine, users primarily communicate with the software via a command-line interface (CLI). Augustine also provides
 users with visual feedback via a graphical user interface (GUI).
 
-Developed in Java, Augustine will runs on Windows, Mac, and Unix environments, catering to all students in NUS.
+Developed in Java, Augustine will run on Windows and Unix environments, catering to all students in NUS.
 
 == About
 
@@ -55,7 +55,7 @@ http://www.oracle.com/technetwork/java/javase/downloads/jdk8-downloads-2133151.h
 Augustine will *not work* with any version of Java earlier than `Java 8.6`.
 
 [start=2]
-. *Intellij IDEA* Integrated Development Environment (IDE). +
+. *IntelliJ IDEA* Integrated Development Environment (IDE). +
 You can download IntelliJ IDEA  https://www.jetbrains.com/idea/download/[here].
 
 [NOTE]
@@ -625,7 +625,7 @@ The image storage mechanism is activated when the user executes an add, edit or 
 `contact_email_address.jpg`. By centralizing the storage of the photos and naming the photos in a standardized format,
 we can easily identify the owner of each photo in the `data/images` folder.
 
-Upon the startup of Augustine, Augustine will create the `data/edited` folder. The purpose of this folder is to store outdated photos of the
+Upon the start-up of Augustine, Augustine will create the `data/edited` folder. The purpose of this folder is to store outdated photos of the
 contacts while Augustine is running and enable the restoration of a contact's previous photo when the undo function is executed.
 Upon the exit of Augustine, Augustine will delete both the folder and all the photos in the folder.
 
@@ -655,7 +655,7 @@ system so that the photo can be restored if an undo command is executed. Therefo
 4 possible cases will occur.
 
 [IMPORTANT]
-We are only concerned with whether the contact's photo and email address are updated. Thus, modification of other
+We are only concerned with whether the contact's photo and email address are updated. Thus, modifications to other
 attributes are not mentioned in the cases below.
 
 . User updates *BOTH* email *AND* photo. +
@@ -687,7 +687,7 @@ The new photo for the contact will overwrite the existing photo for the contact 
 .. Photo remains unchanged.
 .. Contact is updated in Augustine.
 
-Below is a code snippet of the updateCasesForPhoto method in the `UniquePersonList` class, The method determines which of the 4 cases
+Below is a code snippet of the updateCasesForPhoto method in the `UniquePersonList` class, the method determines which of the 4 cases
 an edit command belongs to.
 
 [source,java]
@@ -904,7 +904,7 @@ A predicate is a lambda expression for defining the find command filter criteria
 
 Depending on the find command specified by the user, a different predicate statement will be
 created (see code snippet below). The predicate statement will define how the contact list’s
-data in the `FilteredList<ReadOnlyPerson>` object are filtered.
+data in the `FilteredList<ReadOnlyPerson>` object is filtered.
 
 [source, java]
 ----
@@ -1565,7 +1565,7 @@ This will eliminate the need to have a constant connection and open up the possi
 ====
 ====
 Problem::
-Users are able to enter non-existent module codes, lesson types and lesson slots as long as they fullfill the regular expression.
+Users are able to enter non-existent module codes, lesson types and lesson slots as long as they fulfill the regular expression.
 
 Solution::
 Instead of using regular expression, we could check against module information obtained from NUSmods API.
@@ -1577,7 +1577,7 @@ Instead of using regular expression, we could check against module information o
 
 ====
 Problem::
-When there are no contacts to be listed, the area where the personListView is suppose to be will display a white box.
+When there are no contacts to be listed, the area where the personListView is supposed to be will display a white box.
 ====
 
 '''
@@ -1664,7 +1664,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* *` |user |add new contacts with the parameters filled in any order |have an easier time adding people into Augustine without having to follow a fixed format
 
-|`* *` |user |have a built in browser |view my contacts on their LinkedIn, Facebook or Instagram profile
+|`* *` |user |have a built-in browser |view my contacts on their LinkedIn, Facebook or Instagram profile
 
 |`* *` |user |store the birthdates of my contacts |easily keep track of their birthdays
 
@@ -1893,7 +1893,7 @@ Use case ends.
 .  Should come with automated JUnit tests and source code for modifications and resolving of bugs.
 .  The data should be stored locally and be human-editable.
 .  The data should be accurate.
-.  Should be able to work with the defualt email applicaton of any link:#mainstream-os[mainstream OS]
+.  Should be able to work with the default email application of any link:#mainstream-os[mainstream OS]
 
 {More to be added}
 
