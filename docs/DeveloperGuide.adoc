@@ -12,10 +12,7 @@ ifdef::env-github[]
 :note-caption: :information_source:
 endif::[]
 ifdef::env-github,env-browser[:outfilesuffix: .adoc]
-:repoURL: https://github.com/CS2103AUG2017-W14-B2/main
-
-By: `W14-B2`      Since: `Oct 2017`      Licence: `MIT` +
-Credits: `Team SE-EDU` https://github.com/se-edu/addressbook-level4
+:repoURL: https://github.com/CS2103AUG2017-W14-B2/main/tree/master
 
 <<<
 toc::[]
@@ -160,7 +157,7 @@ image::Architecture.png[width="600"]
 The *_Architecture Diagram_* (Figure 1) explains the high-level design of Augustine. Below is a quick overview of each component.
 
 [TIP]
-The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/tree/master/docs/diagrams/[diagrams] folder.
+The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder.
 To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as Picture`.
 
 <<<
@@ -279,14 +276,14 @@ The process of the `Logic` component is as follows:
 . AddressBookParser calls the relevant `CommandParser` which parses the arguments into a fixed format. For some commands
 where this is not necessary, AddressBookParser will simply directly call the `Command` instead.
 
-  [NOTE]
+[NOTE]
   The Clear, History, Exit, Help, Undo, Redo, and Backup commands do not require parsers
 
 . Relevant `CommandParser` then calls the actual Command to execute the user command.
 . `Command` executes the user command.
 . The `Model` component may then be updated depending on the command type.
 
-  [TIP]
+[TIP]
   The `Model` component will be called by Add, Delete, Clear, Edit, Find, List, Redo and Undo command.
 
 . The result of the `Command` which is stored in `CommandResult` will then be returned to `LogicManager`
@@ -454,8 +451,8 @@ If a command fails to execute, it will not be pushed to the `UndoRedoStack` at a
 
 The user now decides that adding the person was a mistake, and decides to undo that action using the `undo` command.
 
-We will pop the most recent command out of the `undoStack` and push it into the `redoStack`. We will restore the
-Augustine to its state before the `add` command's execution.
+We will pop the most recent command out of the `undoStack` and push it into the `redoStack`. We will restore Augustine to its state before the `add`
+command's execution.
 
 [caption="Figure 15: "]
 .Stack diagram of the UndoRedoStack
@@ -503,7 +500,7 @@ image::UndoRedoActivityDiagram.png[width="200"]
 
 ===== Design considerations
 
-[Big]#**Aspect:** Implementation of `UndoableCommand`#
+[Big]#**Aspect:** Implementation of `UndoableCommand` class#
 ====
 **Alternative 1 (current choice):** Add a new abstract method `executeUndoableCommand()` +
 
@@ -511,14 +508,14 @@ image::UndoRedoActivityDiagram.png[width="200"]
 * **Cons:** It will be hard for new developers to understand the template pattern. +
 ====
 ====
-**Alternative 2:** Just override `execute()` +
+**Alternative 2:** Override `execute()` +
 
 * **Pros:** It does not involve the template pattern, easier for new developers to understand. +
 * **Cons:** Classes that inherit from `UndoableCommand` must remember to call `super.execute()`, or lose the ability to undo/redo.
 ====
 ---
 
-[Big]#**Aspect:** Types of commands that can be undone/redone#
+[Big]#**Aspect:** Type of commands that can be undone/redone#
 ====
 **Alternative 1 (current choice):** Only include commands that modifies Augustine (`add`, `clear`, `edit`). +
 
@@ -631,7 +628,7 @@ The result of `AddCommand` will then be displayed to the user.
 
 ===== Design considerations
 
-[Big]#**Aspect:** Detecting unfilled fields in user input#
+[Big]#**Aspect:** Detection of unfilled fields in user input#
 
 ====
 **Alternative 1 (current choice):** Check if value is present, if value is not present, return a '-' as the value instead. +
@@ -641,7 +638,7 @@ The result of `AddCommand` will then be displayed to the user.
 each contact are still being stored. +
 ====
 ====
-**Alternative 2:** Detecting if the field exist in addressbook.xml, if the field does not exist for a contact, display the field in the PersonCard as unfilled. +
+**Alternative 2:** Detect if the field exist in addressbook.xml, if the field does not exist for a contact, display the field in the PersonCard as unfilled. +
 
 * **Pros:** It will save data space in the computer as unfilled fields are not stored in the data file. +
 * **Cons:** It will be harder for developers to understand the inner workings of this feature.
@@ -763,7 +760,7 @@ contact, Augustine will proceed to do the following.
 
 ===== Design considerations
 
-[Big]#**Aspect:** Storing of contact's photo#
+[Big]#**Aspect:** Storage of contact's photo#
 ====
 **Alternative 1 (current choice):** Create a copy of the photo and store it in data/images folder. +
 
@@ -791,7 +788,7 @@ Augustine displays https://nusmods.com through the browser. The current academic
 Timetables are stored in `NusModules` class and each `Person` will have a `NusModules` if they have a timetable.
 `NusModules` uses a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` to store the modules.
 
-===== nusmods command
+===== NUSmods command
 Modules are added, edited and deleted using the `nusmod` command.
 The command will be parsed by `NusmodCommandParser` and executed in `NusmodCommand`.
 As `NusmodCommand` changes the addressbook.xml, it inherits from `UndoableCommands`.
@@ -810,7 +807,7 @@ The diagram below shows how the command handles different flags.
 .Activity diagram of NusmodsCommands
 image::NusmodsCommandActivityDiagram.png[width="500"]
 
-===== Storing NUSmodules in addressbook.xml
+===== Storing NUS modules in addressbook.xml
 
 To store in addressbook.xml, `NusModules` needs to be able to converted into XML format and back (see part in red border in Figure 23).
 
@@ -871,14 +868,14 @@ public class XmlAdaptedModuleLessons {
 
 
 
-Converting from `NUSModule` back to addressbook.xml is simply the same process in reversed.
+Converting from `NUSModule` back to addressbook.xml is simply the same process in reverse.
 Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for converting to and fro.
 
 <<<
 
 ===== Design considerations
 
-[Big]#**Aspect:** Displaying of schedule#
+[Big]#**Aspect:** Presentation of schedule#
 ====
 **Alternative 1:** Use JavaFX to draw the schedule +
 
@@ -893,7 +890,7 @@ Both `XMLAdaptedNusModule` and `XMLAdaptedModuleLessons` have methods for conver
 ====
 ---
 
-[Big]#**Aspect:** Storing of schedule#
+[Big]#**Aspect:** Storage of schedule#
 ====
 **Alternative 1(current choice):** Store it as a `HashMap<String moduleCode, HashMap<String lessonType, String lessonSlot>>` +
 
@@ -1333,7 +1330,7 @@ the `SetStyle` method from the Java API we can easily update the colour to highl
 **Alternative 1:** Using a command +
 
 * **Pros:** Fewer tabs, easier to implement. +
-* **Cons:** This functionality will be less intuitive. A user might not be so likely to input a command regularly
+* **Cons:** This functionality will be less intuitive. It will be unlikely for the user to input a command regularly
  just to check for upcoming birthdays. +
 ====
 ====
