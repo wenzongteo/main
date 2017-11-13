@@ -79,7 +79,7 @@ If you do not see the welcome screen, click `File > Close Project` and close the
 . Locate the `build.gradle` file and select it. Click `OK`.
 . Click `Open as Project`.
 . Click `OK` to accept the default settings.
-. Press kbd:[Ctr; + Tab + T] *simultaneously* to open a console in IntelliJ and execute the following command:
+. Press kbd:[Ctrl + Tab + T] *simultaneously* to open a console in IntelliJ and execute the following command:
 - For Windows   : `gradlew processResources`
 - For Mac/Linux : `./gradlew processResources`
 
@@ -92,6 +92,8 @@ This will generate all the resources required by the application and its tests.
 . Run `src\main\java\seedu\address\MainApp.java` in IntelliJ and try executing a few commands.
 . link:#testing[Run all tests] by right-clicking on the `src/test/java` folder in IntelliJ and choosing `Run 'All Tests'`.
 *Ensure* that all test cases pass before you start coding.
+
+<<<
 
 === Configuring Augustine before coding
 Now that you have successfully imported Augustine's source code into your computer, complete the following before
