@@ -10,10 +10,12 @@ This is a manual test script to help you with testing Augustine.
 . Create an empty folder.
 . Download "Augustine.jar" and "[W14-B2][Augustine]SampleData.xml" from IVLE and place it into the empty folder.
 . Rename "[W14-B2][Augustine]SampleData.xml" to *"addressbook.xml"*.
-. Create a folder "data" in the empty folder and place [W14-B2][Augustine]SampleData.xml into the "data folder".
+. Create a new folder "data" in the empty folder and place addressbook.xml into the "data folder".
+. Create a new folder "images" in the "data folder".
 The empty folder should now contain the following files:
 * /<Empty Folder Name>/Augustine.jar
 * /<Empty Folder Name>/data/addressbook.xml
+* /<Empty Folder Nmae/data/images
 . Double click on Augustine.jar to start the program.
 . The sample data in addressbook.xml should now be populated in Augustine.
 * If the sample data of 20 contacts are not populated, repeat step 2-5 and ensure that you have name the files correctly and also placed the files in the correct folder.
@@ -728,9 +730,10 @@ This section covers how to backup your data.
 '''
 --
 *Command*: [red]`backup` +
-*Expected*: The display message is "Data backed up at "/data/addressbook-backup.xml". There will be a addressbook-backup.xml created in the data folder.
+*Expected*: The display message is "Data backed up at "/data/addressbook-backup.xml". There will be a addressbook-backup.xml created in the data folder."
+--
 
-=== Miscs
+=== Misc.
 
 This section covers history and exit commands.
 
