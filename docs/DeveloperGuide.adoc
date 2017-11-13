@@ -102,7 +102,7 @@ you commence coding:
 
 ==== Configuring the coding style
 
-This project follows the coding standard set forth by https://github.com/oss-generic/process/blob/master/docs/CodingStandards.md[oss-generic].
+This project follows the coding standard set forth by https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html[oss-generic].
 
 While IntelliJ IDEA IDE default style is mostly compliant with it, minor modifications to the default settings is required to fully comply
 with our coding standard.
@@ -142,10 +142,7 @@ Travis checks for Unix-based platforms while AppVeyor checks for Windows-based p
 
 ==== Getting started with coding
 
-When you are ready to start coding,
-
-1. Understand the overall design by reading the link:#architecture[Architecture] section.
-2. Take a look at the section link:#suggested-programming-tasks-to-get-started[Suggested Programming Tasks to Get Started].
+When you are ready to start coding, understand the overall design by reading the link:#software-architecture[Architecture] section.
 
 == Software Architecture
 
@@ -160,7 +157,7 @@ image::Architecture.png[width="600"]
 The *_Architecture Diagram_* given above explains the high-level design of Augustine. Given below is a quick overview of each component.
 
 [TIP]
-The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
+The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/tree/master/docs/diagrams/[diagrams] folder. To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as picture`.
 
 ===== Overview
 
