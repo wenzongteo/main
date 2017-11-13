@@ -17,7 +17,7 @@ contacting me further for possible collaborations, please email me at wenzongteo
 == Project: Augustine
 
 *Code contributed*: +
-Functional Code: [https://github.com/CS2103AUG2017-W14-B2/main/blob/master/collated/main/wenzongteo.md[Main file]] [https://github.com/CS2103AUG2017-W14-B2/main/blob/master/collated/main/wenzongteo-reuse.md[Reused Code]] +
+Functional Code: [https://github.com/CS2103AUG2017-W14-B2/main/blob/master/collated/main/wenzongteo.md[Main file]] +
 Test Code: [https://github.com/CS2103AUG2017-W14-B2/main/blob/master/collated/test/wenzongteo.md[Main file]]
 
 ---
