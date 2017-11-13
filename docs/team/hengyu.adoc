@@ -52,8 +52,8 @@ include::../UserGuide.adoc[tag=insta]
 
 ==== Justification
 
-Instagram is arguably the most used social media platform today, at least in the student community. Since students are a
-big part of our target audience, a quick means for our user to access a friend's Instagram profile page is extremely
+Instagram is arguably the most used social media platform today, at least in the student community. Students are a
+big part of our target audience, and a quick means for our user to access a friend's Instagram profile page is extremely
 beneficial to his social needs.
 
 
