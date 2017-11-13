@@ -30,7 +30,7 @@ keep track of their friends' contact information, no longer needing to use a phy
 In Augustine, users primarily communicate with the software via a command-line interface (CLI). Augustine also provides
 users with visual feedback via a graphical user interface (GUI).
 
-Developed in Java, Augustine will run on Windows, Mac, and Unix environments, catering to all students in NUS.
+Developed in Java, Augustine will run on Windows and Unix environments, catering to all students in NUS.
 
 == About
 
