@@ -50,11 +50,11 @@ include::../UserGuide.adoc[tag=add]
 
 ==== Justification
 
-The previous implementation only allow an user to add a contact into Augustine when the user inputs data for all of the
-attributes of a contact in Augustine. However, it is unlikely that an user will know all the particulars of their contacts.
-Therefore, I have implemented the optional fields enhancement onto Augustine so that an user only need need to input
-the name and email address of a contact to add the contact into Augustine. The name and email address of each contact are
-compulsory as these are the two fields for a contact the user will definitely.
+The previous implementation only allow an user to add a contact into Augustine when the user inputs data for all of
+the attributes of a contact in Augustine. However, it is unlikely that a user will know all the particulars of their
+contacts. Therefore, I have implemented the optional fields enhancement onto Augustine so that a user only need to
+input the name and email address of a contact to add the contact into Augustine. The name and email address of each
+contact are compulsory as these are the two fields for a contact the user will definitely.
 
 ==== Implementation
 
@@ -69,7 +69,7 @@ include::../DeveloperGuide.adoc[tag=imagestorage]
 ==== Justification
 
 There could be different contacts with the same name in Augustine. While the email of a contact can also act as an
-identifier for an user, it's hard for the user to associate an email address to a contact. A photo for a contact can
+identifier for a user, it's hard for the user to associate an email address to a contact. A photo for a contact can
 help an user to easily identify a contact in Augustine. Therefore, I have implemented a photo field in Augustine to
 enable the user to assign a photo to each contact in Augustine.
 
