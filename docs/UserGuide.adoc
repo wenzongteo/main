@@ -1,6 +1,6 @@
 = Augustine - User Guide
 :toc:
-:toc-title: Content Page
+:toc-title: Contents Page
 :toc-placement: macro
 :sectnums:
 :pagenums:
@@ -21,7 +21,7 @@ Credits: `Team SE-EDU` https://github.com/se-edu/addressbook-level4
 toc::[]
 <<<
 
-== Product Overview
+== Product overview
 
 Every August, a new chapter of your school life begins. You will meet new friends and establish new connections in school,
 and it will be difficult to keep track of them all.
@@ -32,7 +32,7 @@ Let Augustine help you keep track of your friends’ contact numbers, addresses,
 This user guide is an overview of the features available in Augustine and how to use them.
 
 
-== Getting Started
+== Getting started
 
 Follow the steps below to set up Augustine:
 
@@ -65,6 +65,8 @@ with phone number `98765432`, email address `johnd@example.com` and address `Joh
 
 .  Refer to the link:#features[Features] section below to learn all of Augustine's commands and their details.
 
+<<<
+
 == Features
 
 Before you continue with this section, do take note of the following:
@@ -93,7 +95,7 @@ Before you continue with this section, do take note of the following:
 Augustine accepts parameters in any order. +
 E.g. `n/NAME p/PHONE_NUMBER` and `p/PHONE_NUMBER n/NAME` are interchangeable.
 
-=== Viewing help: [fuchsia]`help`
+=== Viewing help
 
 The [fuchsia]`help` command will enable you to view this User Guide within Augustine.
 
@@ -171,7 +173,7 @@ You can also add a new contact into Augustine without filling up all the fields 
 
 [caption="Figure 4. "]
 .Executing the add command with some optional parameters unfilled
-image::addSome.png[width="940px"]
+image::addSome.png[width="840px"]
 
 [NOTE]
 Note that the fields that are unfilled are represented with a '-'.
@@ -187,11 +189,13 @@ You cannot add a new contact that has the same email address as an existing cont
 
 [caption="Figure 5. "]
 .Executing the add command with a duplicate email address
-image::addFail.png[width="940px"]
+image::addFail.png[width="840px"]
 
 --
 '''
 // end::add[]
+
+<<<
 
 === Listing all contacts: [fuchsia]`list`
 
@@ -442,6 +446,8 @@ image::deleteFromFind.png[]
 
 '''
 
+<<<
+
 // tag::nusmods[]
 === Using NUSmods: [fuchsia]`nusmods`
 
@@ -670,7 +676,7 @@ Note that you must have *at least 1 contact* in your current displayed contact l
 
 [caption="Figure 17. "]
 .Result of email command
-image::emailStep3.png[]
+image::emailStep3.png[width="780px"]
 
 --
 
@@ -710,8 +716,10 @@ image::emailClear.png[]
 
 '''
 
+<<<
+
 // tag::birthday[]
-=== Displaying Birthday tab
+=== Displaying birthday tab
 
 The Birthdays tab lists all your existing contacts starting from the contact with the closest upcoming birthday.
 
@@ -736,6 +744,7 @@ image::happyBirthdayJohnCena.png[width="440px"]
 // end::birthday[]
 '''
 
+<<<
 
 // tag::insta[]
 === Displaying Instagram tab: [fuchsia]`insta`
@@ -773,6 +782,8 @@ image::instagram.png[width="1425px"]
 --
 // end::insta[]
 '''
+
+<<<
 
 // tag::backup[]
 === Backing up Augustine data: [fuchsia]`backup`
@@ -962,6 +973,8 @@ There is no need to save manually.
 *A*: Install Augustine on that other computer and overwrite the `addressbook.xml` file generated there
 (located at `/data/addressbook.xml` from the program's root directory) with the one from your original.
 
+<<<
+
 == Command Summary
 
 |===
@@ -984,8 +997,9 @@ There is no need to save manually.
 |*Redo*|`redo`|r|`redo` +
 |===
 
-== Glossary
+<<<
 
+== Glossary
 
 NUSmods
 
