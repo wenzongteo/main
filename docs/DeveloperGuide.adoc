@@ -1623,7 +1623,7 @@ Priorities: High (must have) - `* * \*`, Medium (nice to have) - `* \*`, Low (un
 
 |`* * *`|user |edit my contacts |update my contacts' details
 
-|`* * *`|group member |filter contact list by tags |categorize my contacts into groups
+|`* * *`|group member |filter contact list by tags |categorise my contacts into groups
 
 |`* *`|user |copy lists of emails into my clipboard |conveniently email a subset of contacts
 
