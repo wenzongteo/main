@@ -80,12 +80,18 @@ enable the user to assign a photo to each contact in Augustine.
 
 ---
 
-<<<
-
 === Other contributions
 
-* Created the Front Page and Contents Page for both the Developer and User Guides.
-* Added icons into PersonCard to identify different fields.
-* Collated and contributed to TestScript.adoc.
-* Wrote the Software Overview, About, Getting Started sections of the Developer Guide.
-* Done Acceptance Testing for another team (W10-B4).
+I have also contributed to the project in the following ways:
+
+* Documentations
+** Created the Front Page and Contents Page for both the Developer and User Guides.
+** Wrote the Software Overview, About, Getting Started sections in the Developer Guide.
+** Edited the Logic Component section in the Developer Guide.
+
+* User Interface (UI)
+** Added icons into PersonCard to aid users in identifying the different fields of a contact.
+
+* Testing
+** Collated and contributed to TestScript.adoc.
+** Conducted Acceptance Testing for another Team (W10-B4) and have successfully reported several bugs.
