@@ -1214,7 +1214,7 @@ is before or after today's date. If that date has already passed, increment the 
 updated dates as the date of the next birthday celebration for each contact.
 
 For example, running this algorithm in November 2017 on a contact with a birthdate of `15/02/1995` would update it
-to `15/02/2018` in the sorting process.
+to `15/02/2018`. (only for the sorting process, the actual contact information will not be touched)
 
 Afterwards it is simply a matter of sorting the dates normally.
 
