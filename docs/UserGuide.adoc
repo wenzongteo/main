@@ -118,8 +118,7 @@ image::helpCommand.png[width="940px"]
 
 '''
 
-// tag::[]
-
+// tag::add[]
 === Adding a contact: [fuchsia]`add`
 
 The [fuchsia]`add` command will enable you to populate Augustine.
@@ -191,7 +190,6 @@ You cannot add a new contact that has the same email address as an existing cont
 image::addFail.png[width="940px"]
 
 --
-
 '''
 // end::add[]
 
