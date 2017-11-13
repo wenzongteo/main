@@ -129,6 +129,8 @@ After forking the repo, links in the documentation will still point to the `CS21
 separate product instead of contributing to `CS2103AUG2017-W14-B2/main`, you should replace the URL in the variable `repoURL` in both
 `DeveloperGuide.adoc` and `UserGuide.adoc` with the URL of your forked repo.
 
+<<<
+
 ==== Setting up Continuous Integration (CI)
 
 CI tools such as Travis and AppVeyor should be set up to prevent integration problems during development.
@@ -142,6 +144,8 @@ Travis checks for Unix-based platforms while AppVeyor checks for Windows-based p
 ==== Getting started with coding
 
 When you are ready to start coding, understand the overall design by reading the link:#software-architecture[Architecture] section.
+
+<<<
 
 == Software architecture
 
