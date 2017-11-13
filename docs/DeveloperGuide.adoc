@@ -99,7 +99,7 @@ you commence coding:
 
 ==== Configuring the coding style
 
-This project follows the coding standard set forth by https://github.com/oss-generic/process/blob/master/docs/CodingStandards.md[oss-generic].
+This project follows the coding standard set forth by https://oss-generic.github.io/process/codingStandards/CodingStandard-Java.html[oss-generic].
 
 While IntelliJ's default style is mostly compliant with it, minor modifications to the default settings are required to fully comply
 with our coding standard.
@@ -139,10 +139,7 @@ Travis checks for Unix-based platforms while AppVeyor checks for Windows-based p
 
 ==== Getting started with coding
 
-When you are ready to start coding,
-
-1. Understand the overall design by reading the link:#architecture[Architecture] section.
-2. Take a look at the section link:#suggested-programming-tasks-to-get-started[Suggested Programming Tasks to Get Started].
+When you are ready to start coding, understand the overall design by reading the link:#software-architecture[Architecture] section.
 
 == Software architecture
 
@@ -157,7 +154,7 @@ image::Architecture.png[width="600"]
 The *_Architecture Diagram_* (Figure 1) explains the high-level design of Augustine. Below is a quick overview of each component.
 
 [TIP]
-The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/docs/diagrams/[diagrams] folder.
+The `.pptx` files used to create diagrams in this document can be found in the link:{repoURL}/tree/master/docs/diagrams/[diagrams] folder.
 To update a diagram, modify the diagram in the pptx file, select the objects of the diagram, and choose `Save as Picture`.
 
 ===== Overview
@@ -304,6 +301,7 @@ The `Model` component does not depend on the other three components. It is respo
 * exposing an unmodifiable `ObservableList<ReadOnlyPerson>` that can be 'observed'. The UI can be bound to this list so
  that the it gets automatically updated when the data in the list changes.
 
+// tag::emailComponent[]
 ==== Email component
 
 [caption="Figure 10: "]
@@ -321,6 +319,8 @@ Simple Mail Transfer Protocol (link:#SMTP[SMTP]).
 * exposing an unmodifiable `MessageDraft` object which can be retrieved from the `EmailCompose` class,
  such that the `MessageDisplay` UI can be bound to this list which automatically updates when the data in the
  `messageDraft` object changes.
+// end::emailComponent[]
+
 
 // tag::StorageComponent[]
 ==== Storage component
@@ -442,7 +442,7 @@ If the `undoStack` is empty, then there are no other commands left to be undone,
 The following sequence diagram shows how the undo operation works:
 
 [caption="Figure 16: "]
-.Stack diagram of the UndoRedoStack
+.Sequence diagram of the undo command
 image::UndoRedoSequenceDiagram.png[width="800"]
 
 The redo does the exact opposite (pops from `redoStack`, push to `undoStack`, and restores Augustine to its state after the command's execution).

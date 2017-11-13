@@ -22,7 +22,7 @@ Role: Tutor
 
 '''
 
-=== Ritchie Lam
+=== Ritchie Lam Qiao Wei
 image::ritchie.jpg[width="150", align="left"]
 {empty}[http://github.com/ritchielq[github]] [<<ritchie#, portfolio>>]
 
@@ -40,12 +40,12 @@ Responsibilities: Logic, Documentation, Deliverables and Deadlines, Integration
 
 '''
 
-=== Bryan Koh
+=== Bryan Koh Wei Xian
 image::bryan.jpg[width="150", align="left"]
 {empty}[http://github.com/awarenessxz[github]] [<<bryan#, portfolio>>]
 
 Role: Developer +
-Responsibilities: Model, Deliverables and Deadlines, Management of Milestones and Issues
+Responsibilities: Model, Deliverables and Deadlines, Management of Milestones and Issues, Code Quality
 
 '''
 
