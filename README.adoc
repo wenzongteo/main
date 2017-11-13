@@ -6,8 +6,8 @@ https://travis-ci.org/CS2103AUG2017-W14-B2/main[image:https://travis-ci.org/CS21
 https://ci.appveyor.com/project/wenzongteo/main[image:https://ci.appveyor.com/api/projects/status/bvhadmjhxhhu4nnw?svg=true[Build status]]
 https://coveralls.io/github/CS2103AUG2017-W14-B2/main?branch=master[image:https://coveralls.io/repos/github/CS2103AUG2017-W14-B2/main/badge.svg?branch=master[Coverage Status]]
 
-* Augustine is a address book which is able to store and display NUSmods timetables.
-* It is design with NUS students in mind.
+* Augustine is an address book application which is able to store and display NUSmods timetables.
+* It is designed with NUS students in mind.
 
 image::docs/images/Ui.png[width="600"]
 
