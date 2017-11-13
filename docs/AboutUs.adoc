@@ -22,7 +22,7 @@ Role: Tutor
 
 '''
 
-=== Ritchie Lam
+=== Ritchie Lam Qiao Wei
 image::ritchie.jpg[width="150", align="left"]
 {empty}[http://github.com/ritchielq[github]] [<<ritchie#, portfolio>>]
 
