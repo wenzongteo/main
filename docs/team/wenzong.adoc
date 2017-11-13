@@ -3,6 +3,11 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
+== Introduction
+
+Thank you for visiting my Project Portfolio. I am Wen Zong, a year 2 Computer Science undergraduate at the
+National University of Singapore, School of Computing and I am expected to graduate in December 2019.
+
 == Purpose
 
 This Project Portfolio page is created to showcase my experiences in Software Engineering to potential employers,
@@ -26,7 +31,7 @@ performed.
 
 ---
 
-=== Enhancement Added: Alias for all Commands in Augustine.
+=== Enhancement Added: Alias for all Commands in Augustine
 
 ==== Justification
 
@@ -38,7 +43,7 @@ the entire command word in the command box.
 
 ---
 
-=== Enhancement Added: Optional Fields within Augustine.
+=== Enhancement Added: Optional Fields within Augustine
 
 include::../UserGuide.adoc[tag=add]
 
@@ -56,7 +61,7 @@ contact are compulsory as these are the two fields for a contact the user will d
 
 include::../DeveloperGuide.adoc[tag=optionalfields]
 
-=== Enhancement Added: Photo for a Contact.
+=== Enhancement Added: Photo for a Contact
 
 ==== Implementation
 
