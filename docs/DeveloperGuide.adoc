@@ -1536,6 +1536,21 @@ Address Book depends on the http://wiki.fasterxml.com/JacksonHome[Jackson librar
 Augustine is still under heavy development. This section lists various enhancements and features which are in consideration for future updates.
 Each improvement is expressed as a problem to be fixed along with its possible solutions.
 
+=== Photo
+
+====
+Problem::
+Photo source needs to end with .jpg or .jpeg. As a result, photos from websites that hides file extension are unable to be used.
+
+Solution::
+We could try if we can access the link given by the user. We then download the content of the link and check if the photo is a .jpg / .jpeg file
+by checking the file header of the downloaded file.
+::
+This will also enable a more stringent check on photos given by the user as the user may attempt to fulfill the .jpg / .jpeg requirement by changing a file's
+file extension to .jpg / .jpeg.
+====
+'''
+
 === Schedule
 
 ====

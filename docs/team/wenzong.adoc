@@ -57,9 +57,13 @@ contacts. Therefore, I have implemented the optional fields enhancement onto Aug
 input the name and email address of a contact to add the contact into Augustine. The name and email address of each
 contact are compulsory as these are the two fields for a contact the user will definitely.
 
+<<<
+
 ==== Implementation
 
 include::../DeveloperGuide.adoc[tag=optionalfields]
+
+<<<
 
 === Enhancement Added: Photo for a Contact
 
@@ -75,6 +79,8 @@ help an user to easily identify a contact in Augustine. Therefore, I have implem
 enable the user to assign a photo to each contact in Augustine.
 
 ---
+
+<<<
 
 === Other contributions
 
