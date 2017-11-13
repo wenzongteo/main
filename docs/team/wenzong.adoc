@@ -3,7 +3,11 @@ ifdef::env-github,env-browser[:outfilesuffix: .adoc]
 :imagesDir: ../images
 :stylesDir: ../stylesheets
 
----
+== Purpose
+
+This Project Portfolio page is created to showcase my experiences in Software Engineering to potential employers,
+academic programs and other interested people my experiences in Software Engineering thus far. If you are keen on
+contacting me further for possible collaborations, please email me at wenzongteo[at]hotmail[dot]com.
 
 == Project: Augustine
 
@@ -19,14 +23,6 @@ Augustine is a virtual Address Book that is created to help NUS students in mana
 Command Line Interface (CLI) is the primary mean of interaction between the user and Augustine. A Graphical User
 Interface (GUI) component is also present in Augustine to provide the user, visual feedback to commands that are
 performed.
-
----
-
-=== Purpose
-
-This Project Portfolio page is created to showcase my experiences in Software Engineering to potential employers,
-academic programs and other interested people my experiences in Software Engineering thus far. If you are keen on
-contacting me further for possible collaborations, please email me at wenzongteo[at]hotmail[dot]com.
 
 ---
 
